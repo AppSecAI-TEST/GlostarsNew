@@ -1,0 +1,85 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.golstars.www.glostars.MainActivity$PlaceholderFragment">
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:srcCompat="@drawable/loginlogo"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:inputType="textPersonName"
+        android:hint="    Enter Email"
+        android:paddingLeft="16dp"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:background="@drawable/roundededittext"
+        android:id="@+id/emailEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/imageView"
+        android:layout_alignStart="@+id/imageView"
+        />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:paddingLeft="16dp"
+        android:hint="  Password"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:background="@drawable/roundededittext"
+        android:id="@+id/passwordEditText"
+        android:layout_marginTop="12dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/emailEditText"
+        android:layout_alignStart="@+id/emailEditText" />
+
+    <TextView
+        android:text="Sign Up"
+        android:textSize="20sp"
+        android:textColor="#E1BEE7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="54dp"
+        android:id="@+id/signUp"
+        />
+
+    <TextView
+        android:text="Forgot Password?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#E1BEE7"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="9dp"
+        android:id="@+id/forgotPass"
+        />
+
+    <Button
+        android:text="Log In"
+        android:layout_width="300dp"
+        android:textStyle="bold"
+        android:layout_height="50dp"
+        android:textAllCaps="true"
+        android:textSize="20dp"
+        android:textColor="#E1BEE7"
+        android:background="@drawable/roundedbutton"
+        android:layout_marginTop="25dp"
+        android:id="@+id/logInButton"
+        android:layout_below="@+id/passwordEditText"
+        android:layout_alignStart="@+id/passwordEditText" />
+
+
+</RelativeLayout>

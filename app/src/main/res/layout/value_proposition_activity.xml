@@ -1,0 +1,81 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.golstars.www.glostars.MainActivity$PlaceholderFragment">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/win"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:id="@+id/win" />
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/share"
+        android:layout_below="@+id/win"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:id="@+id/share" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/refresh"
+        android:layout_below="@+id/share"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:id="@+id/refresh" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:text="Login"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:textColor="#E1BEE7"
+            android:layout_width="170dp"
+            android:layout_height="50dp"
+            android:background="@drawable/roundedbutton"
+            android:layout_marginBottom="26dp"
+            android:id="@+id/logInButton"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignEnd="@+id/imageView4"
+            />
+
+        <Button
+            android:text="Sign Up"
+            android:textAllCaps="true"
+            android:textColor="#E1BEE7"
+            android:textSize="20sp"
+            android:layout_width="170dp"
+            android:layout_height="50dp"
+            android:id="@+id/signUpButton"
+            android:background="@drawable/roundedbutton"
+            android:layout_marginBottom="26dp"
+            android:layout_alignTop="@+id/logInButton"
+            android:layout_toEndOf="@+id/imageView4"
+            />
+
+
+    </LinearLayout>
+
+</RelativeLayout>
