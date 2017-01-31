@@ -16,6 +16,8 @@ import okhttp3.Response;
 
 /**
  * Created by edson on 30/01/17.
+ *
+ * authentication class
  */
 
 public class Auth  {

@@ -16,6 +16,9 @@ import okhttp3.Response;
 
 /**
  * Created by edson on 31/01/17.
+ *
+ * class for registrating users
+ *
  */
 
 public class Register {
