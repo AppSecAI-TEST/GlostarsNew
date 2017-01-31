@@ -8,42 +8,95 @@
     tools:context="com.golstars.www.glostars.MainActivity$PlaceholderFragment">
 
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/win"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:id="@+id/win" />
+   <LinearLayout
+       android:id="@+id/lin"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical">
+
+       <FrameLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_weight="0">
+           <ImageView
+               android:layout_width="match_parent"
+               android:layout_height="180dp"
+               android:scaleType="centerCrop"
+               app:srcCompat="@drawable/win"
+               android:layout_marginTop="30dp"
+               android:id="@+id/win" />
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text=" Win Prizes!"
+               android:textColor="#F44336"
+               android:textSize="40dp"
+               android:padding="4dp"
+               android:layout_marginTop="20dp"/>
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="   in competitions and exhibitions"
+               android:textSize="15dp"
+               android:padding="4dp"
+               android:layout_marginTop="60dp"
+               />
+       </FrameLayout>
 
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/share"
-        android:layout_below="@+id/win"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
-        android:id="@+id/share" />
+       <FrameLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_weight="0">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/refresh"
-        android:layout_below="@+id/share"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
-        android:id="@+id/refresh" />
+           <ImageView
+               android:layout_width="match_parent"
+               android:layout_height="210dp"
+               android:scaleType="centerCrop"
+               app:srcCompat="@drawable/share"
+               android:layout_marginTop="0dp"
+               android:id="@+id/share" />
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text=" Share Moments"
+               android:textColor="#FFFFFF"
+               android:textSize="40dp"
+               android:padding="4dp"
+               android:layout_marginTop="0dp"/>
+       </FrameLayout>
+
+       <FrameLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_weight="0">
+
+           <ImageView
+               android:layout_width="match_parent"
+               android:layout_height="180dp"
+               android:scaleType="centerCrop"
+               app:srcCompat="@drawable/refresh"
+               android:layout_marginTop="0dp"
+               android:id="@+id/refresh" />
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text=" Refresh Your Mind"
+               android:textSize="35dp"
+               android:textColor="#1B5E20"
+               android:padding="4dp"
+               android:layout_marginTop="0dp"/>
+       </FrameLayout>
+
+
+   </LinearLayout>
 
     <LinearLayout
+        android:layout_below="@+id/lin"
         android:layout_width="wrap_content"
         android:layout_height="52dp"
         android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentBottom="false"
         android:layout_centerHorizontal="true">
 
         <Button

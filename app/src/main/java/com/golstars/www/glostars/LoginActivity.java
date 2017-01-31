@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 /**
@@ -24,12 +26,29 @@ import android.widget.TextView;
 
 public class LoginActivity extends Fragment {
 
+
+
+    private EditText email;
+    private EditText password;
+    private Button login;
+    private TextView signup;
+    private TextView forgotpass;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.login_activity, container, false);
 
+        email = (EditText) rootView.findViewById(R.id.emailEditText);
+        password = (EditText) rootView.findViewById(R.id.passwordEditText);
+        login = (Button) rootView.findViewById(R.id.logInButton);
+        signup = (TextView) rootView.findViewById(R.id.signUp);
+        forgotpass = (TextView) rootView.findViewById(R.id.forgotPass);
         return rootView;
     }
+
+    //You can work with them now using the objects like :
+    // email.getText().... blah blah blah
+
+
 
 }
