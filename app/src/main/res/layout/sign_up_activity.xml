@@ -25,9 +25,9 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
-        android:layout_below="@+id/signupbanner"
+        android:layout_below="@+id/date"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="80dp">
+        android:layout_marginTop="8dp">
 
         <RadioGroup
             android:layout_width="match_parent"
@@ -70,9 +70,9 @@
         android:textColorHint="@color/colorPrimaryDark"
         android:background="@drawable/roundededittext"
         android:id="@+id/firstnameSignUp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/linsignup"
+        android:layout_below="@+id/signupbanner"
          />
 
     <EditText
@@ -153,8 +153,11 @@
         android:background="@drawable/calendar"/>
 
 
+
+
+
     <Button
-        android:text="Sign Up"
+        android:text="Create Account"
         android:layout_width="300dp"
         android:textStyle="bold"
         android:layout_height="50dp"
@@ -162,10 +165,30 @@
         android:textSize="20dp"
         android:textColor="#E1BEE7"
         android:background="@drawable/roundedbutton"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="80dp"
         android:id="@+id/logInButton"
-        android:layout_below="@+id/date"
+        android:layout_below="@+id/linsignup"
         android:layout_centerHorizontal="true" />
+
+    <CheckBox
+        android:text="I Agree with the "
+        android:textSize="15sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linsignup"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:id="@+id/checkBox" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" Terms Of Use"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:layout_toRightOf="@+id/checkBox"
+        android:layout_below="@+id/linsignup"
+        android:layout_marginTop="46.7dp"/>
 
 
 </RelativeLayout>
