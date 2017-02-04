@@ -80,21 +80,21 @@ public class MainActivity extends AppCompatActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-//    public static class PlaceholderFragment extends Fragment {
+//    bench static class PlaceholderFragment extends Fragment {
 //        /**
 //         * The fragment argument representing the section number for this
 //         * fragment.
 //         */
 //        private static final String ARG_SECTION_NUMBER = "section_number";
 //
-//        public PlaceholderFragment() {
+//        bench PlaceholderFragment() {
 //        }
 //
 //        /**
 //         * Returns a new instance of this fragment for the given section
 //         * number.
 //         */
-//        public static PlaceholderFragment newInstance(int sectionNumber) {
+//        bench static PlaceholderFragment newInstance(int sectionNumber) {
 //            PlaceholderFragment fragment = new PlaceholderFragment();
 //            Bundle args = new Bundle();
 //            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //
 //        @Override
-//        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//        bench View onCreateView(LayoutInflater inflater, ViewGroup container,
 //                                 Bundle savedInstanceState) {
 //            View rootView = inflater.inflate(R.layout.login_activity, container, false);
 //
@@ -128,9 +128,6 @@ public class MainActivity extends AppCompatActivity {
                     LoginActivity la = new LoginActivity();
                     return la;
                 case 1:
-                    ValueProposition vp = new ValueProposition();
-                    return vp;
-                case 2:
                     SignUp su = new SignUp();
                     return su;
             }
@@ -139,8 +136,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 2 total pages.
+            return 2;
         }
 
         @Override
@@ -149,8 +146,6 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     return "";
                 case 1:
-                    return "";
-                case 2:
                     return "";
             }
             return null;
