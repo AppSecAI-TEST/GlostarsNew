@@ -13,50 +13,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SIGN UP"
+        android:layout_centerHorizontal="true"
         android:textAllCaps="true"
-        android:textColor="#CE93D8"
-        android:textStyle="bold"
+        android:textColor="#E1C8FF"
+        android:textStyle="normal"
         android:textSize="40sp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="60dp"/>
 
-    <LinearLayout
-        android:id="@+id/linsignup"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:layout_below="@+id/date"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp">
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
-            <RadioButton
-                android:id="@+id/maleradiobutton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Male"
-                android:textAllCaps="true"
-                android:textColor="#CE93D8"
-                android:textSize="20sp"
-                android:layout_marginStart="40dp"/>
-
-            <RadioButton
-                android:id="@+id/femaleradiobutton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="female"
-                android:textAllCaps="true"
-                android:textColor="#CE93D8"
-                android:textSize="20sp"
-                android:layout_marginStart="60dp"/>
-
-        </RadioGroup>
-
-    </LinearLayout>
 
     <EditText
         android:layout_width="match_parent"
@@ -70,7 +34,7 @@
         android:textColorHint="@color/colorPrimaryDark"
         android:background="@drawable/roundededittext"
         android:id="@+id/firstnameSignUp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/signupbanner"
          />
@@ -126,33 +90,6 @@
         android:layout_below="@+id/emailSignUp"
         />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/passwordSignUp"
-        android:hint="Date Of Birth"
-        android:paddingTop="10dp"
-        android:textColorHint="@color/colorPrimaryDark"
-        android:paddingStart="16dp"
-        android:textSize="18sp"
-        android:background="@drawable/roundededittext"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:textColor="#CE93D8"
-        android:id="@+id/birthdaysignup" />
-
-    <Button
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_alignTop="@+id/birthdaysignup"
-        android:layout_alignEnd="@+id/birthdaysignup"
-        android:layout_marginEnd="22dp"
-        android:layout_marginTop="0dp"
-        android:id="@+id/date"
-        android:background="@drawable/calendar"/>
-
-
 
 
 
@@ -165,30 +102,63 @@
         android:textSize="20dp"
         android:textColor="#E1BEE7"
         android:background="@drawable/roundedbutton"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="8dp"
         android:id="@+id/logInButton"
-        android:layout_below="@+id/linsignup"
+        android:layout_below="@+id/terms"
         android:layout_centerHorizontal="true" />
 
-    <CheckBox
-        android:text="I Agree with the "
-        android:textSize="15sp"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linsignup"
+        android:orientation="horizontal"
+        android:layout_marginTop="150dp"
+        android:id="@+id/terms"
+        android:layout_below="@+id/passwordSignUp"
+        android:layout_centerHorizontal="true"
+        >
+
+        <CheckBox
+            android:text="I Agree with the "
+            android:textSize="15sp"
+            android:textColor="#E1C8FF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="40dp"
+            android:id="@+id/checkBox" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Terms Of Use"
+            android:textColor="#E1C8FF"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/checkBox"
+            android:layout_marginTop="38dp"/>
+
+
+    </LinearLayout>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingStart="16dp"
+        android:layout_marginTop="8dp"
+        android:entries="@array/genders"
+        android:background="@drawable/roundededittext"
+        android:layout_below="@+id/passwordSignUp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
-        android:id="@+id/checkBox" />
+        android:layout_marginEnd="8dp"
+        android:id="@+id/gender_spinner" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=" Terms Of Use"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        android:layout_toRightOf="@+id/checkBox"
-        android:layout_below="@+id/linsignup"
-        android:layout_marginTop="46.7dp"/>
 
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/passwordSignUp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/down"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"/>
 
 </RelativeLayout>

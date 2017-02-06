@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.golstars.www.glostars.MainFeed"
+    tools:showIn="@layout/activity_main_feed">
+
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="500dp">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/btn_star_big_on"
+                android:id="@+id/userPIC"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/userNAME"
+                android:text="NAME"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginStart="8dp"
+                android:layout_alignTop="@+id/userPIC"
+                android:layout_toEndOf="@+id/userPIC"/>
+
+            <TextView
+                android:text="Caption"
+                android:textColor="@color/darkGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/userNAME"
+                android:layout_below="@+id/userNAME"
+                android:layout_marginTop="10dp"
+                android:id="@+id/userCAPTION" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:src="@drawable/win"
+                android:id="@+id/userPOST"
+                android:layout_below="@+id/userCAPTION"/>
+
+            <TextView
+                android:id="@+id/uploadTIME"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  mins ago"
+                android:textColor="@color/darkGrey"
+                android:layout_marginEnd="8dp"
+                android:layout_alignTop="@+id/userNAME"
+                android:layout_alignEnd="@+id/userPOST"
+                android:visibility="visible"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  hours ago"
+                android:textColor="@color/darkGrey"
+                android:layout_marginEnd="8dp"
+                android:layout_alignTop="@+id/userNAME"
+                android:layout_alignEnd="@+id/userPOST"
+                android:visibility="invisible"/>
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingBar"
+                android:numStars="5"
+                android:layout_marginLeft="8dp"
+                style="@style/RatingBarSmall"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/userPOST"
+                />
+
+            <TextView
+                android:id="@+id/numStars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/ratingBar"
+                android:layout_below="@+id/userPOST"
+                android:text="17"
+                android:layout_marginLeft="8dp"
+                android:textColor="@color/colorPrimary"/>
+
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_toEndOf="@+id/numStars"
+                android:layout_below="@+id/userPOST"
+                android:src="@drawable/comment_icon"
+                android:layout_marginStart="40dp"
+                android:id="@+id/comments"/>
+
+
+            <TextView
+                android:id="@+id/numComments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/comments"
+                android:layout_below="@+id/userPOST"
+                android:text="7"
+                android:layout_marginLeft="8dp"
+                android:textColor="@color/colorPrimary"/>
+
+
+            <ImageView
+                android:id="@+id/shareTWITTER"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/userPOST"
+                android:src="@drawable/share_twitter"
+                android:layout_marginEnd="8dp"
+                />
+
+            <ImageView
+                android:id="@+id/shareVK"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_toLeftOf="@+id/shareTWITTER"
+                android:layout_below="@+id/userPOST"
+                android:src="@drawable/share_vk"
+                android:layout_marginEnd="8dp"
+                />
+
+
+            <ImageView
+                android:id="@+id/shareFB"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_toLeftOf="@+id/shareVK"
+                android:layout_below="@+id/userPOST"
+                android:src="@drawable/share_fb"
+                android:layout_marginEnd="8dp"
+                />
+
+            <TextView
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/userPOST"
+                android:layout_toLeftOf="@+id/shareFB"
+                android:textColor="@color/colorPrimary"
+                android:text="SHARE"
+                android:layout_marginRight="8dp"/>
+
+            <ImageView
+                android:id="@+id/privacy"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/bench"
+                android:layout_marginRight="16dp"
+                android:layout_alignTop="@+id/userNAME"
+                android:layout_toLeftOf="@+id/uploadTIME"/>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+</android.support.v4.widget.NestedScrollView>

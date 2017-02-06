@@ -1,5 +1,6 @@
 package com.golstars.www.glostars;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -43,11 +44,16 @@ public class LoginActivity extends Fragment {
         login = (Button) rootView.findViewById(R.id.logInButton);
         signup = (TextView) rootView.findViewById(R.id.signUp);
         forgotpass = (TextView) rootView.findViewById(R.id.forgotPass);
+
+
+
+
         return rootView;
     }
 
     //You can work with them now using the objects like :
     // email.getText().... blah blah blah
+
 
 
 

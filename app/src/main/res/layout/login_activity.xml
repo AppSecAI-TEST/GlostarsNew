@@ -79,6 +79,7 @@
         android:layout_marginTop="25dp"
         android:id="@+id/logInButton"
         android:layout_below="@+id/passwordEditText"
+        android:onClick="login"
         android:layout_alignStart="@+id/passwordEditText" />
 
 

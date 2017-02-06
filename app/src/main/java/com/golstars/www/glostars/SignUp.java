@@ -17,7 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 /**
  * Created by admin on 1/31/2017.
@@ -30,21 +32,14 @@ public class SignUp extends Fragment{
     int yearX , monthX, dayX;
     static final int DIALOG_ID = 0;
 
+    Spinner gender;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.sign_up_activity, container, false);
-        btn = (Button) rootView.findViewById(R.id.date);
 
-        btn.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-
-                    }
-                }
-        );
+        gender =(Spinner) rootView.findViewById(R.id.gender_spinner);
 
 
         return rootView;
