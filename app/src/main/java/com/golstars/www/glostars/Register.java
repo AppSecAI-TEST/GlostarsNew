@@ -42,14 +42,17 @@ public class Register {
                                  ",'LastName':" + lastname +
                                  ",'Password':" + password + "}";
 
+
         RequestBody body = RequestBody.create(JSON, postMessage);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
-        try (Response response = client.newCall(request).execute()) {
-            Log.v(TAG, response.body().string());
-        }
+
+        Response response = client.newCall(request).execute();
+        if(!response.isSuccessful()) throw  new IOException("Unexpected code " +  response);
+
+        System.out.println(response.body().string());
 
 
     }

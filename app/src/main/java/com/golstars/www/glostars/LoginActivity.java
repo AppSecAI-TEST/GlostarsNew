@@ -1,6 +1,9 @@
 package com.golstars.www.glostars;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,8 +24,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 /**
  * Created by admin on 1/31/2017.
+ * this class contains the login methods and uses Auth class
  */
 
 public class LoginActivity extends Fragment {
@@ -34,10 +54,27 @@ public class LoginActivity extends Fragment {
     private Button login;
     private TextView signup;
     private TextView forgotpass;
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private android.os.Handler mHander;
+
+    private static final MediaType txtType = MediaType.parse("text/plain; charset=utf-8");
+    private final OkHttpClient client = new OkHttpClient();
+
+
+    private static final String MyPREFERENCES = "glostarsPrefs";
+    Auth auth;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.login_activity, container, false);
+
+        Context context = getActivity();
+        auth = new Auth(context, sharedPreferences, editor);
+
+        mHander = new android.os.Handler(Looper.getMainLooper());
 
         email = (EditText) rootView.findViewById(R.id.emailEditText);
         password = (EditText) rootView.findViewById(R.id.passwordEditText);
@@ -46,14 +83,84 @@ public class LoginActivity extends Fragment {
         forgotpass = (TextView) rootView.findViewById(R.id.forgotPass);
 
 
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String pwd = password.getText().toString();
+                String usrname = email.getText().toString();
+                //startActivity(new Intent(getActivity(), MainFeed.class));
+                try {
+                    login("password", pwd, usrname);
 
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
 
         return rootView;
     }
 
+    public void login(String grantType, String password, String username) throws Exception{
+
+        URL url = new URL("http://www.glostars.com/Token");
+        /*
+        String postMessage = "{'grant_type':" + "password," +
+                             "'password':" + "91113603," +
+                             "'username':" + "netosilvan@hotmail.com" + "}";
+        */
+        String postMessage = "username=" + username +
+                "&password="+ password +
+                "&grant_type=" + grantType;
+
+        RequestBody body =  RequestBody.create(txtType, postMessage);
+
+        System.out.println(body);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                //.addHeader("content-type", "application/json; charset=utf-8")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                //TODO: CREATE A DIALOG FOR FAILED LOGIN
+
+
+                /*Headers responseHeaders = response.headers();
+                for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                    System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                }*/
+                String authData = response.body().string();
+                System.out.println(authData);
+
+
+                try {
+                    JSONObject authObject = new JSONObject(authData);
+                    auth.setUsername(authObject.getString("userName"));
+                    auth.setAcessToken(authObject.getString("access_token"));
+                    auth.setExpires(authObject.getString(".expires"));
+                    auth.setIssued(authObject.getString(".issued"));
+                    startActivity(new Intent(getActivity(), MainFeed.class));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+
+    }
+
     //You can work with them now using the objects like :
     // email.getText().... blah blah blah
-
 
 
 
