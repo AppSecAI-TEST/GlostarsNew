@@ -2,23 +2,16 @@ package com.golstars.www.glostars;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
-import java.util.logging.Handler;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.Headers;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -62,10 +55,10 @@ class Auth  {
 
 
 
-    Auth(Context context, SharedPreferences sharedPreferences, SharedPreferences.Editor ed){
+    Auth(Context context){
         this.context = context;
-        this.sharedPrefs = sharedPreferences;
-        this.editor = ed;
+        //this.sharedPrefs = sharedPreferences;
+        //this.editor = ed;
 
         sharedPrefs = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         editor = sharedPrefs.edit();
@@ -136,16 +129,16 @@ class Auth  {
 
     void setUsername(String username) {
         this.username = username;
-        System.out.println("usr name "+this.username);
-        this.editor.putString(username, "username");
+        System.out.println("usr name "+ this.getUsername());
+        this.editor.putString("username", this.username);
         this.editor.commit();
 
     }
 
     void setAcessToken(String acessToken) {
         this.acessToken = acessToken;
-        System.out.println("authentication "+this.acessToken);
-        this.editor.putString(acessToken, "token");
+        System.out.println("authentication "+ this.getAcessToken());
+        this.editor.putString("token", this.acessToken);
         this.editor.commit();
 
     }
@@ -153,22 +146,22 @@ class Auth  {
     void setIssued(String issued) {
         this.issued = issued;
         System.out.println("issued "+this.issued);
-        this.editor.putString(issued, "issued");
-        this.editor.commit();
+        editor.putString("issued", this.issued);
+        editor.commit();
     }
 
     void setExpires(String expires) {
         this.expires = expires;
         System.out.println("expires "+this.expires);
-        this.editor.putString(expires, "expires");
+        this.editor.putString("expires", this.expires);
         this.editor.commit();
 
     }
 
     public boolean isAuthenticated(){
         boolean auth = false;
-        if(this.acessToken != null){
-            System.out.println("authentication "+this.acessToken);
+        if(this.getAcessToken() != null){
+            System.out.println("authentication "+ this.getAcessToken());
             auth = true;
         }
 
@@ -176,7 +169,11 @@ class Auth  {
     }
 
 
+    public String getUsername() {
+        return username;
+    }
 
-
-
+    public String getAcessToken() {
+        return acessToken;
+    }
 }
