@@ -44,6 +44,7 @@ public class MainFeed extends AppCompatActivity {
         totalComments=(TextView)findViewById(R.id.numComments);
         shareText=(TextView)findViewById(R.id.share);
 
+        post = (ImageView)findViewById(R.id.userPOST);
         propic = (ImageButton)findViewById(R.id.userPIC);
         shareFB = (ImageView)findViewById(R.id.shareFB);
         shareTWITTER = (ImageView)findViewById(R.id.shareTWITTER);
