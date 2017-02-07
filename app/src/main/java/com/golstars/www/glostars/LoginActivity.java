@@ -54,6 +54,7 @@ public class LoginActivity extends Fragment {
     private Button login;
     private TextView signup;
     private TextView forgotpass;
+    private TextView upwrong;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -81,6 +82,7 @@ public class LoginActivity extends Fragment {
         login = (Button) rootView.findViewById(R.id.logInButton);
         signup = (TextView) rootView.findViewById(R.id.signUp);
         forgotpass = (TextView) rootView.findViewById(R.id.forgotPass);
+        upwrong = (TextView) rootView.findViewById(R.id.upwrong);
 
 
         login.setOnClickListener(new View.OnClickListener() {

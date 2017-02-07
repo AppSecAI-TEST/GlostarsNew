@@ -82,5 +82,17 @@
         android:onClick="login"
         android:layout_alignStart="@+id/passwordEditText" />
 
+    <TextView
+        android:text="The Username/Password is wrong!"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#E1BEE7"
+        android:textSize="15sp"
+        android:visibility="invisible"
+        android:layout_below="@+id/logInButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:id="@+id/upwrong" />
+
 
 </RelativeLayout>
