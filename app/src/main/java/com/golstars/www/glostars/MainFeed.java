@@ -40,7 +40,6 @@ public class MainFeed extends AppCompatActivity {
     ImageView shareTWITTER;
     ImageView shareVK;
     ImageView privacyIcon;
-    SearchUser searchUser;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -58,14 +57,15 @@ public class MainFeed extends AppCompatActivity {
         Context context = MainFeed.this;
         sharedPreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        Auth auth = new Auth(context);
-        searchUser = new SearchUser();
+
+
+        MyUser mUser = MyUser.getmUser();
+        mUser.setContext(context);
+
+        PictureService pictureService = new PictureService();
 
         try {
-            String usr = auth.getUsername();
-            String token = auth.getAcessToken();
-            System.out.println("user " + usr + " AND token " + token);
-            searchUser.search(usr, token, "");
+            pictureService.getMutualPictures(mUser.getUserId(), 1, mUser.getToken());
         } catch (Exception e) {
             e.printStackTrace();
         }

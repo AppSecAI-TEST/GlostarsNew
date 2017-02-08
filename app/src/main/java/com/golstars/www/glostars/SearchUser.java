@@ -1,20 +1,15 @@
 package com.golstars.www.glostars;
 
 import android.content.Context;
-import android.content.Intent;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.os.Handler;
 
 import java.io.IOException;
 import java.net.URL;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -26,9 +21,9 @@ public class SearchUser {
 
     public SearchUser(){}
 
-    //TODO: ADD SHAREDPREFERENCES ON THIS CLASS AND CALL IT FROM THE AUTH CLASS
     private final OkHttpClient client = new OkHttpClient();
-    Context context;
+
+    private String data;
 
 
     public void search(String email, String token, String userid) throws Exception{
@@ -57,8 +52,16 @@ public class SearchUser {
             @Override public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
+                setData(response.body().string());
+                System.out.println(getData());
 
-               System.out.println(response.body().string());
+                /*
+                try{
+                    threadMsg(data);
+
+                } catch (Throwable t){
+                    t.printStackTrace();
+                } */
 
 
 
@@ -66,7 +69,15 @@ public class SearchUser {
         });
 
 
+
     }
 
 
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
 }
