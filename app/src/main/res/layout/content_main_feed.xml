@@ -82,47 +82,7 @@
                 android:layout_alignEnd="@+id/userPOST"
                 android:visibility="invisible"/>
 
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ratingBar"
-                android:numStars="5"
-                android:layout_marginLeft="8dp"
-                style="@style/RatingBarSmall"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/userPOST"
-                />
 
-            <TextView
-                android:id="@+id/numStars"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/ratingBar"
-                android:layout_below="@+id/userPOST"
-                android:text="17"
-                android:layout_marginLeft="8dp"
-                android:textColor="@color/colorPrimary"/>
-
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_toEndOf="@+id/numStars"
-                android:layout_below="@+id/userPOST"
-                android:src="@drawable/comment_icon"
-                android:layout_marginStart="40dp"
-                android:id="@+id/comments"/>
-
-
-            <TextView
-                android:id="@+id/numComments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/comments"
-                android:layout_below="@+id/userPOST"
-                android:text="7"
-                android:layout_marginLeft="8dp"
-                android:textColor="@color/colorPrimary"/>
 
 
             <ImageView

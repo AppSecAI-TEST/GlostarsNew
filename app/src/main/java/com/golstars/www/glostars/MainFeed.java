@@ -1,31 +1,23 @@
 package com.golstars.www.glostars;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.net.URL;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
 public class MainFeed extends AppCompatActivity {
+
+    Animation fab_hide;
+    Animation fab_show;
+    Animation rotate_clockwise;
+    Animation rotate_anticlockwise;
 
 
     TextView username;
@@ -34,6 +26,7 @@ public class MainFeed extends AppCompatActivity {
     TextView totalStars;
     TextView totalComments;
     TextView shareText;
+
     ImageButton propic;
     ImageView post;
     ImageView shareFB;
@@ -41,9 +34,14 @@ public class MainFeed extends AppCompatActivity {
     ImageView shareVK;
     ImageView privacyIcon;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-    private static final String MyPREFERENCES = "glostarsPrefs";
+    FloatingActionButton mainFAB ;
+    FloatingActionButton cameraFAB;
+    FloatingActionButton competitionFAB;
+    FloatingActionButton profileFAB;
+    FloatingActionButton notificationFAB;
+
+    boolean isOpen = false;
+
 
 
     @Override
@@ -54,30 +52,19 @@ public class MainFeed extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        Context context = MainFeed.this;
-        sharedPreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
 
-
-        MyUser mUser = MyUser.getmUser();
-        mUser.setContext(context);
-
-        PictureService pictureService = new PictureService();
-
-        try {
-            pictureService.getMutualPictures(mUser.getUserId(), 1, mUser.getToken());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
+        cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
+        competitionFAB = (FloatingActionButton)findViewById(R.id.competitionFAB);
+        profileFAB = (FloatingActionButton) findViewById(R.id.profileFAB);
+        notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
 
         username=(TextView)findViewById(R.id.userNAME);
         caption=(TextView)findViewById(R.id.userCAPTION);
         postTime=(TextView)findViewById(R.id.uploadTIME);
-        totalStars=(TextView)findViewById(R.id.numStars);
-        totalComments=(TextView)findViewById(R.id.numComments);
+        //totalStars=(TextView)findViewById(R.id.numStars);
+        //totalComments=(TextView)findViewById(R.id.numComments);
         shareText=(TextView)findViewById(R.id.share);
-        post = (ImageView)findViewById(R.id.userPOST);
 
         post = (ImageView)findViewById(R.id.userPOST);
         propic = (ImageButton)findViewById(R.id.userPIC);
@@ -86,8 +73,55 @@ public class MainFeed extends AppCompatActivity {
         shareVK = (ImageView)findViewById(R.id.shareVK);
         privacyIcon = (ImageView)findViewById(R.id.privacy);
 
+        fab_show = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_show);
+        fab_hide = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_hide);
+        rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
+        rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
+
+        mainFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isOpen) {
+
+                    cameraFAB.startAnimation(fab_hide);
+                    competitionFAB.startAnimation(fab_hide);
+                    profileFAB.startAnimation(fab_hide);
+                    notificationFAB.startAnimation(fab_hide);
+                    mainFAB.startAnimation(rotate_anticlockwise);
+
+
+                    cameraFAB.setClickable(false);
+                    competitionFAB.setClickable(false);
+                    profileFAB.setClickable(false);
+                    notificationFAB.setClickable(false);
+                    isOpen=false;
+
+                }
+
+                else{
+                    cameraFAB.startAnimation(fab_show);
+                    competitionFAB.startAnimation(fab_show);
+                    profileFAB.startAnimation(fab_show);
+                    notificationFAB.startAnimation(fab_show);
+                    mainFAB.startAnimation(rotate_clockwise);
+
+                    cameraFAB.setVisibility(View.VISIBLE);
+                    competitionFAB.setVisibility(View.VISIBLE);
+                    profileFAB.setVisibility(View.VISIBLE);
+                    notificationFAB.setVisibility(View.VISIBLE);
+
+                    cameraFAB.setClickable(true);
+                    competitionFAB.setClickable(true);
+                    profileFAB.setClickable(true);
+                    notificationFAB.setClickable(true);
+                    isOpen=true;
+
+
+
+
+                }
+            }
+        });
     }
-
-
 }

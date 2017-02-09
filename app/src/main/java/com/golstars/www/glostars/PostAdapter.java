@@ -29,8 +29,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             username=(TextView)view.findViewById(R.id.userNAME);
             caption=(TextView)view.findViewById(R.id.userCAPTION);
             postTime=(TextView)view.findViewById(R.id.uploadTIME);
-            totalStars=(TextView)view.findViewById(R.id.numStars);
-            totalComments=(TextView)view.findViewById(R.id.numComments);
+            //totalStars=(TextView)view.findViewById(R.id.numStars);
+            //totalComments=(TextView)view.findViewById(R.id.numComments);
         }
 
 
