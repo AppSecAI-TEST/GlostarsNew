@@ -1,5 +1,9 @@
 package com.golstars.www.glostars;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -14,20 +18,21 @@ import okhttp3.Response;
 /**
  * Created by edson on 08/02/17.
  * this class has several methods for requesting pictures from server side
+ * and its method GetData returns a JSONarray with several pictures
  */
 
 public class PictureService {
 
     private static final MediaType JSONType = MediaType.parse("application/json; charset=utf-8");
     private final OkHttpClient client = new OkHttpClient();
-    private String data;
+    private JSONArray data;
 
     public PictureService(){}
 
     public void getMutualPictures(String userid, Integer count, String token) throws Exception {
 
         URL url = new URL("http://www.glostars.com/api/images/mutualpic/" + userid + "/" + count);
-        String postMessage = "";
+        String postMessage = "{ListPhoto:[]}";
         RequestBody body = RequestBody.create(JSONType, postMessage);
 
         Request request = new Request.Builder()
@@ -47,19 +52,28 @@ public class PictureService {
             public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-                setData((response.body().string()));
-                System.out.println(getData());
+                String data = response.body().string();
+                try {
+                    JSONObject dat = new JSONObject(data);
+                    JSONObject resultPayload = dat.getJSONObject("resultPayload");
+                    JSONArray pics = resultPayload.getJSONArray("data");
+                    setData(pics);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //setData((response.body().string()));
+                System.out.println(data);
 
 
             }
         });
     }
 
-    public String getData() {
+    public JSONArray getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(JSONArray data) {
         this.data = data;
     }
 }

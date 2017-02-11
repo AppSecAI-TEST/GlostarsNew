@@ -1,9 +1,11 @@
 package com.golstars.www.glostars;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.Animation;
@@ -11,6 +13,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainFeed extends AppCompatActivity {
 
@@ -42,7 +49,11 @@ public class MainFeed extends AppCompatActivity {
 
     boolean isOpen = false;
 
-
+    // --------------- recycler view settings ---------
+    private List<Post> postList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private PostAdapter mAdapter;
+    //-------------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +62,28 @@ public class MainFeed extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //---------------NETOWORK AND RECYCLER VIEW --------------------------------
+        //recyclerView = (RecyclerView) findViewById(R.id.)
 
+        Context context = MainFeed.this;
+
+        MyUser mUser = MyUser.getmUser();
+        mUser.setContext(context);
+
+        PictureService pictureService = new PictureService();
+        try {
+            pictureService.getMutualPictures(mUser.getUserId(), 1, mUser.getToken());
+            JSONArray data = null;
+            while(data == null){
+                data = pictureService.getData();
+            }
+            System.out.println("PICTURES: " + data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mAdapter = new PostAdapter(postList);
+        //--------------------------------------------------------------------------
 
         mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
         cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
@@ -123,5 +155,7 @@ public class MainFeed extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 }
