@@ -21,6 +21,7 @@ import java.util.List;
 
 public class MainFeed extends AppCompatActivity {
 
+
     Animation fab_hide;
     Animation fab_show;
     Animation rotate_clockwise;
@@ -63,7 +64,7 @@ public class MainFeed extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //---------------NETOWORK AND RECYCLER VIEW --------------------------------
-        //recyclerView = (RecyclerView) findViewById(R.id.)
+        recyclerView = (RecyclerView) findViewById(R.id.mainfeedrecycler);
 
         Context context = MainFeed.this;
 
@@ -84,6 +85,7 @@ public class MainFeed extends AppCompatActivity {
 
         mAdapter = new PostAdapter(postList);
         //--------------------------------------------------------------------------
+
 
         mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
         cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);

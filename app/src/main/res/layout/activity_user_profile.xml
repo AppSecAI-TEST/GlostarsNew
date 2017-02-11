@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.golstars.www.glostars.MainFeed">
+    tools:context="com.golstars.www.glostars.user_profile">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -51,7 +50,7 @@
                     <ImageView
                         android:layout_marginTop="4dp"
                         android:layout_width="40dp"
-                        android:layout_marginRight="4dp"
+                        android:layout_marginRight="12dp"
                         android:layout_height="40dp"
                         android:src="@drawable/search_icon"
                         android:padding="1dp"/>
@@ -63,15 +62,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/mainfeedrecycler"
-        android:layout_marginTop="84dp"
-        android:layout_marginLeft="8dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    </android.support.v7.widget.RecyclerView>
-
+    <include layout="@layout/content_user_profile" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="54dp"
@@ -140,10 +131,5 @@
         app:pressedTranslationZ="12dp"
         android:visibility="gone"
         />
-
-
-
-
-
 
 </android.support.design.widget.CoordinatorLayout>

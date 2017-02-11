@@ -3,6 +3,7 @@ package com.golstars.www.glostars;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
@@ -80,6 +81,9 @@ public class LoginActivity extends Fragment {
 
 
         mHander = new android.os.Handler(Looper.getMainLooper());
+
+
+
 
         email = (EditText) rootView.findViewById(R.id.emailEditText);
         password = (EditText) rootView.findViewById(R.id.passwordEditText);

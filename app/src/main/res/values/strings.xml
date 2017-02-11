@@ -8,4 +8,5 @@
         <item name="Male">Male</item>
         <item name="Female">Female</item>
     </string-array>
+    <string name="title_activity_user_profile">user_profile</string>
 </resources>
