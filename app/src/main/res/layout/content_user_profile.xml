@@ -131,48 +131,56 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/recognitionBanner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Recognition: "/>
 
 
                 <ImageView
+                    android:id="@+id/weeklyPrize"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:background="@android:drawable/btn_star"
                     android:layout_marginLeft="40dp"/>
 
                 <TextView
+                    android:id="@+id/weeklyPrizeCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2"
                     android:layout_marginLeft="8dp"/>
 
                 <ImageView
+                    android:id="@+id/monthlyPrize"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:background="@android:drawable/btn_star"
                     android:layout_marginLeft="40dp"/>
 
                 <TextView
+                    android:id="@+id/monthlyPrizeCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2"
                     android:layout_marginLeft="8dp"/>
 
                 <ImageView
+                    android:id="@+id/exhibitionPrize"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:background="@android:drawable/btn_star"
                     android:layout_marginLeft="40dp"/>
 
                 <TextView
+                    android:id="@+id/exhibitionPrizeCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2"
                     android:layout_marginLeft="8dp"/>
 
                 <ImageView
+
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:background="@android:drawable/btn_star"
@@ -191,10 +199,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:orientation="horizontal"
+                android:elevation="4dp"
                 android:background="@color/lightViolate">
 
                 <TextView
-                    android:id="@+id/numberofposts"
+                    android:id="@+id/numberofpostsCount"
                     android:paddingStart="8dp"
                     android:textColor="@color/darkGrey"
                     android:layout_gravity="center_vertical"
@@ -204,6 +213,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/numberofposts"
                     android:layout_gravity="center_vertical"
                     android:text=" Photos"
                     android:textColor="@color/darkGrey"
@@ -220,6 +230,7 @@
 
 
                 <TextView
+                    android:id="@+id/numberoffollowing"
                     android:paddingStart="8dp"
                     android:text="Following"
                     android:layout_gravity="center_vertical"
@@ -229,7 +240,7 @@
                     android:layout_weight="0.3"/>
 
                 <TextView
-                    android:id="@+id/numberoffollowing"
+                    android:id="@+id/numberoffollowingCount"
                     android:layout_gravity="center_vertical"
                     android:text=" 10"
                     android:paddingEnd="16dp"
@@ -258,7 +269,7 @@
                     android:layout_weight="0.2"/>
 
                 <TextView
-                    android:layout_gravity="center_vertical"
+                    android:id="@+id/numberoffollowersCount"                    android:layout_gravity="center_vertical"
                     android:text=" 1512"
                     android:paddingEnd="16dp"
                     android:textColor="@color/darkGrey"
@@ -268,9 +279,87 @@
 
             </LinearLayout>
 
-           <include
-               layout="@layout/profileposts"
-               />
+            <TextView
+                android:id="@+id/competitionBanner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Competition Photos"
+                android:layout_marginTop="8dp"
+                android:textSize="20dp"
+                android:textColor="@color/darkGrey"/>
+
+
+            <LinearLayout
+                android:elevation="2dp"
+                android:id="@+id/postsCompetition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                >
+
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="145dp"
+                    android:layout_weight = "1"
+                    android:id="@+id/picturePosts"
+                    layout="@layout/profileposts"
+                    />
+
+                <TextView
+                    android:id="@+id/seeAllCompetition"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="300dp"
+                    android:paddingLeft="120dp"
+                    android:layout_height="35dp"
+                    android:text="See All"
+                    android:textSize="18sp"
+                    android:paddingTop="4dp"/>
+
+            </LinearLayout>
+
+
+
+            <TextView
+                android:id="@+id/publicBanner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Public Photos"
+                android:layout_marginTop="8dp"
+                android:textSize="20dp"
+                android:textColor="@color/darkGrey"/>
+
+
+            <LinearLayout
+                android:elevation="2dp"
+                android:id="@+id/postsPublic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                >
+
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="145dp"
+                    android:layout_weight = "1"
+                    android:id="@+id/picturePosts"
+                    layout="@layout/profileposts"
+                    />
+
+                <TextView
+                    android:id="@+id/seeAllPublic"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="300dp"
+                    android:paddingLeft="120dp"
+                    android:layout_height="35dp"
+                    android:text="See All"
+                    android:textSize="18sp"
+                    android:paddingTop="4dp"/>
+
+            </LinearLayout>
+
+
 
 
         </LinearLayout>
