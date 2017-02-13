@@ -1,10 +1,19 @@
 package com.golstars.www.glostars;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -15,9 +24,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class MainFeed extends AppCompatActivity {
 
@@ -48,6 +65,10 @@ public class MainFeed extends AppCompatActivity {
     FloatingActionButton profileFAB;
     FloatingActionButton notificationFAB;
 
+    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private String userChoosenTask;
+    private ImageView ivImage;
+
     boolean isOpen = false;
 
     // --------------- recycler view settings ---------
@@ -71,10 +92,11 @@ public class MainFeed extends AppCompatActivity {
         MyUser mUser = MyUser.getmUser();
         mUser.setContext(context);
 
+        JSONArray data = null;
         PictureService pictureService = new PictureService();
         try {
             pictureService.getMutualPictures(mUser.getUserId(), 1, mUser.getToken());
-            JSONArray data = null;
+            //JSONArray data = null;
             while(data == null){
                 data = pictureService.getData();
             }
@@ -84,6 +106,35 @@ public class MainFeed extends AppCompatActivity {
         }
 
         mAdapter = new PostAdapter(postList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+
+        for(int i = 0; i < data.length(); ++i){
+            try {
+                JSONObject pic = data.getJSONObject(i);
+                JSONObject poster = pic.getJSONObject("poster");
+
+
+                String name = poster.getString("name");
+                String userId = poster.getString("userId");
+                String id = pic.getString("id");
+                String description = pic.getString("description");
+                String picURL = pic.getString("picUrl");
+                Boolean isFeatured = Boolean.valueOf(pic.getString("isfeatured"));
+                Boolean isCompeting = Boolean.valueOf(pic.getString("isCompeting"));
+                Integer starsCount = Integer.parseInt(pic.getString("starsCount"));
+                System.out.println("POSTER: " + name + " " + userId + " " + id + " " + description + " " + picURL + " " + isFeatured + " " + isCompeting + " " + starsCount);
+
+                setmAdapter(name, userId, id, description, picURL, isFeatured, isCompeting, starsCount, 0);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
         //--------------------------------------------------------------------------
 
 
@@ -158,6 +209,130 @@ public class MainFeed extends AppCompatActivity {
             }
         });
 
+       cameraFAB.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               selectImage();
+           }
+       });
 
     }
+
+    private void setmAdapter(String author,String usr, String photoID, String description, String picURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount, Integer commentCount){
+        Post post = new Post(author, usr, photoID, description, picURL, isFeatured, isCompeting, starsCount, commentCount);
+        postList.add(post);
+
+        mAdapter.notifyDataSetChanged();
+    }
+
+    //-------------CAMERA AND GALLERY CALLERS------------------------------------------
+    /**
+     *  In this method we'll create a dialog box with three options
+     *  for either camera, gallery or cancelling actions
+     */
+
+    private void selectImage(){
+        final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainFeed.this);
+        builder.setTitle("Select Source");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int item) {
+                boolean result = Utility.checkPermission(MainFeed.this);
+
+                if(items[item].equals("Take Photo")){
+                    userChoosenTask = "Take Photo";
+                    if(result)
+                        cameraIntent();
+                } else if(items[item].equals("Choose from Library")){
+                    userChoosenTask = "Choose from Library";
+                    if(result)
+                        galleryIntent();
+                } else if(items[item].equals("Cancel")){
+                    dialogInterface.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+
+    private void cameraIntent()
+    {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent,  REQUEST_CAMERA);
+    }
+
+    private void galleryIntent()
+    {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if(userChoosenTask.equals("Take Photo"))
+                        cameraIntent();
+                    else if(userChoosenTask.equals("Choose from Library"))
+                        galleryIntent();
+                } else {
+                    //code for deny
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_FILE)
+                onSelectFromGalleryResult(data);
+            else if (requestCode == REQUEST_CAMERA)
+                onCaptureImageResult(data);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    private void onSelectFromGalleryResult(Intent data) {
+        Bitmap bm=null;
+        if (data != null) {
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        ivImage.setImageBitmap(bm);
+    }
+
+    private void onCaptureImageResult(Intent data) {
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ivImage.setImageBitmap(thumbnail);
+    }
+
+
+    //-------------/CAMERA AND GALLERY CALLERS<end>------------------------------------------
+
 }

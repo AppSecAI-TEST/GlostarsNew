@@ -55,7 +55,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         Post post = postsList.get(position);
         holder.username.setText(post.getAuthor());
         holder.caption.setText(post.getDescription());
-        holder.totalStars.setText(post.getStarsCount());
+//        holder.totalStars.setText(post.getStarsCount());
 
 
     }
