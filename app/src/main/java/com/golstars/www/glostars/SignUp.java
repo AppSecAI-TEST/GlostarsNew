@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 /**
@@ -28,9 +30,16 @@ import android.widget.TextView;
 
 public class SignUp extends Fragment{
 
-    Button btn ;
-    int yearX , monthX, dayX;
-    static final int DIALOG_ID = 0;
+    EditText firstName;
+    EditText lastName;
+    EditText email;
+    EditText password;
+
+    CheckBox termscheck;
+
+    TextView terms;
+
+    Button signUp;
 
     Spinner gender;
 
@@ -39,11 +48,25 @@ public class SignUp extends Fragment{
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.sign_up_activity, container, false);
 
+        firstName = (EditText) rootView.findViewById(R.id.firstnameSignUp);
+        lastName = (EditText) rootView.findViewById(R.id.lastnameSignUp);
+        email = (EditText) rootView.findViewById(R.id.emailSignUp);
+        password = (EditText) rootView.findViewById(R.id.passwordSignUp);
+
+        termscheck = (CheckBox) rootView.findViewById(R.id.termscheckBox);
+
+        terms = (TextView) rootView.findViewById(R.id.terms);
+
+        signUp = (Button) rootView.findViewById(R.id.createAccountButton);
+
+
         gender =(Spinner) rootView.findViewById(R.id.gender_spinner);
 
 
         return rootView;
     }
+
+
 
 
 

@@ -103,8 +103,8 @@
         android:textColor="#E1BEE7"
         android:background="@drawable/roundedbutton"
         android:layout_marginTop="8dp"
-        android:id="@+id/logInButton"
-        android:layout_below="@+id/terms"
+        android:id="@+id/createAccountButton"
+        android:layout_below="@+id/termsLin"
         android:layout_centerHorizontal="true" />
 
     <LinearLayout
@@ -112,7 +112,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="150dp"
-        android:id="@+id/terms"
+        android:id="@+id/termsLin"
         android:layout_below="@+id/passwordSignUp"
         android:layout_centerHorizontal="true"
         >
@@ -125,9 +125,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="40dp"
-            android:id="@+id/checkBox" />
+            android:id="@+id/termscheckBox" />
 
         <TextView
+            android:id="@+id/terms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" Terms Of Use"
