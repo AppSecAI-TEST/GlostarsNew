@@ -93,6 +93,7 @@ public class LoginActivity extends Fragment {
         //upwrong = (TextView) rootView.findViewById(R.id.upwrong);
 
 
+        tryFastLogin();
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,10 +107,17 @@ public class LoginActivity extends Fragment {
                     e.printStackTrace();
                 }
 
+
             }
         });
 
         return rootView;
+    }
+
+    public void tryFastLogin(){
+        if(auth.isTokenValid()){
+            startActivity(new Intent(getActivity(), MainFeed.class));
+        }
     }
 
     public void login(String grantType, String password, String username) throws Exception{
@@ -157,6 +165,7 @@ public class LoginActivity extends Fragment {
                     auth.setAcessToken(authObject.getString("access_token"));
                     auth.setExpires(authObject.getString(".expires"));
                     auth.setIssued(authObject.getString(".issued"));
+                    //auth.isTokenValid();
                     startActivity(new Intent(getActivity(), MainFeed.class));
 
                 } catch (JSONException e) {

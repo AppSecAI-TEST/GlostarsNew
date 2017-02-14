@@ -111,24 +111,47 @@ public class MainFeed extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
+
+
         for(int i = 0; i < data.length(); ++i){
             try {
                 JSONObject pic = data.getJSONObject(i);
                 JSONObject poster = pic.getJSONObject("poster");
 
-
+                String description = "";
                 String name = poster.getString("name");
                 String userId = poster.getString("userId");
+                String profilePicUrl = poster.getString("profilePicURL");
                 String id = pic.getString("id");
-                String description = pic.getString("description");
+                description = pic.getString("description");
                 String picURL = pic.getString("picUrl");
                 Boolean isFeatured = Boolean.valueOf(pic.getString("isfeatured"));
                 Boolean isCompeting = Boolean.valueOf(pic.getString("isCompeting"));
                 Integer starsCount = Integer.parseInt(pic.getString("starsCount"));
                 System.out.println("POSTER: " + name + " " + userId + " " + id + " " + description + " " + picURL + " " + isFeatured + " " + isCompeting + " " + starsCount);
 
-                setmAdapter(name, userId, id, description, picURL, isFeatured, isCompeting, starsCount, 0);
+
+                Bitmap bm = null;
+                Bitmap usrbm = null;
+
+                DownloadImageTask downloadImageTask = new DownloadImageTask();
+                downloadImageTask.getImage(picURL);
+
+                DownloadImageTask downloadImageTask1 = new DownloadImageTask();
+                downloadImageTask1.getImage(profilePicUrl);
+
+                while (bm == null){
+                    bm = downloadImageTask.getData();
+
+                }
+                while (usrbm == null){
+                   usrbm = downloadImageTask1.getData();
+                }
+
+                setmAdapter(name, userId, id, description, bm, usrbm , isFeatured, isCompeting, starsCount, 0);
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -218,8 +241,8 @@ public class MainFeed extends AppCompatActivity {
 
     }
 
-    private void setmAdapter(String author,String usr, String photoID, String description, String picURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount, Integer commentCount){
-        Post post = new Post(author, usr, photoID, description, picURL, isFeatured, isCompeting, starsCount, commentCount);
+    private void setmAdapter(String author,String usr, String photoID, String description, Bitmap picURL, Bitmap profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount, Integer commentCount){
+        Post post = new Post(author, usr, photoID, description, picURL, profilePicURL, isFeatured, isCompeting, starsCount, commentCount);
         postList.add(post);
 
         mAdapter.notifyDataSetChanged();

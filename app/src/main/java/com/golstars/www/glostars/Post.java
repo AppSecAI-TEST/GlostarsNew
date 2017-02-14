@@ -1,6 +1,6 @@
 package com.golstars.www.glostars;
 
-import java.util.List;
+import android.graphics.Bitmap;
 
 /**
  * Created by edson on 07/02/17.
@@ -12,7 +12,8 @@ public class Post {
     private String userId;
     private String photoId;
     private String description;
-    private String picURL; //change this field later
+    private Bitmap picURL;
+    private Bitmap profilePicURL;
     private boolean isFeatured;
     private boolean isCompeting;
     private int starsCount;
@@ -21,12 +22,13 @@ public class Post {
     public Post(){
     }
 
-    public Post(String author,String usr, String photoID, String description, String picURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount, Integer commentCount){
+    public Post(String author, String usr, String photoID, String description, Bitmap picURL, Bitmap profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount, Integer commentCount){
         this.author = author;
         this.userId = usr;
         this.photoId= photoID;
         this.description = description;
         this.picURL = picURL;
+        this.profilePicURL = profilePicURL;
         this.isFeatured = isFeatured;
         this.isCompeting = isCompeting;
         this.starsCount = starsCount;
@@ -66,12 +68,8 @@ public class Post {
         this.description = description;
     }
 
-    public String getPicURL() {
+    public Bitmap getPicURL() {
         return picURL;
-    }
-
-    public void setPicURL(String picURL) {
-        this.picURL = picURL;
     }
 
     public boolean isFeatured() {
@@ -104,5 +102,17 @@ public class Post {
 
     public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
+    }
+
+    public Bitmap getProfilePicURL() {
+        return profilePicURL;
+    }
+
+    public void setProfilePicURL(Bitmap profilePicURL) {
+        this.profilePicURL = profilePicURL;
+    }
+
+    public void setPicURL(Bitmap picURL) {
+        this.picURL = picURL;
     }
 }

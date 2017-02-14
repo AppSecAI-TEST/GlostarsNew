@@ -8,6 +8,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -158,14 +162,30 @@ class Auth  {
 
     }
 
-    public boolean isAuthenticated(){
-        boolean auth = false;
-        if(this.getAcessToken() != null){
-            System.out.println("authentication "+ this.getAcessToken());
-            auth = true;
+    public boolean isTokenValid(){
+        String expiresDate = this.expires;
+        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+        boolean isValid = false;
+
+        try {
+            Timestamp datetime = new Timestamp(format.parse(expiresDate).getTime());
+            isValid = datetime.after(new java.util.Date());
+            System.out.println("Token Valid: " + isValid);
+
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
-        return  auth;
+        return isValid;
+        //boolean auth = false;
+        //if(this.getAcessToken() != null){
+         //   System.out.println("authentication "+ this.getAcessToken());
+        //    auth = true;
+        //}
+
+        //return  auth;
     }
 
 
