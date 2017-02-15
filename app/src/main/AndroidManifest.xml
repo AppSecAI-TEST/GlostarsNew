@@ -29,10 +29,18 @@
         <activity
             android:name=".user_profile"
             android:label="@string/title_activity_user_profile"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Fabs"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".test"
+            android:label="@string/title_activity_test"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".notifications"
+            android:label="@string/title_activity_notifications"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

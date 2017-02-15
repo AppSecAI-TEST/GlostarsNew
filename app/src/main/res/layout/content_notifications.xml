@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.golstars.www.glostars.notifications"
+    tools:showIn="@layout/activity_notifications">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/lightViolate"
+        android:elevation="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/notificationsNOTI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="70dp"
+            android:layout_marginEnd="50dp"
+            android:paddingStart="8dp"
+            android:text=" Notification"
+            android:textColor="@color/darkGrey" />
+
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="22dp"
+            android:layout_weight="0"
+            android:layout_gravity="center_vertical"
+            android:background="@color/black" />
+
+
+        <TextView
+            android:id="@+id/followersNOTI"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:text=" Followers"
+            android:textColor="@color/darkGrey" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
