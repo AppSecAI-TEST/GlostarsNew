@@ -37,9 +37,10 @@
             android:name=".test"
             android:label="@string/title_activity_test"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
-            android:name=".notifications"
-            android:label="@string/title_activity_notifications"
+            android:name=".notification"
+            android:label="@string/title_activity_notification"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

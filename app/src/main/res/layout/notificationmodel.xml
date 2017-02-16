@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/propicNOTI"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:srcCompat="@drawable/nopicmale" />
+
+    <TextView
+        android:text="Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/propicNOTI"
+        android:layout_toEndOf="@+id/propicNOTI"
+        android:layout_marginStart="16dp"
+        android:id="@+id/nameNOTI" />
+
+    <TextView
+        android:text="Surname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/nameNOTI"
+        android:layout_toEndOf="@+id/nameNOTI"
+        android:layout_marginStart="10dp"
+        android:id="@+id/textView3" />
+
+    <TextView
+        android:text="has starred your picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameNOTI"
+        android:layout_alignStart="@+id/nameNOTI"
+        android:layout_marginTop="7dp"
+        android:id="@+id/notiBanner" />
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:srcCompat="@drawable/post2"
+        android:layout_marginEnd="8dp"
+        android:id="@+id/postpreviewNOTI"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true" />
+
+
+    <TextView
+        android:text="mins ago "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameNOTI"
+        android:layout_toRightOf="@+id/timeNOTI"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="7dp"
+        android:id="@+id/minbannerNOTI" />
+
+
+    <TextView
+        android:text="hour ago "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameNOTI"
+        android:layout_toRightOf="@+id/timeNOTI"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="7dp"
+        android:visibility="invisible"
+        android:id="@+id/hourbannerNOTI" />
+
+    <TextView
+        android:text=" 2 "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timeNOTI"
+        android:layout_marginLeft="4dp"
+        android:layout_alignBaseline="@+id/notiBanner"
+        android:layout_alignBottom="@+id/notiBanner"
+        android:layout_toEndOf="@+id/notiBanner" />
+
+
+</RelativeLayout>
