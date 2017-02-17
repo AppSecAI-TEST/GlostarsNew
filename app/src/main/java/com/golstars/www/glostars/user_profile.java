@@ -1,5 +1,7 @@
 package com.golstars.www.glostars;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -82,12 +84,33 @@ public class user_profile extends AppCompatActivity {
 
         follow = (Button)findViewById(R.id.profileuserFOLLOW);
 
+        usernameProfile.setText("something");
 
+        Context context = user_profile.this;
+        MyUser mUser = MyUser.getmUser();
+        mUser.setContext(context);
 
+        System.out.println(mUser.getName());
+        System.out.println(mUser.getProfilePicURL());
+        DownloadImageTask downloadImageTask = new DownloadImageTask();
 
+        String url = mUser.getProfilePicURL();
+        String name = "";
+        name = mUser.getName();
 
+        try {
+            downloadImageTask.getImage(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        Bitmap bm = null;
+        while(bm == null){
+            bm = downloadImageTask.getData();
 
+        }
+
+        System.out.println(bm);
 
 
 

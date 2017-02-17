@@ -72,6 +72,41 @@ public class SearchUser {
 
     }
 
+    public void userEditData(String token) throws Exception{
+        URL url = new URL("http://www.glostars.com/api/user/Edit");
+
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Authorization", "Bearer " + token)
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                setData(response.body().string());
+                System.out.println(getData());
+
+                /*
+                try{
+                    threadMsg(data);
+
+                } catch (Throwable t){
+                    t.printStackTrace();
+                } */
+
+
+
+            }
+        });
+
+    }
+
 
     public String getData() {
         return data;

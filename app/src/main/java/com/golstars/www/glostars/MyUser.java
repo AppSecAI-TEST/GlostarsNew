@@ -107,6 +107,16 @@ public class MyUser {
 
     }
 
+    public  void getUserData(){
+        SearchUser searchUser = new SearchUser();
+
+        try {
+            searchUser.userEditData(getToken());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public String getToken() {
         return token;
     }

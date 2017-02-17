@@ -111,7 +111,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="70dp"
         android:id="@+id/termsLin"
         android:layout_below="@+id/passwordSignUp"
         android:layout_centerHorizontal="true"

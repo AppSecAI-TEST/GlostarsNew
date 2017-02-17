@@ -138,7 +138,6 @@ public class LoginActivity extends Fragment {
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
-                //.addHeader("content-type", "application/json; charset=utf-8")
                 .build();
 
         client.newCall(request).enqueue(new Callback() {

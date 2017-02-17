@@ -23,6 +23,19 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.IOException;
+import java.net.URL;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 /**
  * Created by admin on 1/31/2017.
  */
@@ -43,6 +56,9 @@ public class SignUp extends Fragment{
 
     Spinner gender;
 
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private OkHttpClient client = new OkHttpClient();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,8 +78,75 @@ public class SignUp extends Fragment{
 
         gender =(Spinner) rootView.findViewById(R.id.gender_spinner);
 
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String usrname = email.getText().toString();
+                String email = usrname;
+                String name = firstName.getText().toString();
+                Integer bdayY = 0;
+                Integer bdayM = 0;
+                Integer bdayD = 0;
+                String genderSelected = gender.getSelectedItem().toString();
+                String lastname = lastName.getText().toString();
+                String pwd = password.getText().toString();
+
+                if(termscheck.isChecked()){
+                    try {
+                        createAccount(usrname, email, name, bdayY, bdayM, bdayD, genderSelected, lastname, pwd);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "You have to accept the terms and conditions to create an account", Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+        });
 
         return rootView;
+
+
+    }
+
+    public void createAccount(String username, String email, String name, Integer bdayY, Integer bdayM, Integer bdayD, String gender, String lastname, String password) throws IOException {
+        URL url = new URL("http://www.glostars.com/api/account/register");
+        String postMessage =    "{'UserName':" + username +
+                ",'Email':" + email +
+                ",'Name':" + name +
+                ",'BirthdayYear':" + bdayY +
+                ",'BirthdayMonth':" + bdayM +
+                ",'BirthdayDay':" + bdayD +
+                ",'Gender':" + gender +
+                ",'LastName':" + lastname +
+                ",'Password':" + password + "}";
+        System.out.println(postMessage);
+
+
+        RequestBody body = RequestBody.create(JSON, postMessage);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                System.out.println(response.body().string());
+
+            }
+        });
+
+
     }
 
 

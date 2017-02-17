@@ -16,6 +16,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -111,6 +112,9 @@ public class MainFeed extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
 
 
         for(int i = 0; i < data.length(); ++i){
@@ -141,7 +145,8 @@ public class MainFeed extends AppCompatActivity {
                 downloadImageTask1.getImage(profilePicUrl);
 
                 while (bm == null){
-                    bm = downloadImageTask.getData();
+                    bm = downloadImageTask.getResizedData(width);
+                    //bm = downloadImageTask.getData();
 
                 }
                 while (usrbm == null){
@@ -238,6 +243,16 @@ public class MainFeed extends AppCompatActivity {
                selectImage();
            }
        });
+
+
+        profileFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainFeed.this, user_profile.class));
+            }
+        });
+
+
 
     }
 
