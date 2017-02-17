@@ -2,10 +2,12 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/notimodelRL"
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
 
     <ImageView
         android:id="@+id/propicNOTI"
@@ -33,7 +35,7 @@
         android:layout_alignTop="@+id/nameNOTI"
         android:layout_toEndOf="@+id/nameNOTI"
         android:layout_marginStart="10dp"
-        android:id="@+id/textView3" />
+        android:id="@+id/surnameNOTI" />
 
     <TextView
         android:text="has starred your picture"
@@ -47,6 +49,7 @@
     <ImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
+        android:scaleType="fitCenter"
         app:srcCompat="@drawable/post2"
         android:layout_marginEnd="8dp"
         android:id="@+id/postpreviewNOTI"
@@ -85,6 +88,13 @@
         android:layout_alignBaseline="@+id/notiBanner"
         android:layout_alignBottom="@+id/notiBanner"
         android:layout_toEndOf="@+id/notiBanner" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/postpreviewNOTI"
+        android:background="@color/darkGrey"/>
 
 
 </RelativeLayout>

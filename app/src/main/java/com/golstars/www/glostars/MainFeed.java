@@ -252,6 +252,12 @@ public class MainFeed extends AppCompatActivity {
             }
         });
 
+        notificationFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainFeed.this, notification.class));
+            }
+        });
 
 
     }

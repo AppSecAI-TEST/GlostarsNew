@@ -1,6 +1,7 @@
 package com.golstars.www.glostars;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +9,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -15,6 +18,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class user_profile extends AppCompatActivity {
+
+
+    Animation fab_hide;
+    Animation fab_show;
+    Animation rotate_clockwise;
+    Animation rotate_anticlockwise;
 
 
     TextView usernameProfile;
@@ -42,8 +51,17 @@ public class user_profile extends AppCompatActivity {
     ImageView exhibitionPrizeProfile;
 
 
+    FloatingActionButton mainFAB ;
+    FloatingActionButton cameraFAB;
+    FloatingActionButton competitionFAB;
+    FloatingActionButton profileFAB;
+    FloatingActionButton notificationFAB;
+
+
     Button follow;
 
+
+    boolean isOpen = false;
 
 
 
@@ -54,6 +72,13 @@ public class user_profile extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
+        cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
+        competitionFAB = (FloatingActionButton)findViewById(R.id.competitionFAB);
+        profileFAB = (FloatingActionButton) findViewById(R.id.profileFAB);
+        notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
 
 
 
@@ -84,33 +109,96 @@ public class user_profile extends AppCompatActivity {
 
         follow = (Button)findViewById(R.id.profileuserFOLLOW);
 
-        usernameProfile.setText("something");
+        fab_show = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_show);
+        fab_hide = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_hide);
+        rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
+        rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
-        Context context = user_profile.this;
-        MyUser mUser = MyUser.getmUser();
-        mUser.setContext(context);
+//        usernameProfile.setText("something");
+//
+//        Context context = user_profile.this;
+//        MyUser mUser = MyUser.getmUser();
+//        mUser.setContext(context);
+//
+//        System.out.println(mUser.getName());
+//        System.out.println(mUser.getProfilePicURL());
+//        DownloadImageTask downloadImageTask = new DownloadImageTask();
+//
+//        String url = mUser.getProfilePicURL();
+//        String name = "";
+//        name = mUser.getName();
+//
+//        try {
+//            downloadImageTask.getImage(url);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        Bitmap bm = null;
+//        while(bm == null){
+//            bm = downloadImageTask.getData();
+//
+//        }
+//
+//        System.out.println(bm);
 
-        System.out.println(mUser.getName());
-        System.out.println(mUser.getProfilePicURL());
-        DownloadImageTask downloadImageTask = new DownloadImageTask();
+        //--------------------FAB FUNCTIONS------------------//
 
-        String url = mUser.getProfilePicURL();
-        String name = "";
-        name = mUser.getName();
+        mainFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isOpen) {
 
-        try {
-            downloadImageTask.getImage(url);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                    cameraFAB.startAnimation(fab_hide);
+                    competitionFAB.startAnimation(fab_hide);
+                    profileFAB.startAnimation(fab_hide);
+                    notificationFAB.startAnimation(fab_hide);
+                    mainFAB.startAnimation(rotate_anticlockwise);
 
-        Bitmap bm = null;
-        while(bm == null){
-            bm = downloadImageTask.getData();
 
-        }
+                    cameraFAB.setClickable(false);
+                    competitionFAB.setClickable(false);
+                    profileFAB.setClickable(false);
+                    notificationFAB.setClickable(false);
+                    isOpen=false;
 
-        System.out.println(bm);
+                }
+
+                else{
+                    cameraFAB.startAnimation(fab_show);
+                    competitionFAB.startAnimation(fab_show);
+                    profileFAB.startAnimation(fab_show);
+                    notificationFAB.startAnimation(fab_show);
+                    mainFAB.startAnimation(rotate_clockwise);
+
+                    cameraFAB.setVisibility(View.VISIBLE);
+                    competitionFAB.setVisibility(View.VISIBLE);
+                    profileFAB.setVisibility(View.VISIBLE);
+                    notificationFAB.setVisibility(View.VISIBLE);
+
+                    cameraFAB.setClickable(true);
+                    competitionFAB.setClickable(true);
+                    profileFAB.setClickable(true);
+                    notificationFAB.setClickable(true);
+                    isOpen=true;
+
+
+
+
+                }
+            }
+        });
+
+
+
+
+        notificationFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(user_profile.this, notification.class));
+            }
+        });
+
 
 
 

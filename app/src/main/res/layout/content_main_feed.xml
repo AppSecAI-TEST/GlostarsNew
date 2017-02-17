@@ -29,8 +29,9 @@
                 android:scaleType="centerInside"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -38,6 +39,7 @@
                 android:id="@+id/userNAME"
                 android:text="NAME"
                 android:textStyle="bold"
+                android:paddingTop="4dp"
                 android:textColor="@color/black"
                 android:layout_marginStart="8dp"
                 android:layout_alignTop="@+id/userPIC"
@@ -57,7 +59,7 @@
                 android:layout_width="700dp"
                 android:layout_height="wrap_content"
                 android:scaleType="fitCenter"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/win"
                 android:id="@+id/userPOST"
@@ -125,6 +127,8 @@
             <TextView
                 android:id="@+id/share"
                 android:layout_marginTop="7dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/userPOST"
