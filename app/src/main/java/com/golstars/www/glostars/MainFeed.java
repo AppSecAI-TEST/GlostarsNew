@@ -106,7 +106,7 @@ public class MainFeed extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        mAdapter = new PostAdapter(postList);
+        mAdapter = new PostAdapter(postList, this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -138,22 +138,22 @@ public class MainFeed extends AppCompatActivity {
                 Bitmap bm = null;
                 Bitmap usrbm = null;
 
-                DownloadImageTask downloadImageTask = new DownloadImageTask();
-                downloadImageTask.getImage(picURL);
+                //DownloadImageTask downloadImageTask = new DownloadImageTask();
+                //downloadImageTask.getImage(picURL);
 
                 DownloadImageTask downloadImageTask1 = new DownloadImageTask();
                 downloadImageTask1.getImage(profilePicUrl);
 
-                while (bm == null){
-                    bm = downloadImageTask.getResizedData(width);
+                //while (bm == null){
+                //    bm = downloadImageTask.getResizedData(width);
                     //bm = downloadImageTask.getData();
 
-                }
+                //}
                 while (usrbm == null){
                    usrbm = downloadImageTask1.getData();
                 }
 
-                setmAdapter(name, userId, id, description, bm, usrbm , isFeatured, isCompeting, starsCount, 0);
+                setmAdapter(name, userId, id, description, picURL, usrbm , isFeatured, isCompeting, starsCount, 0);
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -270,7 +270,7 @@ public class MainFeed extends AppCompatActivity {
 
     }
 
-    private void setmAdapter(String author,String usr, String photoID, String description, Bitmap picURL, Bitmap profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount, Integer commentCount){
+    private void setmAdapter(String author, String usr, String photoID, String description, String picURL, Bitmap profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount, Integer commentCount){
         Post post = new Post(author, usr, photoID, description, picURL, profilePicURL, isFeatured, isCompeting, starsCount, commentCount);
         postList.add(post);
 

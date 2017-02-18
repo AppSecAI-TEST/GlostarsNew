@@ -1,5 +1,6 @@
 package com.golstars.www.glostars;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -18,6 +21,7 @@ import java.util.List;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> {
 
     public List<Post> postsList;
+    public  Context context;
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
@@ -39,8 +43,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
     }
 
-    public PostAdapter(List<Post> postsList){
+    public PostAdapter(List<Post> postsList, Context context){
         this.postsList = postsList;
+        this.context = context;
     }
 
 
@@ -57,7 +62,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         Post post = postsList.get(position);
         holder.username.setText(post.getAuthor());
         holder.caption.setText(post.getDescription());
-        holder.post.setImageBitmap(post.getPicURL());
+        Glide.with(context).load(post.getPicURL()).into(holder.post);
+        //holder.post.setImageBitmap(post.getPicURL());
         holder.propic.setImageBitmap(post.getProfilePicURL());
 //        holder.totalStars.setText(post.getStarsCount());
 
