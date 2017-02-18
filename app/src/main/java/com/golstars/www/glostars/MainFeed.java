@@ -191,7 +191,6 @@ public class MainFeed extends AppCompatActivity {
         rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
-
         mainFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

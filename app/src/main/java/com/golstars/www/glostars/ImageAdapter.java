@@ -1,11 +1,14 @@
 package com.golstars.www.glostars;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+
+import java.util.ArrayList;
 
 /**
  * Created by admin on 2/13/2017.
@@ -13,25 +16,18 @@ import android.widget.ImageView;
 
 public class ImageAdapter extends BaseAdapter {
     private Context CTX;
-    private Integer image_id[] = {
-            R.drawable.post1,
-            R.drawable.post2,
-            R.drawable.post3,
-            R.drawable.post4,
-            R.drawable.post5,
-            R.drawable.post6,
-
-    };
+    private ArrayList<Bitmap> images;
 
 
-    public ImageAdapter(Context CTX){
+    public ImageAdapter(Context CTX, ArrayList<Bitmap> imgs){
+        this.images = imgs;
         this.CTX = CTX;
     }
 
     @Override
     public int getCount(){
 
-        return image_id.length;
+        return images.size();
     }
 
     @Override
@@ -57,7 +53,7 @@ public class ImageAdapter extends BaseAdapter {
             img = (ImageView) arg1;
         }
 
-        img.setImageResource(image_id[arg0]);
+        img.setImageBitmap(images.get(arg0));
         return img;
     }
 }

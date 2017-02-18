@@ -17,6 +17,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class user_profile extends AppCompatActivity {
 
 
@@ -115,20 +117,24 @@ public class user_profile extends AppCompatActivity {
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
 
+        ArrayList<Bitmap> imgs = null;
+
+        //GridView gridView = (GridView) findViewById(R.id.postgrid);
+        //gridView.setAdapter(new ImageAdapter(this, imgs));
+
         Context context = user_profile.this;
         MyUser mUser = MyUser.getmUser();
         mUser.setContext(context);
 
-        System.out.println(mUser.getName());
-        System.out.println(mUser.getProfilePicURL());
         DownloadImageTask downloadImageTask = new DownloadImageTask();
+        PictureService pictureService = new PictureService();
 
         String url = mUser.getProfilePicURL();
-        String name = "";
-        name = mUser.getName();
+        usernameProfile.setText(mUser.getName());
 
         try {
             downloadImageTask.getImage(url);
+            ///pictureService.getUserPictures(mUser.getUserId(), 1, mUser.getToken());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -138,8 +144,9 @@ public class user_profile extends AppCompatActivity {
             bm = downloadImageTask.getData();
 
         }
-
         System.out.println(bm);
+
+       // userPicProfile.setImageBitmap(bm);
 
         //--------------------FAB FUNCTIONS------------------//
 
@@ -195,13 +202,6 @@ public class user_profile extends AppCompatActivity {
             }
         });
 
-
-        follow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                usernameProfile.setText("Sajib Shaha");
-            }
-        });
 
 
 
