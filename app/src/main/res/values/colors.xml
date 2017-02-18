@@ -6,6 +6,7 @@
     <color name="black">#000000</color>
     <color name="darkGrey">#404040</color>
     <color name="lightViolate">#E1C8FF</color>
+    <color name="buttonclick">#EA80FC</color>
     <color name="follow">#00C800</color>
     <color name="followback">#007FFF</color>
     <color name="following">#E1C8FF</color>

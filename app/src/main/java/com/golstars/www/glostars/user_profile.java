@@ -82,7 +82,7 @@ public class user_profile extends AppCompatActivity {
 
 
 
-        usernameProfile = (TextView)findViewById(R.id.userNAME);
+        usernameProfile = (TextView)findViewById(R.id.profileuserNAME);
         userLocationProfile = (TextView)findViewById(R.id.profileuserLOCATION);
         aboutMeBannerProfile = (TextView)findViewById(R.id.useraboutBANNER);
         aboutMeTextProfile = (TextView)findViewById(R.id.useraboutTEXT);
@@ -114,33 +114,32 @@ public class user_profile extends AppCompatActivity {
         rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
-//        usernameProfile.setText("something");
-//
-//        Context context = user_profile.this;
-//        MyUser mUser = MyUser.getmUser();
-//        mUser.setContext(context);
-//
-//        System.out.println(mUser.getName());
-//        System.out.println(mUser.getProfilePicURL());
-//        DownloadImageTask downloadImageTask = new DownloadImageTask();
-//
-//        String url = mUser.getProfilePicURL();
-//        String name = "";
-//        name = mUser.getName();
-//
-//        try {
-//            downloadImageTask.getImage(url);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        Bitmap bm = null;
-//        while(bm == null){
-//            bm = downloadImageTask.getData();
-//
-//        }
-//
-//        System.out.println(bm);
+
+        Context context = user_profile.this;
+        MyUser mUser = MyUser.getmUser();
+        mUser.setContext(context);
+
+        System.out.println(mUser.getName());
+        System.out.println(mUser.getProfilePicURL());
+        DownloadImageTask downloadImageTask = new DownloadImageTask();
+
+        String url = mUser.getProfilePicURL();
+        String name = "";
+        name = mUser.getName();
+
+        try {
+            downloadImageTask.getImage(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Bitmap bm = null;
+        while(bm == null){
+            bm = downloadImageTask.getData();
+
+        }
+
+        System.out.println(bm);
 
         //--------------------FAB FUNCTIONS------------------//
 
@@ -182,9 +181,6 @@ public class user_profile extends AppCompatActivity {
                     notificationFAB.setClickable(true);
                     isOpen=true;
 
-
-
-
                 }
             }
         });
@@ -200,7 +196,12 @@ public class user_profile extends AppCompatActivity {
         });
 
 
-
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                usernameProfile.setText("Sajib Shaha");
+            }
+        });
 
 
 
