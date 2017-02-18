@@ -62,6 +62,9 @@ public class user_profile extends AppCompatActivity {
 
     Button follow;
 
+    GridView pgrid;
+    GridView qgrid;
+
 
     boolean isOpen = false;
 
@@ -102,6 +105,8 @@ public class user_profile extends AppCompatActivity {
         numFollowingCountProfile = (TextView)findViewById(R.id.numberoffollowingCount);
         seeAllCompetitionProfile = (TextView)findViewById(R.id.seeAllCompetition);
         seeAllPublicProfile = (TextView)findViewById(R.id.seeAllPublic);
+
+        pgrid = (GridView) findViewById(R.id.postgrid);
 
 
         userPicProfile = (ImageButton)findViewById(R.id.userPIC);

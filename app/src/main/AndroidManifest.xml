@@ -34,14 +34,17 @@
             android:name=".Fabs"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".test"
+            android:name=".testfeed"
             android:label="@string/title_activity_test"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".notification"
             android:label="@string/title_activity_notification"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".upload"></activity>
+        <activity
+            android:name=".upload"
+            android:label="@string/title_activity_upload"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -101,4 +101,5 @@
     </string>
     <string name="title_activity_notifications">notifications</string>
     <string name="title_activity_notification">Notification</string>
+    <string name="title_activity_upload">upload</string>
 </resources>
