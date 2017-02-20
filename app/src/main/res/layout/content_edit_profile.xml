@@ -206,12 +206,59 @@
 
 
             <TextView
+                android:id="@+id/changepassban"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Change Password"
+                android:layout_marginTop="30dp"
                 android:textColor="@color/colorPrimary"
                 android:layout_below="@+id/cancelbutton"
                 />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="0.5dp"
+                android:layout_below="@+id/cancelbutton"
+                android:layout_toRightOf="@+id/changepassban"
+                android:background="@color/darkGrey"
+                android:layout_marginTop="38dp"
+                android:layout_marginLeft="4dp"/>
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@+id/changepassban"
+                android:background="@drawable/roundededittext"
+                android:layout_marginTop="4dp"
+                android:hint="Old Password"
+                android:textSize="12dp"
+                android:id="@+id/oldpass"
+                android:paddingLeft="4dp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@+id/oldpass"
+                android:background="@drawable/roundededittext"
+                android:layout_marginTop="4dp"
+                android:hint="New Password"
+                android:textSize="12dp"
+                android:id="@+id/newpass"
+                android:paddingLeft="4dp"/>
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@+id/newpass"
+                android:background="@drawable/roundededittext"
+                android:layout_marginTop="4dp"
+                android:hint="Confirm New Password"
+                android:textSize="12dp"
+                android:id="@+id/confirmnewpass"
+                android:paddingLeft="4dp"/>
+
 
 
 

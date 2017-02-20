@@ -261,7 +261,7 @@ public class MainFeed extends AppCompatActivity {
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainFeed.this, edit_profile.class));
+                startActivity(new Intent(MainFeed.this, imagefullscreen.class));
             }
         });
 

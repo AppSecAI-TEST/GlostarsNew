@@ -12,4 +12,6 @@
     <color name="following">#E1C8FF</color>
     <color name="verylightviolet">#F6EDFE</color>
     <color name="mutualfollower">#640064</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>
