@@ -5,6 +5,7 @@
     android:id="@+id/content_edit_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#E0E0E0"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -12,5 +13,213 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.golstars.www.glostars.edit_profile"
     tools:showIn="@layout/activity_edit_profile">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ImageView
+                app:srcCompat="@drawable/nopicmale"
+                android:id="@+id/editpic"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_width="90dp"
+                android:layout_height="90dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:inputType="textPersonName"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="8dp"
+                android:hint="Last Name"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/roundededittext"
+                android:ems="10"
+                android:layout_below="@+id/firstnameedit"
+                android:layout_alignStart="@+id/firstnameedit"
+                android:id="@+id/lastnameedit" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:inputType="textMultiLine"
+                android:hint="About Me (max. 160 characters)"
+                android:maxLength="160"
+                android:ems="160"
+                android:maxLines="3"
+                android:textSize="14sp"
+                android:paddingLeft="8dp"
+                android:layout_centerHorizontal="true"
+                android:lines="3"
+                android:background="@drawable/roundededittext"
+                android:layout_below="@+id/lastnameedit"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="19dp"
+                android:id="@+id/aboutmeedit"
+                android:layout_alignParentEnd="true" />
+
+            <EditText
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:inputType="textMultiLine"
+                android:hint="Interest (max. 160 characters)"
+                android:ems="160"
+                android:maxLines="4"
+                android:maxLength="160"
+                android:paddingLeft="8dp"
+                android:textSize="14sp"
+                android:layout_centerHorizontal="true"
+                android:lines="3"
+                android:background="@drawable/roundededittext"
+                android:layout_below="@+id/aboutmeedit"
+                android:layout_alignParentStart="true"
+                android:id="@+id/interestedit"
+                android:layout_alignParentEnd="true" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:inputType="textPersonName"
+                android:hint="First Name"
+                android:layout_alignParentRight="true"
+                android:paddingLeft="8dp"
+                android:ems="10"
+                android:background="@drawable/roundededittext"
+                android:layout_marginStart="27dp"
+                android:id="@+id/firstnameedit"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/editpic" />
+
+
+            <LinearLayout
+                android:id="@+id/currentlocationlin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/interestedit"
+                android:orientation="horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:layout_width="185dp"
+                    android:layout_height="35dp"
+                    android:inputType="textPersonName"
+                    android:hint="Current City"
+                    android:paddingLeft="8dp"
+                    android:ems="10"
+                    android:layout_marginRight="4dp"
+                    android:background="@drawable/roundededittext"
+                    android:id="@+id/currentcity"
+                    />
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:inputType="textPersonName"
+                    android:hint="Current City"
+                    android:paddingLeft="8dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:background="@drawable/roundededittext"
+                    android:layout_marginStart="4dp"
+                    android:id="@+id/currentcountryspinner"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/homelocationlin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/currentlocationlin"
+                android:orientation="horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:layout_width="185dp"
+                    android:layout_height="35dp"
+                    android:inputType="textPersonName"
+                    android:hint="Current City"
+                    android:paddingLeft="8dp"
+                    android:ems="10"
+                    android:layout_marginRight="4dp"
+                    android:background="@drawable/roundededittext"
+                    android:id="@+id/homecity"
+                    />
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:inputType="textPersonName"
+                    android:hint="Home City"
+                    android:paddingLeft="8dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:background="@drawable/roundededittext"
+                    android:layout_marginStart="4dp"
+                    android:id="@+id/homecountryspinner"
+                    />
+
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/occupationspinner"
+                android:layout_width="185dp"
+                android:layout_height="35dp"
+                android:layout_below="@+id/homelocationlin"
+                android:background="@drawable/roundededittext"
+                android:layout_marginTop="8dp"
+                >
+
+            </Spinner>
+
+            <Button
+                android:text="Save"
+                android:background="@drawable/uploadbutton"
+                android:textColor="#FFFFFF"
+                android:layout_width="200dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="26dp"
+                android:id="@+id/savebutton"
+                android:layout_below="@+id/occupationspinner"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:text="Cancel"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/roundededittext"
+                android:layout_width="200dp"
+                android:layout_height="35dp"
+                android:id="@+id/cancelbutton"
+                android:layout_below="@+id/savebutton"
+                android:layout_centerHorizontal="true" />
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change Password"
+                android:textColor="@color/colorPrimary"
+                android:layout_below="@+id/cancelbutton"
+                />
+
+
+
+        </RelativeLayout>
+
+
+
+
+    </ScrollView>
 
 </RelativeLayout>

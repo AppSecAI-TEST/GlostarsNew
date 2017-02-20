@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_competition_all"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.golstars.www.glostars.competitionAll"
+    tools:showIn="@layout/activity_competition_all">
+
+
+    <LinearLayout
+        android:id="@+id/bannerLin"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@color/lightViolate">
+
+        <Button
+            android:id="@+id/gallerybut"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Gallery"
+            android:textSize="12sp"
+            android:background="@color/lightViolate"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:textColor="@color/colorPrimary"/>
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/darkGrey"
+            />
+
+        <Button
+            android:id="@+id/recogbut"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Recognition"
+            android:textSize="12sp"
+            android:background="@color/lightViolate"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/darkGrey"/>
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/darkGrey"
+            />
+
+        <Button
+            android:id="@+id/tipsbut"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Tips"
+            android:textSize="12sp"
+            android:background="@color/lightViolate"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/darkGrey"/>
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/darkGrey"
+            />
+
+        <Button
+            android:id="@+id/termsbut"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Terms"
+            android:textSize="12sp"
+            android:background="@color/lightViolate"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/darkGrey"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bannerLin"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <GridView
+                android:layout_margin="8dp"
+                android:id="@+id/gallerygrid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnWidth="120dp"
+                android:numColumns="auto_fit"
+                android:verticalSpacing="4dp"
+                android:stretchMode="columnWidth"
+                android:visibility="visible"
+                android:layout_gravity="center">
+
+            </GridView>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tipslin"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Use the Right Light"
+                    android:textStyle="bold"
+                    android:textSize="26dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/light"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Don't Use Zoom"
+                    android:textStyle="bold"
+                    android:textSize="26dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/zoom"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Watch Your Background"
+                    android:textStyle="bold"
+                    android:textSize="26dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/backgroundtips"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Use Frame For Your Shots"
+                    android:textStyle="bold"
+                    android:textSize="26dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/frame"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Change Perspective"
+                    android:textStyle="bold"
+                    android:textSize="26dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/perspective"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Crop Your Pictures"
+                    android:textStyle="bold"
+                    android:textSize="26dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/crop"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Choose The Right Apps"
+                    android:textStyle="bold"
+                    android:textSize="26dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/apps"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone Features"
+                    android:textStyle="bold"
+                    android:textSize="26dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/phnfeatures"/>
+
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/termslin"
+                android:visibility="gone">
+
+                <LinearLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="4dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Please read the terms and carefully. By participating in the competition you agree to be bound by these terms:"
+                        android:textSize="18dp"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="8dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="32dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/darkGrey"
+                        android:textSize="12sp"
+                        android:text="@string/Terms"/>
+
+                </LinearLayout>
+            </ScrollView>
+
+
+            <ScrollView
+                android:id="@+id/recoglin"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:layout_gravity="center_horizontal"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/prize1"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:layout_gravity="center_horizontal"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/prize2"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:layout_gravity="center_horizontal"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/prize3"/>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:layout_gravity="center_horizontal"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/prize4"/>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:layout_gravity="center_horizontal"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/prize5"/>
+
+
+                </LinearLayout>
+            </ScrollView>
+
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+
+
+</RelativeLayout>
