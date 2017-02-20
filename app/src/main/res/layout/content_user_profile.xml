@@ -301,12 +301,16 @@
                 android:orientation="vertical"
                 >
 
-                <include
+                <GridView
                     android:layout_width="match_parent"
                     android:layout_height="145dp"
                     android:layout_weight = "1"
-                    android:id="@+id/picturePosts"
-                    layout="@layout/profileposts"
+                    android:columnWidth="150dp"
+                    android:numColumns="auto_fit"
+                    android:verticalSpacing="4dp"
+                    android:stretchMode="columnWidth"
+                    android:layout_gravity="center"
+                    android:id="@+id/competitionPosts"
                     />
 
                 <TextView
@@ -342,12 +346,16 @@
                 android:orientation="vertical"
                 >
 
-                <include
+                <GridView
                     android:layout_width="match_parent"
                     android:layout_height="145dp"
                     android:layout_weight = "1"
-                    android:id="@+id/picturePosts"
-                    layout="@layout/profileposts"
+                    android:id="@+id/publicPosts"
+                    android:columnWidth="150dp"
+                    android:numColumns="auto_fit"
+                    android:verticalSpacing="4dp"
+                    android:stretchMode="columnWidth"
+                    android:layout_gravity="center"
                     />
 
                 <TextView

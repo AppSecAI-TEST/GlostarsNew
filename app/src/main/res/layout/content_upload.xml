@@ -75,9 +75,11 @@
                 android:layout_marginTop="8dp"
                 android:paddingStart="12dp"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="0dp"
                 android:hint="   Description "
                 android:background="@drawable/edit"
+                android:maxLines="1"
+                android:lines="3"
                 android:textColorHint="@color/lightViolate"
                 android:textColor="@color/darkGrey"/>
 
@@ -110,9 +112,9 @@
                 <ImageView
                     android:id="@+id/fbshare"
                     android:layout_marginTop="16dp"
-                    android:layout_width="60dp"
+                    android:layout_width="50dp"
                     android:layout_weight="1"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:layout_marginBottom="16dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/share_fb"/>
@@ -128,8 +130,8 @@
                 <ImageView
                     android:id="@+id/twshare"
                     android:layout_marginTop="16dp"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
                     android:src="@drawable/share_twitter"/>
@@ -144,8 +146,8 @@
                 <ImageView
                     android:id="@+id/vkshare"
                     android:layout_marginTop="16dp"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
                     android:src="@drawable/share_vk"/>
@@ -157,6 +159,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp">
 
                 <Button

@@ -107,7 +107,6 @@ public class LoginActivity extends Fragment {
                     e.printStackTrace();
                 }
 
-
             }
         });
 

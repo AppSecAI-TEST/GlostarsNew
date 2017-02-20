@@ -45,6 +45,18 @@
             android:name=".upload"
             android:label="@string/title_activity_upload"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".edit_profile"
+            android:label="@string/title_activity_edit_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".competitionUser"
+            android:label="@string/title_activity_competition_user"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".competitionAll"
+            android:label="@string/title_activity_competition_all"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

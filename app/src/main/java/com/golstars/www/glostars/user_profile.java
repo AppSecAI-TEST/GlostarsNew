@@ -62,8 +62,8 @@ public class user_profile extends AppCompatActivity {
 
     Button follow;
 
-    GridView pgrid;
-    GridView qgrid;
+    GridView competitiongrid;
+    GridView publicgrid;
 
 
     boolean isOpen = false;
@@ -77,6 +77,10 @@ public class user_profile extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        competitiongrid = (GridView)findViewById(R.id.competitionPosts);
+        publicgrid = (GridView)findViewById(R.id.publicPosts);
+
 
 
         mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
@@ -106,7 +110,7 @@ public class user_profile extends AppCompatActivity {
         seeAllCompetitionProfile = (TextView)findViewById(R.id.seeAllCompetition);
         seeAllPublicProfile = (TextView)findViewById(R.id.seeAllPublic);
 
-        pgrid = (GridView) findViewById(R.id.postgrid);
+
 
 
         userPicProfile = (ImageButton)findViewById(R.id.userPIC);
