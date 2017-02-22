@@ -147,7 +147,7 @@
                     android:layout_width="185dp"
                     android:layout_height="35dp"
                     android:inputType="textPersonName"
-                    android:hint="Current City"
+                    android:hint="Home City"
                     android:paddingLeft="8dp"
                     android:ems="10"
                     android:layout_marginRight="4dp"

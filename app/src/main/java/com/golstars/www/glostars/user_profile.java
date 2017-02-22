@@ -3,6 +3,7 @@ package com.golstars.www.glostars;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -59,6 +61,11 @@ public class user_profile extends AppCompatActivity {
     FloatingActionButton profileFAB;
     FloatingActionButton notificationFAB;
 
+    ImageView slogo;
+    EditText search;
+    ImageView gl;
+    boolean showingFirst = true;
+
 
     Button follow;
 
@@ -67,6 +74,7 @@ public class user_profile extends AppCompatActivity {
 
 
     boolean isOpen = false;
+
 
 
 
@@ -109,6 +117,50 @@ public class user_profile extends AppCompatActivity {
         numFollowingCountProfile = (TextView)findViewById(R.id.numberoffollowingCount);
         seeAllCompetitionProfile = (TextView)findViewById(R.id.seeAllCompetition);
         seeAllPublicProfile = (TextView)findViewById(R.id.seeAllPublic);
+        //===============================SEARCH BAR OPTIONS=============================================
+        gl = (ImageView)findViewById(R.id.glostarslogo);
+        slogo = (ImageView)findViewById(R.id.searchlogo);
+        search = (EditText)findViewById(R.id.searchedit);
+
+
+
+        slogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(showingFirst == true){
+                    slogo.setBackground(getResources().getDrawable(R.drawable.search_active));
+                    gl.setVisibility(View.GONE);
+                    search.setVisibility(View.VISIBLE);
+                }else{
+                    slogo.setBackground(getResources().getDrawable(R.drawable.search));
+                    gl.setVisibility(View.VISIBLE);
+                    search.setVisibility(View.INVISIBLE);
+                }
+
+            }
+        });
+
+        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+        usernameProfile.setTypeface(type);
+        userLocationProfile.setTypeface(type);
+        aboutMeBannerProfile.setTypeface(type);
+        aboutMeTextProfile.setTypeface(type);
+        interestBannerProfile.setTypeface(type);
+        interestTextProfile.setTypeface(type);
+        recognitionBannerProfile.setTypeface(type);
+        weeklyPrizeCountProfile.setTypeface(type);
+        monthlyPrizeCountProfile.setTypeface(type);
+        exhibitionPrizeCountProfile.setTypeface(type);
+        numPhotosProfile.setTypeface(type);
+        numFollowersProfile.setTypeface(type);
+        numFollowingCountProfile.setTypeface(type);
+        numPhotosCountProfile.setTypeface(type);
+        numFollowingCountProfile.setTypeface(type);
+        numFollowingProfile.setTypeface(type);
+        seeAllPublicProfile.setTypeface(type);
+        seeAllCompetitionProfile.setTypeface(type);
+
 
 
 

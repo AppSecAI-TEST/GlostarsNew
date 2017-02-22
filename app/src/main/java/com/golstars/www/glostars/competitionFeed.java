@@ -1,6 +1,7 @@
 package com.golstars.www.glostars;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,6 +47,11 @@ public class competitionFeed extends AppCompatActivity {
     FloatingActionButton profileFAB;
     FloatingActionButton notificationFAB;
 
+    ImageView slogo;
+    EditText search;
+    ImageView gl;
+    boolean showingFirst = true;
+
     private RecyclerView recyclerView;
     boolean isOpen = false;
 
@@ -77,10 +84,42 @@ public class competitionFeed extends AppCompatActivity {
         shareVK = (ImageView)findViewById(R.id.shareVK);
         privacyIcon = (ImageView)findViewById(R.id.privacy);
 
+         gl = (ImageView)findViewById(R.id.glostarslogo);
+         slogo = (ImageView)findViewById(R.id.searchlogo);
+        search = (EditText)findViewById(R.id.searchedit);
+
+
+
+//        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+//        username.setTypeface(type);
+//        caption.setTypeface(type);
+//        postTime.setTypeface(type);
+//        shareText.setTypeface(type);
+
+
         fab_show = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_show);
         fab_hide = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_hide);
         rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
+
+
+
+        slogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(showingFirst == true){
+                    slogo.setBackground(getResources().getDrawable(R.drawable.search_active));
+                    gl.setVisibility(View.GONE);
+                    search.setVisibility(View.VISIBLE);
+                }else{
+                    slogo.setBackground(getResources().getDrawable(R.drawable.search));
+                    gl.setVisibility(View.VISIBLE);
+                    search.setVisibility(View.INVISIBLE);
+                }
+
+            }
+        });
 
         mainFAB.setOnClickListener(new View.OnClickListener() {
             @Override

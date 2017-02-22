@@ -38,16 +38,27 @@
                     android:layout_marginTop="16dp">
 
                     <ImageView
+                        android:id="@+id/glostarslogo"
                         android:layout_width="150dp"
                         android:layout_height="50dp"
                         android:paddingLeft="2dp"
+                        android:visibility="visible"
                         android:src="@drawable/logoandtext"/>
 
-                    <View android:layout_width="0dp"
+                    <EditText
+                        android:id="@+id/searchedit"
+                        android:layout_width="45dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:hint="Search"
+                        android:textColorHint="@color/darkGrey"
+                        android:paddingLeft="16dp"
+                        android:background="@drawable/roundededittext1"
+                        android:layout_weight="1"
+                        android:animateLayoutChanges="true"
+                        android:visibility="invisible"/>
 
                     <ImageView
+                        android:id="@+id/searchlogo"
                         android:layout_marginTop="0dp"
                         android:layout_width="40dp"
                         android:layout_marginRight="8dp"
@@ -65,12 +76,6 @@
 
     <include layout="@layout/content_competition_user" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+    <include layout="@layout/fabs"/>
 
 </android.support.design.widget.CoordinatorLayout>

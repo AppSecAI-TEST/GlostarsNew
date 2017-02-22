@@ -1,5 +1,6 @@
 package com.golstars.www.glostars;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -44,6 +45,15 @@ public class upload extends AppCompatActivity {
         twshare = (ImageView)findViewById(R.id.twshare);
         cancel = (Button)findViewById(R.id.cancelbutton);
         submit = (Button)findViewById(R.id.submitbutton);
+
+
+        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+        submit.setTypeface(type);
+        cancel.setTypeface(type);
+        description.setTypeface(type);
+        competition.setTypeface(type);
+        publicpost.setTypeface(type);
+        followerspost.setTypeface(type);
 
 
 

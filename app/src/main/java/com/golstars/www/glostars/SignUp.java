@@ -1,6 +1,7 @@
 package com.golstars.www.glostars;
 
 import android.app.DatePickerDialog;
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -47,7 +48,13 @@ public class SignUp extends Fragment{
     EditText lastName;
     EditText email;
     EditText password;
+    EditText YYYY;
+    EditText MM;
+    EditText DD;
 
+
+
+    TextView birth;
     CheckBox termscheck;
 
     TextView terms;
@@ -64,6 +71,8 @@ public class SignUp extends Fragment{
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.sign_up_activity, container, false);
 
+
+
         firstName = (EditText) rootView.findViewById(R.id.firstnameSignUp);
         lastName = (EditText) rootView.findViewById(R.id.lastnameSignUp);
         email = (EditText) rootView.findViewById(R.id.emailSignUp);
@@ -75,8 +84,29 @@ public class SignUp extends Fragment{
 
         signUp = (Button) rootView.findViewById(R.id.createAccountButton);
 
+        YYYY = (EditText)rootView.findViewById(R.id.YYYY);
+        MM= (EditText)rootView.findViewById(R.id.MM);
+        DD = (EditText)rootView.findViewById(R.id.DD);
+
+        birth = (TextView)rootView.findViewById(R.id.birthbanner);
+
 
         gender =(Spinner) rootView.findViewById(R.id.gender_spinner);
+
+
+        Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-Light.ttf");
+        firstName.setTypeface(type);
+        lastName.setTypeface(type);
+        email.setTypeface(type);
+        termscheck.setTypeface(type);
+        terms.setTypeface(type);
+        signUp.setTypeface(type);
+        YYYY.setTypeface(type);
+        MM.setTypeface(type);
+        DD.setTypeface(type);
+        birth.setTypeface(type);
+
+
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +139,11 @@ public class SignUp extends Fragment{
         return rootView;
 
 
+    }
+
+    public void setDate(){
+        DialogFragment picker = new DatePickerFragment();
+        picker.show(getFragmentManager(), "datePicker");
     }
 
     public void createAccount(String username, String email, String name, Integer bdayY, Integer bdayM, Integer bdayD, String gender, String lastname, String password) throws IOException {

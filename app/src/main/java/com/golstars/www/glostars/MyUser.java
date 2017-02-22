@@ -24,6 +24,7 @@ public class MyUser {
 
     private String token;
 
+
     //private Context context;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;

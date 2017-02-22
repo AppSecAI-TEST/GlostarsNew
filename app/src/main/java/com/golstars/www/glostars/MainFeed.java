@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -20,6 +21,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,6 +54,11 @@ public class MainFeed extends AppCompatActivity {
     TextView totalStars;
     TextView totalComments;
     TextView shareText;
+
+    ImageView slogo;
+    EditText search;
+    ImageView gl;
+    boolean showingFirst = true;
 
     ImageButton propic;
     ImageView post;
@@ -186,16 +193,41 @@ public class MainFeed extends AppCompatActivity {
         shareVK = (ImageView)findViewById(R.id.shareVK);
         privacyIcon = (ImageView)findViewById(R.id.privacy);
 
+         gl = (ImageView)findViewById(R.id.glostarslogo);
+         slogo = (ImageView)findViewById(R.id.searchlogo);
+         search = (EditText)findViewById(R.id.searchedit);
+
+
+
         fab_show = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_show);
         fab_hide = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_hide);
         rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
+
+        slogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(showingFirst = true){
+                    slogo.setImageResource(R.drawable.search_active);
+                    gl.setVisibility(View.GONE);
+                    search.setVisibility(View.VISIBLE);
+                    showingFirst=false;
+                }else if(showingFirst=false){
+                    slogo.setImageResource(R.drawable.search);
+                    gl.setVisibility(View.VISIBLE);
+                    search.setVisibility(View.INVISIBLE);
+                    showingFirst=true;
+                }
+
+            }
+        });
+
         mainFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(isOpen) {
-
                     cameraFAB.startAnimation(fab_hide);
                     competitionFAB.startAnimation(fab_hide);
                     profileFAB.startAnimation(fab_hide);
@@ -261,7 +293,7 @@ public class MainFeed extends AppCompatActivity {
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainFeed.this, imagefullscreen.class));
+                startActivity(new Intent(MainFeed.this, competitionAll.class));
             }
         });
 

@@ -4,7 +4,7 @@
     android:id="@+id/activity_imagefullscreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E0E0E0"
+    android:background="#000000"
     tools:context="com.golstars.www.glostars.imagefullscreen">
     
     <ImageView

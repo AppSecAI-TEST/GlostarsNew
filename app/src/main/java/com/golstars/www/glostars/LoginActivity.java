@@ -93,6 +93,17 @@ public class LoginActivity extends Fragment {
         //upwrong = (TextView) rootView.findViewById(R.id.upwrong);
 
 
+        Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-Light.ttf");
+        email.setTypeface(type);
+        password.setTypeface(type);
+        email.setTypeface(type);
+        signup.setTypeface(type);
+        forgotpass.setTypeface(type);
+
+
+
+
+
         tryFastLogin();
         login.setOnClickListener(new View.OnClickListener() {
             @Override

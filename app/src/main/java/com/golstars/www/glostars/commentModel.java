@@ -1,5 +1,6 @@
 package com.golstars.www.glostars;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -46,6 +47,14 @@ public class commentModel extends AppCompatActivity {
 
         commentbox = (EditText)findViewById(R.id.commentBox);
         sendcomment = (Button)findViewById(R.id.sendcomment);
+
+        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+        comment.setTypeface(type);
+        hours.setTypeface(type);
+        mins.setTypeface(type);
+        time.setTypeface(type);
+        sendcomment.setTypeface(type);
+        namecomment.setTypeface(type);
 
 
 
