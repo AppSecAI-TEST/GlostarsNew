@@ -303,12 +303,13 @@
 
                 <GridView
                     android:layout_width="match_parent"
-                    android:layout_height="145dp"
+                    android:layout_height="160dp"
                     android:layout_weight = "1"
                     android:columnWidth="90dp"
-                    android:numColumns="auto_fit"
-                    android:verticalSpacing="10dp"
+                    android:numColumns="3"
+                    android:verticalSpacing="8dp"
                     android:stretchMode="columnWidth"
+                    android:horizontalSpacing="8dp"
                     android:layout_gravity="center"
                     android:id="@+id/competitionPosts"
                     />
@@ -348,7 +349,7 @@
 
                 <GridView
                     android:layout_width="match_parent"
-                    android:layout_height="145dp"
+                    android:layout_height="160dp"
                     android:layout_weight = "1"
                     android:id="@+id/publicPosts"
                     android:columnWidth="150dp"

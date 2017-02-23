@@ -21,11 +21,30 @@ import android.widget.TextView;
 
 public class competitionFeed extends AppCompatActivity {
 
+    //===========================FABS=========================================
+
     Animation fab_hide;
     Animation fab_show;
     Animation rotate_clockwise;
     Animation rotate_anticlockwise;
 
+    boolean isOpen = false;
+
+
+    FloatingActionButton mainFAB ;
+    FloatingActionButton cameraFAB;
+    FloatingActionButton competitionFAB;
+    FloatingActionButton profileFAB;
+    FloatingActionButton notificationFAB;
+    FloatingActionButton homeFAB;
+
+    TextView homebadge;
+    TextView notificationbadge;
+    TextView profilebadge;
+    TextView camerabadge;
+    TextView mainbadge;
+    TextView competitionbadge;
+    //===================================================================
 
     TextView username;
     TextView caption;
@@ -41,11 +60,7 @@ public class competitionFeed extends AppCompatActivity {
     ImageView shareVK;
     ImageView privacyIcon;
 
-    FloatingActionButton mainFAB;
-    FloatingActionButton cameraFAB;
-    FloatingActionButton competitionFAB;
-    FloatingActionButton profileFAB;
-    FloatingActionButton notificationFAB;
+
 
     ImageView slogo;
     EditText search;
@@ -53,7 +68,6 @@ public class competitionFeed extends AppCompatActivity {
     boolean showingFirst = true;
 
     private RecyclerView recyclerView;
-    boolean isOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +78,6 @@ public class competitionFeed extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.competitionfeedrecycler);
 
-        mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
-        cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
-        competitionFAB = (FloatingActionButton)findViewById(R.id.competitionFAB);
-        profileFAB = (FloatingActionButton) findViewById(R.id.profileFAB);
-        notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
 
         username=(TextView)findViewById(R.id.userNAME);
         caption=(TextView)findViewById(R.id.userCAPTION);
@@ -97,10 +106,31 @@ public class competitionFeed extends AppCompatActivity {
 //        shareText.setTypeface(type);
 
 
+        mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
+        cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
+        competitionFAB = (FloatingActionButton)findViewById(R.id.competitionFAB);
+        profileFAB = (FloatingActionButton) findViewById(R.id.profileFAB);
+        notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
+        homeFAB = (FloatingActionButton)findViewById(R.id.homeFAB);
+
+        //=============Notification Badges===============================================
+        homebadge = (TextView)findViewById(R.id.homebadge);
+        notificationbadge = (TextView)findViewById(R.id.notificationbadge);
+        profilebadge = (TextView)findViewById(R.id.profilebadge);
+        camerabadge = (TextView)findViewById(R.id.uploadbadge);
+        mainbadge = (TextView)findViewById(R.id.mainbadge);
+        competitionbadge = (TextView)findViewById(R.id.competitionbadge);
+
+
+
+
         fab_show = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_show);
         fab_hide = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_hide);
         rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
+
+
+
 
 
 
@@ -131,6 +161,8 @@ public class competitionFeed extends AppCompatActivity {
                     profileFAB.startAnimation(fab_hide);
                     notificationFAB.startAnimation(fab_hide);
                     mainFAB.startAnimation(rotate_anticlockwise);
+                    homeFAB.startAnimation(fab_hide);
+
 
 
                     cameraFAB.setClickable(false);
@@ -146,12 +178,14 @@ public class competitionFeed extends AppCompatActivity {
                     competitionFAB.startAnimation(fab_show);
                     profileFAB.startAnimation(fab_show);
                     notificationFAB.startAnimation(fab_show);
+                    homeFAB.startAnimation(fab_show);
                     mainFAB.startAnimation(rotate_clockwise);
 
                     cameraFAB.setVisibility(View.VISIBLE);
                     competitionFAB.setVisibility(View.VISIBLE);
                     profileFAB.setVisibility(View.VISIBLE);
                     notificationFAB.setVisibility(View.VISIBLE);
+                    homeFAB.setVisibility(View.VISIBLE);
 
                     cameraFAB.setClickable(true);
                     competitionFAB.setClickable(true);
@@ -167,12 +201,15 @@ public class competitionFeed extends AppCompatActivity {
         });
 
 
-        profileFAB.setOnClickListener(new View.OnClickListener() {
+        //==========================================================================================
+
+        homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(competitionFeed.this, user_profile.class));
+                startActivity(new Intent(competitionFeed.this, MainFeed.class));
             }
         });
+
 
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,12 +218,29 @@ public class competitionFeed extends AppCompatActivity {
             }
         });
 
+        profileFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(competitionFeed.this, user_profile.class));
+            }
+        });
+
+
+        cameraFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(competitionFeed.this, upload.class));
+            }
+        });
+
+
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(competitionFeed.this, imagefullscreen.class));
+                startActivity(new Intent(competitionFeed.this, competitionAll.class));
             }
         });
+
 
 
 

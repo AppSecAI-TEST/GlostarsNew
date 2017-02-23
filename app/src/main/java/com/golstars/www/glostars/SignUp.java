@@ -141,10 +141,7 @@ public class SignUp extends Fragment{
 
     }
 
-    public void setDate(){
-        DialogFragment picker = new DatePickerFragment();
-        picker.show(getFragmentManager(), "datePicker");
-    }
+
 
     public void createAccount(String username, String email, String name, Integer bdayY, Integer bdayM, Integer bdayD, String gender, String lastname, String password) throws IOException {
         URL url = new URL("http://www.glostars.com/api/account/register");
