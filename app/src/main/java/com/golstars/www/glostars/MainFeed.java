@@ -121,7 +121,7 @@ public class MainFeed extends AppCompatActivity {
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int width = displayMetrics.widthPixels;
+        //int width = displayMetrics.widthPixels;
 
 
         for(int i = 0; i < data.length(); ++i){

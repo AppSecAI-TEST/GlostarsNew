@@ -1,5 +1,6 @@
 package com.golstars.www.glostars;
 
+import android.app.Notification;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -134,7 +135,21 @@ public class notification extends AppCompatActivity {
             }
         });
 
+        MyUser myUser = MyUser.getmUser();
+        populateNotificationsList(myUser.getUserId(), myUser.getToken());
 
+
+
+
+    }
+
+    private void populateNotificationsList(String userId, String token) {
+        NotificationService notif = new NotificationService();
+        try {
+            notif.getNotifications(userId, token);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

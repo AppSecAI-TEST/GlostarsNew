@@ -19,6 +19,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class user_profile extends AppCompatActivity {
@@ -49,6 +53,8 @@ public class user_profile extends AppCompatActivity {
     TextView monthlyPrizeCountProfile;
     TextView exhibitionPrizeCountProfile;
 
+    TextView numPhotosCount;
+
     ImageButton userPicProfile;
     ImageView weeklyPrizeProfile;
     ImageView monthlyPrizeProfile;
@@ -71,6 +77,14 @@ public class user_profile extends AppCompatActivity {
 
     GridView competitiongrid;
     GridView publicgrid;
+
+    GridView compGridView;
+    ArrayList<String> compImgsUrls;
+    GridAdapter compAdapter;
+
+    GridView publicGridView;
+    ArrayList<String> publicImgsUrls;
+    GridAdapter publicAdapter;
 
 
     boolean isOpen = false;
@@ -117,6 +131,9 @@ public class user_profile extends AppCompatActivity {
         numFollowingCountProfile = (TextView)findViewById(R.id.numberoffollowingCount);
         seeAllCompetitionProfile = (TextView)findViewById(R.id.seeAllCompetition);
         seeAllPublicProfile = (TextView)findViewById(R.id.seeAllPublic);
+        numPhotosCount = (TextView)findViewById(R.id.numberofpostsCount);
+
+
         //===============================SEARCH BAR OPTIONS=============================================
         gl = (ImageView)findViewById(R.id.glostarslogo);
         slogo = (ImageView)findViewById(R.id.searchlogo);
@@ -177,37 +194,33 @@ public class user_profile extends AppCompatActivity {
         rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
+        //-------------------------- ADAPTER AND NETWORK SETTINGS ---------------------------------//
 
-        ArrayList<Bitmap> imgs = null;
+        compImgsUrls = new ArrayList<>();
+        publicImgsUrls = new ArrayList<>();
 
-        //GridView gridView = (GridView) findViewById(R.id.postgrid);
-        //gridView.setAdapter(new ImageAdapter(this, imgs));
+        compGridView = (GridView) findViewById(R.id.competitionPosts);
+        compAdapter = new GridAdapter(this, compImgsUrls);
+        compGridView.setAdapter(compAdapter); //adapter for competition pictures
+
+        publicgrid = (GridView) findViewById(R.id.publicPosts);
+        publicAdapter = new GridAdapter(this, publicImgsUrls);
+        publicgrid.setAdapter(publicAdapter);
+
 
         Context context = user_profile.this;
         MyUser mUser = MyUser.getmUser();
         mUser.setContext(context);
 
-        DownloadImageTask downloadImageTask = new DownloadImageTask();
         PictureService pictureService = new PictureService();
 
-        String url = mUser.getProfilePicURL();
         usernameProfile.setText(mUser.getName());
-
         try {
-            downloadImageTask.getImage(url);
-            ///pictureService.getUserPictures(mUser.getUserId(), 1, mUser.getToken());
-        } catch (Exception e) {
+            populateGallery(mUser.getUserId(), 1, mUser.getToken());
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        Bitmap bm = null;
-        while(bm == null){
-            bm = downloadImageTask.getData();
-
-        }
-        System.out.println(bm);
-
-       // userPicProfile.setImageBitmap(bm);
 
         //--------------------FAB FUNCTIONS------------------//
 
@@ -273,5 +286,63 @@ public class user_profile extends AppCompatActivity {
 
 
     }
+
+    private void populateGallery(String userId, int pg, String token) throws JSONException {
+        JSONObject data = null;
+        PictureService pictureService = new PictureService();
+
+        try {
+            pictureService.getUserPictures(userId, 1, token);
+            while(data == null){
+                data = pictureService.getDataObject();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int totalCompetitionPic = data.getInt("totalCompetitonPic");
+        int totalmutualFollowerPics = data.getInt("totalmutualFollowerPics");
+        int totalpublicPictures = data.getInt("totalpublicPictures");
+        JSONObject model = data.getJSONObject("model");
+        JSONArray competitionPictures = model.getJSONArray("competitionPictures");
+        JSONArray mutualFollowerPictures = model.getJSONArray("mutualFollowerPictures");
+        JSONArray publicPictures = model.getJSONArray("publicPictures");
+
+        Integer totalPics = totalmutualFollowerPics + totalCompetitionPic + totalpublicPictures;
+        numPhotosCount.setText(totalPics.toString());
+
+
+
+        if(competitionPictures != null){
+            for(int i = 0; i < competitionPictures.length(); i++){
+                JSONObject pic = competitionPictures.getJSONObject(i);
+                setCompAdapter(pic.getString("picUrl"));
+            }
+        }
+
+        if(publicPictures != null){
+            for(int i = 0; i < publicPictures.length(); i++){
+                JSONObject pic = publicPictures.getJSONObject(i);
+                setPublicAdapter(pic.getString("picUrl"));
+            }
+        }
+
+
+
+
+
+    }
+
+    private void setPublicAdapter(String profilePicURL) {
+        publicImgsUrls.add(profilePicURL);
+        publicAdapter.notifyDataSetChanged();
+    }
+
+    private void setCompAdapter(String profilePicURL) {
+        compImgsUrls.add(profilePicURL);
+        compAdapter.notifyDataSetChanged();
+
+    }
+
 
 }

@@ -92,14 +92,12 @@ public class LoginActivity extends Fragment {
         forgotpass = (TextView) rootView.findViewById(R.id.forgotPass);
         //upwrong = (TextView) rootView.findViewById(R.id.upwrong);
 
-
         Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-Light.ttf");
         email.setTypeface(type);
         password.setTypeface(type);
         email.setTypeface(type);
         signup.setTypeface(type);
         forgotpass.setTypeface(type);
-
 
 
 
