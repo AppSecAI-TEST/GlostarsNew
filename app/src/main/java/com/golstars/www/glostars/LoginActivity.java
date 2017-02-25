@@ -102,7 +102,7 @@ public class LoginActivity extends Fragment {
 
 
 
-        tryFastLogin();
+        //tryFastLogin();
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
