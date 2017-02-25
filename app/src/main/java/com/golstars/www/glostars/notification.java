@@ -272,7 +272,7 @@ public class notification extends AppCompatActivity {
 
         MyUser myUser = MyUser.getmUser();
         populateNotificationsList(myUser.getUserId(), myUser.getToken());
-
+        System.out.println("");
 
 
 
