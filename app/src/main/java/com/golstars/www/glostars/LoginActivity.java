@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -97,7 +98,11 @@ public class LoginActivity extends Fragment {
         password.setTypeface(type);
         email.setTypeface(type);
         signup.setTypeface(type);
+        login.setTypeface(type);
         forgotpass.setTypeface(type);
+
+
+        login.setTransformationMethod(null);
 
 
 
@@ -115,7 +120,6 @@ public class LoginActivity extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         });
 

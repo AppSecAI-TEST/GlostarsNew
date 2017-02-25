@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#FFFFFF"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.golstars.www.glostars.MainFeed"
     >
-
 
 
     <LinearLayout
@@ -89,96 +89,116 @@
 
 
 
-
-            <ImageView
-                android:id="@+id/shareTWITTER"
-                android:layout_marginTop="4dp"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/userPOST"
-                android:src="@drawable/share_twitter"
-                android:layout_marginEnd="8dp"
-                />
-
-            <ImageView
-                android:id="@+id/shareVK"
-                android:layout_marginTop="4dp"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_toLeftOf="@+id/shareTWITTER"
-                android:layout_below="@+id/userPOST"
-                android:src="@drawable/share_vk"
-                android:layout_marginEnd="8dp"
-                />
+            <LinearLayout
+                android:id="@+id/ratecomment"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:orientation="horizontal"
+                android:layout_below="@+id/userPOST">
 
 
-            <ImageView
-                android:id="@+id/shareFB"
-                android:layout_marginTop="4dp"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_toLeftOf="@+id/shareVK"
-                android:layout_below="@+id/userPOST"
-                android:src="@drawable/share_fb"
-                android:layout_marginEnd="8dp"
-                />
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:layout_gravity="center_vertical"
+                    android:stepSize="1"
+                    android:layout_marginLeft="8dp"
+                    style="@style/customRatingBar"/>
 
-            <RatingBar
-                android:id="@+id/ratingBar"
-                android:layout_width="100dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginStart="8dp"
-                android:numStars="5"
-                style="@style/customRatingBar"
-                android:stepSize="1"
-                android:layout_below="@+id/userPOST"
-                />
-            <TextView
-                android:id="@+id/ratingstarcount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="45"
-                android:textColor="@color/colorPrimary"
-                android:layout_toRightOf="@+id/ratingBar"
-                android:layout_marginStart="4dp"
-                android:layout_below="@+id/userPOST"/>
+                <TextView
+                    android:id="@+id/ratingstarcount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:textStyle="normal"
+                    android:layout_gravity="center_vertical"
+                    android:text="45"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginStart="4dp"
+                    />
 
-            <ImageView
-                android:id="@+id/commenticon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_below="@+id/userPOST"
-                android:layout_toRightOf="@+id/ratingstarcount"
-                android:src="@drawable/comment_icon"
-                android:layout_marginTop="4dp"
-                android:layout_marginLeft="28dp"/>
+                <View
+                    android:layout_width="35dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"/>
 
-            <TextView
-                android:id="@+id/commentcount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="5"
-                android:textColor="@color/colorPrimary"
-                android:layout_toRightOf="@+id/commenticon"
-                android:layout_marginStart="4dp"
-                android:layout_below="@+id/userPOST"/>
+                <ImageView
+                    android:id="@+id/commenticon"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/comment_icon"
+                    android:layout_marginTop="4dp"
+                    />
 
-            <TextView
-                android:id="@+id/share"
-                android:layout_marginTop="7dp"
-                android:paddingTop="1dp"
-                android:paddingBottom="1dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/userPOST"
-                android:layout_toLeftOf="@+id/shareFB"
-                android:textColor="@color/colorPrimary"
-                android:text="SHARE"
-                android:layout_marginRight="8dp"/>
+                <TextView
+                    android:id="@+id/commentcount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/colorPrimary"
+                    />
+
+                <View
+                    android:layout_width="35dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:id="@+id/share"
+                    android:layout_marginTop="7dp"
+                    android:paddingBottom="1dp"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="12dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:text="SHARE"
+                    />
+
+                <ImageView
+                    android:id="@+id/shareFB"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/share_fb"
+                    android:layout_marginEnd="8dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/shareTWITTER"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="4dp"
+                    android:src="@drawable/share_twitter"
+                    android:layout_marginEnd="8dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/shareVK"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="4dp"
+                    android:src="@drawable/share_vk"
+                    android:layout_marginEnd="8dp"
+                    />
+
+
+
+
+
+
+
+
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/privacy"
@@ -195,7 +215,7 @@
                 android:layout_height="20dp"
                 android:layout_marginTop="2dp"
                 android:background="@color/colorAccent"
-                android:layout_below="@+id/shareFB"
+                android:layout_below="@+id/ratecomment"
                 />
 
 

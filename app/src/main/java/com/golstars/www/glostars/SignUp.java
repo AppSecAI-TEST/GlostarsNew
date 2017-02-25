@@ -106,6 +106,8 @@ public class SignUp extends Fragment{
         DD.setTypeface(type);
         birth.setTypeface(type);
 
+        signUp.setTransformationMethod(null);
+
 
 
         signUp.setOnClickListener(new View.OnClickListener() {

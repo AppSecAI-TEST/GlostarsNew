@@ -76,6 +76,10 @@ public class upload extends AppCompatActivity {
         submit = (Button)findViewById(R.id.submitbutton);
 
 
+        submit.setTransformationMethod(null);
+        cancel.setTransformationMethod(null);
+
+
         mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
         cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (FloatingActionButton)findViewById(R.id.competitionFAB);
