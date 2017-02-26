@@ -2,8 +2,13 @@ package com.golstars.www.glostars;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -19,14 +24,46 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public List<NotificationObj> notfications;
     public Context context;
 
+    public NotificationAdapter(List<NotificationObj> nots, Context context){
+        this.notfications = nots;
+        this.context = context;
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public ImageView propic, postpreview;
+        public TextView name, surname, notiBanner, min, hour, timenumber;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            propic = (ImageView)itemView.findViewById(R.id.propicNOTI);
+            postpreview = (ImageView)itemView.findViewById(R.id.postpreviewNOTI);
+            name = (TextView)itemView.findViewById(R.id.nameNOTI);
+            surname = (TextView)itemView.findViewById(R.id.surnameNOTI);
+            notiBanner = (TextView)itemView.findViewById(R.id.notiBanner);
+            min = (TextView)itemView.findViewById(R.id.minbannerNOTI);
+            hour = (TextView)itemView.findViewById(R.id.hourbannerNOTI);
+            timenumber = (TextView)itemView.findViewById(R.id.timeNOTI);
+
+        }
+    }
+
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.notificationmodel, parent, false);
+
+        return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        NotificationObj notifcation = notfications.get(position);
+        Glide.with(context).load(notifcation.getProfilePicURL()).into(holder.propic);
+        Glide.with(context).load(notifcation.getPicURL()).into(holder.postpreview);
+        holder.name.setText(notifcation.getName());
+        holder.notiBanner.setText(notifcation.getDescription());
+        holder.surname.setText("");
 
     }
 
@@ -35,9 +72,5 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         return notfications.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public MyViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
+
 }

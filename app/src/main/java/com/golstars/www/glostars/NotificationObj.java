@@ -15,6 +15,17 @@ public class NotificationObj {
     private Boolean seen;
     private Boolean checked;
 
+    public NotificationObj(String originID, String picID, String description, String name, String profilePicURL, String picURL, Boolean seen, Boolean checked) {
+        this.originID = originID;
+        this.picID = picID;
+        this.description = description;
+        this.name = name;
+        this.profilePicURL = profilePicURL;
+        this.picURL = picURL;
+        this.seen = seen;
+        this.checked = checked;
+    }
+
     public String getOriginID() {
         return originID;
     }

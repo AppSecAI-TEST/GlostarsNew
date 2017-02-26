@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -19,7 +21,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class notification extends AppCompatActivity {
 
@@ -72,6 +80,10 @@ public class notification extends AppCompatActivity {
     RecyclerView noti;
     RecyclerView foll;
 
+    List<NotificationObj> notifs;
+    List<NotificationObj> follNotifs;
+    NotificationAdapter mAdapter;
+    NotificationAdapter follAdapter;
 
 
 
@@ -270,22 +282,105 @@ public class notification extends AppCompatActivity {
             }
         });
 
+        //============================== NETWORK SERVICE HANDLING ========================================
+        notifs = new ArrayList<>();
+        follNotifs = new ArrayList<>();
+
+        mAdapter = new NotificationAdapter(notifs, this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        noti.setLayoutManager(layoutManager);
+        noti.setItemAnimator(new DefaultItemAnimator());
+        noti.setAdapter(mAdapter);
+
+        follAdapter = new NotificationAdapter(follNotifs, this);
+        RecyclerView.LayoutManager layoutM = new LinearLayoutManager(getApplicationContext());
+        foll.setLayoutManager(layoutM);
+        foll.setItemAnimator(new DefaultItemAnimator());
+        foll.setAdapter(follAdapter);
+
+
+
+//        RecyclerView noti;
+//        RecyclerView foll;
+
+
         MyUser myUser = MyUser.getmUser();
-        populateNotificationsList(myUser.getUserId(), myUser.getToken());
-        System.out.println("");
+        try {
+            populateNotificationsList(myUser.getUserId(), myUser.getToken());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void populateNotificationsList(String userId, String token) throws JSONException {
+        NotificationService notif = new NotificationService();
+        JSONObject data = null;
+        try {
+            notif.getNotifications(userId, token);
+            while (data == null){
+                data = notif.getDataObject();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        JSONArray activityNotifications = data.getJSONArray("activityNotifications");
+        JSONArray followerNotifications = data.getJSONArray("followerNotifications");
+        System.out.println(activityNotifications);
+        System.out.println(followerNotifications);
+
+        for(int i = 0; i < activityNotifications.length(); ++i){
+            JSONObject singleNotif = activityNotifications.getJSONObject(i);
+            String description = singleNotif.getString("description");
+            String profilePicURL = singleNotif.getString("profilePicURL");
+            String name = singleNotif.getString("name");
+            String id = singleNotif.getString("id");
+            String usrId = singleNotif.getString("userId");
+            String originatedById = singleNotif.getString("originatedById");
+            String pictureId = singleNotif.getString("pictureId");
+            Boolean seen = Boolean.valueOf(singleNotif.getString("seen"));
+            Boolean checked = Boolean.valueOf(singleNotif.getString("checked"));
+            String date = singleNotif.getString("date");
+            String picURL = singleNotif.getString("picUrl");
+
+            setActivityNotifsAdapter(description, profilePicURL, name, id, usrId, originatedById, pictureId, seen, date, picURL, checked);
+        }
+
+        for(int i = 0; i < followerNotifications.length(); ++i){
+            JSONObject singleNotif = followerNotifications.getJSONObject(i);
+            String description = "started following you";
+            String profilePicURL = singleNotif.getString("profilePicURL");
+            String name = singleNotif.getString("name");
+            String usrId = singleNotif.getString("userId");
+            String originatedById = singleNotif.getString("originatedById");
+            Boolean seen = Boolean.valueOf(singleNotif.getString("seen"));
+            Boolean checked = Boolean.valueOf(singleNotif.getString("checked"));
+            String date = singleNotif.getString("date");
+
+            setFollowerNotifsAdapter(description, profilePicURL, name, "", usrId, originatedById, null, seen, date, checked);
+
+        }
+
+
+
 
 
 
     }
 
-    private void populateNotificationsList(String userId, String token) {
-        NotificationService notif = new NotificationService();
-        try {
-            notif.getNotifications(userId, token);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void setFollowerNotifsAdapter(String description, String profilePicURL, String name, String id, String usrId, String originatedById, String pictureId, Boolean seen, String date, Boolean checked) {
+        NotificationObj notif = new NotificationObj(originatedById, pictureId, description, name, profilePicURL, null, seen, checked);
+        follNotifs.add(notif);
+        follAdapter.notifyDataSetChanged();
+    }
 
+    private void setActivityNotifsAdapter(String description, String profilePicURL, String name, String id, String usrId, String originatedById, String pictureId, Boolean seen, String date, String picURL, Boolean checked) {
+        NotificationObj notif = new NotificationObj(originatedById, pictureId, description, name, profilePicURL, picURL, seen, checked);
+        notifs.add(notif);
+        mAdapter.notifyDataSetChanged();
     }
 
 }

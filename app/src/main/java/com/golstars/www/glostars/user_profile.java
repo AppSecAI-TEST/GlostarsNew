@@ -244,8 +244,6 @@ public class user_profile extends AppCompatActivity {
         MyUser mUser = MyUser.getmUser();
         mUser.setContext(context);
 
-        PictureService pictureService = new PictureService();
-
         usernameProfile.setText(mUser.getName());
         try {
             populateGallery(mUser.getUserId(), 1, mUser.getToken());
