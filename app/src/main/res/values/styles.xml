@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -18,10 +19,10 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="customRatingBar" parent="android:style/Widget.Material.RatingBar.Small">
-    <item name="android:progressDrawable">@drawable/rating_bar</item>
-    <item name="android:minHeight">20dp</item>
-    <item name="android:maxHeight">20dp</item>
-        </style>
+        <item name="android:progressDrawable">@drawable/rating_bar</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:maxHeight">20dp</item>
+    </style>
 
     <style name="RatingBarSmall" parent="android:Widget.DeviceDefault.Light.RatingBar.Indicator">
         <item name="android:progressDrawable">@drawable/rating_bar</item>

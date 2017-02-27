@@ -58,6 +58,7 @@ public class SignUp extends Fragment{
     CheckBox termscheck;
 
     TextView terms;
+    TextView signupbanner;
 
     Button signUp;
 
@@ -77,6 +78,8 @@ public class SignUp extends Fragment{
         lastName = (EditText) rootView.findViewById(R.id.lastnameSignUp);
         email = (EditText) rootView.findViewById(R.id.emailSignUp);
         password = (EditText) rootView.findViewById(R.id.passwordSignUp);
+
+        signupbanner =(TextView)rootView.findViewById(R.id.signupbanner);
 
         termscheck = (CheckBox) rootView.findViewById(R.id.termscheckBox);
 
@@ -105,6 +108,8 @@ public class SignUp extends Fragment{
         MM.setTypeface(type);
         DD.setTypeface(type);
         birth.setTypeface(type);
+        signupbanner.setTypeface(type);
+
 
         signUp.setTransformationMethod(null);
 

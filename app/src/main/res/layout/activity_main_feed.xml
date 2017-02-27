@@ -43,10 +43,10 @@
                         android:id="@+id/glostarslogo"
                         android:layout_width="150dp"
                         android:layout_height="50dp"
-                        android:paddingLeft="2dp"
+                        android:paddingLeft="0dp"
                         android:animateLayoutChanges="true"
                         android:visibility="visible"
-                        android:src="@drawable/logoandtext"/>
+                        android:src="@drawable/lotext"/>
 
                     <EditText
                         android:id="@+id/searchedit"
@@ -78,6 +78,9 @@
     </android.support.design.widget.AppBarLayout>
 
 
+
+
+
     <include
         layout="@layout/activity_test"
 
@@ -86,6 +89,7 @@
     <include
         layout="@layout/fabs"
         />
+
 
 
 

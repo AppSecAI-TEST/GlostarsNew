@@ -4,219 +4,235 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.golstars.www.glostars.MainActivity$PlaceholderFragment">
+    tools:context="com.golstars.www.glostars.MainActivity">
 
 
 
-    <TextView
-        android:id="@+id/signupbanner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SIGN UP"
-        android:layout_centerHorizontal="true"
-        android:textAllCaps="true"
-        android:textColor="#E1C8FF"
-        android:textStyle="normal"
-        android:textSize="40sp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="50dp"/>
-
-
-    <EditText
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:inputType="textPersonName"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:paddingLeft="16dp"
-        android:hint=" First Name"
-        android:textColorHint="@color/colorPrimaryDark"
-        android:background="@drawable/roundededittext1"
-        android:id="@+id/firstnameSignUp"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/signupbanner"
-         />
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:inputType="textPersonName"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:paddingLeft="16dp"
-        android:hint=" Last Name"
-        android:textColorHint="@color/colorPrimaryDark"
-        android:background="@drawable/roundededittext1"
-        android:id="@+id/lastnameSignUp"
-        android:layout_marginTop="8dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/firstnameSignUp"
-        />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:inputType="textPersonName"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:paddingLeft="16dp"
-        android:hint=" Email"
-        android:textColorHint="@color/colorPrimaryDark"
-        android:background="@drawable/roundededittext1"
-        android:id="@+id/emailSignUp"
-        android:layout_marginTop="8dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/lastnameSignUp"
-        />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:inputType="textPassword"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:paddingLeft="16dp"
-        android:hint=" Password"
-        android:textColorHint="@color/colorPrimaryDark"
-        android:background="@drawable/roundededittext1"
-        android:id="@+id/passwordSignUp"
-        android:layout_marginTop="8dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/emailSignUp"
-        />
+            <TextView
+                android:id="@+id/signupbanner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign Up"
+                android:layout_centerHorizontal="true"
+                android:textColor="#E1C8FF"
+                android:textStyle="normal"
+                android:textSize="40sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="50dp"/>
 
 
-    <Button
-        android:text="Create Account"
-        android:layout_width="300dp"
-        android:textStyle="bold"
-        android:layout_height="50dp"
-        android:textAllCaps="true"
-        android:textSize="20dp"
-        android:textColor="#E1BEE7"
-        android:background="@drawable/roundedbutton"
-        android:layout_marginTop="1dp"
-        android:id="@+id/createAccountButton"
-        android:layout_below="@+id/termsLin"
-        android:layout_centerHorizontal="true" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="textPersonName"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:paddingLeft="16dp"
+                android:hint=" First Name"
+                android:textColorHint="@color/colorPrimaryDark"
+                android:background="@drawable/roundededittext1"
+                android:id="@+id/firstnameSignUp"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/signupbanner"
+                />
 
-    <TextView
-        android:id="@+id/birthbanner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/gender_spinner"
-        android:layout_marginStart="8dp"
-        android:text="Birth Date"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/lightViolate"
-        android:textSize="20sp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="textPersonName"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:paddingLeft="16dp"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:hint=" Last Name"
+                android:textColorHint="@color/colorPrimaryDark"
+                android:background="@drawable/roundededittext1"
+                android:id="@+id/lastnameSignUp"
+                android:layout_marginTop="8dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/firstnameSignUp"
+                />
 
-    <LinearLayout
-        android:id="@+id/dates"
-        android:layout_below="@+id/birthbanner"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="textPersonName"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:paddingLeft="16dp"
+                android:hint=" Email"
+                android:textColorHint="@color/colorPrimaryDark"
+                android:background="@drawable/roundededittext1"
+                android:id="@+id/emailSignUp"
+                android:layout_marginTop="8dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/lastnameSignUp"
+                />
 
-        <EditText
-            android:id="@+id/YYYY"
-            android:background="@drawable/roundededittext1"
-            android:hint="YYYY"
-            android:paddingLeft="16dp"
-            android:layout_weight="1"
-            android:textColorHint="@color/colorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
-        <EditText
-            android:id="@+id/MM"
-            android:background="@drawable/roundededittext1"
-            android:hint="MM"
-            android:layout_marginLeft="8dp"
-            android:paddingLeft="16dp"
-            android:layout_weight="1"
-            android:textColorHint="@color/colorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
-        <EditText
-            android:id="@+id/DD"
-            android:background="@drawable/roundededittext1"
-            android:hint="DD"
-            android:paddingLeft="16dp"
-            android:layout_marginLeft="8dp"
-            android:layout_weight="1"
-            android:textColorHint="@color/colorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
-
-
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp"
-        android:id="@+id/termsLin"
-        android:layout_below="@+id/dates"
-        android:layout_centerHorizontal="true"
-        >
-
-        <CheckBox
-            android:text="I Agree with the "
-            android:textSize="15sp"
-            android:textColor="#E1C8FF"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:id="@+id/termscheckBox" />
-
-        <TextView
-            android:id="@+id/terms"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Terms Of Use"
-            android:textColor="#E1C8FF"
-            android:textStyle="bold"
-            android:layout_toRightOf="@+id/checkBox"
-            android:layout_marginTop="3dp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="textPassword"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:paddingLeft="16dp"
+                android:hint=" Password"
+                android:textColorHint="@color/colorPrimaryDark"
+                android:background="@drawable/roundededittext1"
+                android:id="@+id/passwordSignUp"
+                android:layout_marginTop="8dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/emailSignUp"
+                />
 
 
-    </LinearLayout>
+            <Button
+                android:text="Create Account"
+                android:layout_width="300dp"
+                android:textStyle="bold"
+                android:layout_height="50dp"
+                android:textAllCaps="true"
+                android:textSize="20dp"
+                android:textColor="#E1BEE7"
+                android:background="@drawable/roundedbutton"
+                android:layout_marginTop="1dp"
+                android:id="@+id/createAccountButton"
+                android:layout_below="@+id/termsLin"
+                android:layout_centerHorizontal="true" />
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:paddingStart="16dp"
-        android:layout_marginTop="8dp"
-        android:entries="@array/genders"
-        android:background="@drawable/roundededittext1"
-        android:layout_below="@+id/passwordSignUp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:id="@+id/gender_spinner" />
+            <TextView
+                android:id="@+id/birthbanner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/gender_spinner"
+                android:layout_marginStart="8dp"
+                android:text="Birth Date"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/lightViolate"
+                android:textSize="20sp"/>
+
+            <LinearLayout
+                android:id="@+id/dates"
+                android:layout_below="@+id/birthbanner"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/YYYY"
+                    android:background="@drawable/roundededittext1"
+                    android:hint="YYYY"
+                    android:paddingLeft="16dp"
+                    android:layout_weight="1"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textColorHint="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/MM"
+                    android:background="@drawable/roundededittext1"
+                    android:hint="MM"
+                    android:layout_marginLeft="8dp"
+                    android:paddingLeft="16dp"
+                    android:layout_weight="1"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textColorHint="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/DD"
+                    android:background="@drawable/roundededittext1"
+                    android:hint="DD"
+                    android:paddingLeft="16dp"
+                    android:layout_marginLeft="8dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:layout_weight="1"
+                    android:textColorHint="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
 
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_below="@+id/passwordSignUp"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/down"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:id="@+id/imageView3" />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:id="@+id/termsLin"
+                android:layout_below="@+id/dates"
+                android:layout_centerHorizontal="true"
+                >
+
+                <CheckBox
+                    android:text="I Agree with the "
+                    android:textSize="15sp"
+                    android:textColor="#E1C8FF"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:id="@+id/termscheckBox" />
+
+                <TextView
+                    android:id="@+id/terms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Terms Of Use"
+                    android:textColor="#E1C8FF"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/checkBox"
+                    android:layout_marginTop="3dp"/>
+
+
+            </LinearLayout>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingStart="16dp"
+                android:layout_marginTop="8dp"
+                android:entries="@array/genders"
+                android:background="@drawable/roundededittext1"
+                android:layout_below="@+id/passwordSignUp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:id="@+id/gender_spinner" />
+
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@+id/passwordSignUp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/down"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:id="@+id/imageView3" />
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

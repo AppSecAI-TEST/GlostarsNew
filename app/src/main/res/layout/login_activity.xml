@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.golstars.www.glostars.MainActivity$PlaceholderFragment">
-
+    tools:context="com.golstars.www.glostars.MainActivity">
 
 
 
@@ -18,7 +17,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="300dp"
+                android:layout_width="375dp"
                 android:layout_height="300dp"
                 app:srcCompat="@drawable/loginlogo"
                 android:id="@+id/imageView"
@@ -38,6 +37,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/imageView"
                 android:layout_marginStart="32dp"
+                android:textCursorDrawable="@drawable/cursor_color"
                 />
 
             <EditText
@@ -53,6 +53,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/emailEditText"
+                android:textCursorDrawable="@drawable/cursor_color"
                 android:layout_marginStart="32dp" />
 
             <TextView
@@ -88,7 +89,7 @@
                 android:textColor="#E1BEE7"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/roundedbutton"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="75dp"
                 android:id="@+id/logInButton"
                 android:layout_below="@+id/passwordEditText"
                 android:onClick="login"
@@ -105,8 +106,19 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
                 android:id="@+id/upwrong" />
-        </RelativeLayout>
 
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remember Me"
+                android:textColor="@color/lightViolate"
+                android:textSize="15sp"
+                android:layout_alignLeft="@id/passwordEditText"
+                android:layout_below="@id/passwordEditText"
+                android:layout_marginTop="8dp"/>
+
+        </RelativeLayout>
 
 
     </ScrollView>

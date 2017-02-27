@@ -24,6 +24,7 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
+                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_collapseMode="pin"
@@ -43,7 +44,7 @@
                         android:layout_height="50dp"
                         android:paddingLeft="2dp"
                         android:visibility="visible"
-                        android:src="@drawable/logoandtext"/>
+                        android:src="@drawable/lotext"/>
 
                     <EditText
                         android:id="@+id/searchedit"

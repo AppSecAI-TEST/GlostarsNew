@@ -11,19 +11,24 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -41,12 +46,13 @@ import java.util.List;
 
 public class MainFeed extends AppCompatActivity {
 
+    //implements SearchView.OnQueryTextListener
+
 
     Animation fab_hide;
     Animation fab_show;
     Animation rotate_clockwise;
     Animation rotate_anticlockwise;
-
 
     TextView username;
     TextView caption;
@@ -66,6 +72,9 @@ public class MainFeed extends AppCompatActivity {
     ImageView shareTWITTER;
     ImageView shareVK;
     ImageView privacyIcon;
+
+    RatingBar rb;
+
 
     FloatingActionButton mainFAB ;
     FloatingActionButton cameraFAB;
@@ -91,6 +100,14 @@ public class MainFeed extends AppCompatActivity {
         setContentView(R.layout.activity_main_feed);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setLogo(R.drawable.lotext);
+//        getSupportActionBar().setDisplayUseLogoEnabled(true);
+
+
+
 
         //---------------NETOWORK AND RECYCLER VIEW --------------------------------
         recyclerView = (RecyclerView) findViewById(R.id.mainfeedrecycler);
@@ -179,11 +196,13 @@ public class MainFeed extends AppCompatActivity {
         profileFAB = (FloatingActionButton) findViewById(R.id.profileFAB);
         notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
 
+        rb = (RatingBar) findViewById(R.id.ratingBar);
+
         username=(TextView)findViewById(R.id.userNAME);
         caption=(TextView)findViewById(R.id.userCAPTION);
         postTime=(TextView)findViewById(R.id.uploadTIME);
-        //totalStars=(TextView)findViewById(R.id.numStars);
-        //totalComments=(TextView)findViewById(R.id.numComments);
+        totalStars=(TextView)findViewById(R.id.ratingstarcount);
+        totalComments=(TextView)findViewById(R.id.commentcount);
         shareText=(TextView)findViewById(R.id.share);
 
         post = (ImageView)findViewById(R.id.userPOST);
@@ -198,31 +217,28 @@ public class MainFeed extends AppCompatActivity {
          search = (EditText)findViewById(R.id.searchedit);
 
 
-
         fab_show = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_show);
         fab_hide = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_hide);
         rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
+//        rb.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//            @Override
+//            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+//                Toast.makeText(getApplicationContext(),
+//                        "Rated: "+v+"", Toast.LENGTH_LONG).show();
+//            }
+//        });
+
 
         slogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(showingFirst = true){
-                    slogo.setImageResource(R.drawable.search_active);
-                    gl.setVisibility(View.GONE);
-                    search.setVisibility(View.VISIBLE);
-                    showingFirst=false;
-                }else if(showingFirst=false){
-                    slogo.setImageResource(R.drawable.search);
-                    gl.setVisibility(View.VISIBLE);
-                    search.setVisibility(View.INVISIBLE);
-                    showingFirst=true;
-                }
-
+                startActivity(new Intent(MainFeed.this, searchResults.class));
             }
         });
+
+
 
         mainFAB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -415,6 +431,28 @@ public class MainFeed extends AppCompatActivity {
         }
         ivImage.setImageBitmap(thumbnail);
     }
+
+
+
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu){
+//        getMenuInflater().inflate(R.menu.menu_main_feed,menu);
+//
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onQueryTextSubmit(String query){
+//
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean onQueryTextChange(String newText){
+//        return false;
+//
+//    }
 
 
     //-------------/CAMERA AND GALLERY CALLERS<end>------------------------------------------

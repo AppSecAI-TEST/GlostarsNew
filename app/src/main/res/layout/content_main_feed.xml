@@ -102,10 +102,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"
+                    style="@style/RatingBarSmall"
                     android:layout_gravity="center_vertical"
                     android:stepSize="1"
                     android:layout_marginLeft="8dp"
-                    style="@style/customRatingBar"/>
+                    />
 
                 <TextView
                     android:id="@+id/ratingstarcount"
@@ -150,11 +151,9 @@
 
                 <TextView
                     android:id="@+id/share"
-                    android:layout_marginTop="7dp"
-                    android:paddingBottom="1dp"
                     android:layout_width="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginBottom="0dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
                     android:text="SHARE"

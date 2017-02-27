@@ -45,7 +45,7 @@
                         android:layout_height="50dp"
                         android:paddingLeft="2dp"
                         android:visibility="visible"
-                        android:src="@drawable/logoandtext"/>
+                        android:src="@drawable/lotext"/>
 
                     <EditText
                         android:id="@+id/searchedit"

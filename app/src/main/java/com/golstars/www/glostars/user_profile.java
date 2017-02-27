@@ -181,15 +181,7 @@ public class user_profile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(showingFirst == true){
-                    slogo.setBackground(getResources().getDrawable(R.drawable.search_active));
-                    gl.setVisibility(View.GONE);
-                    search.setVisibility(View.VISIBLE);
-                }else{
-                    slogo.setBackground(getResources().getDrawable(R.drawable.search));
-                    gl.setVisibility(View.VISIBLE);
-                    search.setVisibility(View.INVISIBLE);
-                }
+                startActivity(new Intent(user_profile.this,searchResults.class));
 
             }
         });

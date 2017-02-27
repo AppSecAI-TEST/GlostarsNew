@@ -58,6 +58,7 @@ public class LoginActivity extends Fragment {
     private TextView forgotpass;
     private TextView upwrong;
 
+
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private android.os.Handler mHander;
@@ -111,9 +112,14 @@ public class LoginActivity extends Fragment {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                login.setTextColor(getResources().getColor(R.color.colorPrimary));
+                login.setBackground(getResources().getDrawable(R.drawable.roundedbutton1));
+
+
+
                 String pwd = password.getText().toString();
                 String usrname = email.getText().toString();
-                //startActivity(new Intent(getActivity(), MainFeed.class));
+                startActivity(new Intent(getActivity(), MainFeed.class));
                 try {
                     login("password", pwd, usrname);
 
