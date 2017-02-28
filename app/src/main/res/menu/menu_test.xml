@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.golstars.www.glostars.testfeed">
+
+    <item android:title="Search"
+        android:id = "@+id/searchmenu"
+        android:icon="@drawable/search"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always"
+        />
+</menu>
+
