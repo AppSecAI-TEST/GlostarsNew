@@ -64,7 +64,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         holder.caption.setText(post.getDescription());
         Glide.with(context).load(post.getPicURL()).into(holder.post);
         //holder.post.setImageBitmap(post.getPicURL());
-        holder.propic.setImageBitmap(post.getProfilePicURL());
+        Glide.with(context).load(post.getProfilePicURL()).into(holder.propic);
 //        holder.totalStars.setText(post.getStarsCount());
 
 

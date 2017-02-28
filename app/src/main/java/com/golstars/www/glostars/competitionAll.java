@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.Animation;
@@ -17,6 +20,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class competitionAll extends AppCompatActivity {
 
@@ -83,6 +93,21 @@ public class competitionAll extends AppCompatActivity {
     EditText search;
     ImageView gl;
     boolean showingFirst = true;
+
+    // --------------- recycler view settings ---------
+    private List<Post> postList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private PostAdapter mAdapter;
+    //-------------------------------------------------
+    private boolean loading = true;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    LinearLayoutManager layoutManager;
+    MyUser mUser;
+    int pg = 1;
+
+    GridView competitiongrid;
+    private GridAdapter compAdapt;
+    private ArrayList<String> compPicsUrls;
 
 
 
@@ -353,10 +378,60 @@ public class competitionAll extends AppCompatActivity {
                 startActivity(new Intent(competitionAll.this, upload.class));
             }
         });
+
+
+        //---------------NETWORK AND RECYCLER VIEW --------------------------------
+        //recyclerView = (RecyclerView) findViewById(R.id.mainfeedrecycler);
+
+        mUser = MyUser.getmUser();
+        mUser.setContext(this);
+        compPicsUrls = new ArrayList<>();
+
+
+
+        //competitiongrid = (GridView)findViewById(R.id.gallerygrid);
+        compAdapt = new GridAdapter(this, compPicsUrls);
+        gallery.setAdapter(compAdapt);
+
+        loadPictures(pg, mUser.getToken());
+
+
     }
 
+    private void loadPictures(int pg, String token) {
+        JSONArray data = null;
+        PictureService pictureService = new PictureService();
+        try {
+            pictureService.getCompetitionPictures(pg, token);
+            while(data == null){
+                data = pictureService.getData();
+
+            }
+            System.out.println("data to competition is : " + data);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        for(int i = 0; i < data.length(); i++){
+
+            try {
+                JSONObject obj = data.getJSONObject(i);
+                setCompAdapter(obj.getString("picUrl"));
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
 
 
+        }
+
+
+    }
+
+    private void setCompAdapter(String picUrl) {
+        compPicsUrls.add(picUrl);
+        compAdapt.notifyDataSetChanged();
+    }
 
 
 }

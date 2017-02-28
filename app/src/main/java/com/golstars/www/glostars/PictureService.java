@@ -27,6 +27,7 @@ public class PictureService {
     private final OkHttpClient client = new OkHttpClient();
     private JSONArray data;
     private JSONObject dat;
+    String baseURL = "http://www.glostars.com/";
 
     public PictureService(){}
 
@@ -105,6 +106,44 @@ public class PictureService {
             }
         });
     }
+
+    public void getCompetitionPictures(Integer count, String token) throws Exception{
+        URL url = new URL(baseURL + "api/images/competition/" + count);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Authorization", "Bearer " + token)
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                String data = response.body().string();
+                try {
+                    JSONObject dat = new JSONObject(data);
+                    JSONArray resultPayload = dat.getJSONArray("resultPayload");
+                    //JSONObject model = resultPayload.getJSONObject("model");
+                    setData(resultPayload);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //setData((response.body().string()));
+                System.out.println(data);
+
+
+            }
+        });
+    }
+
+
 
     public JSONArray getData() {
         return data;

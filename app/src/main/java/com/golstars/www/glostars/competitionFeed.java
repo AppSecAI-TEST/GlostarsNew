@@ -5,6 +5,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -14,6 +16,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by admin on 2/21/2017.
@@ -67,7 +74,9 @@ public class competitionFeed extends AppCompatActivity {
     ImageView gl;
     boolean showingFirst = true;
 
+
     private RecyclerView recyclerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +84,7 @@ public class competitionFeed extends AppCompatActivity {
         setContentView(R.layout.activity_competition_feed);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        
         recyclerView = (RecyclerView) findViewById(R.id.competitionfeedrecycler);
 
 
@@ -239,5 +248,7 @@ public class competitionFeed extends AppCompatActivity {
 
 
     }
+
+
 
 }

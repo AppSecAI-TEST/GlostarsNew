@@ -11,24 +11,19 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -46,13 +41,12 @@ import java.util.List;
 
 public class MainFeed extends AppCompatActivity {
 
-    //implements SearchView.OnQueryTextListener
-
 
     Animation fab_hide;
     Animation fab_show;
     Animation rotate_clockwise;
     Animation rotate_anticlockwise;
+
 
     TextView username;
     TextView caption;
@@ -73,9 +67,6 @@ public class MainFeed extends AppCompatActivity {
     ImageView shareVK;
     ImageView privacyIcon;
 
-    RatingBar rb;
-
-
     FloatingActionButton mainFAB ;
     FloatingActionButton cameraFAB;
     FloatingActionButton competitionFAB;
@@ -93,6 +84,11 @@ public class MainFeed extends AppCompatActivity {
     private RecyclerView recyclerView;
     private PostAdapter mAdapter;
     //-------------------------------------------------
+    LinearLayoutManager layoutManager;
+    private boolean loading = true;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    private MyUser mUser;
+    int pg = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,90 +97,46 @@ public class MainFeed extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-//        getSupportActionBar().setLogo(R.drawable.lotext);
-//        getSupportActionBar().setDisplayUseLogoEnabled(true);
-
-
-
-
         //---------------NETOWORK AND RECYCLER VIEW --------------------------------
         recyclerView = (RecyclerView) findViewById(R.id.mainfeedrecycler);
 
         Context context = MainFeed.this;
 
-        MyUser mUser = MyUser.getmUser();
+        mUser = MyUser.getmUser();
         mUser.setContext(context);
 
-        JSONArray data = null;
-        PictureService pictureService = new PictureService();
-        try {
-            pictureService.getMutualPictures(mUser.getUserId(), 1, mUser.getToken());
-            //JSONArray data = null;
-            while(data == null){
-                data = pictureService.getData();
-            }
-            System.out.println("PICTURES: " + data);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
+        layoutManager = new LinearLayoutManager(this);
         mAdapter = new PostAdapter(postList, this);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+        populateFeed(mUser.getUserId(), pg, mUser.getToken());
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        //int width = displayMetrics.widthPixels;
+        /* checks wether the user has reached the end of the view
+           and calls another page
+        * */
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                //super.onScrolled(recyclerView, dx, dy);
+                if(dy > 0){ //check for scroll down
+                    visibleItemCount = layoutManager.getChildCount();
+                    totalItemCount = layoutManager.getItemCount();
+                    pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
 
-
-        for(int i = 0; i < data.length(); ++i){
-            try {
-                JSONObject pic = data.getJSONObject(i);
-                JSONObject poster = pic.getJSONObject("poster");
-
-                String description = "";
-                String name = poster.getString("name");
-                String userId = poster.getString("userId");
-                String profilePicUrl = poster.getString("profilePicURL");
-                String id = pic.getString("id");
-                description = pic.getString("description");
-                String picURL = pic.getString("picUrl");
-                Boolean isFeatured = Boolean.valueOf(pic.getString("isfeatured"));
-                Boolean isCompeting = Boolean.valueOf(pic.getString("isCompeting"));
-                Integer starsCount = Integer.parseInt(pic.getString("starsCount"));
-                System.out.println("POSTER: " + name + " " + userId + " " + id + " " + description + " " + picURL + " " + isFeatured + " " + isCompeting + " " + starsCount);
-
-
-                Bitmap bm = null;
-                Bitmap usrbm = null;
-
-                //DownloadImageTask downloadImageTask = new DownloadImageTask();
-                //downloadImageTask.getImage(picURL);
-
-                DownloadImageTask downloadImageTask1 = new DownloadImageTask();
-                downloadImageTask1.getImage(profilePicUrl);
-
-                //while (bm == null){
-                //    bm = downloadImageTask.getResizedData(width);
-                    //bm = downloadImageTask.getData();
-
-                //}
-                while (usrbm == null){
-                   usrbm = downloadImageTask1.getData();
+                    if(loading){
+                        if((visibleItemCount + pastVisiblesItems) >= totalItemCount){
+                            loading = false;
+                            pg++;
+                            populateFeed(mUser.getUserId(), pg, mUser.getToken());
+                        }
+                    }
                 }
-
-                setmAdapter(name, userId, id, description, picURL, usrbm , isFeatured, isCompeting, starsCount, 0);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+        });
 
-        }
+
 
 
         //--------------------------------------------------------------------------
@@ -196,13 +148,11 @@ public class MainFeed extends AppCompatActivity {
         profileFAB = (FloatingActionButton) findViewById(R.id.profileFAB);
         notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
 
-        rb = (RatingBar) findViewById(R.id.ratingBar);
-
         username=(TextView)findViewById(R.id.userNAME);
         caption=(TextView)findViewById(R.id.userCAPTION);
         postTime=(TextView)findViewById(R.id.uploadTIME);
-        totalStars=(TextView)findViewById(R.id.ratingstarcount);
-        totalComments=(TextView)findViewById(R.id.commentcount);
+        //totalStars=(TextView)findViewById(R.id.numStars);
+        //totalComments=(TextView)findViewById(R.id.numComments);
         shareText=(TextView)findViewById(R.id.share);
 
         post = (ImageView)findViewById(R.id.userPOST);
@@ -217,28 +167,31 @@ public class MainFeed extends AppCompatActivity {
          search = (EditText)findViewById(R.id.searchedit);
 
 
+
         fab_show = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_show);
         fab_hide = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_hide);
         rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
-//        rb.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-//            @Override
-//            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-//                Toast.makeText(getApplicationContext(),
-//                        "Rated: "+v+"", Toast.LENGTH_LONG).show();
-//            }
-//        });
-
 
         slogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainFeed.this, searchResults.class));
+
+                if(showingFirst = true){
+                    slogo.setImageResource(R.drawable.search_active);
+                    gl.setVisibility(View.GONE);
+                    search.setVisibility(View.VISIBLE);
+                    showingFirst=false;
+                }else if(showingFirst=false){
+                    slogo.setImageResource(R.drawable.search);
+                    gl.setVisibility(View.VISIBLE);
+                    search.setVisibility(View.INVISIBLE);
+                    showingFirst=true;
+                }
+
             }
         });
-
-
 
         mainFAB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -318,7 +271,54 @@ public class MainFeed extends AppCompatActivity {
 
     }
 
-    private void setmAdapter(String author, String usr, String photoID, String description, String picURL, Bitmap profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount, Integer commentCount){
+    private void populateFeed(String userId, int pg, String token) {
+
+        JSONArray data = null;
+        PictureService pictureService = new PictureService();
+        try {
+            pictureService.getMutualPictures(userId, pg, token);
+            while(data == null){
+                data = pictureService.getData();
+            }
+            System.out.println("PICTURES: " + data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        for(int i = 0; i < data.length(); ++i){
+            try {
+                JSONObject pic = data.getJSONObject(i);
+                JSONObject poster = pic.getJSONObject("poster");
+                String name = poster.getString("name");
+                String usrId = poster.getString("userId");
+                String profilePicUrl = poster.getString("profilePicURL");
+                String id = pic.getString("id");
+                String description = pic.getString("description");
+                String picURL = pic.getString("picUrl");
+                Boolean isFeatured = Boolean.valueOf(pic.getString("isfeatured"));
+                Boolean isCompeting = Boolean.valueOf(pic.getString("isCompeting"));
+                Integer starsCount = Integer.parseInt(pic.getString("starsCount"));
+                System.out.println("POSTER: " + name + " " + userId + " " + id + " " + description + " " + picURL + " " + isFeatured + " " + isCompeting + " " + starsCount);
+
+
+                setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, starsCount, 0);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        if(!loading){
+            loading = true;
+        }
+
+    }
+
+    private void setmAdapter(String author, String usr, String photoID, String description, String picURL, String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount, Integer commentCount){
+        if(description == "null"){
+            description = "";
+        }
         Post post = new Post(author, usr, photoID, description, picURL, profilePicURL, isFeatured, isCompeting, starsCount, commentCount);
         postList.add(post);
 
@@ -431,28 +431,6 @@ public class MainFeed extends AppCompatActivity {
         }
         ivImage.setImageBitmap(thumbnail);
     }
-
-
-
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//        getMenuInflater().inflate(R.menu.menu_main_feed,menu);
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onQueryTextSubmit(String query){
-//
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean onQueryTextChange(String newText){
-//        return false;
-//
-//    }
 
 
     //-------------/CAMERA AND GALLERY CALLERS<end>------------------------------------------

@@ -13,7 +13,7 @@ public class Post {
     private String photoId;
     private String description;
     private String picURL;
-    private Bitmap profilePicURL;
+    private String profilePicURL;
     private boolean isFeatured;
     private boolean isCompeting;
     private int starsCount;
@@ -22,7 +22,7 @@ public class Post {
     public Post(){
     }
 
-    public Post(String author, String usr, String photoID, String description, String picURL, Bitmap profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount, Integer commentCount){
+    public Post(String author, String usr, String photoID, String description, String picURL, String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount, Integer commentCount){
         this.author = author;
         this.userId = usr;
         this.photoId= photoID;
@@ -102,11 +102,11 @@ public class Post {
         this.commentCount = commentCount;
     }
 
-    public Bitmap getProfilePicURL() {
+    public String getProfilePicURL() {
         return profilePicURL;
     }
 
-    public void setProfilePicURL(Bitmap profilePicURL) {
+    public void setProfilePicURL(String profilePicURL) {
         this.profilePicURL = profilePicURL;
     }
 
