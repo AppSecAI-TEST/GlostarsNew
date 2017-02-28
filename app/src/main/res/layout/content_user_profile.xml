@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="10dp"
-    android:paddingRight="16dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.golstars.www.glostars.user_profile"
     tools:showIn="@layout/activity_user_profile">
@@ -30,7 +30,7 @@
                 android:layout_height="match_parent">
 
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profileuserPIC"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -145,7 +145,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:background="@android:drawable/btn_star"
-                    android:layout_marginLeft="40dp"/>
+                    android:layout_marginLeft="30dp"/>
 
                 <TextView
                     android:id="@+id/weeklyPrizeCount"
@@ -159,7 +159,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:background="@android:drawable/btn_star"
-                    android:layout_marginLeft="40dp"/>
+                    android:layout_marginLeft="30dp"/>
 
                 <TextView
                     android:id="@+id/monthlyPrizeCount"
@@ -173,7 +173,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:background="@android:drawable/btn_star"
-                    android:layout_marginLeft="40dp"/>
+                    android:layout_marginLeft="30dp"/>
 
                 <TextView
                     android:id="@+id/exhibitionPrizeCount"
@@ -187,7 +187,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:background="@android:drawable/btn_star"
-                    android:layout_marginLeft="40dp"/>
+                    android:layout_marginLeft="30dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -361,6 +361,50 @@
 
                 <TextView
                     android:id="@+id/seeAllPublic"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="300dp"
+                    android:paddingLeft="120dp"
+                    android:layout_height="35dp"
+                    android:text="See All"
+                    android:textSize="18sp"
+                    android:paddingTop="4dp"/>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/mutualBanner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Mutual Follower Photos"
+                android:layout_marginTop="8dp"
+                android:textSize="20dp"
+                android:textColor="@color/darkGrey"/>
+
+
+            <LinearLayout
+                android:elevation="2dp"
+                android:id="@+id/postsMutual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                >
+
+                <GridView
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_weight = "1"
+                    android:id="@+id/mutualPosts"
+                    android:columnWidth="150dp"
+                    android:numColumns="auto_fit"
+                    android:verticalSpacing="4dp"
+                    android:stretchMode="columnWidth"
+                    android:layout_gravity="center"
+                    />
+
+                <TextView
+                    android:id="@+id/seeAllMutual"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="300dp"
                     android:paddingLeft="120dp"

@@ -21,12 +21,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageButton
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                app:srcCompat="@android:drawable/btn_star_big_on"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/testpropic"
                 android:id="@+id/userPIC"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="4dp"

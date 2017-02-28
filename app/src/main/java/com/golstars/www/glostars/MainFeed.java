@@ -60,7 +60,7 @@ public class MainFeed extends AppCompatActivity {
     ImageView gl;
     boolean showingFirst = true;
 
-    ImageButton propic;
+    ImageView propic;
     ImageView post;
     ImageView shareFB;
     ImageView shareTWITTER;
@@ -70,7 +70,7 @@ public class MainFeed extends AppCompatActivity {
     FloatingActionButton mainFAB ;
     FloatingActionButton cameraFAB;
     FloatingActionButton competitionFAB;
-    FloatingActionButton profileFAB;
+    ImageView profileFAB;
     FloatingActionButton notificationFAB;
 
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
@@ -145,7 +145,7 @@ public class MainFeed extends AppCompatActivity {
         mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
         cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (FloatingActionButton)findViewById(R.id.competitionFAB);
-        profileFAB = (FloatingActionButton) findViewById(R.id.profileFAB);
+        profileFAB = (ImageView) findViewById(R.id.profileFAB);
         notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
 
         username=(TextView)findViewById(R.id.userNAME);
@@ -156,7 +156,7 @@ public class MainFeed extends AppCompatActivity {
         shareText=(TextView)findViewById(R.id.share);
 
         post = (ImageView)findViewById(R.id.userPOST);
-        propic = (ImageButton)findViewById(R.id.userPIC);
+        propic = (ImageView)findViewById(R.id.userPIC);
         shareFB = (ImageView)findViewById(R.id.shareFB);
         shareTWITTER = (ImageView)findViewById(R.id.shareTWITTER);
         shareVK = (ImageView)findViewById(R.id.shareVK);
@@ -178,17 +178,7 @@ public class MainFeed extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(showingFirst = true){
-                    slogo.setImageResource(R.drawable.search_active);
-                    gl.setVisibility(View.GONE);
-                    search.setVisibility(View.VISIBLE);
-                    showingFirst=false;
-                }else if(showingFirst=false){
-                    slogo.setImageResource(R.drawable.search);
-                    gl.setVisibility(View.VISIBLE);
-                    search.setVisibility(View.INVISIBLE);
-                    showingFirst=true;
-                }
+                startActivity(new Intent(MainFeed.this,searchResults.class));
 
             }
         });
@@ -248,6 +238,17 @@ public class MainFeed extends AppCompatActivity {
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(MainFeed.this, user_profile.class));
             }
         });
@@ -255,6 +256,17 @@ public class MainFeed extends AppCompatActivity {
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(MainFeed.this, notification.class));
             }
         });
@@ -262,6 +274,17 @@ public class MainFeed extends AppCompatActivity {
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(MainFeed.this, competitionAll.class));
             }
         });

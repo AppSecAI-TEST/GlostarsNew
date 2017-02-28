@@ -38,7 +38,7 @@ public class upload extends AppCompatActivity {
     FloatingActionButton mainFAB ;
     FloatingActionButton cameraFAB;
     FloatingActionButton competitionFAB;
-    FloatingActionButton profileFAB;
+    ImageView profileFAB;
     FloatingActionButton notificationFAB;
     FloatingActionButton homeFAB;
 
@@ -92,7 +92,7 @@ public class upload extends AppCompatActivity {
         mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
         cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (FloatingActionButton)findViewById(R.id.competitionFAB);
-        profileFAB = (FloatingActionButton) findViewById(R.id.profileFAB);
+        profileFAB = (ImageView) findViewById(R.id.profileFAB);
         notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
         homeFAB = (FloatingActionButton)findViewById(R.id.homeFAB);
 

@@ -108,13 +108,10 @@ public class LoginActivity extends Fragment {
 
 
 
-        tryFastLogin();
+        //tryFastLogin();
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                login.setTextColor(getResources().getColor(R.color.colorPrimary));
-                login.setBackground(getResources().getDrawable(R.drawable.roundedbutton1));
-
 
 
                 String pwd = password.getText().toString();
@@ -122,6 +119,7 @@ public class LoginActivity extends Fragment {
                 startActivity(new Intent(getActivity(), MainFeed.class));
                 try {
                     login("password", pwd, usrname);
+
 
                 } catch (Exception e) {
                     e.printStackTrace();

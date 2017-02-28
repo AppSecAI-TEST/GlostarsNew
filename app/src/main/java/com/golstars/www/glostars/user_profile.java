@@ -41,7 +41,7 @@ public class user_profile extends AppCompatActivity {
     FloatingActionButton mainFAB ;
     FloatingActionButton cameraFAB;
     FloatingActionButton competitionFAB;
-    FloatingActionButton profileFAB;
+    ImageView profileFAB;
     FloatingActionButton notificationFAB;
     FloatingActionButton homeFAB;
 
@@ -72,13 +72,14 @@ public class user_profile extends AppCompatActivity {
     TextView numFollowersCountProfile;
     TextView seeAllCompetitionProfile;
     TextView seeAllPublicProfile;
+    TextView seeAllMutualProfile;
     TextView weeklyPrizeCountProfile;
     TextView monthlyPrizeCountProfile;
     TextView exhibitionPrizeCountProfile;
 
     TextView numPhotosCount;
 
-    ImageButton userPicProfile;
+    ImageView userPicProfile;
     ImageView weeklyPrizeProfile;
     ImageView monthlyPrizeProfile;
     ImageView exhibitionPrizeProfile;
@@ -95,6 +96,7 @@ public class user_profile extends AppCompatActivity {
 
     GridView competitiongrid;
     GridView publicgrid;
+    GridView mutualgrid;
 
     GridView compGridView;
     ArrayList<String> compImgsUrls;
@@ -119,13 +121,13 @@ public class user_profile extends AppCompatActivity {
 
         competitiongrid = (GridView)findViewById(R.id.competitionPosts);
         publicgrid = (GridView)findViewById(R.id.publicPosts);
-
+        mutualgrid = (GridView)findViewById(R.id.mutualPosts);
 
 
         mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
         cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (FloatingActionButton)findViewById(R.id.competitionFAB);
-        profileFAB = (FloatingActionButton) findViewById(R.id.profileFAB);
+        profileFAB = (ImageView) findViewById(R.id.profileFAB);
         notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
         homeFAB = (FloatingActionButton)findViewById(R.id.homeFAB);
 
@@ -167,6 +169,7 @@ public class user_profile extends AppCompatActivity {
         numFollowingCountProfile = (TextView)findViewById(R.id.numberoffollowingCount);
         seeAllCompetitionProfile = (TextView)findViewById(R.id.seeAllCompetition);
         seeAllPublicProfile = (TextView)findViewById(R.id.seeAllPublic);
+        seeAllMutualProfile = (TextView)findViewById(R.id.mutualBanner);
         numPhotosCount = (TextView)findViewById(R.id.numberofpostsCount);
 
 
@@ -185,7 +188,7 @@ public class user_profile extends AppCompatActivity {
 
             }
         });
-
+        //===================================================================================================
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
         usernameProfile.setTypeface(type);
         userLocationProfile.setTypeface(type);
@@ -205,6 +208,7 @@ public class user_profile extends AppCompatActivity {
         numFollowingProfile.setTypeface(type);
         seeAllPublicProfile.setTypeface(type);
         seeAllCompetitionProfile.setTypeface(type);
+        seeAllMutualProfile.setTypeface(type);
 
 
 
@@ -223,7 +227,7 @@ public class user_profile extends AppCompatActivity {
         compImgsUrls = new ArrayList<>();
         publicImgsUrls = new ArrayList<>();
 
-        compGridView = (GridView) findViewById(R.id.competitionPosts);
+        //compGridView = (GridView) findViewById(R.id.competitionPosts);
         compAdapter = new GridAdapter(this, compImgsUrls);
         compGridView.setAdapter(compAdapter); //adapter for competition pictures
 
