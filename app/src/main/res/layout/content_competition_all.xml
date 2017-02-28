@@ -264,7 +264,7 @@
                         android:id="@+id/please"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Please read the terms and carefully. By participating in the competition you agree to be bound by these terms:"
+                        android:text="Please read the terms and conditions carefully. By participating in the competition you agree to be bound by these terms:"
                         android:textSize="18dp"
                         android:layout_marginTop="32dp"
                         android:layout_marginLeft="0dp"

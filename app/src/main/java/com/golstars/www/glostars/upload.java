@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -38,7 +39,7 @@ public class upload extends AppCompatActivity {
     FloatingActionButton mainFAB ;
     FloatingActionButton cameraFAB;
     FloatingActionButton competitionFAB;
-    FloatingActionButton profileFAB;
+    ImageView profileFAB;
     FloatingActionButton notificationFAB;
     FloatingActionButton homeFAB;
 
@@ -92,7 +93,7 @@ public class upload extends AppCompatActivity {
         mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
         cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (FloatingActionButton)findViewById(R.id.competitionFAB);
-        profileFAB = (FloatingActionButton) findViewById(R.id.profileFAB);
+        profileFAB = (ImageView) findViewById(R.id.profileFAB);
         notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
         homeFAB = (FloatingActionButton)findViewById(R.id.homeFAB);
 
@@ -217,8 +218,9 @@ public class upload extends AppCompatActivity {
             bm = bundle.getParcelable("PREVIEW_PICTURE");
             image.setImageBitmap(bm);
         }
-        mUser.setContext(this);
+
         mUser = MyUser.getmUser();
+        mUser.setContext(this);
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,6 +243,13 @@ public class upload extends AppCompatActivity {
             }
         });
 
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
 
 
     }
@@ -249,10 +258,17 @@ public class upload extends AppCompatActivity {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), bm, "Title", null);
+        byte[] byteArray = bytes.toByteArray();
+        String picUri = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        picUri = "data:image/png;base64," + picUri;
+
         PictureService pictureService = new PictureService();
         try {
-            pictureService.uploadPicture(description, isCompeting, privacy, Uri.parse(path).toString(), token);
+            //System.out.println("description: " + description);
+            //System.out.println("privacy: " + privacy);
+            //System.out.println("iscompeting: " + isCompeting);
+            //System.out.println("uri: " + picUri);
+            pictureService.uploadPicture(description, isCompeting, privacy, picUri, token);
         } catch (Exception e) {
             e.printStackTrace();
         }

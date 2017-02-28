@@ -27,7 +27,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         public TextView username, caption, postTime, totalStars, totalComments;
         public ImageView post;
-        public ImageButton propic;
+        public ImageView propic;
 
         public MyViewHolder(View view){
             super(view);
@@ -35,7 +35,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             caption=(TextView)view.findViewById(R.id.userCAPTION);
             postTime=(TextView)view.findViewById(R.id.uploadTIME);
             post = (ImageView)view.findViewById(R.id.userPOST);
-            propic = (ImageButton)view.findViewById(R.id.userPIC);
+            propic = (ImageView)view.findViewById(R.id.userPIC);
             //totalStars=(TextView)view.findViewById(R.id.numStars);
             //totalComments=(TextView)view.findViewById(R.id.numComments);
         }

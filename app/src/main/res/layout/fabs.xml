@@ -121,11 +121,11 @@
         android:gravity="bottom"
         android:layout_below="@+id/homeF"
         >
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="54dp"
+            android:layout_height="54dp"
             android:layout_gravity="bottom|start"
-            android:src="@drawable/privacy_mutual_follower_photo"
+            android:src="@drawable/testpropic"
             android:elevation="0dp"
             android:id="@+id/profileFAB"
             android:stateListAnimator="@null"

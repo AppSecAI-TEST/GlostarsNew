@@ -25,6 +25,7 @@ import okhttp3.Response;
 public class PictureService {
 
     private static final MediaType JSONType = MediaType.parse("application/json; charset=utf-8");
+    private static final MediaType txtType = MediaType.parse("text/plain; charset=utf-8");
     private final OkHttpClient client = new OkHttpClient();
     private JSONArray data;
     private JSONObject dat;
@@ -147,17 +148,25 @@ public class PictureService {
     public void uploadPicture(String description, Boolean isCompeting, String privacy, String uri, String token) throws Exception{
         URL url = new URL(baseURL+"api/images/upload");
 
-        String postMessage = "{'Description':" + description +  "," +
+        /*String postMessage = "{'Description':" + description +  "," +
                 "'IsCompeting':" + isCompeting.toString() + "," +
                 "'Privacy':" + privacy + "," + "'ImageDataUri:'" + uri +  "}";
+        */
+        JSONObject msg = new JSONObject();
+        msg.put("Description", description);
+        msg.put("IsCompeting", isCompeting.toString());
+        msg.put("Privacy", privacy);
+        msg.put("ImageDataUri", uri);
+        System.out.println(uri);
+        System.out.println(token);
 
-        RequestBody body =  RequestBody.create(JSONType, postMessage);
+        RequestBody body =  RequestBody.create(JSONType, msg.toString());
 
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
-                .addHeader("Authorization", "Bearer " + token)
                 .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Bearer " + token)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {

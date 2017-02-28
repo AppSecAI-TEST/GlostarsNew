@@ -41,7 +41,7 @@ public class user_profile extends AppCompatActivity {
     FloatingActionButton mainFAB ;
     FloatingActionButton cameraFAB;
     FloatingActionButton competitionFAB;
-    FloatingActionButton profileFAB;
+    ImageView profileFAB;
     FloatingActionButton notificationFAB;
     FloatingActionButton homeFAB;
 
@@ -72,13 +72,14 @@ public class user_profile extends AppCompatActivity {
     TextView numFollowersCountProfile;
     TextView seeAllCompetitionProfile;
     TextView seeAllPublicProfile;
+    TextView seeAllMutualProfile;
     TextView weeklyPrizeCountProfile;
     TextView monthlyPrizeCountProfile;
     TextView exhibitionPrizeCountProfile;
 
     TextView numPhotosCount;
 
-    ImageButton userPicProfile;
+    ImageView userPicProfile;
     ImageView weeklyPrizeProfile;
     ImageView monthlyPrizeProfile;
     ImageView exhibitionPrizeProfile;
@@ -93,16 +94,20 @@ public class user_profile extends AppCompatActivity {
 
     Button follow;
 
-    GridView competitiongrid;
-    GridView publicgrid;
+    private GridView competitiongrid;
+    private GridView publicgrid;
+    private GridView mutualgrid;
 
-    GridView compGridView;
-    ArrayList<String> compImgsUrls;
-    GridAdapter compAdapter;
+    private GridView compGridView;
+    private ArrayList<String> compImgsUrls;
+    private GridAdapter compAdapter;
 
-    GridView publicGridView;
-    ArrayList<String> publicImgsUrls;
-    GridAdapter publicAdapter;
+    private GridView publicGridView;
+    private ArrayList<String> publicImgsUrls;
+    private GridAdapter publicAdapter;
+
+    private ArrayList<String> mutualImgsUrls;
+    private GridAdapter mutualAdapter;
 
 
 
@@ -119,13 +124,13 @@ public class user_profile extends AppCompatActivity {
 
         competitiongrid = (GridView)findViewById(R.id.competitionPosts);
         publicgrid = (GridView)findViewById(R.id.publicPosts);
-
+        mutualgrid = (GridView)findViewById(R.id.mutualPosts);
 
 
         mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
         cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (FloatingActionButton)findViewById(R.id.competitionFAB);
-        profileFAB = (FloatingActionButton) findViewById(R.id.profileFAB);
+        profileFAB = (ImageView) findViewById(R.id.profileFAB);
         notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
         homeFAB = (FloatingActionButton)findViewById(R.id.homeFAB);
 
@@ -167,6 +172,7 @@ public class user_profile extends AppCompatActivity {
         numFollowingCountProfile = (TextView)findViewById(R.id.numberoffollowingCount);
         seeAllCompetitionProfile = (TextView)findViewById(R.id.seeAllCompetition);
         seeAllPublicProfile = (TextView)findViewById(R.id.seeAllPublic);
+        seeAllMutualProfile = (TextView)findViewById(R.id.mutualBanner);
         numPhotosCount = (TextView)findViewById(R.id.numberofpostsCount);
 
 
@@ -185,7 +191,7 @@ public class user_profile extends AppCompatActivity {
 
             }
         });
-
+        //===================================================================================================
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
         usernameProfile.setTypeface(type);
         userLocationProfile.setTypeface(type);
@@ -205,6 +211,7 @@ public class user_profile extends AppCompatActivity {
         numFollowingProfile.setTypeface(type);
         seeAllPublicProfile.setTypeface(type);
         seeAllCompetitionProfile.setTypeface(type);
+        seeAllMutualProfile.setTypeface(type);
 
 
 
@@ -222,14 +229,20 @@ public class user_profile extends AppCompatActivity {
 
         compImgsUrls = new ArrayList<>();
         publicImgsUrls = new ArrayList<>();
+        mutualImgsUrls = new ArrayList<>();
 
-        compGridView = (GridView) findViewById(R.id.competitionPosts);
+        //compGridView = (GridView) findViewById(R.id.competitionPosts);
         compAdapter = new GridAdapter(this, compImgsUrls);
-        compGridView.setAdapter(compAdapter); //adapter for competition pictures
+        competitiongrid.setAdapter(compAdapter); //adapter for competition pictures
 
-        publicgrid = (GridView) findViewById(R.id.publicPosts);
+        //publicgrid = (GridView) findViewById(R.id.publicPosts);
         publicAdapter = new GridAdapter(this, publicImgsUrls);
         publicgrid.setAdapter(publicAdapter);
+
+        mutualAdapter = new GridAdapter(this, mutualImgsUrls);
+        mutualgrid.setAdapter(mutualAdapter);
+
+
 
 
         Context context = user_profile.this;
@@ -395,10 +408,22 @@ public class user_profile extends AppCompatActivity {
             }
         }
 
+        if(mutualFollowerPictures != null){
+            for(int i = 0; i < mutualFollowerPictures.length(); i++){
+                JSONObject pic = mutualFollowerPictures.getJSONObject(i);
+                setMutualAdapter(pic.getString("picUrl"));
+            }
+        }
 
 
 
 
+
+    }
+
+    private void setMutualAdapter(String picUrl) {
+        mutualImgsUrls.add(picUrl);
+        mutualAdapter.notifyDataSetChanged();
     }
 
     private void setPublicAdapter(String profilePicURL) {
