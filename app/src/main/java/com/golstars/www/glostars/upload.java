@@ -1,8 +1,11 @@
 package com.golstars.www.glostars;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +18,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import java.io.ByteArrayOutputStream;
+import java.net.URI;
 
 public class upload extends AppCompatActivity {
 
@@ -54,6 +60,9 @@ public class upload extends AppCompatActivity {
     ImageView twshare;
     Button cancel;
     Button submit;
+
+    private Bitmap bm;
+    private MyUser mUser;
 
 
     @Override
@@ -202,6 +211,51 @@ public class upload extends AppCompatActivity {
             }
         });
 
+        //========================= HANDLING PICTURE ===============================================
+        Bundle bundle = this.getIntent().getExtras();
+        if(bundle != null){
+            bm = bundle.getParcelable("PREVIEW_PICTURE");
+            image.setImageBitmap(bm);
+        }
+        mUser.setContext(this);
+        mUser = MyUser.getmUser();
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String privacy = "";
+                if(publicpost.isChecked()){
+                    privacy = "public";
+                } else if(competition.isChecked()){
+                    privacy = "competition";
+                } else if(followerspost.isChecked()){
+                    privacy = "followers";
+                }
+
+                if((bm != null) && (privacy != "")){
+                    prepareUpload(description.getText().toString(), privacy, competition.isChecked(), mUser.getToken(), bm);
+                }
+
+
+            }
+        });
+
+
+
+    }
+
+    private void prepareUpload(String description, String privacy, Boolean isCompeting, String token, Bitmap bm) {
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), bm, "Title", null);
+        PictureService pictureService = new PictureService();
+        try {
+            pictureService.uploadPicture(description, isCompeting, privacy, Uri.parse(path).toString(), token);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }

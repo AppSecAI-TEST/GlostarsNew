@@ -409,7 +409,15 @@ public class MainFeed extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        ivImage.setImageBitmap(bm);
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+
+        bundle.putParcelable("PREVIEW_PICTURE", bm);
+        intent.putExtras(bundle);
+        intent.setClass(this, upload.class);
+        startActivity(intent);
+
+        //ivImage.setImageBitmap(bm);
     }
 
     private void onCaptureImageResult(Intent data) {
@@ -429,7 +437,15 @@ public class MainFeed extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ivImage.setImageBitmap(thumbnail);
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+
+        bundle.putParcelable("PREVIEW_PICTURE", thumbnail);
+        intent.putExtras(bundle);
+        intent.setClass(this, upload.class);
+        startActivity(intent);
+
+        //ivImage.setImageBitmap(thumbnail);
     }
 
 

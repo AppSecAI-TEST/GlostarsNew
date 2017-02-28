@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.PipedReader;
 import java.net.URL;
 
 import okhttp3.Call;
@@ -141,6 +142,42 @@ public class PictureService {
 
             }
         });
+    }
+
+    public void uploadPicture(String description, Boolean isCompeting, String privacy, String uri, String token) throws Exception{
+        URL url = new URL(baseURL+"api/images/upload");
+
+        String postMessage = "{'Description':" + description +  "," +
+                "'IsCompeting':" + isCompeting.toString() + "," +
+                "'Privacy':" + privacy + "," + "'ImageDataUri:'" + uri +  "}";
+
+        RequestBody body =  RequestBody.create(JSONType, postMessage);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .addHeader("Authorization", "Bearer " + token)
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                String data = response.body().string();
+                System.out.println(data);
+
+
+            }
+        });
+
+
     }
 
 
