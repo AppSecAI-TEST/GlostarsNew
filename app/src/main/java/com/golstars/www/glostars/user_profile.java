@@ -72,7 +72,6 @@ public class user_profile extends AppCompatActivity {
     TextView numFollowersCountProfile;
     TextView seeAllCompetitionProfile;
     TextView seeAllPublicProfile;
-    TextView seeAllMutualProfile;
     TextView weeklyPrizeCountProfile;
     TextView monthlyPrizeCountProfile;
     TextView exhibitionPrizeCountProfile;
@@ -94,9 +93,9 @@ public class user_profile extends AppCompatActivity {
 
     Button follow;
 
-    private GridView competitiongrid;
-    private GridView publicgrid;
-    private GridView mutualgrid;
+    GridView competitiongrid;
+    GridView publicgrid;
+    GridView mutualgrid;
 
     private GridView compGridView;
     private ArrayList<String> compImgsUrls;
@@ -172,7 +171,6 @@ public class user_profile extends AppCompatActivity {
         numFollowingCountProfile = (TextView)findViewById(R.id.numberoffollowingCount);
         seeAllCompetitionProfile = (TextView)findViewById(R.id.seeAllCompetition);
         seeAllPublicProfile = (TextView)findViewById(R.id.seeAllPublic);
-        seeAllMutualProfile = (TextView)findViewById(R.id.mutualBanner);
         numPhotosCount = (TextView)findViewById(R.id.numberofpostsCount);
 
 
@@ -211,7 +209,6 @@ public class user_profile extends AppCompatActivity {
         numFollowingProfile.setTypeface(type);
         seeAllPublicProfile.setTypeface(type);
         seeAllCompetitionProfile.setTypeface(type);
-        seeAllMutualProfile.setTypeface(type);
 
 
 
