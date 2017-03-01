@@ -431,7 +431,7 @@ public class user_profile extends AppCompatActivity {
     private void setCompAdapter(String profilePicURL) {
         compImgsUrls.add(profilePicURL);
         compAdapter.notifyDataSetChanged();
-
+        //
     }
 
 
