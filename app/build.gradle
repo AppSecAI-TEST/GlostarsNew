@@ -47,4 +47,6 @@ dependencies {
     compile 'com.android.support:support-v4:25.2.0'
     compile 'com.android.support:multidex:1.0.0'
     testCompile 'junit:junit:4.12'
+    compile files('libs/CircleImageView-master/gradle/wrapper/gradle-wrapper.jar')
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

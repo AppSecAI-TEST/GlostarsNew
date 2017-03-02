@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -387,6 +389,8 @@ public class competitionAll extends AppCompatActivity {
         mUser.setContext(this);
         compPicsUrls = new ArrayList<>();
 
+        Picasso.with(this).load(mUser.getProfilePicURL()).into(profileFAB);
+
 
 
         //competitiongrid = (GridView)findViewById(R.id.gallerygrid);
@@ -417,7 +421,9 @@ public class competitionAll extends AppCompatActivity {
 
             try {
                 JSONObject obj = data.getJSONObject(i);
-                setCompAdapter(obj.getString("picUrl"));
+                //setCompAdapter(obj.getString("picUrl"));
+                compPicsUrls.add(obj.getString("picUrl"));
+                compAdapt.notifyDataSetChanged();
             } catch (JSONException e1) {
                 e1.printStackTrace();
             }

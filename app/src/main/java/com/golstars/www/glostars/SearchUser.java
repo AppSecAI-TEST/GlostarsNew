@@ -30,9 +30,9 @@ public class SearchUser {
 
         String urlBody = "";
 
-        if(!email.isEmpty()){
+        if(!email.isEmpty() || (email != null)){
             urlBody = "http://www.glostars.com/api/account/GetUserInfo?userEmail=" + email;
-        } else if(!userid.isEmpty()){
+        } else if(!userid.isEmpty() || (userid != null)){
             urlBody= "http://www.glostars.com/api/account/GetUserInfoById?userId=" + userid;
         }
 

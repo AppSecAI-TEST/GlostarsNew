@@ -109,7 +109,6 @@ public class LoginActivity extends Fragment {
 
                 String pwd = password.getText().toString();
                 String usrname = email.getText().toString();
-               // startActivity(new Intent(getActivity(), MainFeed.class));
                 try {
                     login("password", pwd, usrname);
 

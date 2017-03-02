@@ -24,7 +24,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainFeed extends AppCompatActivity {
+public class MainFeed extends AppCompatActivity implements OnRatingEventListener {
 
 
     Animation fab_hide;
@@ -103,11 +107,11 @@ public class MainFeed extends AppCompatActivity {
         Context context = MainFeed.this;
 
         mUser = MyUser.getmUser();
-        mUser.setContext(context);
+        mUser.setContext(this);
 
 
         layoutManager = new LinearLayoutManager(this);
-        mAdapter = new PostAdapter(postList, this);
+        mAdapter = new PostAdapter(postList, this, this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
@@ -135,6 +139,8 @@ public class MainFeed extends AppCompatActivity {
                 }
             }
         });
+
+
 
 
 
@@ -289,10 +295,13 @@ public class MainFeed extends AppCompatActivity {
             }
         });
 
-
+        Picasso.with(this).load(mUser.getProfilePicURL()).into(profileFAB);
+        //profileFAB
 
 
     }
+
+
 
     private void populateFeed(String userId, int pg, String token) {
 
@@ -324,7 +333,7 @@ public class MainFeed extends AppCompatActivity {
                 System.out.println("POSTER: " + name + " " + userId + " " + id + " " + description + " " + picURL + " " + isFeatured + " " + isCompeting + " " + starsCount);
 
 
-                setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, starsCount, 0);
+                setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, 0, 0);
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -346,6 +355,12 @@ public class MainFeed extends AppCompatActivity {
         postList.add(post);
 
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRatingBarChange(Post item, int value) {
+
+
     }
 
     //-------------CAMERA AND GALLERY CALLERS------------------------------------------
@@ -470,6 +485,8 @@ public class MainFeed extends AppCompatActivity {
 
         //ivImage.setImageBitmap(thumbnail);
     }
+
+
 
 
     //-------------/CAMERA AND GALLERY CALLERS<end>------------------------------------------

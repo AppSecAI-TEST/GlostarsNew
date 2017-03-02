@@ -236,9 +236,8 @@ public class upload extends AppCompatActivity {
                 }
 
                 if((bm != null) && (privacy != "")){
-                    prepareUpload(description.getText().toString(), privacy, competition.isChecked(), mUser.getToken(), bm);
+                    //prepareUpload(description.getText().toString(), privacy, competition.isChecked(), mUser.getToken(), bm);
                 }
-
 
             }
         });

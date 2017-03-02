@@ -1,18 +1,28 @@
 package com.golstars.www.glostars;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class competitionUser extends AppCompatActivity {
 
@@ -47,7 +57,12 @@ public class competitionUser extends AppCompatActivity {
     boolean showingFirst = true;
 
 
+
     GridView competitionusergrid;
+
+    private ArrayList<String> targetList;
+    private GridAdapter targetAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,7 +202,58 @@ public class competitionUser extends AppCompatActivity {
             }
         });
 
+
+        //======================== DATA HANDLING =====================================
+        MyUser mUser = MyUser.getmUser();
+        mUser.setContext(this);
+        Picasso.with(this).load(mUser.getProfilePicURL()).into(profileFAB);
+
+        targetList = new ArrayList<>();
+
+        targetAdapter = new GridAdapter(getApplicationContext(), targetList);
+
+        competitionusergrid.setAdapter(targetAdapter);
+
+        String target = "";
+        target = this.getIntent().getStringExtra("LOAD_TARGET");
+        System.out.println(target);
+
+        if(target.equals("COMPETITION")){
+            //if we have competition pics
+            if(targetList.isEmpty()){
+                ArrayList<String> aux = this.getIntent().getStringArrayListExtra("COMPETITION_PICS");
+                System.out.println("target list - " + aux);
+                for(int i = 0; i < aux.size(); i++){
+                    targetList.add(aux.get(i));
+                    targetAdapter.notifyDataSetChanged();
+                }
+
+
+            }
+
+        }else if(target.equals("PUBLIC")){
+            //if we have public
+            if(targetList.isEmpty()){
+                //targetList.clear();
+                ArrayList<String> aux = this.getIntent().getStringArrayListExtra("PUBLIC_PICS");
+                System.out.println("target list - " + aux);
+                for(int i = 0; i < aux.size(); i++){
+                    targetList.add(aux.get(i));
+                    targetAdapter.notifyDataSetChanged();
+                }
+            }
+
+        }else if(target.equals("MUTUAL")){
+
+        }else {
+
+        }
+
+
     }
 
+
+
 }
+
 

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.Animation;
@@ -18,6 +19,8 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -255,7 +258,15 @@ public class user_profile extends AppCompatActivity {
         seeAllCompetitionProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(user_profile.this, competitionUser.class));
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("COMPETITION_PICS", compImgsUrls);
+                intent.putExtra("LOAD_TARGET", "COMPETITION");
+                intent.putExtras(bundle);
+                intent.setClass(getApplicationContext(), competitionUser.class);
+                startActivity(intent);
+
+                //startActivity(new Intent(user_profile.this, competitionUser.class));
 
             }
         });
@@ -263,14 +274,29 @@ public class user_profile extends AppCompatActivity {
         seeAllPublicProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(user_profile.this, competitionUser.class));
-
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("PUBLIC_PICS", publicImgsUrls);
+                intent.putExtra("LOAD_TARGET", "PUBLIC");
+                intent.putExtras(bundle);
+                intent.setClass(getApplicationContext(), competitionUser.class);
+                startActivity(intent);
             }
         });
+
+
 
         seeAllMutualProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("MUTUAL_PICS", mutualImgsUrls);
+                intent.putExtra("LOAD_TARGET", "MUTUAL");
+                intent.putExtras(bundle);
+                intent.setClass(getApplicationContext(), competitionUser.class);
+                startActivity(intent);
+
                 startActivity(new Intent(user_profile.this, competitionUser.class));
 
             }
@@ -367,7 +393,7 @@ public class user_profile extends AppCompatActivity {
             }
         });
 
-
+        Picasso.with(this).load(mUser.getProfilePicURL()).into(profileFAB);
 
 
 
@@ -420,6 +446,8 @@ public class user_profile extends AppCompatActivity {
         if(mutualFollowerPictures != null){
             for(int i = 0; i < mutualFollowerPictures.length(); i++){
                 JSONObject pic = mutualFollowerPictures.getJSONObject(i);
+
+
                 setMutualAdapter(pic.getString("picUrl"));
             }
         }
