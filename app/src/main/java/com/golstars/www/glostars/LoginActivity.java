@@ -6,19 +6,12 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+
+
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -116,7 +109,7 @@ public class LoginActivity extends Fragment {
 
                 String pwd = password.getText().toString();
                 String usrname = email.getText().toString();
-                startActivity(new Intent(getActivity(), MainFeed.class));
+               // startActivity(new Intent(getActivity(), MainFeed.class));
                 try {
                     login("password", pwd, usrname);
 

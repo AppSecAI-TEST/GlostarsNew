@@ -22,6 +22,7 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -72,6 +73,7 @@ public class user_profile extends AppCompatActivity {
     TextView numFollowersCountProfile;
     TextView seeAllCompetitionProfile;
     TextView seeAllPublicProfile;
+    TextView seeAllMutualProfile;
     TextView weeklyPrizeCountProfile;
     TextView monthlyPrizeCountProfile;
     TextView exhibitionPrizeCountProfile;
@@ -142,15 +144,10 @@ public class user_profile extends AppCompatActivity {
         competitionbadge = (TextView)findViewById(R.id.competitionbadge);
 
 
-
-
         fab_show = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_show);
         fab_hide = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_hide);
         rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
-
-
-
 
 
         usernameProfile = (TextView)findViewById(R.id.profileuserNAME);
@@ -171,6 +168,7 @@ public class user_profile extends AppCompatActivity {
         numFollowingCountProfile = (TextView)findViewById(R.id.numberoffollowingCount);
         seeAllCompetitionProfile = (TextView)findViewById(R.id.seeAllCompetition);
         seeAllPublicProfile = (TextView)findViewById(R.id.seeAllPublic);
+        seeAllMutualProfile = (TextView)findViewById(R.id.seeAllMutual);
         numPhotosCount = (TextView)findViewById(R.id.numberofpostsCount);
 
 
@@ -214,7 +212,7 @@ public class user_profile extends AppCompatActivity {
 
 
 
-        userPicProfile = (ImageButton)findViewById(R.id.userPIC);
+        userPicProfile = (ImageView) findViewById(R.id.userPIC);
         weeklyPrizeProfile = (ImageView)findViewById(R.id.weeklyPrize);
         monthlyPrizeProfile = (ImageView)findViewById(R.id.monthlyPrize);
         exhibitionPrizeProfile = (ImageView)findViewById(R.id.exhibitionPrize);
@@ -228,7 +226,7 @@ public class user_profile extends AppCompatActivity {
         publicImgsUrls = new ArrayList<>();
         mutualImgsUrls = new ArrayList<>();
 
-        //compGridView = (GridView) findViewById(R.id.competitionPosts);
+        compGridView = (GridView) findViewById(R.id.competitionPosts);
         compAdapter = new GridAdapter(this, compImgsUrls);
         competitiongrid.setAdapter(compAdapter); //adapter for competition pictures
 
@@ -255,6 +253,22 @@ public class user_profile extends AppCompatActivity {
 
 
         seeAllCompetitionProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(user_profile.this, competitionUser.class));
+
+            }
+        });
+
+        seeAllPublicProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(user_profile.this, competitionUser.class));
+
+            }
+        });
+
+        seeAllMutualProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(user_profile.this, competitionUser.class));
@@ -306,8 +320,6 @@ public class user_profile extends AppCompatActivity {
                     profileFAB.setClickable(true);
                     notificationFAB.setClickable(true);
                     isOpen=true;
-
-
 
 
                 }
@@ -411,8 +423,6 @@ public class user_profile extends AppCompatActivity {
                 setMutualAdapter(pic.getString("picUrl"));
             }
         }
-
-
 
 
 

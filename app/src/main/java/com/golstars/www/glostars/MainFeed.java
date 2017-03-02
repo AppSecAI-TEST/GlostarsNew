@@ -285,7 +285,7 @@ public class MainFeed extends AppCompatActivity {
                 profileFAB.setClickable(false);
                 notificationFAB.setClickable(false);
                 isOpen=false;
-                startActivity(new Intent(MainFeed.this, competitionAll.class));
+                startActivity(new Intent(MainFeed.this, competition_page.class));
             }
         });
 

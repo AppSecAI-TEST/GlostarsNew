@@ -34,6 +34,7 @@
                     android:id="@+id/profileuserPIC"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:scaleType="centerCrop"
                     android:layout_marginTop="30dp"
                     android:src="@drawable/home"/>
 

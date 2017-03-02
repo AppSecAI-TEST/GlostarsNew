@@ -1,6 +1,7 @@
 package com.golstars.www.glostars;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
@@ -112,6 +113,13 @@ public class SignUp extends Fragment{
 
 
         signUp.setTransformationMethod(null);
+
+        terms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), termsOfUse.class));
+            }
+        });
 
 
 

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_tips"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    tools:context="com.golstars.www.glostars.tips">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tipslin"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:visibility="visible"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Use the Right Light"
+                android:textStyle="bold"
+                android:textSize="26dp"/>
+
+            <TextView
+                android:id="@+id/b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:layout_marginBottom="32dp"
+                android:text="@string/light"/>
+
+            <TextView
+                android:id="@+id/c"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Don't Use Zoom"
+                android:textStyle="bold"
+                android:textSize="26dp"/>
+
+            <TextView
+                android:id="@+id/d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:layout_marginBottom="32dp"
+                android:text="@string/zoom"/>
+
+            <TextView
+                android:id="@+id/e"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Watch Your Background"
+                android:textStyle="bold"
+                android:textSize="26dp"/>
+
+            <TextView
+                android:id="@+id/f"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:layout_marginBottom="32dp"
+                android:text="@string/backgroundtips"/>
+
+            <TextView
+                android:id="@+id/g"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Use Frame For Your Shots"
+                android:textStyle="bold"
+                android:textSize="26dp"/>
+
+            <TextView
+                android:id="@+id/h"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:layout_marginBottom="32dp"
+                android:text="@string/frame"/>
+            <TextView
+                android:id="@+id/i"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change Perspective"
+                android:textStyle="bold"
+                android:textSize="26dp"/>
+
+            <TextView
+                android:id="@+id/j"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:layout_marginBottom="32dp"
+                android:text="@string/perspective"/>
+
+            <TextView
+                android:id="@+id/k"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Crop Your Pictures"
+                android:textStyle="bold"
+                android:textSize="26dp"/>
+
+            <TextView
+                android:id="@+id/ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:layout_marginBottom="32dp"
+                android:text="@string/crop"/>
+
+            <TextView
+                android:id="@+id/m"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose The Right Apps"
+                android:textStyle="bold"
+                android:textSize="26dp"/>
+
+            <TextView
+                android:id="@+id/n"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:layout_marginBottom="32dp"
+                android:text="@string/apps"/>
+
+            <TextView
+                android:id="@+id/o"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone Features"
+                android:textStyle="bold"
+                android:textSize="26dp"/>
+
+            <TextView
+                android:id="@+id/p"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:layout_marginBottom="32dp"
+                android:text="@string/phnfeatures"/>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</RelativeLayout>

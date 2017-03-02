@@ -187,7 +187,6 @@ public class competitionUser extends AppCompatActivity {
             }
         });
 
-
     }
 
 }

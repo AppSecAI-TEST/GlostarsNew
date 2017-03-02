@@ -75,6 +75,45 @@
 
     </string>
 
+    <string name="mainterms">
+
+        1. You have to be minimum 13 years old to use the service.
+
+\n\n2. You may not post violent, nude, partially nude, discriminatory, unlawful, infringing, hateful, pornographic or sexually suggestive photos or other similar content via the Service.
+
+\n\n3. While uploading any picture please use your common sense
+
+\n\n4. You are responsible for any activity that occurs through your account and you agree you will not sell, transfer, license or assign your account, followers, username, or any account rights. You also agree that all information you provide or provided to Glostars upon registration and at all other times is true, accurate, current and complete and you agree to update your information as necessary to maintain its truth and accuracy.
+
+\n\n5. You agree that you will not ask, collect or use the login credentials of other Glostars users.
+
+\n\n6. You are responsible for keeping your log in credentials secret and secure.
+
+\n\n7. You must not defame, stalk, bully, abuse, harass, threaten, impersonate or intimidate people or entities and you must not post private or confidential information via the Service, including, without limitation, your or any other person\'s credit card information, social security or alternate national identity numbers, non-public phone numbers or non-public email addresses.
+
+\n\n8. You may not use the Service for any illegal or unauthorized purpose. You agree to comply with all laws, rules and regulations (for example, federal, state, local and provincial) applicable to your use of the Service and your Content (defined below), including but not limited to, copyright laws.
+
+\n\n9. You are solely responsible for your conduct and any data, text, files, information, usernames, images, graphics, photos, profiles, audio and video clips, sounds, musical works, works of authorship, applications, links and other content or materials (collectively, "Content") that you submit, post or display on or via the Service.
+
+\n\n10. You must not change, modify, adapt or alter the Service or change, modify or alter another website so as to falsely imply that it is associated with the Service or Glostars.
+
+\n\n11. You must not create or submit unwanted email, comments, stars or other forms of commercial or harassing communications (a/k/a "spam") to any Glostars users.
+
+\n\n12. You must not use domain names or web URLs in your username without prior written consent from Glostars.
+
+\n\n13. You must not interfere or disrupt the Service or servers or networks connected to the Service, including by transmitting any worms, viruses, spyware, malware or any other code of a destructive or disruptive nature. You may not inject content or code or otherwise alter or interfere with the way any Glostars page is rendered or displayed in a user\'s browser or device.
+
+\n\n14. You must not create accounts with the Service through unauthorized means, including but not limited to, by using an automated device, script, bot, spider, crawler or scraper.
+
+\n\n15. You must not attempt to restrict another user from using or enjoying the Service and you must not encourage or facilitate violations of these Terms of Use or any other Glostars terms.
+
+\n\n16. Violation of these Terms of Use may, in Glostars\'s sole discretion, result in termination of your Glostars account. You understand and agree that Glostars cannot and will not be responsible for the Content posted on the Service and you use the Service at your own risk. If you violate the letter or spirit of these Terms of Use, or otherwise create risk or possible legal exposure for Glostars, we can stop providing all or part of the Service to you.
+
+\n\n17. Glostars may use the content for marketing purpose with the consent of owner.
+
+\n\n\n\nService : Here the term service has been defined as the Glostars website offering facility to upload, host, share, star, report and delete picture; also the opportunity to compete for prizes based on the stars provided by the registered users.
+    </string>
+
     <string name="title_activity_notifications">notifications</string>
     <string name="title_activity_notification">Notification</string>
     <string name="title_activity_upload">upload</string>
@@ -88,4 +127,11 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_comment_model">commentModel</string>
     <string name="title_activity_search_results">searchResults</string>
+    <string name="title_activity_competition_page">competition_page</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_competition_gallery">competitionGallery</string>
+    <string name="title_activity_tips">tips</string>
+    <string name="title_activity_settings_page">settingsPage</string>
 </resources>

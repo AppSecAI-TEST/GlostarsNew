@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_termscomp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="0dp"
+    tools:context="com.golstars.www.glostars.termscomp">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/termslin"
+        android:visibility="visible">
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="4dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/please"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Please read the terms and conditions carefully. By participating in the competition you agree to be bound by these terms:"
+                android:textSize="18dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="8dp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:layout_marginBottom="32dp"
+                />
+
+            <TextView
+                android:id="@+id/termstext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darkGrey"
+                android:textSize="12sp"
+                android:text="@string/Terms"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
