@@ -253,12 +253,15 @@ public class user_profile extends AppCompatActivity {
 
 
         SearchUser searchUser = new SearchUser();
+        FollowerService fService = new FollowerService();
 
         if(target != null){
             try {
                 guestUser = searchUser.getGuestUser(target, mUser.getToken());
                 System.out.println("this user is" + guestUser.getName());
                 usernameProfile.setText(guestUser.getName());
+                fService.LoadFollowers(guestUser.getUserId(), mUser.getToken());
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

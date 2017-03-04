@@ -21,6 +21,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -112,7 +113,22 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
 
         layoutManager = new LinearLayoutManager(this);
-        mAdapter = new PostAdapter(postList, this, this, this);
+        mAdapter = new PostAdapter(postList, this, this, this, new OnItemClickListener() {
+            @Override
+            public void onItemClickPost(Post item) {
+                Intent intent = new Intent();
+                intent.putExtra("IMAGE_SAUCE",item.getPicURL());
+                intent.putExtra("IMAGE_AUTHOR", item.getAuthor());
+                intent.putExtra("IMAGE_CAPTION",item.getDescription());
+                intent.setClass(getApplicationContext(), imagefullscreen.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemClickNotif(NotificationObj notif) {
+
+            }
+        });
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
@@ -371,6 +387,11 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         intent.putExtra("USER_ID", item.getUserId());
         intent.setClass(this, user_profile.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemClickNotif(NotificationObj notif) {
+
     }
 
     //-------------CAMERA AND GALLERY CALLERS------------------------------------------

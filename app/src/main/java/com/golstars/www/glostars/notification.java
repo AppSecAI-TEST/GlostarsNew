@@ -29,7 +29,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public class notification extends AppCompatActivity {
+public class notification extends AppCompatActivity implements OnItemClickListener {
 
 
     //===========================FABS=========================================
@@ -85,7 +85,7 @@ public class notification extends AppCompatActivity {
     NotificationAdapter mAdapter;
     NotificationAdapter follAdapter;
 
-
+    MyUser myUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -286,13 +286,13 @@ public class notification extends AppCompatActivity {
         notifs = new ArrayList<>();
         follNotifs = new ArrayList<>();
 
-        mAdapter = new NotificationAdapter(notifs, this);
+        mAdapter = new NotificationAdapter(notifs, this, this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         noti.setLayoutManager(layoutManager);
         noti.setItemAnimator(new DefaultItemAnimator());
         noti.setAdapter(mAdapter);
 
-        follAdapter = new NotificationAdapter(follNotifs, this);
+        follAdapter = new NotificationAdapter(follNotifs, this, this);
         RecyclerView.LayoutManager layoutM = new LinearLayoutManager(getApplicationContext());
         foll.setLayoutManager(layoutM);
         foll.setItemAnimator(new DefaultItemAnimator());
@@ -304,7 +304,7 @@ public class notification extends AppCompatActivity {
 //        RecyclerView foll;
 
 
-        MyUser myUser = MyUser.getmUser();
+        myUser = MyUser.getmUser();
         try {
             populateNotificationsList(myUser.getUserId(), myUser.getToken());
         } catch (JSONException e) {
@@ -383,4 +383,20 @@ public class notification extends AppCompatActivity {
         mAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onItemClickPost(Post item) {
+
+    }
+
+    @Override
+    public void onItemClickNotif(NotificationObj notif) {
+        if(!(notif.getDescription() == "started following you")){
+            Intent intent = new Intent();
+            intent.putExtra("IMAGE_SAUCE",notif.getPicURL());
+            intent.putExtra("IMAGE_AUTHOR", myUser.getName());
+            intent.putExtra("IMAGE_CAPTION","");
+            intent.setClass(getApplicationContext(), imagefullscreen.class);
+            startActivity(intent);
+        }
+    }
 }

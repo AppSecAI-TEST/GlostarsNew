@@ -6,4 +6,6 @@ package com.golstars.www.glostars;
 
 public interface OnItemClickListener {
     void onItemClickPost(Post item);
+
+    void onItemClickNotif(NotificationObj notif);
 }

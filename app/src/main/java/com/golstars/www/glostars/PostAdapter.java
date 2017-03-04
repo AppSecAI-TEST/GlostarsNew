@@ -27,6 +27,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     private List<Post> postsList;
     public  Context context;
     private final OnItemClickListener listener;
+    private final OnItemClickListener postImgListener;
     private final OnRatingEventListener ratingListener;
 
 
@@ -38,7 +39,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         public ImageView propic;
         public RatingBar ratingBar;
 
-        public MyViewHolder(View view, final OnRatingEventListener ratingListener, final OnItemClickListener listener){
+        public MyViewHolder(View view, final OnRatingEventListener ratingListener, final OnItemClickListener listener, final OnItemClickListener postImgListener){
             super(view);
             username=(TextView)view.findViewById(R.id.userNAME);
             caption=(TextView)view.findViewById(R.id.userCAPTION);
@@ -69,16 +70,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                     listener.onItemClickPost(postsList.get(getLayoutPosition()));
                 }
             });
+
+            postImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    postImgListener.onItemClickPost(postsList.get(getLayoutPosition()));
+                }
+            });
         }
 
 
     }
 
-    public PostAdapter(List<Post> postsList, Context context, OnRatingEventListener ratingListener, OnItemClickListener listener){
+    public PostAdapter(List<Post> postsList, Context context, OnRatingEventListener ratingListener, OnItemClickListener listener, OnItemClickListener postImgListener){
         this.postsList = postsList;
         this.context = context;
         this.ratingListener = ratingListener;
         this.listener = listener;
+        this.postImgListener = postImgListener;
     }
 
 
@@ -87,7 +96,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.content_main_feed, parent, false);
 
-        return new MyViewHolder(itemView, ratingListener, listener);
+        return new MyViewHolder(itemView, ratingListener, listener, postImgListener);
     }
 
     @Override

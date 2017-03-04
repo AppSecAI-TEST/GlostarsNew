@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 
 public class imagefullscreen extends AppCompatActivity {
 
@@ -21,5 +23,30 @@ public class imagefullscreen extends AppCompatActivity {
         author = (TextView)findViewById(R.id.author);
         caption = (TextView)findViewById(R.id.caption);
 
+        String imgSrc = this.getIntent().getStringExtra("IMAGE_SAUCE");
+        String aut = this.getIntent().getStringExtra("IMAGE_AUTHOR");
+        String description = this.getIntent().getStringExtra("IMAGE_CAPTION");
+
+        if(imgSrc == null){
+            finish();
+        } else {
+            Picasso.with(this).load(imgSrc).into(image);
+        }
+
+        if(author == null){
+            finish();
+        } else {
+            author.setText(aut);
+        }
+
+        if(description == null){
+            description = "";
+            caption.setText(description);
+
+        } else {
+            caption.setText(description);
+        }
+
     }
+
 }

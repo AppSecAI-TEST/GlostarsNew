@@ -23,17 +23,19 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public List<NotificationObj> notfications;
     public Context context;
+    private final OnItemClickListener listener;
 
-    public NotificationAdapter(List<NotificationObj> nots, Context context){
+    public NotificationAdapter(List<NotificationObj> nots, Context context, OnItemClickListener listener){
         this.notfications = nots;
         this.context = context;
+        this.listener = listener;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView propic, postpreview;
         public TextView name, surname, notiBanner, min, hour, timenumber;
 
-        public MyViewHolder(View itemView) {
+        public MyViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             propic = (ImageView)itemView.findViewById(R.id.propicNOTI);
             postpreview = (ImageView)itemView.findViewById(R.id.postpreviewNOTI);
@@ -43,6 +45,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             min = (TextView)itemView.findViewById(R.id.minbannerNOTI);
             hour = (TextView)itemView.findViewById(R.id.hourbannerNOTI);
             timenumber = (TextView)itemView.findViewById(R.id.timeNOTI);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClickNotif(notfications.get(getLayoutPosition()));
+                }
+            });
 
         }
     }
@@ -53,7 +61,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.notificationmodel, parent, false);
 
-        return new MyViewHolder(view);
+        return new MyViewHolder(view, listener);
     }
 
     @Override
