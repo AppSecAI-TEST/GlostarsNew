@@ -23,15 +23,10 @@ import java.util.List;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> {
 
 
-    public interface OnItemClickListener {
-        void onItemClick(Post item);
-    }
-
-
 
     private List<Post> postsList;
     public  Context context;
-    //private final OnItemClickListener listener;
+    private final OnItemClickListener listener;
     private final OnRatingEventListener ratingListener;
 
 
@@ -43,7 +38,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         public ImageView propic;
         public RatingBar ratingBar;
 
-        public MyViewHolder(View view, final OnRatingEventListener ratingListener){
+        public MyViewHolder(View view, final OnRatingEventListener ratingListener, final OnItemClickListener listener){
             super(view);
             username=(TextView)view.findViewById(R.id.userNAME);
             caption=(TextView)view.findViewById(R.id.userCAPTION);
@@ -61,16 +56,29 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
                 }
             });
+
+            propic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClickPost(postsList.get(getLayoutPosition()));
+                }
+            });
+            username.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClickPost(postsList.get(getLayoutPosition()));
+                }
+            });
         }
 
 
     }
 
-    public PostAdapter(List<Post> postsList, Context context, OnRatingEventListener ratingListener){
+    public PostAdapter(List<Post> postsList, Context context, OnRatingEventListener ratingListener, OnItemClickListener listener){
         this.postsList = postsList;
         this.context = context;
-        //this.listener = listener;
         this.ratingListener = ratingListener;
+        this.listener = listener;
     }
 
 
@@ -79,7 +87,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.content_main_feed, parent, false);
 
-        return new MyViewHolder(itemView, ratingListener);
+        return new MyViewHolder(itemView, ratingListener, listener);
     }
 
     @Override

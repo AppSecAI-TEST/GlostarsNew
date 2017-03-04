@@ -3,6 +3,8 @@ package com.golstars.www.glostars;
 import android.content.Context;
 import android.os.Handler;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -30,7 +32,7 @@ public class SearchUser {
 
         String urlBody = "";
 
-        if(!email.isEmpty() || (email != null)){
+        if((email != "")){
             urlBody = "http://www.glostars.com/api/account/GetUserInfo?userEmail=" + email;
         } else if(!userid.isEmpty() || (userid != null)){
             urlBody= "http://www.glostars.com/api/account/GetUserInfoById?userId=" + userid;
@@ -115,4 +117,26 @@ public class SearchUser {
     public void setData(String data) {
         this.data = data;
     }
+
+    public GuestUser getGuestUser(String usrId, String token) throws Exception {
+        GuestUser gUser = new GuestUser();
+
+        String data = null;
+        search("", token, usrId);
+        while(data == null){
+            data = getData();
+        }
+
+        JSONObject dat = new JSONObject(data);
+        JSONObject usrData = dat.getJSONObject("resultPayload");
+        gUser.setEmail(usrData.getString("email"));
+        gUser.setName(usrData.getString("name"));
+        gUser.setUserId(usrData.getString("userId"));
+        gUser.setProfilePicURL(usrData.getString("profilePicURL"));
+
+        return gUser;
+
+    }
+
+
 }

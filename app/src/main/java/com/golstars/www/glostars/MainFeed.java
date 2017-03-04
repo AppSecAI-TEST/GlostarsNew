@@ -26,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
@@ -43,7 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainFeed extends AppCompatActivity implements OnRatingEventListener {
+public class MainFeed extends AppCompatActivity implements OnRatingEventListener, OnItemClickListener {
 
 
     Animation fab_hide;
@@ -111,7 +112,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
 
         layoutManager = new LinearLayoutManager(this);
-        mAdapter = new PostAdapter(postList, this, this);
+        mAdapter = new PostAdapter(postList, this, this, this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
@@ -361,6 +362,15 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     public void onRatingBarChange(Post item, int value) {
 
 
+    }
+
+    @Override
+    public void onItemClickPost(Post item) {
+        //sends user id to the next activity before starting it
+        Intent intent = new Intent();
+        intent.putExtra("USER_ID", item.getUserId());
+        intent.setClass(this, user_profile.class);
+        startActivity(intent);
     }
 
     //-------------CAMERA AND GALLERY CALLERS------------------------------------------

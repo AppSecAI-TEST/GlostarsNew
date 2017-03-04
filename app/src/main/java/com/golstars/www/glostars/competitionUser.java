@@ -218,7 +218,11 @@ public class competitionUser extends AppCompatActivity {
         target = this.getIntent().getStringExtra("LOAD_TARGET");
         System.out.println(target);
 
-        if(target.equals("COMPETITION")){
+        if(target == null) {
+            System.out.println("something else happened here");
+        }
+
+        else if(target.equals("COMPETITION")){
             //if we have competition pics
             if(targetList.isEmpty()){
                 ArrayList<String> aux = this.getIntent().getStringArrayListExtra("COMPETITION_PICS");
@@ -244,9 +248,19 @@ public class competitionUser extends AppCompatActivity {
             }
 
         }else if(target.equals("MUTUAL")){
+            //if we have mutual
+            if(targetList.isEmpty()){
+                //targetList.clear();
+                ArrayList<String> aux = this.getIntent().getStringArrayListExtra("MUTUAL_PICS");
+                System.out.println("target list - " + aux);
+                for(int i = 0; i < aux.size(); i++){
+                    targetList.add(aux.get(i));
+                    targetAdapter.notifyDataSetChanged();
+                }
+            }
 
-        }else {
-
+        }else if(target == null) {
+            System.out.println("something else happened here");
         }
 
 

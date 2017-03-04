@@ -19,6 +19,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -112,7 +113,7 @@ public class user_profile extends AppCompatActivity {
 
     private ArrayList<String> mutualImgsUrls;
     private GridAdapter mutualAdapter;
-
+    private GuestUser guestUser;
 
 
 
@@ -247,9 +248,28 @@ public class user_profile extends AppCompatActivity {
         MyUser mUser = MyUser.getmUser();
         mUser.setContext(context);
 
-        usernameProfile.setText(mUser.getName());
+        String target = null;
+        target = this.getIntent().getStringExtra("USER_ID");
+
+
+        SearchUser searchUser = new SearchUser();
+
+        if(target != null){
+            try {
+                guestUser = searchUser.getGuestUser(target, mUser.getToken());
+                System.out.println("this user is" + guestUser.getName());
+                usernameProfile.setText(guestUser.getName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+
+        //usernameProfile.setText(mUser.getName());
         try {
-            populateGallery(mUser.getUserId(), 1, mUser.getToken());
+            populateGallery(guestUser.getUserId(), 1, mUser.getToken());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -258,13 +278,18 @@ public class user_profile extends AppCompatActivity {
         seeAllCompetitionProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList("COMPETITION_PICS", compImgsUrls);
-                intent.putExtra("LOAD_TARGET", "COMPETITION");
-                intent.putExtras(bundle);
-                intent.setClass(getApplicationContext(), competitionUser.class);
-                startActivity(intent);
+                if(!compImgsUrls.isEmpty()){
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArrayList("COMPETITION_PICS", compImgsUrls);
+                    intent.putExtra("LOAD_TARGET", "COMPETITION");
+                    intent.putExtras(bundle);
+                    intent.setClass(getApplicationContext(), competitionUser.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "you don't have competition pictures", Toast.LENGTH_LONG).show();
+                }
+
 
                 //startActivity(new Intent(user_profile.this, competitionUser.class));
 
@@ -274,13 +299,18 @@ public class user_profile extends AppCompatActivity {
         seeAllPublicProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList("PUBLIC_PICS", publicImgsUrls);
-                intent.putExtra("LOAD_TARGET", "PUBLIC");
-                intent.putExtras(bundle);
-                intent.setClass(getApplicationContext(), competitionUser.class);
-                startActivity(intent);
+                if(!publicImgsUrls.isEmpty()){
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArrayList("PUBLIC_PICS", publicImgsUrls);
+                    intent.putExtra("LOAD_TARGET", "PUBLIC");
+                    intent.putExtras(bundle);
+                    intent.setClass(getApplicationContext(), competitionUser.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "you don't have public pictures", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -289,15 +319,20 @@ public class user_profile extends AppCompatActivity {
         seeAllMutualProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList("MUTUAL_PICS", mutualImgsUrls);
-                intent.putExtra("LOAD_TARGET", "MUTUAL");
-                intent.putExtras(bundle);
-                intent.setClass(getApplicationContext(), competitionUser.class);
-                startActivity(intent);
+                if(!mutualImgsUrls.isEmpty()){
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArrayList("MUTUAL_PICS", mutualImgsUrls);
+                    intent.putExtra("LOAD_TARGET", "MUTUAL");
+                    intent.putExtras(bundle);
+                    intent.setClass(getApplicationContext(), competitionUser.class);
+                    startActivity(intent);
 
-                startActivity(new Intent(user_profile.this, competitionUser.class));
+                    startActivity(new Intent(user_profile.this, competitionUser.class));
+                } else{
+                    Toast.makeText(getApplicationContext(), "you don't have mutual pictures", Toast.LENGTH_LONG).show();
+                }
+
 
             }
         });
