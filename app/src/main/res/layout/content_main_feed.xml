@@ -77,17 +77,6 @@
                 android:visibility="visible"/>
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="  hours ago"
-                android:textColor="@color/darkGrey"
-                android:layout_marginEnd="8dp"
-                android:layout_alignTop="@+id/userNAME"
-                android:layout_alignEnd="@+id/userPOST"
-                android:visibility="invisible"/>
-
-
 
             <LinearLayout
                 android:id="@+id/ratecomment"
@@ -131,7 +120,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/comment_icon"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="0dp"
                     />
 
                 <TextView
@@ -164,7 +153,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginBottom="0dp"
                     android:layout_marginStart="8dp"
                     android:src="@drawable/share_fb"
                     android:layout_marginEnd="8dp"
@@ -175,7 +164,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginBottom="0dp"
                     android:src="@drawable/share_twitter"
                     android:layout_marginEnd="8dp"
                     />
@@ -185,7 +174,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginBottom="0dp"
                     android:src="@drawable/share_vk"
                     android:layout_marginEnd="8dp"
                     />
@@ -203,10 +192,21 @@
                 android:id="@+id/privacy"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
+                android:layout_marginTop="2dp"
                 android:src="@drawable/bench"
-                android:layout_marginRight="16dp"
-                android:layout_alignTop="@+id/userNAME"
-                android:layout_toLeftOf="@+id/uploadTIME"/>
+                android:layout_marginRight="0dp"
+                android:layout_alignTop="@+id/uploadTIME"
+                android:layout_toLeftOf="@+id/timedigit"/>
+            
+            <TextView
+                android:id="@+id/timedigit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "2"
+                android:layout_marginLeft="4dp"
+                android:layout_toLeftOf="@+id/uploadTIME"
+                android:layout_alignTop="@+id/uploadTIME"
+                />
 
 
             <View

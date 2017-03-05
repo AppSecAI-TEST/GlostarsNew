@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.golstars.www.glostars.competitionAll">
+    tools:context="com.golstars.www.glostars.followersPage">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -43,7 +42,7 @@
                         android:layout_height="50dp"
                         android:paddingLeft="2dp"
                         android:visibility="visible"
-                        android:src="@drawable/logoandtext"/>
+                        android:src="@drawable/lotext"/>
 
                     <EditText
                         android:id="@+id/searchedit"
@@ -74,10 +73,8 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_competition_all" />
-
-    <include layout="@layout/fabs" />
-
+    <include layout="@layout/content_followers_page" />
+    <include layout="@layout/fabs"/>
 
 
 </android.support.design.widget.CoordinatorLayout>

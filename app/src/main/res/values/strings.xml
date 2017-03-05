@@ -35,11 +35,11 @@
     <string name="frame">
         Try to place the objects in the foreground to frame the main subjects in your picture. Windows, arches, doorways etc. can form natural frames. 
     </string>
-    
+
     <string name="perspective">
         Pictures taken from different angles are more buzzworthy. Change your place and take some original shots! Try to use apps as well to add some special effects. 
     </string>
-    
+
     <string name="crop">
         Nowadays we all have hectic lifestyles so very often we don’t have much time to think carefully about the composition when taking a picture, so the advice is to take a wider picture. You can modify it latter by cropping unnecessary parts if needed.  </string>
     <string name="apps">
@@ -134,4 +134,5 @@
     <string name="title_activity_competition_gallery">competitionGallery</string>
     <string name="title_activity_tips">tips</string>
     <string name="title_activity_settings_page">settingsPage</string>
+    <string name="title_activity_followers_page">followersPage</string>
 </resources>

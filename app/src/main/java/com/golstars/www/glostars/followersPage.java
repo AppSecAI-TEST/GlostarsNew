@@ -1,33 +1,30 @@
 package com.golstars.www.glostars;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.GridView;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
+public class followersPage extends AppCompatActivity {
 
-import java.util.ArrayList;
+    ListView followersList;
 
-public class competitionUser extends AppCompatActivity {
 
-    //===========================FABS=========================================
+    ImageView followpropic;
+    TextView surname;
+    TextView lastname;
+
+    Button followbutton;
 
     Animation fab_hide;
     Animation fab_show;
@@ -50,33 +47,25 @@ public class competitionUser extends AppCompatActivity {
     TextView camerabadge;
     TextView mainbadge;
     TextView competitionbadge;
-    //===================================================================
-
-    ImageView slogo;
-    EditText search;
-    ImageView gl;
-    boolean showingFirst = true;
-
-
-
-    GridView competitionusergrid;
-
-    private ArrayList<String> targetList;
-    private GridAdapter targetAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_competition_user);
+        setContentView(R.layout.activity_followers_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        competitionusergrid = (GridView) findViewById(R.id.competitionusergrid);
+        followersList = (ListView)findViewById(R.id.followersList);
 
-         gl = (ImageView)findViewById(R.id.glostarslogo);
-        slogo = (ImageView)findViewById(R.id.searchlogo);
-         search = (EditText)findViewById(R.id.searchedit);
+
+        followpropic = (ImageView)findViewById(R.id.propicfollow);
+        surname = (TextView) findViewById(R.id.surnamefollow);
+        lastname = (TextView)findViewById(R.id.namefollow);
+
+        followbutton = (Button)findViewById(R.id.followBUT);
+        followbutton.setTransformationMethod(null);
+
+
 
         mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
         cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
@@ -102,16 +91,6 @@ public class competitionUser extends AppCompatActivity {
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
 
-
-
-        slogo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                startActivity(new Intent(competitionUser.this,searchResults.class));
-
-            }
-        });
 
         mainFAB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,22 +147,15 @@ public class competitionUser extends AppCompatActivity {
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(competitionUser.this, MainFeed.class));
+                startActivity(new Intent(followersPage.this, MainFeed.class));
             }
         });
 
-
-        notificationFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(competitionUser.this, notification.class));
-            }
-        });
 
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(competitionUser.this, user_profile.class));
+                startActivity(new Intent(followersPage.this, user_profile.class));
             }
         });
 
@@ -191,7 +163,7 @@ public class competitionUser extends AppCompatActivity {
         cameraFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(competitionUser.this, upload.class));
+                startActivity(new Intent(followersPage.this, upload.class));
             }
         });
 
@@ -199,76 +171,11 @@ public class competitionUser extends AppCompatActivity {
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(competitionUser.this, competitionAll.class));
+                startActivity(new Intent(followersPage.this, competitionAll.class));
             }
         });
 
 
-        //======================== DATA HANDLING =====================================
-        MyUser mUser = MyUser.getmUser();
-        mUser.setContext(this);
-        Picasso.with(this).load(mUser.getProfilePicURL()).into(profileFAB);
-
-        targetList = new ArrayList<>();
-
-        targetAdapter = new GridAdapter(getApplicationContext(), targetList);
-
-        competitionusergrid.setAdapter(targetAdapter);
-
-        String target = "";
-        target = this.getIntent().getStringExtra("LOAD_TARGET");
-        System.out.println(target);
-
-        if(target == null) {
-            System.out.println("something else happened here");
-        }
-
-        else if(target.equals("COMPETITION")){
-            //if we have competition pics
-            if(targetList.isEmpty()){
-                ArrayList<String> aux = this.getIntent().getStringArrayListExtra("COMPETITION_PICS");
-                System.out.println("target list - " + aux);
-                for(int i = 0; i < aux.size(); i++){
-                    targetList.add(aux.get(i));
-                    targetAdapter.notifyDataSetChanged();
-                }
-
-
-            }
-
-        }else if(target.equals("PUBLIC")){
-            //if we have public
-            if(targetList.isEmpty()){
-                //targetList.clear();
-                ArrayList<String> aux = this.getIntent().getStringArrayListExtra("PUBLIC_PICS");
-                System.out.println("target list - " + aux);
-                for(int i = 0; i < aux.size(); i++){
-                    targetList.add(aux.get(i));
-                    targetAdapter.notifyDataSetChanged();
-                }
-            }
-
-        }else if(target.equals("MUTUAL")){
-            //if we have mutual
-            if(targetList.isEmpty()){
-                //targetList.clear();
-                ArrayList<String> aux = this.getIntent().getStringArrayListExtra("MUTUAL_PICS");
-                System.out.println("target list - " + aux);
-                for(int i = 0; i < aux.size(); i++){
-                    targetList.add(aux.get(i));
-                    targetAdapter.notifyDataSetChanged();
-                }
-            }
-
-        }else if(target == null) {
-            System.out.println("something else happened here");
-        }
-
-
     }
 
-
-
 }
-
-

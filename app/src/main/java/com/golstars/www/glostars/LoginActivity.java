@@ -173,7 +173,9 @@ public class LoginActivity extends Fragment {
                     auth.setExpires(authObject.getString(".expires"));
                     auth.setIssued(authObject.getString(".issued"));
                     //auth.isTokenValid();
+
                     startActivity(new Intent(getActivity(), MainFeed.class));
+                    getActivity().finish();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

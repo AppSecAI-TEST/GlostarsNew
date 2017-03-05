@@ -269,7 +269,6 @@ public class user_profile extends AppCompatActivity {
 
 
 
-
         //usernameProfile.setText(mUser.getName());
         try {
             populateGallery(guestUser.getUserId(), 1, mUser.getToken());
@@ -277,6 +276,12 @@ public class user_profile extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        numFollowersProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(user_profile.this,followersPage.class));
+            }
+        });
 
         seeAllCompetitionProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -397,6 +402,7 @@ public class user_profile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(user_profile.this, MainFeed.class));
+                finish();
             }
         });
 
