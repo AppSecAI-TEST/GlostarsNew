@@ -233,12 +233,15 @@ public class searchResults extends AppCompatActivity implements SearchView.OnQue
     }
 
     @Override
-    public boolean onQueryTextSubmit(String query){
+    public boolean onQueryTextSubmit(String query) {
+
+
         return false;
     }
 
     @Override
-    public boolean onQueryTextChange(String newText){
+    public boolean onQueryTextChange(String newText) {
+
         return false;
     }
 

@@ -16,18 +16,33 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp">
 
-        <GridView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:layout_weight = "1"
-            android:columnWidth="90dp"
-            android:numColumns="3"
-            android:verticalSpacing="8dp"
-            android:stretchMode="columnWidth"
-            android:horizontalSpacing="8dp"
-            android:layout_gravity="center"
-            android:id="@+id/searchGrid"
-            />
+            android:layout_height="wrap_content">
+
+            <GridView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnWidth="90dp"
+                android:numColumns="3"
+                android:verticalSpacing="8dp"
+                android:stretchMode="columnWidth"
+                android:horizontalSpacing="8dp"
+                android:layout_gravity="center"
+                android:id="@+id/searchGrid"
+                android:visibility="visible"
+                />
+
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/searchlist"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                />
+
+        </RelativeLayout>
     </ScrollView>
 
 
