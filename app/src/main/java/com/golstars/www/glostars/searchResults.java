@@ -14,12 +14,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
 public class searchResults extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
     GridView searchgrid;
+    ListView searchlist;
 
     Animation fab_hide;
     Animation fab_show;
@@ -55,6 +57,10 @@ public class searchResults extends AppCompatActivity implements SearchView.OnQue
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         searchgrid = (GridView)findViewById(R.id.searchGrid);
+        searchlist = (ListView)findViewById(R.id.searchlist);
+
+
+
         mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
         cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (FloatingActionButton)findViewById(R.id.competitionFAB);
