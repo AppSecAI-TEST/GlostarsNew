@@ -26,6 +26,7 @@ public class SearchUser {
     private final OkHttpClient client = new OkHttpClient();
 
     private String data;
+    private String baseURL = "http://www.glostars.com/";
 
 
     public void search(String email, String token, String userid) throws Exception{
@@ -107,6 +108,73 @@ public class SearchUser {
             }
         });
 
+    }
+
+    public void findUserByName(String name, String token) throws Exception{
+        URL url = new URL(baseURL + "api/account/GetUserListByName?Name=" + name);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Authorization", "Bearer " + token)
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                setData(response.body().string());
+                System.out.println(getData());
+
+                /*
+                try{
+                    threadMsg(data);
+
+                } catch (Throwable t){
+                    t.printStackTrace();
+                } */
+
+
+
+            }
+        });
+    }
+
+    public void searchHashtags(String hashtag, String token) throws Exception{
+        URL url = new URL(baseURL + "api/images/GetSimilarHashTag?searchTag=" + hashtag);
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Authorization", "Bearer " + token)
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                setData(response.body().string());
+                System.out.println(getData());
+
+                /*
+                try{
+                    threadMsg(data);
+
+                } catch (Throwable t){
+                    t.printStackTrace();
+                } */
+
+
+
+            }
+        });
     }
 
 

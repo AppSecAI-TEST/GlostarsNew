@@ -2,6 +2,7 @@ package com.golstars.www.glostars;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,13 +15,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class searchResults extends AppCompatActivity implements SearchView.OnQueryTextListener{
+import java.util.ArrayList;
+
+
+public class searchResults extends AppCompatActivity implements  PopulatePage{
 
     GridView searchgrid;
     ListView searchlist;
@@ -47,6 +55,16 @@ public class searchResults extends AppCompatActivity implements SearchView.OnQue
     TextView mainbadge;
     TextView competitionbadge;
 
+    SearchUser searchUser;
+    ArrayAdapter<String> usrsAdapter;
+    ArrayList<String> usrsNames;
+
+    GridAdapter recentsAdapter;
+    ArrayList<String> recentsPics;
+    ArrayList<JSONObject> recentPostObjs;
+
+    MyUser mUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +75,8 @@ public class searchResults extends AppCompatActivity implements SearchView.OnQue
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.drawable.lotext);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
+
+
 
         searchgrid = (GridView)findViewById(R.id.searchGrid);
         searchlist = (ListView)findViewById(R.id.searchlist);
@@ -231,8 +251,23 @@ public class searchResults extends AppCompatActivity implements SearchView.OnQue
             }
         });
 
+        mUser = MyUser.getmUser();
+        mUser.setContext(this);
+        searchUser = new SearchUser();
+
+        recentPostObjs = new ArrayList<>();
+        recentsPics = new ArrayList<>();
+        recentsAdapter = new GridAdapter(this, recentsPics);
+        searchgrid.setAdapter(recentsAdapter);
+
+        try {
+            callAsyncPopulate(1, mUser.getToken());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -240,22 +275,99 @@ public class searchResults extends AppCompatActivity implements SearchView.OnQue
         inflater.inflate(R.menu.menu_main_feed,menu);
         MenuItem search = menu.findItem(R.id.searchmenu);
         SearchView searchView = (SearchView)search.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                System.out.println("search string is : " + newText);
+                try {
+                    searchUser.findUserByName(newText, mUser.getToken());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return false;
+            }
+        });
 
 
         return true;
     }
-
+    /*
     @Override
-    public boolean onQueryTextSubmit(String query) {
-
-
+    public boolean onQueryTextSubmit(String query){
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        System.out.println("search string is : " + newText);
+        try {
+            searchUser.findUserByName(newText, mUser.getToken());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return false;
+    }*/
+
+    @Override
+    public void callAsyncPopulate(Integer pg, String token) throws Exception{
+        JSONObject data = new JSONObject();
+        data.put("pg", pg);
+        data.put("token", token);
+        new populatePageAsync().execute(data);
+
     }
+
+
+
+    private class populatePageAsync extends AsyncTask<JSONObject, Integer, JSONObject>{
+
+        @Override
+        protected JSONObject doInBackground(JSONObject... jsonObjects) {
+            PictureService pictureService = new PictureService();
+            JSONObject data = null;
+            try {
+                pictureService.getPublicPictures(jsonObjects[0].getInt("pg"), jsonObjects[0].getString("token"));
+                while (data == null){
+                    data = pictureService.getDataObject();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            try {
+                bindDatatoUI(jsonObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
+    @Override
+    public void bindDatatoUI(JSONObject object) throws Exception{
+        JSONArray data = object.getJSONArray("picsToReturn");
+        for(int i = 0; i < data.length(); i++){
+            recentPostObjs.add(data.getJSONObject(i));
+            System.out.println(data.getJSONObject(i).getString("picUrl"));
+            recentsPics.add(data.getJSONObject(i).getString("picUrl"));
+            recentsAdapter.notifyDataSetChanged();
+        }
+
+    }
+
+
 
 }

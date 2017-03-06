@@ -168,9 +168,12 @@ class Auth  {
         boolean isValid = false;
 
         try {
-            Timestamp datetime = new Timestamp(format.parse(expiresDate).getTime());
-            isValid = datetime.after(new java.util.Date());
-            System.out.println("Token Valid: " + isValid);
+            if(expiresDate != ""){
+                Timestamp datetime = new Timestamp(format.parse(expiresDate).getTime());
+                isValid = datetime.after(new java.util.Date());
+                System.out.println("Token Valid: " + isValid);
+
+            }
 
 
 
