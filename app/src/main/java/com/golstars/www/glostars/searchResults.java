@@ -260,6 +260,12 @@ public class searchResults extends AppCompatActivity implements  PopulatePage{
         recentsAdapter = new GridAdapter(this, recentsPics);
         searchgrid.setAdapter(recentsAdapter);
 
+        usrsNames = new ArrayList<>();
+        usrsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, usrsNames);
+        searchlist.setAdapter(usrsAdapter);
+
+
+
         try {
             callAsyncPopulate(1, mUser.getToken());
         } catch (Exception e) {
@@ -274,7 +280,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage{
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main_feed,menu);
         MenuItem search = menu.findItem(R.id.searchmenu);
-        SearchView searchView = (SearchView)search.getActionView();
+        final SearchView searchView = (SearchView)search.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -284,11 +290,28 @@ public class searchResults extends AppCompatActivity implements  PopulatePage{
             @Override
             public boolean onQueryTextChange(String newText) {
                 System.out.println("search string is : " + newText);
+                searchlist.setVisibility(View.VISIBLE);
+                searchgrid.setVisibility(View.INVISIBLE);
+                JSONArray data = null;
                 try {
                     searchUser.findUserByName(newText, mUser.getToken());
+                    while(data == null){
+                        data = searchUser.getDataArray();
+                    }
+                    usrsNames.clear();
+                    for(int i = 0; i < data.length(); i++){
+                        usrsNames.add(data.getJSONObject(i).getString("name") + " " + data.getJSONObject(i).getString("lastName"));
+                        usrsAdapter.notifyDataSetChanged();
+                        System.out.println(usrsNames);
+                    }
+
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+               // usrsAdapter.getFilter().filter(newText);
+
+
 
                 return false;
             }
