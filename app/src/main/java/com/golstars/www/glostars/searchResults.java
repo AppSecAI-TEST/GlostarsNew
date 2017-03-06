@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -234,7 +236,12 @@ public class searchResults extends AppCompatActivity implements SearchView.OnQue
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_main_feed,menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main_feed,menu);
+        MenuItem search = menu.findItem(R.id.searchmenu);
+        SearchView searchView = (SearchView)search.getActionView();
+
+
         return true;
     }
 
