@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -114,6 +116,10 @@ public class user_profile extends AppCompatActivity {
     private ArrayList<String> mutualImgsUrls;
     private GridAdapter mutualAdapter;
     private GuestUser guestUser;
+
+    private MyUser mUser;
+    private FollowerService fService;
+    private Intent homeIntent;
 
 
 
@@ -244,23 +250,26 @@ public class user_profile extends AppCompatActivity {
 
 
 
-        Context context = user_profile.this;
-        MyUser mUser = MyUser.getmUser();
-        mUser.setContext(context);
+        mUser = MyUser.getmUser();
+       // mUser.setContext(context);
+
+
 
         String target = null;
         target = this.getIntent().getStringExtra("USER_ID");
 
-
-        SearchUser searchUser = new SearchUser();
-        FollowerService fService = new FollowerService();
+        fService = new FollowerService();
 
         if(target != null){
             try {
-                guestUser = searchUser.getGuestUser(target, mUser.getToken());
-                System.out.println("this user is" + guestUser.getName());
-                usernameProfile.setText(guestUser.getName());
-                fService.LoadFollowers(guestUser.getUserId(), mUser.getToken());
+
+                new getUserAndSetData().execute(target);
+
+//                new downloadData().execute(data);
+                //guestUser = searchUser.getGuestUser(target, mUser.getToken());
+                //System.out.println("this user is" + guestUser.getName());
+                //usernameProfile.setText(guestUser.getName());
+                //fService.LoadFollowers(guestUser.getUserId(), mUser.getToken());
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -270,11 +279,11 @@ public class user_profile extends AppCompatActivity {
 
 
         //usernameProfile.setText(mUser.getName());
-        try {
+        /*try {
             populateGallery(guestUser.getUserId(), 1, mUser.getToken());
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
 
         numFollowersProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -417,7 +426,7 @@ public class user_profile extends AppCompatActivity {
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(user_profile.this, user_profile.class));
+               startActivity(homeIntent);
             }
         });
 
@@ -437,7 +446,7 @@ public class user_profile extends AppCompatActivity {
             }
         });
 
-        Picasso.with(this).load(mUser.getProfilePicURL()).into(profileFAB);
+
 
 
 
@@ -448,17 +457,102 @@ public class user_profile extends AppCompatActivity {
     }
 
     private void populateGallery(String userId, int pg, String token) throws JSONException {
-        JSONObject data = null;
-        PictureService pictureService = new PictureService();
+        JSONObject data = new JSONObject();
+        data.put("usrId", userId);
+        data.put("pg", pg);
+        data.put("token", token);
 
-        try {
-            pictureService.getUserPictures(userId, 1, token);
-            while(data == null){
-                data = pictureService.getDataObject();
+        new downloadData().execute(data);
+
+    }
+
+    private class downloadData extends AsyncTask<JSONObject, Integer, JSONObject>{
+
+        @Override
+        protected JSONObject doInBackground(JSONObject... jsonObjects) {
+            PictureService pictureService = new PictureService();
+            JSONObject data = null;
+            try {
+                pictureService.getUserPictures(jsonObjects[0].getString("usrId"), jsonObjects[0].getInt("pg"), jsonObjects[0].getString("token"));
+                while(data == null){
+                   data = pictureService.getDataObject();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            return data;
         }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            //super.onPostExecute(jsonObject);
+            Log.i("downloadData", "data from onPostExecute is " + jsonObject);
+            try {
+                bindDatatoUI(jsonObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+        }
+    }
+
+    private class getUserAndSetData extends AsyncTask<String, Integer, JSONObject>{
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            mUser.setContext(getApplicationContext());
+            SearchUser searchUser = new SearchUser();
+
+            JSONObject data = new JSONObject();
+            try {
+                guestUser = searchUser.getGuestUser(strings[0], mUser.getToken());
+
+                data.put("guestUsrId", guestUser.getUserId());
+                data.put("guestName", guestUser.getName());
+                data.put("guestPic", guestUser.getProfilePicURL());
+                data.put("myUsrId", mUser.getUserId());
+                data.put("myUsrPic", mUser.getProfilePicURL());
+                data.put("token", mUser.getToken());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            try {
+                //setting UI rss with user data
+                usernameProfile.setText(jsonObject.getString("guestName"));
+                fService.LoadFollowers(jsonObject.getString("guestUsrId"), jsonObject.getString("token"));
+
+                //calling populateGallery() method using data from user
+                populateGallery(jsonObject.getString("guestUsrId"), 1, jsonObject.getString("token"));
+                Picasso.with(getApplicationContext()).load(jsonObject.getInt("myUsrPic")).into(profileFAB);
+
+                //setting an intent to user profile with user data
+                homeIntent.putExtra("USER_ID", jsonObject.getString("myUsrId"));
+                homeIntent.setClass(getApplicationContext(), user_profile.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
+    private void bindDatatoUI(JSONObject jsonObject) throws Exception {
+        //this method treats the data brought by downloadData()
+        Log.i("bindDatatoUI", "data from async task is " + jsonObject);
+        JSONObject data = jsonObject;
 
         int totalCompetitionPic = data.getInt("totalCompetitonPic");
         int totalmutualFollowerPics = data.getInt("totalmutualFollowerPics");
@@ -470,7 +564,6 @@ public class user_profile extends AppCompatActivity {
 
         Integer totalPics = totalmutualFollowerPics + totalCompetitionPic + totalpublicPictures;
         numPhotosCount.setText(totalPics.toString());
-
 
 
         if(competitionPictures != null){
@@ -496,9 +589,8 @@ public class user_profile extends AppCompatActivity {
             }
         }
 
-
-
     }
+
 
     private void setMutualAdapter(String picUrl) {
         mutualImgsUrls.add(picUrl);
