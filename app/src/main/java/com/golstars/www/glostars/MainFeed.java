@@ -18,6 +18,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -111,9 +112,14 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         mUser = MyUser.getmUser();
         mUser.setContext(this);
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int Height = displayMetrics.heightPixels;
+        int Width = displayMetrics.widthPixels;
 
         layoutManager = new LinearLayoutManager(this);
-        mAdapter = new PostAdapter(postList, this, this, this, new OnItemClickListener() {
+
+        mAdapter = new PostAdapter(postList, Width, this, this, this, new OnItemClickListener() {
             @Override
             public void onItemClickPost(Post item) {
                 Intent intent = new Intent();
@@ -321,6 +327,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
 
     }
+
 
 
 

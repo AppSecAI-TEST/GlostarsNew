@@ -2,6 +2,8 @@ package com.golstars.www.glostars;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     private final OnItemClickListener listener;
     private final OnItemClickListener postImgListener;
     private final OnRatingEventListener ratingListener;
+    public Integer screenWidth = 0;
 
 
 
@@ -80,14 +83,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         }
 
 
+
     }
 
-    public PostAdapter(List<Post> postsList, Context context, OnRatingEventListener ratingListener, OnItemClickListener listener, OnItemClickListener postImgListener){
+    public PostAdapter(List<Post> postsList, Integer width, Context context, OnRatingEventListener ratingListener, OnItemClickListener listener, OnItemClickListener postImgListener){
         this.postsList = postsList;
         this.context = context;
         this.ratingListener = ratingListener;
         this.listener = listener;
         this.postImgListener = postImgListener;
+        this.screenWidth = width;
+
     }
 
 
@@ -106,7 +112,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         holder.caption.setText(post.getDescription());
         //holder.totalStars.setText(post.getStarsCount());
         //holder.totalComments.setText(post.getCommentCount());
-        Picasso.with(context).load(post.getPicURL()).into(holder.postImg);
+
+        Picasso.with(context)
+                .load(post.getPicURL())
+                .resize(screenWidth,1000)
+                .centerInside()
+                .into(holder.postImg);
         Picasso.with(context).load(post.getProfilePicURL()).into(holder.propic);
 
 
