@@ -20,8 +20,20 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class upload extends AppCompatActivity {
 
@@ -64,6 +76,10 @@ public class upload extends AppCompatActivity {
 
     private Bitmap bm;
     private MyUser mUser;
+
+    private static final MediaType JSONType = MediaType.parse("application/json; charset=utf-8");
+    private final OkHttpClient client = new OkHttpClient();
+    String baseURL = "http://www.glostars.com/";
 
 
     @Override
@@ -213,6 +229,8 @@ public class upload extends AppCompatActivity {
         });
 
         //========================= HANDLING PICTURE ===============================================
+
+
         Bundle bundle = this.getIntent().getExtras();
         if(bundle != null){
             bm = bundle.getParcelable("PREVIEW_PICTURE");
@@ -236,7 +254,7 @@ public class upload extends AppCompatActivity {
                 }
 
                 if((bm != null) && (privacy != "")){
-                    //prepareUpload(description.getText().toString(), privacy, competition.isChecked(), mUser.getToken(), bm);
+                    prepareUpload(description.getText().toString(), privacy, competition.isChecked(), mUser.getToken(), bm);
                 }
 
             }
@@ -261,18 +279,59 @@ public class upload extends AppCompatActivity {
         String picUri = Base64.encodeToString(byteArray, Base64.DEFAULT);
         picUri = "data:image/png;base64," + picUri;
 
-        PictureService pictureService = new PictureService();
+        //PictureService pictureService = new PictureService();
         try {
-            //System.out.println("description: " + description);
-            //System.out.println("privacy: " + privacy);
-            //System.out.println("iscompeting: " + isCompeting);
+            System.out.println("description: " + description);
+            System.out.println("privacy: " + privacy);
+            System.out.println("iscompeting: " + isCompeting);
             //System.out.println("uri: " + picUri);
-            pictureService.uploadPicture(description, isCompeting, privacy, picUri, token);
+            uploadPicture(description, isCompeting, privacy, byteArray, token);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
     }
+
+    public void uploadPicture(String description, Boolean isCompeting, String privacy, byte[] uri, String token) throws Exception{
+        URL url = new URL(baseURL+"api/images/upload");
+
+        JSONObject msg = new JSONObject();
+        msg.put("Description", description);
+        msg.put("IsCompeting", isCompeting.toString());
+        msg.put("Privacy", privacy);
+        msg.put("ImageDataUri", "data:image/jpeg;base64," + Base64.encodeToString(uri, Base64.DEFAULT));
+        System.out.println(msg.getString("ImageDataUri"));
+        System.out.println(token);
+
+        RequestBody body =  RequestBody.create(JSONType, msg.toString());
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Bearer " + token)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                String data = response.body().string();
+                System.out.println(data);
+
+
+            }
+        });
+
+
+    }
+
 
 }
