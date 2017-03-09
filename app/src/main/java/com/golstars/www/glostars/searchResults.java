@@ -62,6 +62,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage{
     GridAdapter recentsAdapter;
     ArrayList<String> recentsPics;
     ArrayList<JSONObject> recentPostObjs;
+    int pg = 1;
 
     MyUser mUser;
 
@@ -267,7 +268,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage{
 
 
         try {
-            callAsyncPopulate(1, mUser.getToken());
+            callAsyncPopulate(pg, mUser.getToken());
         } catch (Exception e) {
             e.printStackTrace();
         }

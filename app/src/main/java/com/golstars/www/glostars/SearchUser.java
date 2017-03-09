@@ -30,6 +30,7 @@ public class SearchUser {
     private String data;
     private String baseURL = "http://www.glostars.com/";
     private JSONArray dataArray;
+    private JSONObject dataObj;
 
 
     public void search(String email, String token, String userid) throws Exception{
@@ -181,6 +182,43 @@ public class SearchUser {
         });
     }
 
+    public void findUserInfo(String userId, String token) throws Exception{
+        URL url = new URL(baseURL + "api/user/GetUserInfo?id=" + userId);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Authorization", "Bearer " + token)
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                String data = response.body().string();
+                try {
+                    JSONObject dat = new JSONObject(data);
+                    setDataObj(dat.getJSONObject("resultPayload"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //setData((response.body().string()));
+                System.out.println(data);
+
+                //setData((response.body().string()));
+                System.out.println(data);
+
+
+
+            }
+        });
+    }
+
 
     public String getData() {
         return data;
@@ -197,6 +235,15 @@ public class SearchUser {
     public void setDataArray(JSONArray data) {
         this.dataArray = data;
     }
+
+    public JSONObject getDataObj() {
+        return dataObj;
+    }
+
+    public void setDataObj(JSONObject dataObj) {
+        this.dataObj = dataObj;
+    }
+
 
     public GuestUser getGuestUser(String usrId, String token) throws Exception {
         GuestUser gUser = new GuestUser();

@@ -119,13 +119,13 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
         layoutManager = new LinearLayoutManager(this);
 
-        mAdapter = new PostAdapter(postList, Width, this, this, this, new OnItemClickListener() {
+        mAdapter = new PostAdapter(postList, Width, mUser.getUserId(), this, this, this, new OnItemClickListener() {
             @Override
             public void onItemClickPost(Post item) {
                 Intent intent = new Intent();
-                intent.putExtra("IMAGE_SAUCE",item.getPicURL());
+                intent.putExtra("IMAGE_SAUCE", item.getPicURL());
                 intent.putExtra("IMAGE_AUTHOR", item.getAuthor());
-                intent.putExtra("IMAGE_CAPTION",item.getDescription());
+                intent.putExtra("IMAGE_CAPTION", item.getDescription());
                 intent.setClass(getApplicationContext(), imagefullscreen.class);
                 startActivity(intent);
             }
@@ -133,6 +133,26 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
             @Override
             public void onItemClickNotif(NotificationObj notif) {
 
+            }
+        }, new OnItemClickListener() {
+            @Override
+            public void onItemClickPost(Post item) {
+                //bundle.putParcelable("PREVIEW_PICTURE", thumbnail);
+                //intent.putExtras(bundle);
+                //intent.setClass(this, upload.class);
+                //startActivity(intent);
+
+
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+
+                intent.putExtra("COMMENTS", item.getComments().toString());
+                intent.setClass(getApplicationContext(), commentModel.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemClickNotif(NotificationObj notif) {
             }
         });
         recyclerView.setLayoutManager(layoutManager);
@@ -360,8 +380,10 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 Integer starsCount = Integer.parseInt(pic.getString("starsCount"));
                 System.out.println("POSTER: " + name + " " + userId + " " + id + " " + description + " " + picURL + " " + isFeatured + " " + isCompeting + " " + starsCount);
 
+                JSONArray ratings = pic.getJSONArray("ratings");
+                JSONArray comments = pic.getJSONArray("comments");
 
-                setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, 0, 0);
+                setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, ratings.length(), comments.length(), ratings, comments);
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -375,11 +397,13 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
     }
 
-    private void setmAdapter(String author, String usr, String photoID, String description, String picURL, String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount, Integer commentCount){
+    private void setmAdapter(String author, String usr, String photoID, String description, String picURL, String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount, Integer commentCount, JSONArray ratings, JSONArray comments){
         if(description == "null"){
             description = "";
         }
         Post post = new Post(author, usr, photoID, description, picURL, profilePicURL, isFeatured, isCompeting, starsCount, commentCount);
+        post.setComments(comments);
+        post.setRatings(ratings);
         postList.add(post);
 
         mAdapter.notifyDataSetChanged();

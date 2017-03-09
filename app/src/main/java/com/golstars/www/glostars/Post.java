@@ -2,6 +2,8 @@ package com.golstars.www.glostars;
 
 import android.graphics.Bitmap;
 
+import org.json.JSONArray;
+
 /**
  * Created by edson on 07/02/17.
  * Post object class
@@ -18,6 +20,8 @@ public class Post {
     private boolean isCompeting;
     private int starsCount;
     private int commentCount;
+    private JSONArray ratings;
+    private JSONArray comments;
 
     public Post(){
     }
@@ -117,4 +121,22 @@ public class Post {
     public String getPicURL() {
         return picURL;
     }
+
+    public JSONArray getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(JSONArray ratings) {
+        this.ratings = ratings;
+    }
+
+    public JSONArray getComments() {
+        return comments;
+    }
+
+    public void setComments(JSONArray comments) {
+        this.comments = comments;
+    }
+
+
 }

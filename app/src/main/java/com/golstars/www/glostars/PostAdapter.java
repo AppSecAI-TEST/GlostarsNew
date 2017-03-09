@@ -15,6 +15,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.List;
 
 /**
@@ -30,8 +33,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     public  Context context;
     private final OnItemClickListener listener;
     private final OnItemClickListener postImgListener;
+    private final OnItemClickListener commentsListener;
     private final OnRatingEventListener ratingListener;
     public Integer screenWidth = 0;
+    public String usrId = "";
 
 
 
@@ -41,17 +46,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         public ImageView postImg;
         public ImageView propic;
         public RatingBar ratingBar;
+        public ImageView commentsBtn;
 
-        public MyViewHolder(View view, final OnRatingEventListener ratingListener, final OnItemClickListener listener, final OnItemClickListener postImgListener){
+        public MyViewHolder(View view, final OnRatingEventListener ratingListener, final OnItemClickListener listener, final OnItemClickListener postImgListener,
+                            final OnItemClickListener commentsListener){
             super(view);
             username=(TextView)view.findViewById(R.id.userNAME);
             caption=(TextView)view.findViewById(R.id.userCAPTION);
             postTime=(TextView)view.findViewById(R.id.uploadTIME);
             postImg = (ImageView)view.findViewById(R.id.userPOST);
             propic = (ImageView)view.findViewById(R.id.userPIC);
-            //totalStars=(TextView)view.findViewById(R.id.ratingstarcount);
-            //totalComments=(TextView)view.findViewById(R.id.commentcount);
+            totalStars=(TextView)view.findViewById(R.id.ratingstarcount);
+            totalComments=(TextView)view.findViewById(R.id.commentcount);
             ratingBar = (RatingBar)view.findViewById(R.id.ratingBar);
+            commentsBtn = (ImageView)view.findViewById(R.id.commenticon); 
 
             ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
@@ -80,19 +88,29 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                     postImgListener.onItemClickPost(postsList.get(getLayoutPosition()));
                 }
             });
+            
+            commentsBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    commentsListener.onItemClickPost(postsList.get(getLayoutPosition()));
+                }
+            });
         }
 
 
 
     }
 
-    public PostAdapter(List<Post> postsList, Integer width, Context context, OnRatingEventListener ratingListener, OnItemClickListener listener, OnItemClickListener postImgListener){
+    public PostAdapter(List<Post> postsList, Integer width, String usrId, Context context, OnRatingEventListener ratingListener, OnItemClickListener listener,
+                       OnItemClickListener postImgListener, OnItemClickListener commentsListener){
         this.postsList = postsList;
         this.context = context;
         this.ratingListener = ratingListener;
         this.listener = listener;
         this.postImgListener = postImgListener;
         this.screenWidth = width;
+        this.usrId = usrId;
+        this.commentsListener = commentsListener;
 
     }
 
@@ -102,7 +120,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.content_main_feed, parent, false);
 
-        return new MyViewHolder(itemView, ratingListener, listener, postImgListener);
+        return new MyViewHolder(itemView, ratingListener, listener, postImgListener, commentsListener);
     }
 
     @Override
@@ -110,8 +128,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         Post post = postsList.get(position);
         holder.username.setText(post.getAuthor());
         holder.caption.setText(post.getDescription());
-        //holder.totalStars.setText(post.getStarsCount());
-        //holder.totalComments.setText(post.getCommentCount());
+        holder.ratingBar.setRating((float)getUserRating(post));
+        holder.totalStars.setText(String.valueOf(post.getStarsCount()));
+        holder.totalComments.setText(String.valueOf(post.getCommentCount()));
 
         Picasso.with(context)
                 .load(post.getPicURL())
@@ -127,6 +146,25 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
     public int getItemCount(){
         return postsList.size();
+    }
+
+    public int getUserRating(Post post){
+        /*this method searches the list of ratings in this post to find whether
+          our current user has rated this or not. If so, return the rating number,
+          if not, return 0
+        */
+        JSONArray data = post.getRatings();
+        for(int i = 0; i < data.length(); i++){
+            try {
+                if(data.getJSONObject(i).getString("raterId") == usrId){
+                    System.out.println("i liked this pic: ");
+                    return data.getJSONObject(i).getInt("starsCount");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return 0;
     }
 
 

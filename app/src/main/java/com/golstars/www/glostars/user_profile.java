@@ -222,7 +222,9 @@ public class user_profile extends AppCompatActivity {
 
 
 
-        userPicProfile = (ImageView) findViewById(R.id.userPIC);
+        //userPicProfile = (ImageView) findViewById(R.id.userPIC);
+        userPicProfile = (ImageView) findViewById(R.id.profileuserPIC);
+
         weeklyPrizeProfile = (ImageView)findViewById(R.id.weeklyPrize);
         monthlyPrizeProfile = (ImageView)findViewById(R.id.monthlyPrize);
         exhibitionPrizeProfile = (ImageView)findViewById(R.id.exhibitionPrize);
@@ -466,6 +468,8 @@ public class user_profile extends AppCompatActivity {
 
     }
 
+
+
     private class downloadData extends AsyncTask<JSONObject, Integer, JSONObject>{
 
         @Override
@@ -520,6 +524,21 @@ public class user_profile extends AppCompatActivity {
                 data.put("myUsrId", mUser.getUserId());
                 data.put("myUsrPic", mUser.getProfilePicURL());
                 data.put("token", mUser.getToken());
+
+                searchUser.findUserInfo(data.getString("guestUsrId"), mUser.getToken());
+                JSONObject dat = null;
+                while(dat == null){
+                    dat = searchUser.getDataObj();
+                }
+
+                data.put("aboutMe", dat.getString("aboutMe"));
+                data.put("interests", dat.getString("interests"));
+                data.put("location", dat.getString("location"));
+                data.put("original_Location", dat.getString("original_Location"));
+                data.put("ocupation", dat.getString("ocupation"));
+                data.put("ocupationOther", dat.getString("ocupationOther"));
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -534,13 +553,37 @@ public class user_profile extends AppCompatActivity {
                 usernameProfile.setText(jsonObject.getString("guestName"));
                 fService.LoadFollowers(jsonObject.getString("guestUsrId"), jsonObject.getString("token"));
 
-                //calling populateGallery() method using data from user
-                populateGallery(jsonObject.getString("guestUsrId"), 1, jsonObject.getString("token"));
-                Picasso.with(getApplicationContext()).load(jsonObject.getInt("myUsrPic")).into(profileFAB);
+                String location = jsonObject.getString("location");
+                if(location != "null"){
+                    userLocationProfile.setText(jsonObject.getString("location"));
+                } else userLocationProfile.setText("");
+
+                String aboutMe = jsonObject.getString("aboutMe");
+                if(aboutMe != "null") aboutMeTextProfile.setText(aboutMe);
+                else aboutMeTextProfile.setText("");
+
+                String interests = jsonObject.getString("interests");
+                if(interests != "null")interestTextProfile.setText(interests);
+                else interestTextProfile.setText("");
+
 
                 //setting an intent to user profile with user data
+                homeIntent = new Intent();
                 homeIntent.putExtra("USER_ID", jsonObject.getString("myUsrId"));
                 homeIntent.setClass(getApplicationContext(), user_profile.class);
+
+
+                Picasso.with(getApplicationContext()).load(jsonObject.getString("myUsrPic")).into(profileFAB);
+
+                Picasso.with(getApplicationContext()).load(jsonObject.getString("guestPic")).into(userPicProfile);
+
+                //calling populateGallery() method using data from user
+                populateGallery(jsonObject.getString("guestUsrId"), 1, jsonObject.getString("token"));
+
+
+
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -551,7 +594,7 @@ public class user_profile extends AppCompatActivity {
 
     private void bindDatatoUI(JSONObject jsonObject) throws Exception {
         //this method treats the data brought by downloadData()
-        Log.i("bindDatatoUI", "data from async task is " + jsonObject);
+        //Log.i("bindDatatoUI", "data from async task is " + jsonObject);
         JSONObject data = jsonObject;
 
         int totalCompetitionPic = data.getInt("totalCompetitonPic");

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -22,8 +24,17 @@ import android.widget.TextView;
 
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 
@@ -277,15 +288,23 @@ public class upload extends AppCompatActivity {
         bm.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         byte[] byteArray = bytes.toByteArray();
         String picUri = Base64.encodeToString(byteArray, Base64.DEFAULT);
-        picUri = "data:image/png;base64," + picUri;
+        picUri = "data:image/jpeg;base64," + picUri;
 
         //PictureService pictureService = new PictureService();
         try {
-            System.out.println("description: " + description);
-            System.out.println("privacy: " + privacy);
-            System.out.println("iscompeting: " + isCompeting);
+            //System.out.println("description: " + description);
+            //System.out.println("privacy: " + privacy);
+            //System.out.println("iscompeting: " + isCompeting);
+            JSONObject msg = new JSONObject();
+            msg.put("Description", description);
+            msg.put("IsCompeting", isCompeting.toString());
+            msg.put("Privacy", privacy);
+            msg.put("ImageDataUri", picUri);
+
+            new send2Server().execute(msg);
+
             //System.out.println("uri: " + picUri);
-            uploadPicture(description, isCompeting, privacy, byteArray, token);
+            //uploadPicture(description, isCompeting, privacy, byteArray, token);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -293,44 +312,70 @@ public class upload extends AppCompatActivity {
 
     }
 
-    public void uploadPicture(String description, Boolean isCompeting, String privacy, byte[] uri, String token) throws Exception{
-        URL url = new URL(baseURL+"api/images/upload");
+    private class send2Server extends AsyncTask<JSONObject, Integer, JSONObject>{
 
-        JSONObject msg = new JSONObject();
-        msg.put("Description", description);
-        msg.put("IsCompeting", isCompeting.toString());
-        msg.put("Privacy", privacy);
-        msg.put("ImageDataUri", "data:image/jpeg;base64," + Base64.encodeToString(uri, Base64.DEFAULT));
-        System.out.println(msg.getString("ImageDataUri"));
-        System.out.println(token);
+        @Override
+        protected JSONObject doInBackground(JSONObject... jsonObjects) {
+            UploadImages uploadImages = new UploadImages();
+            uploadImages.upLoad2Server(jsonObjects[0], mUser.getToken());
+            return null;
+        }
+    }
 
-        RequestBody body =  RequestBody.create(JSONType, msg.toString());
+    public class UploadImages {
+        String _responseMain;
+        private int serverResponseCode;
+        //JSONObject jsonObject;
+        public String upLoad2Server(JSONObject jsonObject, String token) {
 
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .addHeader("Content-Type", "application/json")
-                .addHeader("Authorization", "Bearer " + token)
-                .build();
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+            try {
+                //Log.d("Vicky", "encodedImage = " + Encode);
+                //jsonObject = new JSONObject();
+                //jsonObject.put("image_code", Encode);
+
+                String data = jsonObject.toString();
+                String yourURL = baseURL+"api/images/upload";
+                URL url = new URL(yourURL);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoOutput(true);
+                connection.setDoInput(true);
+                connection.setRequestMethod("POST");
+                connection.setFixedLengthStreamingMode(data.getBytes().length);
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Authorization", "Bearer " + token);
+                OutputStream out = new BufferedOutputStream(connection.getOutputStream());
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+                writer.write(data);
+                Log.d("Upload", "Data to server = " + data);
+                writer.flush();
+                writer.close();
+                out.close();
+                connection.connect();
+
+                InputStream in = new BufferedInputStream(connection.getInputStream());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        in, "UTF-8"));
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+                in.close();
+                String result = sb.toString();
+                Log.d("upload", "Response from php = " + result);
+                //Response = new JSONObject(result);
+                connection.disconnect();
+            } catch (Exception e) {
+                Log.d("upload", "Error Encountered");
                 e.printStackTrace();
             }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-                String data = response.body().string();
-                System.out.println(data);
+            return null;
 
 
-            }
-        });
 
 
+        }
     }
 
 
