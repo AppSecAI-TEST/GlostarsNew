@@ -3,10 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.golstars.www.glostars.commentModel">
+    tools:context="com.golstars.www.glostars.TermsMain">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -35,15 +33,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="4dp"
                     android:gravity="bottom"
+                    android:layout_marginBottom="4dp"
                     android:layout_marginTop="16dp">
 
                     <ImageView
                         android:id="@+id/glostarslogo"
                         android:layout_width="150dp"
                         android:layout_height="50dp"
-                        android:paddingLeft="2dp"
+                        android:paddingLeft="0dp"
+                        android:animateLayoutChanges="true"
                         android:visibility="visible"
                         android:src="@drawable/lotext"/>
 
@@ -72,11 +71,10 @@
                 </LinearLayout>
             </android.support.v7.widget.Toolbar>
 
-
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_comment_model" />
-
+    <include layout="@layout/content_terms_main" />
+    <include layout="@layout/fabs" />
 
 </android.support.design.widget.CoordinatorLayout>

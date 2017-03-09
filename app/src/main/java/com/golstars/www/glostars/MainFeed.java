@@ -320,7 +320,6 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 notificationFAB.setClickable(false);
                 isOpen=false;
                 startActivity(new Intent(MainFeed.this, notification.class));
-                finish();
             }
         });
 
@@ -338,7 +337,8 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 profileFAB.setClickable(false);
                 notificationFAB.setClickable(false);
                 isOpen=false;
-                startActivity(new Intent(MainFeed.this, competition_page.class));
+                startActivity(new Intent(MainFeed.this, competitionAll.class));
+
             }
         });
 

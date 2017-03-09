@@ -11,19 +11,11 @@
 
 
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
             <GridView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:columnWidth="90dp"
+                android:layout_alignParentBottom="true"
                 android:numColumns="3"
                 android:verticalSpacing="8dp"
                 android:stretchMode="columnWidth"
@@ -43,7 +35,4 @@
                 />
 
         </RelativeLayout>
-    </ScrollView>
 
-
-</RelativeLayout>

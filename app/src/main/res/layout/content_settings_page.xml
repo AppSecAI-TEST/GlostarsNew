@@ -23,7 +23,7 @@
             <ImageView
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:src="@drawable/loginlogo"
+                android:src="@drawable/seticon"
                 android:layout_gravity="center_horizontal"/>
 
 

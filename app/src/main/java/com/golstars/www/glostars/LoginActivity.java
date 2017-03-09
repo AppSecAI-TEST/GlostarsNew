@@ -99,8 +99,6 @@ public class LoginActivity extends Fragment {
         login.setTransformationMethod(null);
 
 
-
-
         tryFastLogin();
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +123,7 @@ public class LoginActivity extends Fragment {
     public void tryFastLogin(){
         if(auth.isTokenValid()){
             startActivity(new Intent(getActivity(), MainFeed.class));
+            getActivity().finish();
         }
     }
 

@@ -5,24 +5,51 @@
     android:id="@+id/content_comment_model"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E0E0E0"
+    android:background="#FFFFFF"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.golstars.www.glostars.commentModel"
     tools:showIn="@layout/activity_comment_model">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <ListView
             android:id="@+id/commentslist"
+            android:layout_margin="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         </ListView>
 
 
-    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/commentBox"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:lines="2"
+            android:paddingStart="4dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:elevation="8dp"
+            android:maxLines="4"
+            android:background="@drawable/edit"/>
+
+        <Button
+            android:id="@+id/sendcomment"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/comment_icon"
+            android:elevation="32dp" />
+
+
+    </LinearLayout>
+
 
 
 
