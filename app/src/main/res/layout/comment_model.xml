@@ -10,6 +10,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginTop="4dp"
         android:src="@drawable/nopicmale"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
@@ -17,25 +18,27 @@
 
     <TextView
         android:text="Name"
+        android:textSize="12sp"
         android:textColor="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginStart="10dp"
         android:id="@+id/namecomment"
-        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/commentpic"
         android:layout_toEndOf="@+id/commentpic" />
 
     <TextView
         android:text="Comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="10sp"
         android:layout_alignBottom="@+id/commentpic"
         android:layout_alignStart="@+id/namecomment"
         android:id="@+id/comment" />
 
     <TextView
         android:text="hours ago"
+        android:textSize="10sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/commentpic"
@@ -58,6 +61,7 @@
         android:text="5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="10sp"
         android:layout_alignBottom="@+id/hourcomment"
         android:layout_toStartOf="@+id/hourcomment"
         android:layout_marginEnd="4dp"

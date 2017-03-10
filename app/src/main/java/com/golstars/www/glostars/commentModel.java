@@ -39,7 +39,7 @@ public class commentModel extends AppCompatActivity {
     TextView time;
 
     EditText commentbox;
-    Button sendcomment;
+    TextView sendcomment;
 
     ListView commentlistView;
     ArrayList<Comment> commentsList;
@@ -62,15 +62,16 @@ public class commentModel extends AppCompatActivity {
         commentlistView = (ListView)findViewById(R.id.commentslist);
 
         commentbox = (EditText)findViewById(R.id.commentBox);
-        sendcomment = (Button)findViewById(R.id.sendcomment);
+        sendcomment = (TextView) findViewById(R.id.sendcomment);
 
-        /*Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
-        comment.setTypeface(type);
-        hours.setTypeface(type);
-        mins.setTypeface(type);
-        time.setTypeface(type);
+        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+//        comment.setTypeface(type);
+//        hours.setTypeface(type);
+//        mins.setTypeface(type);
+//        time.setTypeface(type);
         sendcomment.setTypeface(type);
-        namecomment.setTypeface(type); */
+//        namecomment.setTypeface(type);
+
 
 
         commentsList = new ArrayList<>();

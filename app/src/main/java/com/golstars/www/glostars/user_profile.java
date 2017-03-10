@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -101,9 +102,9 @@ public class user_profile extends AppCompatActivity {
 
     Button follow;
 
-    GridView competitiongrid;
-    GridView publicgrid;
-    GridView mutualgrid;
+    RecyclerView competitiongrid;
+    RecyclerView publicgrid;
+    RecyclerView mutualgrid;
 
     private GridView compGridView;
     private ArrayList<String> compImgsUrls;
@@ -133,9 +134,9 @@ public class user_profile extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        competitiongrid = (GridView)findViewById(R.id.competitionPosts);
-        publicgrid = (GridView)findViewById(R.id.publicPosts);
-        mutualgrid = (GridView)findViewById(R.id.mutualPosts);
+        competitiongrid = (RecyclerView) findViewById(R.id.competitionPosts);
+        publicgrid = (RecyclerView) findViewById(R.id.publicPosts);
+        mutualgrid = (RecyclerView) findViewById(R.id.mutualPosts);
 
 
         mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
@@ -240,14 +241,14 @@ public class user_profile extends AppCompatActivity {
 
         compGridView = (GridView) findViewById(R.id.competitionPosts);
         compAdapter = new GridAdapter(this, compImgsUrls);
-        competitiongrid.setAdapter(compAdapter); //adapter for competition pictures
+        //competitiongrid.setAdapter(compAdapter); //adapter for competition pictures
 
         //publicgrid = (GridView) findViewById(R.id.publicPosts);
         publicAdapter = new GridAdapter(this, publicImgsUrls);
-        publicgrid.setAdapter(publicAdapter);
+        //publicgrid.setAdapter(publicAdapter);
 
         mutualAdapter = new GridAdapter(this, mutualImgsUrls);
-        mutualgrid.setAdapter(mutualAdapter);
+       // mutualgrid.setAdapter(mutualAdapter);
 
 
 

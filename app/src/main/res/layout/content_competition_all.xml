@@ -94,7 +94,7 @@
             android:layout_height="wrap_content">
 
 
-            <GridView
+            <android.support.v7.widget.RecyclerView
                 android:layout_margin="8dp"
                 android:id="@+id/gallerygrid"
                 android:layout_width="match_parent"
@@ -106,7 +106,7 @@
                 android:visibility="visible"
                 android:layout_gravity="center">
 
-            </GridView>
+            </android.support.v7.widget.RecyclerView>
 
 
             <LinearLayout

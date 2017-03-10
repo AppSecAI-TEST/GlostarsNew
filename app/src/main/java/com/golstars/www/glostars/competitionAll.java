@@ -67,7 +67,7 @@ public class competitionAll extends AppCompatActivity {
 
 
 
-    GridView gallery;
+    RecyclerView gallery;
     LinearLayout tips;
     ScrollView terms;
     ScrollView recog;
@@ -122,7 +122,7 @@ public class competitionAll extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        gallery = (GridView)findViewById(R.id.gallerygrid);
+        gallery = (RecyclerView) findViewById(R.id.gallerygrid);
         tips = (LinearLayout)findViewById(R.id.tipslin);
         terms = (ScrollView)findViewById(R.id.termslin);
         recog = (ScrollView)findViewById(R.id.recoglin);
@@ -395,7 +395,7 @@ public class competitionAll extends AppCompatActivity {
 
         //competitiongrid = (GridView)findViewById(R.id.gallerygrid);
         compAdapt = new GridAdapter(this, compPicsUrls);
-        gallery.setAdapter(compAdapt);
+        //gallery.setAdapter(compAdapt);
 
         loadPictures(pg, mUser.getToken());
 

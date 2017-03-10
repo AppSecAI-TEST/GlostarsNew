@@ -11,15 +11,12 @@
     tools:context="com.golstars.www.glostars.competitionUser"
     tools:showIn="@layout/activity_competition_user">
 
-        <GridView
+        <android.support.v7.widget.RecyclerView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:columnWidth="90dp"
             android:numColumns="3"
-            
-            android:verticalSpacing="8dp"
             android:stretchMode="columnWidth"
-            android:horizontalSpacing="8dp"
             android:id="@+id/competitionusergrid"
             />
 

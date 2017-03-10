@@ -31,20 +31,23 @@
         <EditText
             android:id="@+id/commentBox"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="35dp"
             android:lines="2"
             android:paddingStart="4dp"
+            android:textCursorDrawable="@drawable/cursor_color"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:elevation="8dp"
             android:maxLines="4"
             android:background="@drawable/edit"/>
 
-        <Button
+        <TextView
             android:id="@+id/sendcomment"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/comment_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
             android:elevation="32dp" />
 
 

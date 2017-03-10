@@ -59,7 +59,7 @@ public class competitionUser extends AppCompatActivity {
 
 
 
-    GridView competitionusergrid;
+    RecyclerView competitionusergrid;
 
     private ArrayList<String> targetList;
     private GridAdapter targetAdapter;
@@ -72,7 +72,7 @@ public class competitionUser extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        competitionusergrid = (GridView) findViewById(R.id.competitionusergrid);
+        competitionusergrid = (RecyclerView) findViewById(R.id.competitionusergrid);
 
          gl = (ImageView)findViewById(R.id.glostarslogo);
         slogo = (ImageView)findViewById(R.id.searchlogo);
@@ -213,7 +213,7 @@ public class competitionUser extends AppCompatActivity {
 
         targetAdapter = new GridAdapter(getApplicationContext(), targetList);
 
-        competitionusergrid.setAdapter(targetAdapter);
+        //competitionusergrid.setAdapter(targetAdapter);
 
         String target = "";
         target = this.getIntent().getStringExtra("LOAD_TARGET");
