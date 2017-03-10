@@ -27,6 +27,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -53,6 +56,8 @@ public class SignUp extends Fragment{
     EditText MM;
     EditText DD;
 
+    JSONObject data = null;
+
 
 
     TextView birth;
@@ -64,15 +69,22 @@ public class SignUp extends Fragment{
     Button signUp;
 
     Spinner gender;
+    String pWd = "";
 
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private OkHttpClient client = new OkHttpClient();
+    private static final MediaType JSONType = MediaType.parse("application/json; charset=utf-8");
+    private static final MediaType txtType = MediaType.parse("text/plain; charset=utf-8");
+    private final OkHttpClient client = new OkHttpClient();
+
+
+    private static final String MyPREFERENCES = "glostarsPrefs";
+    Auth auth;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.sign_up_activity, container, false);
 
+        auth = new Auth(getActivity().getApplicationContext());
 
 
         firstName = (EditText) rootView.findViewById(R.id.firstnameSignUp);
@@ -130,17 +142,27 @@ public class SignUp extends Fragment{
                 String usrname = email.getText().toString();
                 String email = usrname;
                 String name = firstName.getText().toString();
-                Integer bdayY = 0;
-                Integer bdayM = 0;
-                Integer bdayD = 0;
+                String bdayY = YYYY.getText().toString() ;
+                String bdayM = MM.getText().toString();
+                String bdayD = DD.getText().toString();
                 String genderSelected = gender.getSelectedItem().toString();
                 String lastname = lastName.getText().toString();
                 String pwd = password.getText().toString();
+                pWd = pwd;
 
                 if(termscheck.isChecked()){
                     try {
                         createAccount(usrname, email, name, bdayY, bdayM, bdayD, genderSelected, lastname, pwd);
-                    } catch (IOException e) {
+                        JSONObject c = null;
+                        while (c == null){
+                            c = getData();
+                        }
+                        if(c.getInt("responseCode") == 1){
+                            Toast.makeText(getContext(), c.getString("message"), Toast.LENGTH_LONG).show();
+                            login("password", password.getText().toString(), c.getJSONObject("resultPayload").getString("email"));
+                        }
+
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } else {
@@ -158,21 +180,23 @@ public class SignUp extends Fragment{
 
 
 
-    public void createAccount(String username, String email, String name, Integer bdayY, Integer bdayM, Integer bdayD, String gender, String lastname, String password) throws IOException {
+    public void createAccount(String username, String email, String name, String bdayY, String bdayM, String bdayD, String gender, String lastname, final String password) throws Exception {
         URL url = new URL("http://www.glostars.com/api/account/register");
-        String postMessage =    "{'UserName':" + username +
-                ",'Email':" + email +
-                ",'Name':" + name +
-                ",'BirthdayYear':" + bdayY +
-                ",'BirthdayMonth':" + bdayM +
-                ",'BirthdayDay':" + bdayD +
-                ",'Gender':" + gender +
-                ",'LastName':" + lastname +
-                ",'Password':" + password + "}";
-        System.out.println(postMessage);
+        JSONObject msg = new JSONObject();
+        msg.put("UserName", username);
+        msg.put("Email", email);
+        msg.put("Name", name);
+        msg.put("BirthdayYear", bdayY);
+        msg.put("BirthdayMonth", bdayM);
+        msg.put("BirthdayDay", bdayD);
+        msg.put("Gender", gender);
+        msg.put("LastName", lastname);
+        msg.put("Password", password);
+
+        System.out.println(msg);
 
 
-        RequestBody body = RequestBody.create(JSON, postMessage);
+        RequestBody body = RequestBody.create(JSONType, msg.toString());
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
@@ -181,6 +205,14 @@ public class SignUp extends Fragment{
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+
+                JSONObject newUser = new JSONObject();
+                try {
+                    newUser.put("responseCode", 0);
+                    setData(newUser);
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
                 e.printStackTrace();
             }
 
@@ -188,12 +220,91 @@ public class SignUp extends Fragment{
             public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-                System.out.println(response.body().string());
+                String msg = response.body().string();
+                System.out.println(msg);
+
+                try {
+                    JSONObject newUser = new JSONObject(msg);
+                    //Toast.makeText(getContext(), newUser.getString("message"), Toast.LENGTH_LONG).show();
+                    setData(newUser);
+                    //login("password", pWd ,newUser.getJSONObject("resultPayload").getString("email"));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
 
             }
         });
 
 
+    }
+
+    public void login(String grantType, String password, String username) throws Exception{
+
+        URL url = new URL("http://www.glostars.com/Token");
+        /*
+        String postMessage = "{'grant_type':" + "password," +
+                             "'password':" + "91113603," +
+                             "'username':" + "netosilvan@hotmail.com" + "}";
+        */
+        String postMessage = "username=" + username +
+                "&password="+ password +
+                "&grant_type=" + grantType;
+
+        RequestBody body =  RequestBody.create(txtType, postMessage);
+
+        System.out.println(body);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                //TODO: CREATE A DIALOG FOR FAILED LOGIN
+
+
+                /*Headers responseHeaders = response.headers();
+                for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                    System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                }*/
+                String authData = response.body().string();
+                System.out.println(authData);
+
+
+                try {
+                    JSONObject authObject = new JSONObject(authData);
+                    auth.setUsername(authObject.getString("userName"));
+                    auth.setAcessToken(authObject.getString("access_token"));
+                    auth.setExpires(authObject.getString(".expires"));
+                    auth.setIssued(authObject.getString(".issued"));
+                    //auth.isTokenValid();
+
+                    startActivity(new Intent(getActivity(), MainFeed.class));
+                    getActivity().finish();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+
+    }
+
+    public void setData(JSONObject data){
+        this.data = data;
+    }
+
+    public JSONObject getData(){
+        return data;
     }
 
 

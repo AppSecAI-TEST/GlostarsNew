@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -96,6 +97,8 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     private MyUser mUser;
     int pg = 1;
+    //-------------------------------------------------
+    Intent userProfileIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,14 +140,8 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         }, new OnItemClickListener() {
             @Override
             public void onItemClickPost(Post item) {
-                //bundle.putParcelable("PREVIEW_PICTURE", thumbnail);
-                //intent.putExtras(bundle);
-                //intent.setClass(this, upload.class);
-                //startActivity(intent);
-
 
                 Intent intent = new Intent();
-                Bundle bundle = new Bundle();
 
                 intent.putExtra("COMMENTS", item.getComments().toString());
                 intent.setClass(getApplicationContext(), commentModel.class);
@@ -158,7 +155,8 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
-        populateFeed(mUser.getUserId(), pg, mUser.getToken());
+        new getUserData().execute("");
+        //populateFeed(mUser.getUserId(), pg, mUser.getToken());
 
         /* checks wether the user has reached the end of the view
            and calls another page
@@ -176,7 +174,12 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                         if((visibleItemCount + pastVisiblesItems) >= totalItemCount){
                             loading = false;
                             pg++;
-                            populateFeed(mUser.getUserId(), pg, mUser.getToken());
+                            try {
+                                callAsyncPopulate(pg);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            //populateFeed(mUser.getUserId(), pg, mUser.getToken());
                         }
                     }
                 }
@@ -298,10 +301,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 profileFAB.setClickable(false);
                 notificationFAB.setClickable(false);
                 isOpen=false;
-                Intent i = new Intent();
-                i.putExtra("USER_ID",mUser.getUserId());
-                i.setClass(getApplicationContext(),user_profile.class);
-                startActivity(i);
+                startActivity(userProfileIntent);
             }
         });
 
@@ -342,18 +342,68 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
             }
         });
 
-        Picasso.with(this).load(mUser.getProfilePicURL()).into(profileFAB);
+
         //profileFAB
 
 
     }
 
 
+    private class getUserData extends AsyncTask<String, Integer, JSONObject>{
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            mUser.setContext(getApplicationContext());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject object) {
+            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
+            userProfileIntent = new Intent();
+            userProfileIntent.putExtra("USER_ID",mUser.getUserId());
+            userProfileIntent.setClass(getApplicationContext(),user_profile.class);
+            try {
+                callAsyncPopulate(pg);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
 
 
-    private void populateFeed(String userId, int pg, String token) {
+    class populatePageAsync extends AsyncTask<Integer, Integer, JSONArray>{
+        @Override
+        protected JSONArray doInBackground(Integer... integers) {
+            JSONArray data = null;
+            PictureService pictureService = new PictureService();
+            try {
+                pictureService.getMutualPictures(mUser.getUserId(), integers[0], mUser.getToken());
+                while(data == null){
+                    data = pictureService.getData();
+                }
+                System.out.println("PICTURES: " + data);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
 
-        JSONArray data = null;
+        protected void onPostExecute(JSONArray jsonArray) {
+            populateFeed(jsonArray);
+        }
+    };
+
+    void callAsyncPopulate(Integer pg) throws Exception {
+        new populatePageAsync().execute(pg);
+
+    }
+
+
+    //private void populateFeed(String userId, int pg, String token) {
+    private void populateFeed(JSONArray data){
+        /*JSONArray data = null;
         PictureService pictureService = new PictureService();
         try {
             pictureService.getMutualPictures(userId, pg, token);
@@ -363,7 +413,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
             System.out.println("PICTURES: " + data);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
         for(int i = 0; i < data.length(); ++i){
             try {
@@ -378,7 +428,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 Boolean isFeatured = Boolean.valueOf(pic.getString("isfeatured"));
                 Boolean isCompeting = Boolean.valueOf(pic.getString("isCompeting"));
                 Integer starsCount = Integer.parseInt(pic.getString("starsCount"));
-                System.out.println("POSTER: " + name + " " + userId + " " + id + " " + description + " " + picURL + " " + isFeatured + " " + isCompeting + " " + starsCount);
+                System.out.println("POSTER: " + name + " " + usrId + " " + id + " " + description + " " + picURL + " " + isFeatured + " " + isCompeting + " " + starsCount);
 
                 JSONArray ratings = pic.getJSONArray("ratings");
                 JSONArray comments = pic.getJSONArray("comments");
