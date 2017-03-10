@@ -98,7 +98,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     private MyUser mUser;
     int pg = 1;
     //-------------------------------------------------
-    Intent userProfileIntent;
+    Intent userProfileIntent = new Intent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -360,7 +360,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         @Override
         protected void onPostExecute(JSONObject object) {
             Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
-            userProfileIntent = new Intent();
+            //userProfileIntent = new Intent();
             userProfileIntent.putExtra("USER_ID",mUser.getUserId());
             userProfileIntent.setClass(getApplicationContext(),user_profile.class);
             try {

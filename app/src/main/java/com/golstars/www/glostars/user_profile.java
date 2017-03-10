@@ -239,7 +239,7 @@ public class user_profile extends AppCompatActivity {
         publicImgsUrls = new ArrayList<>();
         mutualImgsUrls = new ArrayList<>();
 
-        compGridView = (GridView) findViewById(R.id.competitionPosts);
+        //compGridView = (GridView) findViewById(R.id.competitionPosts);
         compAdapter = new GridAdapter(this, compImgsUrls);
         //competitiongrid.setAdapter(compAdapter); //adapter for competition pictures
 

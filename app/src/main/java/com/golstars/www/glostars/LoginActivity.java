@@ -99,7 +99,7 @@ public class LoginActivity extends Fragment {
         login.setTransformationMethod(null);
 
 
-        //tryFastLogin();
+        tryFastLogin();
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
