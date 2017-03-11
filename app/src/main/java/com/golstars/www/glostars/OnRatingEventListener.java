@@ -5,5 +5,5 @@ package com.golstars.www.glostars;
  */
 
 public interface OnRatingEventListener {
-    void onRatingBarChange(Post item, int value);
+    void onRatingBarChange(Post item, float value, int postPosition);
 }

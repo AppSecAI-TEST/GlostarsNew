@@ -288,6 +288,56 @@ public class PictureService {
         });
     }
 
+    public void commentPicture(String picID, String message, String token) throws Exception{
+        URL url = new URL(baseURL + "api/images/comment");
+
+        JSONObject msg = new JSONObject();
+        msg.put("CommentText", message);
+        msg.put("PhotoId", picID);
+
+        RequestBody body = RequestBody.create(JSONType, msg.toString());
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Bearer " + token)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e)
+            {
+                JSONObject res = new JSONObject();
+                try {
+                    res.put("responseCode", 0);
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                setDataObject(res);
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                String data = response.body().string();
+                System.out.println(data);
+
+                JSONObject res = new JSONObject();
+                try {
+                    res.put("responseCode", 1);
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                setDataObject(res);
+
+            }
+        });
+
+
+
+    }
 
 
     public JSONArray getData() {

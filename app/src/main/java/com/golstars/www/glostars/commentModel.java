@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -27,6 +28,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class commentModel extends AppCompatActivity {
@@ -44,6 +46,8 @@ public class commentModel extends AppCompatActivity {
     ListView commentlistView;
     ArrayList<Comment> commentsList;
     ListAdapter commentAdapter;
+
+    MyUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +84,7 @@ public class commentModel extends AppCompatActivity {
 
         Intent intent = getIntent();
         String comments = intent.getStringExtra("COMMENTS");
+
         try {
             JSONArray commentList = new JSONArray(comments);
             populateList(commentList);
@@ -88,7 +93,58 @@ public class commentModel extends AppCompatActivity {
         }
         System.out.println(comments);
 
+        mUser = MyUser.getmUser();
+        new getUser().execute("");
+        //mUser.setContext(this);
 
+        sendcomment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = getIntent();
+                String picID = i.getStringExtra("PICID");
+
+                try {
+                    postComment(picID, commentbox.getText().toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+
+            }
+        });
+
+    }
+
+    void postComment(String picID,  String comment) throws Exception{
+
+        if(comment != ""){
+            PictureService pictureService = new PictureService();
+            pictureService.commentPicture(picID, comment, mUser.getToken());
+            JSONObject res = null;
+            while(res == null){
+                res = pictureService.getDataObject();
+            }
+
+            Comment dummyComment = new Comment(
+                    comment,
+                    mUser.getName(),
+                    mUser.getUserId(),
+                    (new Date()).toString(),
+                    mUser.getProfilePicURL(),
+                    mUser.getName(),
+                    "", 0);
+
+
+
+        if(res.getInt("responseCode") == 1){
+            commentsList.add(dummyComment);
+            commentAdapter.notifyDataSetChanged();
+            commentbox.setText("");
+
+        } else Toast.makeText(this, "couldn't connect to the servers", Toast.LENGTH_LONG).show();
+
+        }
 
     }
 
@@ -111,6 +167,15 @@ public class commentModel extends AppCompatActivity {
 
         }
 
+    }
+
+    private class getUser extends AsyncTask<String, Integer, String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            mUser.setContext(getApplicationContext());
+            return null;
+        }
     }
 
     public class ListAdapter extends ArrayAdapter<Comment> {

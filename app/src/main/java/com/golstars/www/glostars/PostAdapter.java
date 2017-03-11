@@ -11,13 +11,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.RatingBar.OnRatingBarChangeListener;
 
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -61,13 +64,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             ratingBar = (RatingBar)view.findViewById(R.id.ratingBar);
             commentsBtn = (ImageView)view.findViewById(R.id.commenticon); 
 
-            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                    if(b) ratingListener.onRatingBarChange(postsList.get(getLayoutPosition()), (int) v);
+            /*ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 
-                }
-            });
+            }); */
 
             propic.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -115,6 +114,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     }
 
 
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -128,6 +128,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         Post post = postsList.get(position);
         holder.username.setText(post.getAuthor());
         holder.caption.setText(post.getDescription());
+
+        holder.ratingBar.setOnRatingBarChangeListener(onRatingBarChangeListener(holder, position, ratingListener));
         holder.ratingBar.setRating((float)getUserRating(post));
         holder.totalStars.setText(String.valueOf(post.getStarsCount()));
         holder.totalComments.setText(String.valueOf(post.getCommentCount()));
@@ -144,6 +146,28 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
     }
 
+    private RatingBar.OnRatingBarChangeListener onRatingBarChangeListener(final RecyclerView.ViewHolder holder, final int pos, final OnRatingEventListener ratingListener){
+        return new RatingBar.OnRatingBarChangeListener(){
+
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                JSONObject newRating = new JSONObject();
+                try {
+                    newRating.put("starsCount", (int)v);
+                    newRating.put("raterId", usrId);
+                    newRating.put("ratingTime", (new Date()).toString());
+                    postsList.get(pos).setRatings(postsList.get(pos).getRatings().put(newRating));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(b) ratingListener.onRatingBarChange(postsList.get(pos), v, pos);
+
+
+            }
+        };
+
+    }
+
     public int getItemCount(){
         return postsList.size();
     }
@@ -156,9 +180,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         JSONArray data = post.getRatings();
         for(int i = 0; i < data.length(); i++){
             try {
-                if(data.getJSONObject(i).getString("raterId") == usrId){
+                String raterId = data.getJSONObject(i).getString("raterId");
+                if(raterId.equals(usrId)){
                     System.out.println("i liked this pic: ");
                     return data.getJSONObject(i).getInt("starsCount");
+                } else{
+                    System.out.println("poster id is " + data.getJSONObject(i).getString("raterId"));
+                    System.out.println("my id is " + usrId);
+                    System.out.println("i didnt rate this pic: ");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

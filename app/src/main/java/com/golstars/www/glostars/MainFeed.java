@@ -44,6 +44,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -144,6 +145,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 Intent intent = new Intent();
 
                 intent.putExtra("COMMENTS", item.getComments().toString());
+                intent.putExtra("PICID", item.getPhotoId());
                 intent.setClass(getApplicationContext(), commentModel.class);
                 startActivity(intent);
             }
@@ -460,7 +462,31 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     }
 
     @Override
-    public void onRatingBarChange(Post item, int value) {
+    public void onRatingBarChange(Post item, float value, int postPosition){
+        System.out.println("RATING BAR");
+        JSONArray ratings = item.getRatings();
+        if(mUser.getUserId() != null){
+            JSONObject rating = new JSONObject();
+            try {
+                rating.put("starsCount", (int)value);
+                rating.put("raterId", mUser.getUserId());
+                rating.put("ratingTime", (new Date()).toString());
+                ratings.put(rating);
+                item.setRatings(ratings);
+                System.out.println("my id is " + mUser.getUserId());
+                System.out.println(item.getRatings());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            postList.set(postPosition,item);
+            mAdapter.notifyDataSetChanged();
+
+        }
+
+
+        //postList.set(postPosition,)
 
 
     }

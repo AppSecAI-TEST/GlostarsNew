@@ -163,25 +163,30 @@ class Auth  {
     }
 
     public boolean isTokenValid(){
-        String expiresDate = this.expires;
-        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
-        boolean isValid = false;
 
-        try {
-            if(expiresDate != ""){
-                Timestamp datetime = new Timestamp(format.parse(expiresDate).getTime());
-                isValid = datetime.after(new java.util.Date());
-                System.out.println("Token Valid: " + isValid);
+        if(this.expires != null){
+            String expiresDate = this.expires;
+            SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+            boolean isValid = false;
 
+            try {
+                if(expiresDate != ""){
+                    Timestamp datetime = new Timestamp(format.parse(expiresDate).getTime());
+                    isValid = datetime.after(new java.util.Date());
+                    System.out.println("Token Valid: " + isValid);
+
+                }
+
+
+
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
 
-
-
-        } catch (ParseException e) {
-            e.printStackTrace();
+            return isValid;
         }
+        return false;
 
-        return isValid;
         //boolean auth = false;
         //if(this.getAcessToken() != null){
          //   System.out.println("authentication "+ this.getAcessToken());
