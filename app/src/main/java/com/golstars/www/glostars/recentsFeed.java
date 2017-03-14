@@ -33,7 +33,7 @@ import java.util.List;
  * Created by admin on 2/21/2017.
  */
 
-public class competitionFeed extends AppCompatActivity implements OnRatingEventListener, OnItemClickListener{
+public class recentsFeed extends AppCompatActivity implements OnRatingEventListener, OnItemClickListener{
 
     //===========================FABS=========================================
 
@@ -103,7 +103,7 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
         setContentView(R.layout.activity_competition_feed);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        
+
         recyclerView = (RecyclerView) findViewById(R.id.competitionfeedrecycler);
 
 
@@ -121,8 +121,8 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
         shareVK = (ImageView)findViewById(R.id.shareVK);
         privacyIcon = (ImageView)findViewById(R.id.privacy);
 
-         gl = (ImageView)findViewById(R.id.glostarslogo);
-         slogo = (ImageView)findViewById(R.id.searchlogo);
+        gl = (ImageView)findViewById(R.id.glostarslogo);
+        slogo = (ImageView)findViewById(R.id.searchlogo);
         search = (EditText)findViewById(R.id.searchedit);
 
 
@@ -166,7 +166,7 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(competitionFeed.this,searchResults.class));
+                startActivity(new Intent(recentsFeed.this,searchResults.class));
 
             }
         });
@@ -226,7 +226,7 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(competitionFeed.this, MainFeed.class));
+                startActivity(new Intent(recentsFeed.this, MainFeed.class));
             }
         });
 
@@ -234,7 +234,7 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(competitionFeed.this, notification.class));
+                startActivity(new Intent(recentsFeed.this, notification.class));
             }
         });
 
@@ -249,7 +249,7 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
         cameraFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(competitionFeed.this, upload.class));
+                startActivity(new Intent(recentsFeed.this, upload.class));
             }
         });
 
@@ -257,7 +257,7 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(competitionFeed.this, competitionAll.class));
+                startActivity(new Intent(recentsFeed.this, competitionAll.class));
             }
         });
 
@@ -377,14 +377,16 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
     class populatePageAsync extends AsyncTask<Integer, Integer, JSONArray>{
         @Override
         protected JSONArray doInBackground(Integer... integers) {
+            JSONObject Jpackage = null;
             JSONArray data = null;
             PictureService pictureService = new PictureService();
             try {
                 //pictureService.getMutualPictures(mUser.getUserId(), integers[0], mUser.getToken());
-                pictureService.getCompetitionPictures(integers[0], mUser.getToken());
-                while(data == null){
-                    data = pictureService.getData();
+                pictureService.getPublicPictures(integers[0], mUser.getToken());
+                while(Jpackage == null){
+                    Jpackage = pictureService.getDataObject();
                 }
+                data = Jpackage.getJSONArray("picsToReturn");
                 System.out.println("PICTURES: " + data);
             } catch (Exception e) {
                 e.printStackTrace();

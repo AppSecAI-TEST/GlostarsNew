@@ -445,6 +445,8 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
 
     @Override
     public void onItemClick(String url, Integer pos) {
-
+        Intent intent = new Intent();
+        intent.setClass(this, competitionFeed.class);
+        startActivity(intent);
     }
 }

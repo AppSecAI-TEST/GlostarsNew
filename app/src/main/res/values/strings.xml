@@ -121,6 +121,7 @@
     <string name="title_activity_edit_profile">edit_profile</string>
     <string name="title_activity_competition_user">competitionUser</string>
     <string name="title_activity_editprofile">Editprofile</string>
+    <string name="title_activity_competition_feed">competitionFeed</string>
 
     <string name="title_activity_image_full_screen">imageFullScreen</string>
     <string name="dummy_button">Dummy Button</string>

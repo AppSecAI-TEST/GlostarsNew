@@ -72,6 +72,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".competitionFeed"
+            android:label="@string/title_activity_competition_feed"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".imagefullscreen"
             android:label="@string/title_activity_image_full_screen"
             android:screenOrientation="portrait"
@@ -84,6 +89,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".searchResults"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".recentsFeed"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
