@@ -33,7 +33,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class user_profile extends AppCompatActivity {
+public class user_profile extends AppCompatActivity implements OnSinglePicClick{
 
 
     //===========================FABS=========================================
@@ -106,16 +106,18 @@ public class user_profile extends AppCompatActivity {
     RecyclerView publicgrid;
     RecyclerView mutualgrid;
 
-    private GridView compGridView;
     private ArrayList<String> compImgsUrls;
-    private GridAdapter compAdapter;
+    //private GridAdapter compAdapter;
+    private RecyclerGridAdapter comAdapter;
 
-    private GridView publicGridView;
     private ArrayList<String> publicImgsUrls;
-    private GridAdapter publicAdapter;
+    //private GridAdapter publicAdapter;
+    private RecyclerGridAdapter publicAdapter;
 
     private ArrayList<String> mutualImgsUrls;
-    private GridAdapter mutualAdapter;
+    //private GridAdapter mutualAdapter;
+    private RecyclerGridAdapter mutualAdapter;
+
     private GuestUser guestUser;
 
     private MyUser mUser;
@@ -134,9 +136,6 @@ public class user_profile extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        competitiongrid = (RecyclerView) findViewById(R.id.competitionPosts);
-        publicgrid = (RecyclerView) findViewById(R.id.publicPosts);
-        mutualgrid = (RecyclerView) findViewById(R.id.mutualPosts);
 
 
         mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
@@ -234,21 +233,39 @@ public class user_profile extends AppCompatActivity {
 
 
         //-------------------------- ADAPTER AND NETWORK SETTINGS ---------------------------------//
+        competitiongrid = (RecyclerView) findViewById(R.id.competitionPosts);
+        publicgrid = (RecyclerView) findViewById(R.id.publicPosts);
+        mutualgrid = (RecyclerView) findViewById(R.id.mutualPosts);
+
 
         compImgsUrls = new ArrayList<>();
         publicImgsUrls = new ArrayList<>();
         mutualImgsUrls = new ArrayList<>();
 
         //compGridView = (GridView) findViewById(R.id.competitionPosts);
-        compAdapter = new GridAdapter(this, compImgsUrls);
-        //competitiongrid.setAdapter(compAdapter); //adapter for competition pictures
+        //compAdapter = new GridAdapter(this, compImgsUrls);
+
+        comAdapter = new RecyclerGridAdapter(this, compImgsUrls, this); // the last "this" means the onItemClick method is
+                                                                        // implemented somewhere in this class
+        publicAdapter = new RecyclerGridAdapter(this, publicImgsUrls, this);
+        mutualAdapter = new RecyclerGridAdapter(this, mutualImgsUrls, this);
+
+        int numOfColumns = 3;
+        //setting the recyclerviews to exhibit grid views
+        competitiongrid.setLayoutManager(new GridLayoutManager(this, numOfColumns));
+        publicgrid.setLayoutManager(new GridLayoutManager(this, numOfColumns));
+        mutualgrid.setLayoutManager(new GridLayoutManager(this, numOfColumns));
+
+        //assigning the adapter to the recycler views
+        competitiongrid.setAdapter(comAdapter); //adapter for competition pictures
+        publicgrid.setAdapter(publicAdapter);
+        mutualgrid.setAdapter(mutualAdapter);
+
 
         //publicgrid = (GridView) findViewById(R.id.publicPosts);
-        publicAdapter = new GridAdapter(this, publicImgsUrls);
-        //publicgrid.setAdapter(publicAdapter);
+        //publicAdapter = new GridAdapter(this, publicImgsUrls);
+        //mutualAdapter = new GridAdapter(this, mutualImgsUrls);
 
-        mutualAdapter = new GridAdapter(this, mutualImgsUrls);
-       // mutualgrid.setAdapter(mutualAdapter);
 
 
 
@@ -469,6 +486,10 @@ public class user_profile extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onItemClick(String url, Integer pos) {
+
+    }
 
 
     private class downloadData extends AsyncTask<JSONObject, Integer, JSONObject>{
@@ -648,7 +669,7 @@ public class user_profile extends AppCompatActivity {
 
     private void setCompAdapter(String profilePicURL) {
         compImgsUrls.add(profilePicURL);
-        compAdapter.notifyDataSetChanged();
+        comAdapter.notifyDataSetChanged();
         //
     }
 

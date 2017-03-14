@@ -38,6 +38,8 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -45,6 +47,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import com.loopj.android.http.*;
+import org.json.*;
 
 public class upload extends AppCompatActivity {
 
@@ -282,27 +286,61 @@ public class upload extends AppCompatActivity {
 
     }
 
-    private void prepareUpload(String description, String privacy, Boolean isCompeting, String token, Bitmap bm) {
+    private void prepareUpload(String descrip, String privacy, Boolean isCompeting, String token, Bitmap bm) {
 
+        String base64 = null;
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+
+            byte[] bytes = byteArrayOutputStream.toByteArray();
+            base64 = "data:image/jpeg;base64," + Base64.encodeToString(bytes, Base64.DEFAULT);
+
+
+
+        /*
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         byte[] byteArray = bytes.toByteArray();
         String picUri = Base64.encodeToString(byteArray, Base64.DEFAULT);
         picUri = "data:image/jpeg;base64," + picUri;
-
+        */
         //PictureService pictureService = new PictureService();
-        try {
+
             //System.out.println("description: " + description);
             //System.out.println("privacy: " + privacy);
             //System.out.println("iscompeting: " + isCompeting);
             JSONObject msg = new JSONObject();
-            msg.put("Description", description);
+            msg.put("Description", descrip);
             msg.put("IsCompeting", isCompeting.toString());
             msg.put("Privacy", privacy);
-            msg.put("ImageDataUri", picUri);
+            msg.put("ImageDataUri", base64);
 
-            new send2Server().execute(msg);
+            description.setText(msg.getString("ImageDataUri"));
 
+            System.out.println(msg.getString("ImageDataUri"));
+
+            //new send2Server().execute(msg);
+            /*
+            StringEntity jsonEntity = new StringEntity(msg.toString());
+            UploadService.uploadPhoto(this, "api/images/upload", jsonEntity, new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                    super.onSuccess(statusCode, headers, response);
+                    System.out.println(response);
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    super.onFailure(statusCode, headers, responseString, throwable);
+                }
+            }, token);
+            */
             //System.out.println("uri: " + picUri);
             //uploadPicture(description, isCompeting, privacy, byteArray, token);
         } catch (Exception e) {
