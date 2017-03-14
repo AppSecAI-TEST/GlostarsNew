@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -29,7 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class searchResults extends AppCompatActivity implements  PopulatePage{
+public class searchResults extends AppCompatActivity implements  PopulatePage, OnSinglePicClick{
 
     RecyclerView searchgrid;
     ListView searchlist;
@@ -61,7 +62,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage{
     ArrayAdapter<String> usrsAdapter;
     ArrayList<String> usrsNames;
 
-    GridAdapter recentsAdapter;
+    RecyclerGridAdapter recentsAdapter;
     ArrayList<String> recentsPics;
     ArrayList<JSONObject> recentPostObjs;
     int pg = 1;
@@ -262,9 +263,11 @@ public class searchResults extends AppCompatActivity implements  PopulatePage{
 
         recentPostObjs = new ArrayList<>();
         recentsPics = new ArrayList<>();
-        recentsAdapter = new GridAdapter(this, recentsPics);
+        recentsAdapter = new RecyclerGridAdapter(this, recentsPics, this);
+        int numOfColumns = 3;
+        searchgrid.setLayoutManager(new GridLayoutManager(this, numOfColumns));
         //=================>>>>><<<<<==========================
-        //searchgrid.setAdapter(recentsAdapter);
+        searchgrid.setAdapter(recentsAdapter);
         //=================>>>>><<<<<==========================
 
 
@@ -355,6 +358,10 @@ public class searchResults extends AppCompatActivity implements  PopulatePage{
 
     }
 
+    @Override
+    public void onItemClick(String url, Integer pos) {
+
+    }
 
 
     private class populatePageAsync extends AsyncTask<JSONObject, Integer, JSONObject>{

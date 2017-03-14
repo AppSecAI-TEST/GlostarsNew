@@ -324,7 +324,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
                     intent.setClass(getApplicationContext(), competitionUser.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(getApplicationContext(), "you don't have competition pictures", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "this user does not have competition pictures", Toast.LENGTH_LONG).show();
                 }
 
 
@@ -345,7 +345,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
                     intent.setClass(getApplicationContext(), competitionUser.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(getApplicationContext(), "you don't have public pictures", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "this user does not have public pictures", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -367,7 +367,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
 
                     startActivity(new Intent(user_profile.this, competitionUser.class));
                 } else{
-                    Toast.makeText(getApplicationContext(), "you don't have mutual pictures", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "this user does not have mutual pictures", Toast.LENGTH_LONG).show();
                 }
 
 

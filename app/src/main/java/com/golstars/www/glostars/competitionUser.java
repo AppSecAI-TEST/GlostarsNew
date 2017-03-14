@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -25,7 +26,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class competitionUser extends AppCompatActivity {
+public class competitionUser extends AppCompatActivity implements OnSinglePicClick{
 
     //===========================FABS=========================================
 
@@ -62,7 +63,7 @@ public class competitionUser extends AppCompatActivity {
     RecyclerView competitionusergrid;
 
     private ArrayList<String> targetList;
-    private GridAdapter targetAdapter;
+    private RecyclerGridAdapter targetAdapter;
 
 
     @Override
@@ -211,9 +212,11 @@ public class competitionUser extends AppCompatActivity {
 
         targetList = new ArrayList<>();
 
-        targetAdapter = new GridAdapter(getApplicationContext(), targetList);
-
-        //competitionusergrid.setAdapter(targetAdapter);
+        //targetAdapter = new GridAdapter(getApplicationContext(), targetList);
+        targetAdapter = new RecyclerGridAdapter(this, targetList, this);
+        int numOfColumns = 3;
+        competitionusergrid.setLayoutManager(new GridLayoutManager(this, numOfColumns));
+        competitionusergrid.setAdapter(targetAdapter);
 
         String target = "";
         target = this.getIntent().getStringExtra("LOAD_TARGET");
@@ -268,7 +271,10 @@ public class competitionUser extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onItemClick(String url, Integer pos) {
 
+    }
 }
 
 

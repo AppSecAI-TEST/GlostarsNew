@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -30,7 +31,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class competitionAll extends AppCompatActivity {
+public class competitionAll extends AppCompatActivity implements OnSinglePicClick {
 
 
 
@@ -108,7 +109,7 @@ public class competitionAll extends AppCompatActivity {
     int pg = 1;
 
     GridView competitiongrid;
-    private GridAdapter compAdapt;
+    private RecyclerGridAdapter compAdapt;
     private ArrayList<String> compPicsUrls;
 
 
@@ -394,8 +395,10 @@ public class competitionAll extends AppCompatActivity {
 
 
         //competitiongrid = (GridView)findViewById(R.id.gallerygrid);
-        compAdapt = new GridAdapter(this, compPicsUrls);
-        //gallery.setAdapter(compAdapt);
+        compAdapt = new RecyclerGridAdapter(this, compPicsUrls, this);
+        int numOfColumns = 3;
+        gallery.setLayoutManager(new GridLayoutManager(this, numOfColumns));
+        gallery.setAdapter(compAdapt);
 
         loadPictures(pg, mUser.getToken());
 
@@ -440,4 +443,8 @@ public class competitionAll extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onItemClick(String url, Integer pos) {
+
+    }
 }
