@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +30,8 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 public class notification extends AppCompatActivity implements OnItemClickListener {
 
@@ -306,8 +310,63 @@ public class notification extends AppCompatActivity implements OnItemClickListen
 
     }
 
+
     private void populateNotificationsList(String userId, String token) throws JSONException {
-        NotificationService notif = new NotificationService();
+
+            NotificationService.getNotifications(this,userId, token, new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    //super.onSuccess(statusCode, headers, response);
+                    try {
+                        JSONObject data = response;
+                        JSONArray activityNotifications = data.getJSONArray("activityNotifications");
+                        JSONArray followerNotifications = data.getJSONArray("followerNotifications");
+                        System.out.println(activityNotifications);
+                        System.out.println(followerNotifications);
+
+                        for(int i = 0; i < activityNotifications.length(); ++i){
+                            JSONObject singleNotif = activityNotifications.getJSONObject(i);
+                            String description = singleNotif.getString("description");
+                            String profilePicURL = singleNotif.getString("profilePicURL");
+                            String name = singleNotif.getString("name");
+                            String id = singleNotif.getString("id");
+                            String usrId = singleNotif.getString("userId");
+                            String originatedById = singleNotif.getString("originatedById");
+                            String pictureId = singleNotif.getString("pictureId");
+                            Boolean seen = Boolean.valueOf(singleNotif.getString("seen"));
+                            Boolean checked = Boolean.valueOf(singleNotif.getString("checked"));
+                            String date = singleNotif.getString("date");
+                            String picURL = singleNotif.getString("picUrl");
+
+                            setActivityNotifsAdapter(description, profilePicURL, name, id, usrId, originatedById, pictureId, seen, date, picURL, checked);
+                        }
+
+                        for(int i = 0; i < followerNotifications.length(); ++i){
+                            JSONObject singleNotif = followerNotifications.getJSONObject(i);
+                            String description = "started following you";
+                            String profilePicURL = singleNotif.getString("profilePicURL");
+                            String name = singleNotif.getString("name");
+                            String usrId = singleNotif.getString("userId");
+                            String originatedById = singleNotif.getString("originatedById");
+                            Boolean seen = Boolean.valueOf(singleNotif.getString("seen"));
+                            Boolean checked = Boolean.valueOf(singleNotif.getString("checked"));
+                            String date = singleNotif.getString("date");
+
+                            setFollowerNotifsAdapter(description, profilePicURL, name, "", usrId, originatedById, null, seen, date, checked);
+
+                        }
+                    } catch (JSONException e){
+                        e.printStackTrace();
+                    }
+
+                }
+
+
+
+
+        });
+
+        /*NotificationService notif = new NotificationService();
         JSONObject data = null;
         try {
             notif.getNotifications(userId, token);
@@ -316,45 +375,10 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
 
-        JSONArray activityNotifications = data.getJSONArray("activityNotifications");
-        JSONArray followerNotifications = data.getJSONArray("followerNotifications");
-        System.out.println(activityNotifications);
-        System.out.println(followerNotifications);
 
-        for(int i = 0; i < activityNotifications.length(); ++i){
-            JSONObject singleNotif = activityNotifications.getJSONObject(i);
-            String description = singleNotif.getString("description");
-            String profilePicURL = singleNotif.getString("profilePicURL");
-            String name = singleNotif.getString("name");
-            String id = singleNotif.getString("id");
-            String usrId = singleNotif.getString("userId");
-            String originatedById = singleNotif.getString("originatedById");
-            String pictureId = singleNotif.getString("pictureId");
-            Boolean seen = Boolean.valueOf(singleNotif.getString("seen"));
-            Boolean checked = Boolean.valueOf(singleNotif.getString("checked"));
-            String date = singleNotif.getString("date");
-            String picURL = singleNotif.getString("picUrl");
-
-            setActivityNotifsAdapter(description, profilePicURL, name, id, usrId, originatedById, pictureId, seen, date, picURL, checked);
-        }
-
-        for(int i = 0; i < followerNotifications.length(); ++i){
-            JSONObject singleNotif = followerNotifications.getJSONObject(i);
-            String description = "started following you";
-            String profilePicURL = singleNotif.getString("profilePicURL");
-            String name = singleNotif.getString("name");
-            String usrId = singleNotif.getString("userId");
-            String originatedById = singleNotif.getString("originatedById");
-            Boolean seen = Boolean.valueOf(singleNotif.getString("seen"));
-            Boolean checked = Boolean.valueOf(singleNotif.getString("checked"));
-            String date = singleNotif.getString("date");
-
-            setFollowerNotifsAdapter(description, profilePicURL, name, "", usrId, originatedById, null, seen, date, checked);
-
-        }
 
 
 

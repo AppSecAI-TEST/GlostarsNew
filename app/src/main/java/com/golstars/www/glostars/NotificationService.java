@@ -1,5 +1,10 @@
 package com.golstars.www.glostars;
 
+import android.content.Context;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,11 +26,28 @@ import okhttp3.Response;
 
 public class NotificationService {
 
-    private static final MediaType JSONType = MediaType.parse("application/json; charset=utf-8");
-    private final OkHttpClient client = new OkHttpClient();
-    private JSONArray data;
-    private JSONObject dat;
+    /*
+    * private static final  String baseURL = "http://www.glostars.com/";
+    private static AsyncHttpClient client = new AsyncHttpClient();
 
+    public static void LoadFollowers(Context context,String usrId, String token, AsyncHttpResponseHandler responseHandler)  {
+        client.addHeader("Content-Type", "application/json");
+        client.addHeader("Authorization", "Bearer " + token);
+        client.get(baseURL+"api/account/GetUserFollowById?userId=" + usrId,  responseHandler);
+    }
+    *
+    * */
+
+    private static final  String baseURL = "http://www.glostars.com/";
+    private static AsyncHttpClient client = new AsyncHttpClient();
+
+    public static void getNotifications(Context context, String usrId, String token, AsyncHttpResponseHandler responseHandler)  {
+        client.addHeader("Content-Type", "application/json");
+        client.addHeader("Authorization", "Bearer " + token);
+        client.get(baseURL+"api/notifications/user/" + usrId ,  responseHandler);
+    }
+
+    /*
     public void getNotifications(String userid , String token) throws Exception{
         URL url = new URL("http://www.glostars.com/api/notifications/user/" + userid );
 
@@ -77,4 +99,5 @@ public class NotificationService {
     public void setDataObject(JSONObject dat) {
         this.dat = dat;
     }
+    */
 }

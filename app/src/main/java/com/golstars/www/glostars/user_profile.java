@@ -3,6 +3,7 @@ package com.golstars.www.glostars;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -32,6 +34,9 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
+import cz.msebera.android.httpclient.Header;
 
 public class user_profile extends AppCompatActivity implements OnSinglePicClick{
 
@@ -288,12 +293,6 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
 
                 new getUserAndSetData().execute(target);
 
-//                new downloadData().execute(data);
-                //guestUser = searchUser.getGuestUser(target, mUser.getToken());
-                //System.out.println("this user is" + guestUser.getName());
-                //usernameProfile.setText(guestUser.getName());
-                //fService.LoadFollowers(guestUser.getUserId(), mUser.getToken());
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -311,12 +310,22 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         numFollowersProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(guestUser != null){
+                    Intent intent = new Intent();
+                    intent.putExtra("guestUserId", guestUser.getUserId());
+                    intent.putExtra("myUserId", mUser.getUserId());
+                    intent.putExtra("myUserPic", mUser.getProfilePicURL());
+                    intent.putExtra("token", mUser.getToken());
+                    intent.setClass(getApplicationContext(),followersPage.class);
+                    startActivity(intent);
+                }
+                /*
                 try{
                     startActivity(new Intent(user_profile.this,followersPage.class));
                 }
                 catch (Exception e){
                     Log.e(TAG,"ERROR HERE",e);
-                }
+                }*/
 
             }
         });
@@ -324,11 +333,14 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         numFollowingProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try{
-                    startActivity(new Intent(user_profile.this,followersPage.class));
-                }
-                catch (Exception e){
-                    Log.e(TAG,"ERROR HERE",e);
+                if(guestUser != null){
+                    Intent intent = new Intent();
+                    intent.putExtra("guestUserId", guestUser.getUserId());
+                    intent.putExtra("myUserId", mUser.getUserId());
+                    intent.putExtra("myUserPic", mUser.getProfilePicURL());
+                    intent.putExtra("token", mUser.getToken());
+                    intent.setClass(getApplicationContext(),followersPage.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -594,7 +606,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
             try {
                 //setting UI rss with user data
                 usernameProfile.setText(jsonObject.getString("guestName"));
-                fService.LoadFollowers(jsonObject.getString("guestUsrId"), jsonObject.getString("token"));
+                //fService.LoadFollowers(jsonObject.getString("guestUsrId"), jsonObject.getString("token"));
 
                 String location = jsonObject.getString("location");
                 if(location != "null"){
@@ -622,6 +634,84 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
 
                 //calling populateGallery() method using data from user
                 populateGallery(jsonObject.getString("guestUsrId"), 1, jsonObject.getString("token"));
+
+                FollowerService.LoadFollowers(getApplicationContext(), guestUser.getUserId(), mUser.getToken(), new JsonHttpResponseHandler(){
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        // If the response is JSONObject instead of expected JSONArray
+                        try {
+                            System.out.println(response);
+                            JSONArray followerList = null;
+                            JSONArray followingList = null;
+                            try {
+                                JSONObject resultPayload = response.getJSONObject("resultPayload");
+                                followerList = resultPayload.getJSONArray("followerList");
+                                followingList = resultPayload.getJSONArray("followingList");
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            numFollowersCountProfile.setText(followerList.length());
+                            numFollowingCountProfile.setText(followingList.length());
+
+                            boolean isFollower = false;
+                            boolean isFollowing = false;
+
+                            for(int i = 0; i < followerList.length() - 1; i++){
+                                if (followerList.getJSONObject(i).getString("id").equals(mUser.getUserId())){
+                                    isFollower = true;
+                                    break;
+                                }
+
+
+                            }
+
+                            for(int i = 0; i < followingList.length() - 1; i++){
+                                if (followingList.getJSONObject(i).getString("id").equals(mUser.getUserId())){
+                                    isFollowing = true;
+                                    break;
+                                }
+
+                            }
+                            System.out.println(isFollowing + " for following and " + isFollower + " for follower");
+
+                            if(mUser.getUserId().equals(guestUser.getUserId())){
+                                follow.setVisibility(View.INVISIBLE);
+                            } else if(isFollower && !isFollowing){
+                                follow.setVisibility(View.VISIBLE);
+                                follow.setBackgroundColor(Color.parseColor("#007FFF"));
+                                follow.setText("Follower");
+                            } else if(!isFollower && isFollowing){
+                                follow.setVisibility(View.VISIBLE);
+                                follow.setBackgroundColor(Color.parseColor("#E1C8FF"));
+                                follow.setText("Following");
+                            } else if(isFollower && isFollowing){
+                                follow.setVisibility(View.VISIBLE);
+                                follow.setBackgroundColor(Color.parseColor("#640064"));
+                                follow.setText("Mutual");
+                            } else {
+                                follow.setVisibility(View.VISIBLE);
+                                follow.setText("Follow");
+                            }
+
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                        // Pull out the first event on the public timeline
+                        //JSONObject firstEvent = timeline.get(0);
+                        //String tweetText = firstEvent.getString("text");
+
+                        // Do something with the response
+                        System.out.println(response);
+                        //System.out.println(tweetText);
+                    }
+                });
+
 
 
 
@@ -676,6 +766,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         }
 
     }
+
+
 
 
     private void setMutualAdapter(String picUrl) {

@@ -1,6 +1,8 @@
 package com.golstars.www.glostars;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,13 +10,31 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
+
+import static com.golstars.www.glostars.R.id.p;
+import static java.security.AccessController.getContext;
 
 public class followersPage extends AppCompatActivity {
 
@@ -51,6 +71,17 @@ public class followersPage extends AppCompatActivity {
     TextView camerabadge;
     TextView mainbadge;
     TextView competitionbadge;
+
+    ArrayList<Follower> followers;
+    ArrayList<Follower> following;
+
+    FollowersAdapter followingAdaper;
+    FollowersAdapter followersAdapter;
+
+    JSONArray myFollowers;
+    JSONArray myFollowing;
+
+    String mUserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,6 +244,185 @@ public class followersPage extends AppCompatActivity {
             }
         });
 
+        String mUserProfPic = this.getIntent().getStringExtra("myUserIdPic");
+        String guestUserID  = this.getIntent().getStringExtra("guestUserId");
+        mUserID = this.getIntent().getStringExtra("myUserId");
+        String token =  this.getIntent().getStringExtra("token");
+
+        followers = new ArrayList<>();
+        following = new ArrayList<>();
+
+        followersAdapter = new FollowersAdapter(this, R.layout.activity_followers_model, followers);
+        followingAdaper = new FollowersAdapter(this, R.layout.activity_followers_model, following);
+
+        followersList.setAdapter(followersAdapter);
+        followingList.setAdapter(followingAdaper);
+
+        LoadFollowers(guestUserID, token, mUserID);
+
+
+
+    }
+
+    public void LoadFollowers(String usr, String token, final String myID){
+        FollowerService.LoadFollowers(this, myID, token, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    JSONObject resultPayload = response.getJSONObject("resultPayload");
+                    myFollowers = resultPayload.getJSONArray("followerList");
+                    myFollowing = resultPayload.getJSONArray("followingList");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        FollowerService.LoadFollowers(this, usr, token, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    System.out.println(response);
+                    JSONArray followerList = null;
+                    JSONArray followingList = null;
+
+                    JSONObject resultPayload = response.getJSONObject("resultPayload");
+                    followerList = resultPayload.getJSONArray("followerList");
+                    followingList = resultPayload.getJSONArray("followingList");
+
+                   if((myFollowers != null)  && (myFollowing != null)){
+                        for(int i = 0; i < followerList.length(); i++){
+                            Follower follower = new Follower();
+                            follower.setUserId(followerList.getJSONObject(i).getString("id"));
+
+                            String name = followerList.getJSONObject(i).getString("name");
+                            String surname = followerList.getJSONObject(i).getString("lastName");
+
+                            follower.setUserName(name + " " + surname);
+                            follower.setProfilePicture(followingList.getJSONObject(i).getString("profilemediumPath"));
+
+                            if(follower.getUserId().equals(mUserID)){
+                                follower.setRigStatus("");
+                            } else{
+                                follower.setStatus(myFollowers, myFollowing);
+                            }
+
+
+
+                            followers.add(follower);
+                            followersAdapter.notifyDataSetChanged();
+
+
+
+                        }
+
+                       for(int i = 0; i < followingList.length(); i++){
+                           Follower follower = new Follower();
+                           follower.setUserId(followingList.getJSONObject(i).getString("id"));
+
+                           String name = followingList.getJSONObject(i).getString("name");
+                           String surname = followingList.getJSONObject(i).getString("lastName");
+
+                           follower.setUserName(name + " " + surname);
+                           follower.setProfilePicture(followingList.getJSONObject(i).getString("profilemediumPath"));
+
+                           if(follower.getUserId().equals(mUserID)){
+                               follower.setRigStatus("");
+                           } else{
+                               follower.setStatus(myFollowers, myFollowing);
+                           }
+
+                           following.add(follower);
+                           followingAdaper.notifyDataSetChanged();
+
+
+                       }
+                   }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+
+    }
+
+
+
+
+    private class FollowersAdapter extends ArrayAdapter<Follower> {
+
+        ArrayList<Follower> followers;
+        Context context;
+
+
+        public FollowersAdapter(Context context, int resource, ArrayList<Follower> followers) {
+            super(context, resource, followers);
+
+            this.context = context;
+            this.followers = followers;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            View v = convertView;
+
+            if (v == null) {
+                LayoutInflater vi;
+                vi = LayoutInflater.from(getContext());
+                v = vi.inflate(R.layout.activity_followers_model, null);
+            }
+
+            Follower p = getItem(position);
+
+            if (p != null) {
+
+                ImageView usrPic= (ImageView) v.findViewById(R.id.propicfollow);
+
+                TextView name = (TextView) v.findViewById(R.id.namefollow);
+                TextView surname = (TextView) v.findViewById(R.id.surnamefollow);
+                Button follow = (Button) v.findViewById(R.id.followBUT);
+
+                if (name != null) {
+                    name.setText(p.getUserName());
+                }
+
+                if (surname != null) {
+                    surname.setText("");
+                }
+
+
+                String fStatus = p.getStatus();
+                follow.setText(fStatus);
+
+                if(fStatus.equals("")){
+                    follow.setVisibility(View.INVISIBLE);
+                } else if(fStatus.equals("follower")){
+                    follow.setBackgroundColor(Color.parseColor("#007FFF"));
+                } else if(fStatus.equals("following")){
+                    follow.setBackgroundColor(Color.parseColor("#E1C8FF"));
+                } else if(fStatus.equals("mutual")){
+                    follow.setBackgroundColor(Color.parseColor("#640064"));
+                }
+
+                follow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+
+
+
+
+                Picasso.with(getApplicationContext()).load(p.getProfilePicture()).into(usrPic);
+            }
+
+            return v;
+        }
 
     }
 

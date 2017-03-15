@@ -1,5 +1,11 @@
 package com.golstars.www.glostars;
 
+import android.content.Context;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,10 +22,33 @@ import okhttp3.Response;
 
 public class FollowerService {
 
-    private final OkHttpClient client = new OkHttpClient();
-    String baseURL = "http://www.glostars.com/";
-    private String data;
+    private static final  String baseURL = "http://www.glostars.com/";
+    private static AsyncHttpClient client = new AsyncHttpClient();
 
+    public static void LoadFollowers(Context context,String usrId, String token, AsyncHttpResponseHandler responseHandler)  {
+        client.addHeader("Content-Type", "application/json");
+        client.addHeader("Authorization", "Bearer " + token);
+        client.get(baseURL+"api/account/GetUserFollowById?userId=" + usrId,  responseHandler);
+    }
+
+
+    /*
+    * private static final String baseURL = "http://www.glostars.com/";
+    private static AsyncHttpClient client = new AsyncHttpClient();
+
+
+    public static void uploadPhoto(Context context, String url, StringEntity jsonEntity, AsyncHttpResponseHandler responseHandler, String token){
+        client.addHeader("Content-Type", "application/json");
+        client.addHeader("Authorization", "Bearer " + token);
+        client.post(context ,getAbsoluteUrl(url), jsonEntity , "application/json", responseHandler);
+    }
+
+    private static String getAbsoluteUrl(String relativeUrl){
+        return baseURL + relativeUrl;
+    }
+    *
+    * */
+    /*
     public void LoadFollowers(String usrId, String token) throws Exception {
         URL url = new URL(baseURL + "api/account/GetUserFollowById?userId=" + usrId);
 
@@ -49,7 +78,7 @@ public class FollowerService {
                 } */
 
 
-
+    /*
             }
         });
     }
@@ -61,5 +90,5 @@ public class FollowerService {
     private void setData(String data) {
         this.data = data;
     }
-
+    */
 }
