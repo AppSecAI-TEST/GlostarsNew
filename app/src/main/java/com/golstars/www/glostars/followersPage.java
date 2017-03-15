@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -58,6 +59,8 @@ public class followersPage extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+//        final String TAG = followersPage.class.getName();
+
         followersList = (ListView)findViewById(R.id.followerList);
         followingList = (ListView)findViewById(R.id.followingList);
 
@@ -69,7 +72,7 @@ public class followersPage extends AppCompatActivity {
         followbutton = (Button)findViewById(R.id.followBUT);
         followerbut = (Button)findViewById(R.id.followersbutuser);
         followingbut = (Button)findViewById(R.id.followingbutuser);
-        followbutton.setTransformationMethod(null);
+        //followbutton.setTransformationMethod(null);
 
 
 
@@ -101,12 +104,13 @@ public class followersPage extends AppCompatActivity {
         followingbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                followingbut.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                    followingbut.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
 
-                followerbut.setTextColor(getResources().getColor(R.color.darkGrey));
+                    followerbut.setTextColor(getResources().getColor(R.color.darkGrey));
 
-                followingList.setVisibility(View.VISIBLE);
-                followersList.setVisibility(View.GONE);
+                    followingList.setVisibility(View.VISIBLE);
+                    followersList.setVisibility(View.GONE);
+
 
             }
         });
@@ -124,7 +128,6 @@ public class followersPage extends AppCompatActivity {
 
             }
         });
-
 
 
         mainFAB.setOnClickListener(new View.OnClickListener() {

@@ -101,6 +101,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
 
 
     Button follow;
+    Button settingsuser;
 
     RecyclerView competitiongrid;
     RecyclerView publicgrid;
@@ -136,6 +137,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        final String TAG = user_profile.class.getName();
 
 
         mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
@@ -160,6 +162,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
 
+        settingsuser = (Button)findViewById(R.id.settingsbutton);
         usernameProfile = (TextView)findViewById(R.id.profileuserNAME);
         userLocationProfile = (TextView)findViewById(R.id.profileuserLOCATION);
         aboutMeBannerProfile = (TextView)findViewById(R.id.useraboutBANNER);
@@ -308,14 +311,25 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         numFollowersProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(user_profile.this,followersPage.class));
+                try{
+                    startActivity(new Intent(user_profile.this,followersPage.class));
+                }
+                catch (Exception e){
+                    Log.e(TAG,"ERROR HERE",e);
+                }
+
             }
         });
 
         numFollowingProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(user_profile.this,followersPage.class));
+                try{
+                    startActivity(new Intent(user_profile.this,followersPage.class));
+                }
+                catch (Exception e){
+                    Log.e(TAG,"ERROR HERE",e);
+                }
             }
         });
 

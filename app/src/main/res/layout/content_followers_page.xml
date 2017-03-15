@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.golstars.www.glostars.followersPage"
     tools:showIn="@layout/activity_followers_page">
@@ -46,17 +47,11 @@
 
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bannerLin">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
             <ListView
                 android:id="@+id/followerList"
+                android:layout_below="@+id/bannerLin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible">
@@ -65,14 +60,13 @@
 
             <ListView
                 android:id="@+id/followingList"
+                android:layout_below="@+id/bannerLin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone">
             </ListView>
 
-        </RelativeLayout>
 
-    </ScrollView>
 
 </RelativeLayout>
 
