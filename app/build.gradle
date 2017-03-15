@@ -32,6 +32,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/CircleImageView-master/gradle/wrapper/gradle-wrapper.jar')
     compile files('libs/CircleImageView-master/gradle/wrapper/gradle-wrapper.jar')
+
     compile 'com.android.support:recyclerview-v7:25.2.0'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.github.clans:fab:1.6.4'

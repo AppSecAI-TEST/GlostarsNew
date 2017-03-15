@@ -236,7 +236,6 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
                     targetAdapter.notifyDataSetChanged();
                 }
 
-
             }
 
         }else if(target.equals("PUBLIC")){

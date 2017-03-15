@@ -231,6 +231,10 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
 
 
 
+        gallerybut.setTransformationMethod(null);
+        tipsbut.setTransformationMethod(null);
+        termsbut.setTransformationMethod(null);
+        recogbut.setTransformationMethod(null);
 
 
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");

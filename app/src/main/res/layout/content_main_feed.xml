@@ -126,7 +126,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/comment_icon"
-                    android:layout_marginTop="0dp"
+                    android:layout_marginTop="2dp"
                     />
 
                 <TextView

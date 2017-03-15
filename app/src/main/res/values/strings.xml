@@ -137,4 +137,5 @@
     <string name="title_activity_settings_page">settingsPage</string>
     <string name="title_activity_followers_page">followersPage</string>
     <string name="title_activity_terms_main">TermsMain</string>
+    <string name="title_activity_fragment_image_slider">fragmentImageSlider</string>
 </resources>

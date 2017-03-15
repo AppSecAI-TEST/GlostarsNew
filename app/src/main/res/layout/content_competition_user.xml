@@ -12,12 +12,10 @@
     tools:showIn="@layout/activity_competition_user">
 
         <android.support.v7.widget.RecyclerView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:columnWidth="90dp"
-            android:numColumns="3"
-            android:stretchMode="columnWidth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/competitionusergrid"
+            android:scrollbars="vertical"
             />
 
 

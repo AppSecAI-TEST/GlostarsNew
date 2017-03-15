@@ -18,6 +18,7 @@ import android.widget.TextView;
 public class followersPage extends AppCompatActivity {
 
     ListView followersList;
+    ListView followingList;
 
 
     ImageView followpropic;
@@ -25,6 +26,8 @@ public class followersPage extends AppCompatActivity {
     TextView lastname;
 
     Button followbutton;
+    Button followerbut;
+    Button followingbut;
 
     Animation fab_hide;
     Animation fab_show;
@@ -56,6 +59,7 @@ public class followersPage extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         followersList = (ListView)findViewById(R.id.followersList);
+        followingList = (ListView)findViewById(R.id.followingList);
 
 
         followpropic = (ImageView)findViewById(R.id.propicfollow);
@@ -63,7 +67,10 @@ public class followersPage extends AppCompatActivity {
         lastname = (TextView)findViewById(R.id.namefollow);
 
         followbutton = (Button)findViewById(R.id.followBUT);
+        followerbut = (Button)findViewById(R.id.followersbutuser);
+        followingbut = (Button)findViewById(R.id.followingbutuser);
         followbutton.setTransformationMethod(null);
+
 
 
 
@@ -89,6 +96,34 @@ public class followersPage extends AppCompatActivity {
         fab_hide = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_hide);
         rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
+
+
+        followingbut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                followingbut.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+                followerbut.setTextColor(getResources().getColor(R.color.darkGrey));
+
+                followingList.setVisibility(View.VISIBLE);
+                followersList.setVisibility(View.GONE);
+
+            }
+        });
+
+
+        followerbut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                followingbut.setTextColor(getResources().getColor(R.color.darkGrey));
+
+                followerbut.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+                followingList.setVisibility(View.GONE);
+                followersList.setVisibility(View.VISIBLE);
+
+            }
+        });
 
 
 
