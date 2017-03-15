@@ -58,7 +58,7 @@ public class followersPage extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        followersList = (ListView)findViewById(R.id.followersList);
+        followersList = (ListView)findViewById(R.id.followerList);
         followingList = (ListView)findViewById(R.id.followingList);
 
 
