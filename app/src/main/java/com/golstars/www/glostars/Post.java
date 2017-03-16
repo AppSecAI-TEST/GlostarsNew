@@ -16,6 +16,7 @@ public class Post {
     private String description;
     private String picURL;
     private String profilePicURL;
+    private String uploaded;
     private boolean isFeatured;
     private boolean isCompeting;
     private int starsCount;
@@ -136,6 +137,14 @@ public class Post {
 
     public void setComments(JSONArray comments) {
         this.comments = comments;
+    }
+
+    public String getUploaded() {
+        return uploaded;
+    }
+
+    public void setUploaded(String uploaded) {
+        this.uploaded = uploaded;
     }
 
 

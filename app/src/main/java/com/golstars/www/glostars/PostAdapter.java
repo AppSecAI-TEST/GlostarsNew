@@ -45,7 +45,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView username, caption, postTime, totalStars, totalComments;
+        public TextView username, caption, postTime, totalStars, totalComments, uselessTextView;
         public ImageView postImg;
         public ImageView propic;
         public RatingBar ratingBar;
@@ -62,7 +62,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             totalStars=(TextView)view.findViewById(R.id.ratingstarcount);
             totalComments=(TextView)view.findViewById(R.id.commentcount);
             ratingBar = (RatingBar)view.findViewById(R.id.ratingBar);
-            commentsBtn = (ImageView)view.findViewById(R.id.commenticon); 
+            commentsBtn = (ImageView)view.findViewById(R.id.commenticon);
+            uselessTextView = (TextView)view.findViewById(R.id.timedigit);
 
             /*ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 
@@ -128,7 +129,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         Post post = postsList.get(position);
         holder.username.setText(post.getAuthor());
         holder.caption.setText(post.getDescription());
-
+        holder.postTime.setText(post.getUploaded());
+        holder.uselessTextView.setText("");
         holder.ratingBar.setOnRatingBarChangeListener(onRatingBarChangeListener(holder, position, ratingListener));
         holder.ratingBar.setRating((float)getUserRating(post));
         holder.totalStars.setText(String.valueOf(post.getStarsCount()));
@@ -172,6 +174,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         return postsList.size();
     }
 
+    public int findPosByPhotoURL(String photoURL){
+        for(int i = 0; i < postsList.size(); i++){
+            if(postsList.get(i).getPicURL().equals(photoURL)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public int getUserRating(Post post){
         /*this method searches the list of ratings in this post to find whether
           our current user has rated this or not. If so, return the rating number,
@@ -185,10 +196,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                     System.out.println("i liked this pic: ");
                     return data.getJSONObject(i).getInt("starsCount");
                 } else{
-                    System.out.println("poster id is " + data.getJSONObject(i).getString("raterId"));
+                    /*System.out.println("poster id is " + data.getJSONObject(i).getString("raterId"));
                     System.out.println("my id is " + usrId);
                     System.out.println("i didnt rate this pic: ");
+                    */
                 }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

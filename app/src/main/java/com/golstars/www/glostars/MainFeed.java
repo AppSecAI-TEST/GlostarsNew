@@ -34,6 +34,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.LocalDateTime;
+import org.joda.time.Period;
+import org.joda.time.format.DateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -427,6 +432,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 String id = pic.getString("id");
                 String description = pic.getString("description");
                 String picURL = pic.getString("picUrl");
+
                 Boolean isFeatured = Boolean.valueOf(pic.getString("isfeatured"));
                 Boolean isCompeting = Boolean.valueOf(pic.getString("isCompeting"));
                 Integer starsCount = Integer.parseInt(pic.getString("starsCount"));
@@ -435,7 +441,12 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 JSONArray ratings = pic.getJSONArray("ratings");
                 JSONArray comments = pic.getJSONArray("comments");
 
-                setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, ratings.length(), comments.length(), ratings, comments);
+                String uploaded = pic.getString("uploaded");
+                String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
+                String interval = Timestamp.getInterval(localDateTime);
+
+                setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, ratings.length(), comments.length(), ratings, comments, interval);
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -449,15 +460,16 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
     }
 
-    private void setmAdapter(String author, String usr, String photoID, String description, String picURL, String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount, Integer commentCount, JSONArray ratings, JSONArray comments){
+    private void setmAdapter(String author, String usr, String photoID, String description, String picURL, String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount,
+                             Integer commentCount, JSONArray ratings, JSONArray comments, String uploaded){
         if(description == "null"){
             description = "";
         }
         Post post = new Post(author, usr, photoID, description, picURL, profilePicURL, isFeatured, isCompeting, starsCount, commentCount);
         post.setComments(comments);
         post.setRatings(ratings);
+        post.setUploaded(uploaded);
         postList.add(post);
-
         mAdapter.notifyDataSetChanged();
     }
 

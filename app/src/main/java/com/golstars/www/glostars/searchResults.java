@@ -361,6 +361,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
     @Override
     public void onItemClick(String url, Integer pos) {
         Intent intent = new Intent();
+        intent.putExtra("GOTOPIC", url);
         intent.setClass(searchResults.this, recentsFeed.class);
         startActivity(intent);
 

@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,6 +92,7 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     private MyUser mUser;
     int pg = 1;
+    boolean goPic = false;
     //-------------------------------------------------
     Intent userProfileIntent;
 
@@ -348,6 +351,7 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
 
 
 
+
     }
 
     private class getUserData extends AsyncTask<String, Integer, JSONObject> {
@@ -435,7 +439,12 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
                 JSONArray ratings = pic.getJSONArray("ratings");
                 JSONArray comments = pic.getJSONArray("comments");
 
-                setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, ratings.length(), comments.length(), ratings, comments);
+                String uploaded = pic.getString("uploaded");
+                String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
+                String interval = Timestamp.getInterval(localDateTime);
+
+                setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, ratings.length(), comments.length(), ratings, comments, interval);
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -449,16 +458,44 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
 
     }
 
-    private void setmAdapter(String author, String usr, String photoID, String description, String picURL, String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount, Integer commentCount, JSONArray ratings, JSONArray comments){
+    private void setmAdapter(String author, String usr, String photoID, String description, String picURL,
+                             String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount,
+                             Integer commentCount, JSONArray ratings, JSONArray comments, String interval){
         if(description == "null"){
             description = "";
         }
         Post post = new Post(author, usr, photoID, description, picURL, profilePicURL, isFeatured, isCompeting, starsCount, commentCount);
         post.setComments(comments);
         post.setRatings(ratings);
+        post.setUploaded(interval);
         postList.add(post);
 
         mAdapter.notifyDataSetChanged();
+
+
+        if(mAdapter.getItemCount() > 9 && !goPic){
+            String picUrl = this.getIntent().getStringExtra("GOTOPIC");
+            Integer pos = mAdapter.findPosByPhotoURL(picUrl);
+            if(pos > 0){
+                recyclerView.scrollToPosition(pos);
+                goPic = true;
+            }
+
+        } else if((mAdapter.getItemCount() % 10) == 0 && !goPic){
+            String picUrl = this.getIntent().getStringExtra("GOTOPIC");
+            Integer pos = mAdapter.findPosByPhotoURL(picUrl);
+            if(pos > 0){
+                recyclerView.scrollToPosition(pos);
+                goPic = true;
+            } else {
+                pg++;
+                try {
+                    callAsyncPopulate(pg);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
