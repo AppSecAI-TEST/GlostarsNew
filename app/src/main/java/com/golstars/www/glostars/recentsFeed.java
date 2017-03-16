@@ -440,6 +440,7 @@ public class recentsFeed extends AppCompatActivity implements OnRatingEventListe
                 JSONArray ratings = pic.getJSONArray("ratings");
                 JSONArray comments = pic.getJSONArray("comments");
 
+                //setting timespan
                 String uploaded = pic.getString("uploaded");
                 String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                 LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
