@@ -1,6 +1,9 @@
 package com.golstars.www.glostars;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
+import android.support.constraint.solver.SolverVariable;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -54,6 +57,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         public MyViewHolder(View view, final OnRatingEventListener ratingListener, final OnItemClickListener listener, final OnItemClickListener postImgListener,
                             final OnItemClickListener commentsListener){
             super(view);
+            Typeface type = Typeface.createFromAsset(itemView.getContext().getAssets(),"fonts/Ubuntu-Light.ttf");
+
             username=(TextView)view.findViewById(R.id.userNAME);
             caption=(TextView)view.findViewById(R.id.userCAPTION);
             postTime=(TextView)view.findViewById(R.id.uploadTIME);
@@ -64,6 +69,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             ratingBar = (RatingBar)view.findViewById(R.id.ratingBar);
             commentsBtn = (ImageView)view.findViewById(R.id.commenticon);
             uselessTextView = (TextView)view.findViewById(R.id.timedigit);
+
+            username.setTypeface(type);
+            caption.setTypeface(type);
+            postTime.setTypeface(type);
+            totalStars.setTypeface(type);
+            totalComments.setTypeface(type);
+
 
             /*ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 
@@ -120,6 +132,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.content_main_feed, parent, false);
+
 
         return new MyViewHolder(itemView, ratingListener, listener, postImgListener, commentsListener);
     }

@@ -1,6 +1,8 @@
 package com.golstars.www.glostars;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -112,6 +115,8 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         setContentView(R.layout.activity_main_feed);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         //---------------NETOWORK AND RECYCLER VIEW --------------------------------
         recyclerView = (RecyclerView) findViewById(R.id.mainfeedrecycler);
@@ -354,6 +359,24 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
 
     }
+    // Setup a recurring alarm every fifteen minutes
+    private void scheduleAlarm() {
+        // Construct an intent that will execute the AlarmReceiver
+        Intent intent = new Intent(getApplicationContext(), MyAlarmReceiver.class);
+        intent.putExtra("token", mUser.getToken());
+        intent.putExtra("usrId", mUser.getUserId());
+
+        // Create a PendingIntent to be triggered when the alarm goes off
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, MyAlarmReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        // Setup periodic alarm every 5 seconds
+        long firstMillis = System.currentTimeMillis(); // alarm is set right away
+        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        // First parameter is the type: ELAPSED_REALTIME, ELAPSED_REALTIME_WAKEUP, RTC_WAKEUP
+        // Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pIntent);
+    }
 
 
     private class getUserData extends AsyncTask<String, Integer, JSONObject>{
@@ -370,6 +393,8 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
             //userProfileIntent = new Intent();
             userProfileIntent.putExtra("USER_ID",mUser.getUserId());
             userProfileIntent.setClass(getApplicationContext(),user_profile.class);
+            //setting up alarm to service
+            scheduleAlarm();
             try {
                 callAsyncPopulate(pg);
             } catch (Exception e) {

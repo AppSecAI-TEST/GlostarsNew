@@ -23,6 +23,8 @@ import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,6 +90,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
     List<NotificationObj> follNotifs;
     NotificationAdapter mAdapter;
     NotificationAdapter follAdapter;
+    Integer unseenNotifs;
 
     MyUser myUser;
 
@@ -282,13 +285,39 @@ public class notification extends AppCompatActivity implements OnItemClickListen
         notifs = new ArrayList<>();
         follNotifs = new ArrayList<>();
 
-        mAdapter = new NotificationAdapter(notifs, this, this);
+        mAdapter = new NotificationAdapter(notifs, this, this, new OnItemClickListener() {
+            @Override
+            public void onItemClickPost(Post item) {
+
+            }
+
+            @Override
+            public void onItemClickNotif(NotificationObj notif) {
+                Intent intent = new Intent();
+                intent.putExtra("USER_ID", notif.getOriginID());
+                intent.setClass(getApplicationContext(),user_profile.class);
+                startActivity(intent);
+            }
+        });
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         noti.setLayoutManager(layoutManager);
         noti.setItemAnimator(new DefaultItemAnimator());
         noti.setAdapter(mAdapter);
 
-        follAdapter = new NotificationAdapter(follNotifs, this, this);
+        follAdapter = new NotificationAdapter(follNotifs, this, this, new OnItemClickListener() {
+            @Override
+            public void onItemClickPost(Post item) {
+
+            }
+
+            @Override
+            public void onItemClickNotif(NotificationObj notif) {
+                Intent intent = new Intent();
+                intent.putExtra("USER_ID", notif.getOriginID());
+                intent.setClass(getApplicationContext(),user_profile.class);
+                startActivity(intent);
+            }
+        });
         RecyclerView.LayoutManager layoutM = new LinearLayoutManager(getApplicationContext());
         foll.setLayoutManager(layoutM);
         foll.setItemAnimator(new DefaultItemAnimator());
@@ -318,7 +347,8 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     //super.onSuccess(statusCode, headers, response);
                     try {
-                        JSONObject data = response;
+                        JSONObject data = response.getJSONObject("resultPayload");
+                        System.out.println(response);
                         JSONArray activityNotifications = data.getJSONArray("activityNotifications");
                         JSONArray followerNotifications = data.getJSONArray("followerNotifications");
                         System.out.println(activityNotifications);
@@ -335,10 +365,19 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                             String pictureId = singleNotif.getString("pictureId");
                             Boolean seen = Boolean.valueOf(singleNotif.getString("seen"));
                             Boolean checked = Boolean.valueOf(singleNotif.getString("checked"));
-                            String date = singleNotif.getString("date");
+
                             String picURL = singleNotif.getString("picUrl");
 
-                            setActivityNotifsAdapter(description, profilePicURL, name, id, usrId, originatedById, pictureId, seen, date, picURL, checked);
+                            String date = singleNotif.getString("date");
+                            String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                            LocalDateTime localDateTime = LocalDateTime.parse(date, DateTimeFormat.forPattern(pattern));
+                            String interval = Timestamp.getInterval(localDateTime);
+
+                            if (seen.equals("false")){
+                                unseenNotifs ++;
+                            }
+
+                            setActivityNotifsAdapter(description, profilePicURL, name, id, usrId, originatedById, pictureId, seen, interval, picURL, checked);
                         }
 
                         for(int i = 0; i < followerNotifications.length(); ++i){
@@ -350,9 +389,17 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                             String originatedById = singleNotif.getString("originatedById");
                             Boolean seen = Boolean.valueOf(singleNotif.getString("seen"));
                             Boolean checked = Boolean.valueOf(singleNotif.getString("checked"));
-                            String date = singleNotif.getString("date");
 
-                            setFollowerNotifsAdapter(description, profilePicURL, name, "", usrId, originatedById, null, seen, date, checked);
+                            String date = singleNotif.getString("date");
+                            String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                            LocalDateTime localDateTime = LocalDateTime.parse(date, DateTimeFormat.forPattern(pattern));
+                            String interval = Timestamp.getInterval(localDateTime);
+
+                            if (seen.equals("false")){
+                                unseenNotifs ++;
+                            }
+
+                            setFollowerNotifsAdapter(description, profilePicURL, name, "", usrId, originatedById, null, seen, interval, checked);
 
                         }
                     } catch (JSONException e){
@@ -389,12 +436,14 @@ public class notification extends AppCompatActivity implements OnItemClickListen
 
     private void setFollowerNotifsAdapter(String description, String profilePicURL, String name, String id, String usrId, String originatedById, String pictureId, Boolean seen, String date, Boolean checked) {
         NotificationObj notif = new NotificationObj(originatedById, pictureId, description, name, profilePicURL, null, seen, checked);
+        notif.setDate(date);
         follNotifs.add(notif);
         follAdapter.notifyDataSetChanged();
     }
 
     private void setActivityNotifsAdapter(String description, String profilePicURL, String name, String id, String usrId, String originatedById, String pictureId, Boolean seen, String date, String picURL, Boolean checked) {
         NotificationObj notif = new NotificationObj(originatedById, pictureId, description, name, profilePicURL, picURL, seen, checked);
+        notif.setDate(date);
         notifs.add(notif);
         mAdapter.notifyDataSetChanged();
     }

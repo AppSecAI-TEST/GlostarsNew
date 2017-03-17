@@ -14,6 +14,9 @@ public class NotificationObj {
     private String picURL;
     private Boolean seen;
     private Boolean checked;
+    private String date;
+
+
 
     public NotificationObj(String originID, String picID, String description, String name, String profilePicURL, String picURL, Boolean seen, Boolean checked) {
         this.originID = originID;
@@ -88,5 +91,13 @@ public class NotificationObj {
 
     public void setChecked(Boolean checked) {
         this.checked = checked;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

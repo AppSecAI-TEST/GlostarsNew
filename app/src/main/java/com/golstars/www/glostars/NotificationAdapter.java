@@ -1,6 +1,8 @@
 package com.golstars.www.glostars;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,18 +26,20 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public List<NotificationObj> notfications;
     public Context context;
     private final OnItemClickListener listener;
+    private final OnItemClickListener listener2;
 
-    public NotificationAdapter(List<NotificationObj> nots, Context context, OnItemClickListener listener){
+    public NotificationAdapter(List<NotificationObj> nots, Context context, OnItemClickListener listener, OnItemClickListener listener2){
         this.notfications = nots;
         this.context = context;
         this.listener = listener;
+        this.listener2 = listener2;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView propic, postpreview;
         public TextView name, surname, notiBanner, min, hour, timenumber;
 
-        public MyViewHolder(View itemView, final OnItemClickListener listener) {
+        public MyViewHolder(View itemView, final OnItemClickListener listener, final OnItemClickListener listener2) {
             super(itemView);
             propic = (ImageView)itemView.findViewById(R.id.propicNOTI);
             postpreview = (ImageView)itemView.findViewById(R.id.postpreviewNOTI);
@@ -45,10 +49,26 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             min = (TextView)itemView.findViewById(R.id.minbannerNOTI);
             hour = (TextView)itemView.findViewById(R.id.hourbannerNOTI);
             timenumber = (TextView)itemView.findViewById(R.id.timeNOTI);
+
+            Typeface type = Typeface.createFromAsset(itemView.getContext().getAssets(),"fonts/Ubuntu-Light.ttf");
+            name.setTypeface(type);
+            notiBanner.setTypeface(type);
+            min.setTypeface(type);
+            hour.setTypeface(type);
+            timenumber.setTypeface(type);
+
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     listener.onItemClickNotif(notfications.get(getLayoutPosition()));
+                }
+            });
+
+            propic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener2.onItemClickNotif(notfications.get(getLayoutPosition()));
                 }
             });
 
@@ -61,7 +81,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.notificationmodel, parent, false);
 
-        return new MyViewHolder(view, listener);
+        return new MyViewHolder(view, listener, listener2);
     }
 
     @Override
@@ -72,6 +92,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.name.setText(notifcation.getName());
         holder.notiBanner.setText(notifcation.getDescription());
         holder.surname.setText("");
+        holder.timenumber.setText(notifcation.getDate());
+        holder.min.setText("");
+        holder.hour.setText("");
+        if (notifcation.getSeen().equals(false)){
+            holder.itemView.setBackgroundColor(Color.parseColor("#D0D0D0"));
+        }
+
 
     }
 
