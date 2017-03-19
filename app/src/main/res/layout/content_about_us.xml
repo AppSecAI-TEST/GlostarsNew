@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.golstars.www.glostars.AboutUs"
+    tools:showIn="@layout/activity_about_us">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/aboutusBanner"
+            android:text="About Us "
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            android:layout_margin="4dp"/>
+
+        <TextView
+            android:id="@+id/aboutustext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/darkGrey"
+            android:text="@string/aboutus"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/offerBanner"
+            android:text="What We Offer "
+            android:layout_marginTop="20dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            android:layout_marginLeft="4dp"/>
+
+        <TextView
+            android:id="@+id/offertext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/darkGrey"
+            android:text="@string/offers"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/differenceBanner"
+            android:text="How Are We Different?"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            android:layout_marginLeft="4dp"/>
+
+        <TextView
+            android:id="@+id/differenceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/darkGrey"
+            android:text="@string/difference"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/achBanner"
+            android:text="Our Achievements"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            android:layout_marginLeft="4dp"/>
+
+        <TextView
+            android:id="@+id/achText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/darkGrey"
+            android:text="@string/achievements"
+            />
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

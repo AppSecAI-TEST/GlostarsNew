@@ -2,11 +2,11 @@
 <ImageView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="110dp"
+    android:layout_width="match_parent"
     android:layout_height="110dp"
     app:srcCompat="@drawable/post2"
     android:id="@+id/imageView2"
     android:adjustViewBounds="true"
     android:scaleType="centerCrop"
-    android:layout_margin="4dp" />
+    android:layout_margin="1.5dp" />
 

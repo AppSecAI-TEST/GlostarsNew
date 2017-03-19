@@ -17,19 +17,21 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/termsofUsebanner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Terms Of Use "
                 android:layout_weight="1"
-                android:textSize="30sp"
-                android:textColor="@color/darkGrey"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"
                 android:layout_marginBottom="50dp"
                 />
 
             <TextView
+                android:id="@+id/termsall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:layout_weight="1"
                 android:text="@string/mainterms"
                 android:background="@color/verylightviolet"/>

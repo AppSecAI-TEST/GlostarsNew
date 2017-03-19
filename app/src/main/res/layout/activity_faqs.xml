@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="4dp"
+    android:fitsSystemWindows="true"
+    tools:context="com.golstars.www.glostars.FAQs">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/what"
+            android:text="What is Glostars? "
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:id="@+id/whattext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/darkGrey"
+            android:text="@string/what"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/who"
+            android:text="Who can use Glostars? "
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/whotext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/darkGrey"
+            android:text="@string/who"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cost"
+            android:text="Is there any cost for me as user of Glostars? "
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/costtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/darkGrey"
+            android:text="@string/cost"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/copyrite"
+            android:text="Do I lose copyright on the picture which I share on Glostars?  "
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/copyriteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/darkGrey"
+            android:text="@string/copyright"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/prizes"
+            android:text="Who can win prizes at Glostars Photo Competition? "
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/prizesText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/darkGrey"
+            android:text="@string/prizes"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/winners"
+            android:text="How winners are selected?   "
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/winnersText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/darkGrey"
+            android:text="@string/winners"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/see"
+            android:text="Who can see my photos?   "
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/seeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/darkGrey"
+            android:text="@string/seepics"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/themepic"
+            android:text="Are there themes for competitions? "
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/themepictext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/darkGrey"
+            android:text="@string/comptheme"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cameracomp"
+            android:text="Do I have to have a good camera to take part in competition? "
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/cameracomptext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/darkGrey"
+            android:text="@string/cameragood"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/security"
+            android:text="How do I know my personal information is secure? "
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/securitytext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/darkGrey"
+            android:text="@string/security"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/collect"
+            android:text="How do I collect my prize? "
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/collecttext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/darkGrey"
+            android:text="@string/collectprize"
+            />
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

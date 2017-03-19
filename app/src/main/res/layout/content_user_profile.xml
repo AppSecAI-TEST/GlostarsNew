@@ -38,6 +38,15 @@
                     android:layout_marginTop="30dp"
                     android:src="@drawable/home"/>
 
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/editprofile"
+                    android:src="@drawable/settingsicon"
+                    android:layout_toRightOf="@+id/profileuserNAME"
+                    android:layout_alignTop="@+id/profileuserNAME"
+                    android:layout_marginLeft="8dp"/>
+
                 <TextView
                     android:id="@+id/profileuserNAME"
                     android:layout_width="wrap_content"
@@ -48,16 +57,6 @@
                     android:text="USERNAME"
                     android:textColor="@color/black"
                     android:textSize="20sp"/>
-
-                <Button
-                    android:id="@+id/settingsbutton"
-                    android:layout_toRightOf="@+id/profileuserNAME"
-                    android:layout_alignTop="@+id/profileuserNAME"
-                    android:layout_marginLeft="8dp"
-                    android:background="@drawable/settingsicon"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp" />
-
 
 
                 <TextView
@@ -105,10 +104,11 @@
 
                 <TextView
                     android:id="@+id/useraboutTEXT"
-                    android:text="texttexttexttexttexttetexttexttexttexttexttexttexttextxttexttexttexttexttext"
+                    android:textSize="12sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_marginTop="4dp"
+                    android:text="texttexttexttexttexttetexttexttexttexttexttexttexttextxttexttexttexttexttext" />
 
 
                 <TextView
@@ -126,9 +126,24 @@
                     android:text="texttexttexttexttexttetexttexttexttexttexttexttexttextxttexttexttexttexttext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="25dp"
                     android:layout_marginTop="4dp"/>
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/settingsbutton"
+                android:layout_marginLeft="8dp"
+                android:text="Settings"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:textSize="12sp"
+                android:layout_marginRight="4dp"
+                android:layout_gravity="end"
+                android:layout_height="wrap_content" />
 
             <View
                 android:layout_marginTop="4dp"
@@ -313,13 +328,9 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:layout_weight = "1"
-                    android:columnWidth="90dp"
+                    android:layout_height="230dp"
                     android:numColumns="3"
-                    android:verticalSpacing="8dp"
                     android:stretchMode="columnWidth"
-                    android:horizontalSpacing="8dp"
                     android:layout_gravity="center"
                     android:id="@+id/competitionPosts"
                     />
@@ -359,8 +370,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:layout_weight = "1"
+                    android:layout_height="230dp"
                     android:id="@+id/publicPosts"
                     android:columnWidth="150dp"
                     android:numColumns="auto_fit"
@@ -403,8 +413,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:layout_weight = "1"
+                    android:layout_height="230dp"
                     android:id="@+id/mutualPosts"
                     android:columnWidth="150dp"
                     android:numColumns="auto_fit"

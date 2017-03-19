@@ -55,7 +55,7 @@ public class Timestamp {
 
                     } else if(period.getDays() == 1){
 
-                        return "yesterday";
+                        return "Yesterday";
 
                     } else if(period.getDays() < 1){
 

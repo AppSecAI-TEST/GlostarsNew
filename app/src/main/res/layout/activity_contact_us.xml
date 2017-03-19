@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="4dp"
+    android:background="#FFFFFF"
+    tools:context="com.golstars.www.glostars.ContactUs">
+
+    <TextView
+        android:id="@+id/happy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="We are happy to hear from you !"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fill the form below to send us a message."
+        android:textSize="16sp"
+        android:textColor="@color/darkGrey"
+        android:id="@+id/fillform"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iam"
+            android:textSize="16sp"
+            android:layout_weight="0.3"
+            android:textColor="@color/colorPrimary"
+            android:text="I am : "/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:entries="@array/iam"
+            android:paddingStart="8dp"
+            android:background="@drawable/editprofileedittext"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:id="@+id/gender_spinner" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/coninfo"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimary"
+        android:text="Contact Information: "
+        android:layout_marginTop="8dp"
+        />
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@drawable/edit"
+        android:layout_marginTop="4dp"
+        android:id="@+id/emailcon"
+        android:textSize="14sp"
+
+        android:hint="Email"
+        android:paddingStart="8dp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@drawable/edit"
+        android:layout_marginTop="4dp"
+        android:id="@+id/phonecon"
+        android:hint="Phone "
+        android:textSize="14sp"
+
+        android:paddingStart="8dp"
+
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/message"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimary"
+        android:text="Message : "
+        android:layout_marginTop="8dp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:inputType="textMultiLine"
+        android:hint="Write your query"
+        android:maxLength="160"
+        android:ems="160"
+        android:maxLines="3"
+        android:textSize="14sp"
+        android:paddingLeft="8dp"
+        android:lines="3"
+        android:background="@drawable/edit"
+        android:layout_marginTop="8dp"
+        android:id="@+id/aboutmeedit"
+        android:layout_alignParentEnd="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Cancel"
+            android:textColor="@color/darkGrey"
+            android:background="@drawable/editprofileedittext"/>
+        <View
+            android:layout_width="4dp"
+            android:layout_height="50dp"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Submit"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/uploadbutton"/>
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>

@@ -10,6 +10,21 @@
     tools:showIn="@layout/activity_competition_all">
 
 
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/gallerygrid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"
+        android:visibility="visible"
+        android:layout_below="@+id/bannerLin"
+        android:layout_gravity="center">
+
+    </android.support.v7.widget.RecyclerView>
+
+
     <LinearLayout
         android:id="@+id/bannerLin"
         android:layout_width="match_parent"
@@ -92,19 +107,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/gallerygrid"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:columnWidth="100dp"
-                android:layout_marginTop="4dp"
-                android:numColumns="auto_fit"
-                android:stretchMode="columnWidth"
-                android:visibility="visible"
-                android:layout_gravity="center">
-
-            </android.support.v7.widget.RecyclerView>
 
 
             <LinearLayout

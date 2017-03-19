@@ -89,13 +89,14 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
     TextView weeklyPrizeCountProfile;
     TextView monthlyPrizeCountProfile;
     TextView exhibitionPrizeCountProfile;
-
+    TextView settingsuser;
     TextView numPhotosCount;
-
     ImageView userPicProfile;
     ImageView weeklyPrizeProfile;
     ImageView monthlyPrizeProfile;
     ImageView exhibitionPrizeProfile;
+
+    ImageView editprofile;
 
 
 
@@ -106,7 +107,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
 
 
     Button follow;
-    Button settingsuser;
+
 
     RecyclerView competitiongrid;
     RecyclerView publicgrid;
@@ -167,7 +168,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
 
-        settingsuser = (Button)findViewById(R.id.settingsbutton);
+        settingsuser = (TextView)findViewById(R.id.settingsbutton);
         usernameProfile = (TextView)findViewById(R.id.profileuserNAME);
         userLocationProfile = (TextView)findViewById(R.id.profileuserLOCATION);
         aboutMeBannerProfile = (TextView)findViewById(R.id.useraboutBANNER);
@@ -188,6 +189,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         seeAllPublicProfile = (TextView)findViewById(R.id.seeAllPublic);
         seeAllMutualProfile = (TextView)findViewById(R.id.seeAllMutual);
         numPhotosCount = (TextView)findViewById(R.id.numberofpostsCount);
+
+        editprofile = (ImageView)findViewById(R.id.editprofile);
 
 
         //===============================SEARCH BAR OPTIONS=============================================
@@ -225,7 +228,15 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         numFollowingProfile.setTypeface(type);
         seeAllPublicProfile.setTypeface(type);
         seeAllCompetitionProfile.setTypeface(type);
+        settingsuser.setTypeface(type);
 
+
+        editprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(user_profile.this,edit_profile.class));
+            }
+        });
 
 
 
@@ -297,6 +308,18 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
                 e.printStackTrace();
             }
         }
+
+        settingsuser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    startActivity(new Intent(user_profile.this,settingsPage.class));
+                }
+                catch (Exception d){
+                    Log.e(TAG,"ERROR HERE",d);
+                }
+            }
+        });
 
 
 

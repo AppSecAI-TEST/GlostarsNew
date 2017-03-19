@@ -215,6 +215,8 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             }
         });
 
+        notification.setTransformationMethod(null);
+        followers.setTransformationMethod(null);
 
         //==========================================================================================
 

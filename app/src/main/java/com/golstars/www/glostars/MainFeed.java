@@ -90,6 +90,14 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     ImageView profileFAB;
     FloatingActionButton notificationFAB;
 
+    TextView homebadge;
+    TextView notificationbadge;
+    TextView profilebadge;
+    TextView camerabadge;
+    TextView mainbadge;
+    TextView competitionbadge;
+    TextView comptext;
+
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private String userChoosenTask;
     private ImageView ivImage;
@@ -212,12 +220,20 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         profileFAB = (ImageView) findViewById(R.id.profileFAB);
         notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
 
+        homebadge = (TextView)findViewById(R.id.homebadge);
+        notificationbadge = (TextView)findViewById(R.id.notificationbadge);
+        profilebadge = (TextView)findViewById(R.id.profilebadge);
+        camerabadge = (TextView)findViewById(R.id.uploadbadge);
+        mainbadge = (TextView)findViewById(R.id.mainbadge);
+        competitionbadge = (TextView)findViewById(R.id.competitionbadge);
+
         username=(TextView)findViewById(R.id.userNAME);
         caption=(TextView)findViewById(R.id.userCAPTION);
         postTime=(TextView)findViewById(R.id.uploadTIME);
         //totalStars=(TextView)findViewById(R.id.numStars);
         //totalComments=(TextView)findViewById(R.id.numComments);
         shareText=(TextView)findViewById(R.id.share);
+        comptext = (TextView)findViewById(R.id.comptext);
 
         post = (ImageView)findViewById(R.id.userPOST);
         propic = (ImageView)findViewById(R.id.userPIC);

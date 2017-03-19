@@ -63,6 +63,8 @@ public class edit_profile extends AppCompatActivity {
 
     TextView changepass;
 
+
+
     ImageView slogo;
     EditText search;
     ImageView gl;
@@ -85,15 +87,12 @@ public class edit_profile extends AppCompatActivity {
         lastname = (EditText)findViewById(R.id.lastnameedit);
         aboutme = (EditText)findViewById(R.id.aboutmeedit);
         interests = (EditText)findViewById(R.id.interestedit);
-        oldpass = (EditText)findViewById(R.id.oldpass);
-        newpass = (EditText)findViewById(R.id.newpass);
-        confirmpass = (EditText)findViewById(R.id.confirmnewpass);
+
         currentcity = (EditText)findViewById(R.id.currentcity);
         homecity = (EditText)findViewById(R.id.homecity);
 
         save = (Button)findViewById(R.id.savebutton);
         cancel = (Button)findViewById(R.id.cancelbutton);
-        changepass = (TextView)findViewById(R.id.changepassban);
 
         gl = (ImageView)findViewById(R.id.glostarslogo);
         slogo = (ImageView)findViewById(R.id.searchlogo);
@@ -105,9 +104,6 @@ public class edit_profile extends AppCompatActivity {
         lastname.setTypeface(type);
         aboutme.setTypeface(type);
         interests.setTypeface(type);
-        oldpass.setTypeface(type);
-        newpass.setTypeface(type);
-        confirmpass.setTypeface(type);
         currentcity.setTypeface(type);
         homecity.setTypeface(type);
 
@@ -152,6 +148,8 @@ public class edit_profile extends AppCompatActivity {
 
             }
         });
+
+
 
 
         Locale[] locale = Locale.getAvailableLocales();

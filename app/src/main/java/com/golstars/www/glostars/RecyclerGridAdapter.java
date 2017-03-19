@@ -1,6 +1,7 @@
 package com.golstars.www.glostars;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,6 +37,8 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.postimages, parent, false);
         //RecyclerView.ViewHolder viewHolder = new RecyclerView.ViewHolder(view);
+
+
         return new MyViewHolder(view); //listener);
         //return null;
     }

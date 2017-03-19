@@ -34,7 +34,6 @@ import java.util.List;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> {
 
 
-
     private List<Post> postsList;
     public  Context context;
     private final OnItemClickListener listener;
@@ -46,9 +45,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
 
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView username, caption, postTime, totalStars, totalComments, uselessTextView;
+        public TextView username, caption, postTime, totalStars, totalComments, uselessTextView,comptext;
         public ImageView postImg;
         public ImageView propic;
         public RatingBar ratingBar;
@@ -69,12 +67,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             ratingBar = (RatingBar)view.findViewById(R.id.ratingBar);
             commentsBtn = (ImageView)view.findViewById(R.id.commenticon);
             uselessTextView = (TextView)view.findViewById(R.id.timedigit);
+            comptext = (TextView)view.findViewById(R.id.comptext);
 
             username.setTypeface(type);
             caption.setTypeface(type);
             postTime.setTypeface(type);
             totalStars.setTypeface(type);
             totalComments.setTypeface(type);
+            comptext.setTypeface(type);
 
 
             /*ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
@@ -108,8 +108,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                 }
             });
         }
-
-
 
     }
 

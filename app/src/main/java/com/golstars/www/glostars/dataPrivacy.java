@@ -5,22 +5,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class termsOfUse extends AppCompatActivity {
+public class dataPrivacy extends AppCompatActivity {
 
-    TextView termsban,termsall;
+    TextView dataprivacy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_terms_of_use);
+        setContentView(R.layout.activity_data_privacy);
 
-        termsall = (TextView)findViewById(R.id.termsall);
-        termsban = (TextView)findViewById(R.id.termsofUsebanner);
-
+        dataprivacy = (TextView)findViewById(R.id.datapri);
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
-        termsban.setTypeface(type);
-        termsall.setTypeface(type);
+        dataprivacy.setTypeface(type);
+
+
 
     }
 }
-

@@ -77,7 +77,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.logoandtext2);
+        getSupportActionBar().setIcon(R.drawable.logoandtext);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
 
