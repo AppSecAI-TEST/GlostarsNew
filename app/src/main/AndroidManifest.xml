@@ -55,17 +55,20 @@
             android:label="@string/title_activity_upload"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".edit_profile"
             android:label="@string/title_activity_edit_profile"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".competitionUser"
             android:label="@string/title_activity_competition_user"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".competitionAll"
             android:label="@string/title_activity_competition_all"
@@ -76,6 +79,7 @@
             android:label="@string/title_activity_competition_feed"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".imagefullscreen"
             android:label="@string/title_activity_image_full_screen"
@@ -85,27 +89,32 @@
             android:label="@string/title_activity_comment_model"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="stateAlwaysVisible" />
+
         <activity
             android:name=".searchResults"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".recentsFeed"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".competition_page"
             android:label="@string/title_activity_competition_page"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".termsOfUse"
             android:label="Terms"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".settingsPage"
             android:label="@string/title_activity_settings_page"

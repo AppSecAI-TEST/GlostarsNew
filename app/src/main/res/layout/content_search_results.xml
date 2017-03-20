@@ -9,7 +9,16 @@
     tools:context="com.golstars.www.glostars.searchResults"
     tools:showIn="@layout/activity_search_results">
 
-
+            <TextView
+                android:id="@+id/recentlyposted"
+                android:text="Recently Posted"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
              <View
                  android:id="@+id/view"
@@ -17,7 +26,7 @@
                 android:layout_height="0.5dp"
                 android:layout_margin="4dp"
                 android:background="@color/colorPrimary"
-                />
+                android:layout_below="@+id/recentlyposted"/>
 
             <android.support.v7.widget.RecyclerView
                 android:layout_below="@+id/view"

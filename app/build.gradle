@@ -50,5 +50,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'joda-time:joda-time:2.9.7'
+    compile 'hani.momanii.supernova_emoji_library:supernova-emoji-library:0.0.2'
     testCompile 'junit:junit:4.12'
 }

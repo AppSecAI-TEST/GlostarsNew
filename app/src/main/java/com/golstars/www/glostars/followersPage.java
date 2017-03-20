@@ -71,6 +71,8 @@ public class followersPage extends AppCompatActivity {
     TextView camerabadge;
     TextView mainbadge;
     TextView competitionbadge;
+    ImageView slogo;
+
 
     ArrayList<Follower> followers;
     ArrayList<Follower> following;
@@ -105,6 +107,8 @@ public class followersPage extends AppCompatActivity {
         followingbut = (Button)findViewById(R.id.followingbutuser);
         //followbutton.setTransformationMethod(null);
 
+
+        slogo = (ImageView)findViewById(R.id.searchlogo);
 
 
 
@@ -142,6 +146,15 @@ public class followersPage extends AppCompatActivity {
                     followingList.setVisibility(View.VISIBLE);
                     followersList.setVisibility(View.GONE);
 
+
+            }
+        });
+
+        slogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(followersPage.this,searchResults.class));
 
             }
         });
@@ -209,6 +222,8 @@ public class followersPage extends AppCompatActivity {
                 }
             }
         });
+
+
 
 
         //==========================================================================================

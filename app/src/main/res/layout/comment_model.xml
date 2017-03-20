@@ -27,12 +27,13 @@
         android:layout_alignTop="@+id/commentpic"
         android:layout_toEndOf="@+id/commentpic" />
 
-    <TextView
+    <hani.momanii.supernova_emoji_library.Helper.EmojiconTextView
         android:text="Comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:layout_alignBottom="@+id/commentpic"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/namecomment"
         android:layout_alignStart="@+id/namecomment"
         android:id="@+id/comment" />
 
@@ -70,7 +71,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="25dp"
         android:layout_marginStart="4dp"
         android:layout_marginRight="4dp"
         android:background="#E0E0E0"

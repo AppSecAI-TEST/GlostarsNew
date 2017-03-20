@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,21 +32,30 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
+import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
+import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
+
 public class commentModel extends AppCompatActivity {
 
     ImageView commentpic;
     TextView namecomment;
-    TextView comment;
+    EmojiconTextView comment;
+    ImageView emojiImageView;
     TextView hours;
     TextView mins;
     TextView time;
 
-    EditText commentbox;
+    EmojiconEditText commentbox;
     TextView sendcomment;
+    EmojIconActions emojIcon;
+    View rootView;
 
     ListView commentlistView;
     ArrayList<Comment> commentsList;
     ListAdapter commentAdapter;
+
+
 
     MyUser mUser;
 
@@ -56,16 +66,21 @@ public class commentModel extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+         final String TAG = commentModel.class.getSimpleName();
+
         commentpic = (ImageView)findViewById(R.id.commentpic);
         namecomment = (TextView)findViewById(R.id.namecomment);
-        comment = (TextView)findViewById(R.id.comment);
+        comment = (EmojiconTextView) findViewById(R.id.comment);
         hours = (TextView)findViewById(R.id.hourcomment);
         mins = (TextView)findViewById(R.id.commentmins);
         time = (TextView)findViewById(R.id.timecomment);
+        emojiImageView = (ImageView) findViewById(R.id.emoji_btn);
+
+        rootView = findViewById(R.id.content_comment_model);
 
         commentlistView = (ListView)findViewById(R.id.commentslist);
 
-        commentbox = (EditText)findViewById(R.id.commentBox);
+        commentbox = (EmojiconEditText) findViewById(R.id.commentBox);
         sendcomment = (TextView) findViewById(R.id.sendcomment);
 
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
@@ -77,7 +92,23 @@ public class commentModel extends AppCompatActivity {
         commentbox.setTypeface(type);
 //        namecomment.setTypeface(type);
 
+        //====================== EMOJIS=============================================================
+        emojIcon = new EmojIconActions(this, rootView, commentbox, emojiImageView);
+        emojIcon.ShowEmojIcon();
 
+
+        emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
+            @Override
+            public void onKeyboardOpen() {
+                Log.e(TAG, "Keyboard opened!");
+            }
+
+            @Override
+            public void onKeyboardClose() {
+                Log.e(TAG, "Keyboard closed");
+            }
+        });
+        //==========================================================================================
 
         commentsList = new ArrayList<>();
         commentAdapter = new ListAdapter(this, R.layout.content_comment_model, commentsList);
@@ -213,7 +244,7 @@ public class commentModel extends AppCompatActivity {
             if (comm != null) {
                 TextView namecomment = (TextView) v.findViewById(R.id.namecomment);
                 ImageView commentPic = (ImageView) v.findViewById(R.id.commentpic);
-                TextView  comment = (TextView) v.findViewById(R.id.comment);
+                EmojiconTextView  comment = (EmojiconTextView) v.findViewById(R.id.comment);
                 TextView hours = (TextView) v.findViewById(R.id.hourcomment);
 
                 namecomment.setTypeface(type);

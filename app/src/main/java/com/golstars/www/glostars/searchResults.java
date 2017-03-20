@@ -50,6 +50,8 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
     FloatingActionButton notificationFAB;
     FloatingActionButton homeFAB;
 
+    ImageView slogo;
+
     TextView homebadge;
     TextView notificationbadge;
     TextView profilebadge;
@@ -86,7 +88,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
         searchlist = (ListView)findViewById(R.id.searchlist);
 
 
-        //recentlyposted = (TextView)findViewById(R.id.recentlyposted);
+        recentlyposted = (TextView)findViewById(R.id.recentlyposted);
 
 
         mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
@@ -103,6 +105,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
         camerabadge = (TextView)findViewById(R.id.uploadbadge);
         mainbadge = (TextView)findViewById(R.id.mainbadge);
         competitionbadge = (TextView)findViewById(R.id.competitionbadge);
+        slogo = (ImageView)findViewById(R.id.searchlogo);
 
 
 
@@ -119,7 +122,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
         profilebadge.setTypeface(type);
         competitionbadge.setTypeface(type);
         camerabadge.setTypeface(type);
-        recentlyposted.setTypeface(type);
+       recentlyposted.setTypeface(type);
 
         mainFAB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -315,7 +318,8 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
             public boolean onQueryTextChange(String newText) {
                 System.out.println("search string is : " + newText);
                 searchlist.setVisibility(View.VISIBLE);
-                searchgrid.setVisibility(View.INVISIBLE);
+                searchgrid.setVisibility(View.GONE);
+                recentlyposted.setVisibility(View.GONE);
                 JSONArray data = null;
                 try {
                     searchUser.findUserByName(newText, mUser.getToken());
