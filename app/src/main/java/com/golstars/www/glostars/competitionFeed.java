@@ -186,6 +186,9 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
                     mainFAB.startAnimation(rotate_anticlockwise);
                     homeFAB.startAnimation(fab_hide);
 
+                    homebadge.setVisibility(View.GONE);
+                    notificationbadge.setVisibility(View.GONE);
+                    mainbadge.setVisibility(View.GONE);
 
 
                     cameraFAB.setClickable(false);

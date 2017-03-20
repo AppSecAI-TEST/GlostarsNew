@@ -194,6 +194,9 @@ public class edit_profile extends AppCompatActivity {
                     homeFAB.startAnimation(fab_hide);
 
 
+                    homebadge.setVisibility(View.GONE);
+                    notificationbadge.setVisibility(View.GONE);
+                    mainbadge.setVisibility(View.GONE);
 
                     cameraFAB.setClickable(false);
                     competitionFAB.setClickable(false);

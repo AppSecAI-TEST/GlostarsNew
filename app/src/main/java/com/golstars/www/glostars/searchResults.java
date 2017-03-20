@@ -143,6 +143,10 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
                     homeFAB.startAnimation(fab_hide);
                     mainFAB.startAnimation(rotate_anticlockwise);
 
+                    homebadge.setVisibility(View.GONE);
+                    notificationbadge.setVisibility(View.GONE);
+                    mainbadge.setVisibility(View.GONE);
+
                     cameraFAB.setClickable(false);
                     competitionFAB.setClickable(false);
                     profileFAB.setClickable(false);

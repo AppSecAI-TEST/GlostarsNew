@@ -480,6 +480,9 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
                     homeFAB.startAnimation(fab_hide);
 
 
+                    homebadge.setVisibility(View.GONE);
+                    notificationbadge.setVisibility(View.GONE);
+                    mainbadge.setVisibility(View.GONE);
 
                     cameraFAB.setClickable(false);
                     competitionFAB.setClickable(false);
