@@ -189,7 +189,6 @@ public class followersPage extends AppCompatActivity {
 
                     homebadge.setVisibility(View.GONE);
                     notificationbadge.setVisibility(View.GONE);
-                    mainbadge.setVisibility(View.GONE);
 
                     cameraFAB.setClickable(false);
                     competitionFAB.setClickable(false);
@@ -206,6 +205,9 @@ public class followersPage extends AppCompatActivity {
                     notificationFAB.startAnimation(fab_show);
                     homeFAB.startAnimation(fab_show);
                     mainFAB.startAnimation(rotate_clockwise);
+
+                    homebadge.setVisibility(View.VISIBLE);
+                    notificationbadge.setVisibility(View.VISIBLE);
 
                     cameraFAB.setVisibility(View.VISIBLE);
                     competitionFAB.setVisibility(View.VISIBLE);

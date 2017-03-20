@@ -145,7 +145,6 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
 
                     homebadge.setVisibility(View.GONE);
                     notificationbadge.setVisibility(View.GONE);
-                    mainbadge.setVisibility(View.GONE);
 
                     cameraFAB.setClickable(false);
                     competitionFAB.setClickable(false);
@@ -162,6 +161,9 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
                     notificationFAB.startAnimation(fab_show);
                     mainFAB.startAnimation(rotate_clockwise);
                     homeFAB.startAnimation(fab_show);
+
+                    homebadge.setVisibility(View.VISIBLE);
+                    notificationbadge.setVisibility(View.VISIBLE);
 
                     cameraFAB.setVisibility(View.VISIBLE);
                     competitionFAB.setVisibility(View.VISIBLE);

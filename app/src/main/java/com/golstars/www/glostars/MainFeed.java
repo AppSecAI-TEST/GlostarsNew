@@ -276,7 +276,6 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
                     homebadge.setVisibility(View.GONE);
                     notificationbadge.setVisibility(View.GONE);
-                    mainbadge.setVisibility(View.GONE);
 
                     cameraFAB.setClickable(false);
                     competitionFAB.setClickable(false);
@@ -293,6 +292,8 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                     notificationFAB.startAnimation(fab_show);
                     mainFAB.startAnimation(rotate_clockwise);
 
+                    homebadge.setVisibility(View.VISIBLE);
+                    notificationbadge.setVisibility(View.VISIBLE);
 
                     cameraFAB.setVisibility(View.VISIBLE);
                     competitionFAB.setVisibility(View.VISIBLE);

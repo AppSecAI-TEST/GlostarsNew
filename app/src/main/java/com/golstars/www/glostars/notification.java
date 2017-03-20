@@ -181,7 +181,6 @@ public class notification extends AppCompatActivity implements OnItemClickListen
 
                     homebadge.setVisibility(View.GONE);
                     notificationbadge.setVisibility(View.GONE);
-                    mainbadge.setVisibility(View.GONE);
 
 
                     cameraFAB.setClickable(false);
@@ -199,6 +198,9 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                     notificationFAB.startAnimation(fab_show);
                     homeFAB.startAnimation(fab_show);
                     mainFAB.startAnimation(rotate_clockwise);
+
+                    homebadge.setVisibility(View.VISIBLE);
+                    notificationbadge.setVisibility(View.VISIBLE);
 
                     cameraFAB.setVisibility(View.VISIBLE);
                     competitionFAB.setVisibility(View.VISIBLE);
