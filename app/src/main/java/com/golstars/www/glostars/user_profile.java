@@ -444,6 +444,26 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
             }
         });
 
+        //settingsuser = (Button)findViewById(R.id.settingsbutton);
+
+        settingsuser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mUser.getUserId() != null){
+                    if(guestUser.getUserId().equals(mUser.getUserId())){
+                        Intent intent = new Intent();
+                        intent.putExtra("usrId", mUser.getUserId());
+                        intent.putExtra("token", mUser.getToken());
+                        intent.setClass(getApplicationContext(), edit_profile.class);
+                        startActivity(intent);
+                    }
+                }
+
+
+
+            }
+        });
+
 
 
 

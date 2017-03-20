@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 
@@ -51,6 +52,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         public ImageView propic;
         public RatingBar ratingBar;
         public ImageView commentsBtn;
+        public RelativeLayout featuredFlag;
 
         public MyViewHolder(View view, final OnRatingEventListener ratingListener, final OnItemClickListener listener, final OnItemClickListener postImgListener,
                             final OnItemClickListener commentsListener){
@@ -68,6 +70,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             commentsBtn = (ImageView)view.findViewById(R.id.commenticon);
             uselessTextView = (TextView)view.findViewById(R.id.timedigit);
             comptext = (TextView)view.findViewById(R.id.comptext);
+            featuredFlag = (RelativeLayout)view.findViewById(R.id.compflag);
 
             username.setTypeface(type);
             caption.setTypeface(type);
@@ -153,6 +156,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                 .centerInside()
                 .into(holder.postImg);
         Picasso.with(context).load(post.getProfilePicURL()).into(holder.propic);
+
+        if(post.isFeatured()){
+            holder.featuredFlag.setVisibility(View.VISIBLE);
+        } else holder.featuredFlag.setVisibility(View.GONE);
 
 
 

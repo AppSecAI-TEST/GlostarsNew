@@ -2,7 +2,9 @@ package com.golstars.www.glostars;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -104,9 +106,10 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
     //-------------------------------------------------
     private boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
-    LinearLayoutManager layoutManager;
+    GridLayoutManager layoutManager;
     MyUser mUser;
     int pg = 1;
+    private Intent homeIntent;
 
     GridView competitiongrid;
     private RecyclerGridAdapter compAdapt;
@@ -400,6 +403,7 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 cameraFAB.startAnimation(fab_hide);
                 competitionFAB.startAnimation(fab_hide);
                 profileFAB.startAnimation(fab_hide);
@@ -413,7 +417,7 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
                 notificationFAB.setClickable(false);
                 homeFAB.setClickable(false);
                 isOpen=false;
-                startActivity(new Intent(competitionAll.this, user_profile.class));
+                startActivity(homeIntent);
             }
         });
 
@@ -446,67 +450,142 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
         mUser.setContext(this);
         compPicsUrls = new ArrayList<>();
 
-        Picasso.with(this).load(mUser.getProfilePicURL()).into(profileFAB);
+
 
 
 
         //competitiongrid = (GridView)findViewById(R.id.gallerygrid);
         compAdapt = new RecyclerGridAdapter(this, compPicsUrls, this);
         int numOfColumns = 3;
-        gallery.setLayoutManager(new GridLayoutManager(this, numOfColumns));
+        layoutManager = new GridLayoutManager(this, numOfColumns);
+        gallery.setLayoutManager(layoutManager);
         gallery.setAdapter(compAdapt);
 
-        loadPictures(pg, mUser.getToken());
+        new getUserData().execute("");
+
+        gallery.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                if(dy > 0){ //check for scroll down
+                    //System.out.println("SCROLL DOWN");
+                    visibleItemCount = layoutManager.getChildCount();
+                    totalItemCount = layoutManager.getItemCount();
+                    pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+
+                    if(loading){
+                        if((visibleItemCount + pastVisiblesItems) >= totalItemCount){
+                            loading = false;
+                            pg++;
+                            try {
+                                callAsyncPopulate(pg, mUser.getToken());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            //populateFeed(mUser.getUserId(), pg, mUser.getToken());
+                        }
+                    }
+                }
+            }
+
+
+        });
 
 
     }
 
-    private void loadPictures(int page, String token) {
-        JSONArray data = null;
-        PictureService pictureService = new PictureService();
-        try {
-            pictureService.getCompetitionPictures(pg, token);
-            while(data == null){
-                data = pictureService.getData();
+    private class getUserData extends AsyncTask<String, Integer, JSONObject>{
 
-            }
-            System.out.println("data to competition is : " + data);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            mUser = MyUser.getmUser();
+            mUser.setContext(getApplicationContext());
+            return null;
         }
 
-        for(int i = 0; i < data.length(); i++){
-
+        @Override
+        protected void onPostExecute(JSONObject object) {
+            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
             try {
-                JSONObject obj = data.getJSONObject(i);
-                //setCompAdapter(obj.getString("picUrl"));
-                compPicsUrls.add(obj.getString("picUrl"));
-                compAdapt.notifyDataSetChanged();
-            } catch (JSONException e1) {
+                callAsyncPopulate(pg, mUser.getToken());
+            } catch (Exception e1) {
                 e1.printStackTrace();
             }
 
-        }
+            homeIntent = new Intent();
+            homeIntent.putExtra("USER_ID",mUser.getUserId());
+            homeIntent.setClass(getApplicationContext(),user_profile.class);
 
-        if ( pg == 1) {
-            pg ++;
-            loadPictures ( pg , token );
         }
+    }
 
+    public void callAsyncPopulate(Integer pg, String token) throws Exception{
+        JSONObject data = new JSONObject();
+        data.put("pg", pg);
+        data.put("token", token);
+        new populatePageAsync().execute(data);
 
     }
 
-    private void setCompAdapter(String picUrl) {
-        compPicsUrls.add(picUrl);
-        compAdapt.notifyDataSetChanged();
+
+    private class populatePageAsync extends AsyncTask<JSONObject, Integer, JSONArray>{
+
+        @Override
+        protected JSONArray doInBackground(JSONObject... jsonObjects) {
+            PictureService pictureService = new PictureService();
+            JSONArray data = null;
+            try {
+                pictureService.getCompetitionPictures(jsonObjects[0].getInt("pg"), jsonObjects[0].getString("token"));
+                while (data == null){
+                    data = pictureService.getData();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray data) {
+
+            for(int i = 0; i < data.length(); i++){
+
+                try {
+                    JSONObject obj = data.getJSONObject(i);
+                    //setCompAdapter(obj.getString("picUrl"));
+                    compPicsUrls.add(obj.getString("picUrl"));
+                    compAdapt.notifyDataSetChanged();
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+
+            }
+
+            if(!loading){
+                loading = true;
+            }
+
+            if(pg == 1){
+                pg++;
+                try {
+                    callAsyncPopulate(pg, mUser.getToken());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+        }
     }
+
 
 
     @Override
     public void onItemClick(String url, Integer pos) {
         Intent intent = new Intent();
         intent.putExtra("GOTOPIC", url);
+        intent.putExtra("PAGES_LOADED", pg);
         intent.setClass(this, competitionFeed.class);
         startActivity(intent);
     }

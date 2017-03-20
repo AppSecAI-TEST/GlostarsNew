@@ -2,6 +2,7 @@ package com.golstars.www.glostars;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,9 +18,17 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
+
+import cz.msebera.android.httpclient.Header;
 
 public class edit_profile extends AppCompatActivity {
 
@@ -63,18 +72,21 @@ public class edit_profile extends AppCompatActivity {
 
     TextView changepass;
 
-
-
     ImageView slogo;
     EditText search;
     ImageView gl;
+    ImageView editPic;
     boolean showingFirst = true;
+
+    MyUser myUser;
 
 
     Spinner currentcountry;
     Spinner homecountry;
     Spinner occupation;
     ArrayAdapter<CharSequence> occupationadapter;
+
+    Intent homeIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +108,7 @@ public class edit_profile extends AppCompatActivity {
 
         gl = (ImageView)findViewById(R.id.glostarslogo);
         slogo = (ImageView)findViewById(R.id.searchlogo);
+        editPic = (ImageView)findViewById(R.id.editpic);
         search = (EditText)findViewById(R.id.searchedit);
 
 
@@ -264,6 +277,7 @@ public class edit_profile extends AppCompatActivity {
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 cameraFAB.startAnimation(fab_hide);
                 competitionFAB.startAnimation(fab_hide);
                 profileFAB.startAnimation(fab_hide);
@@ -277,7 +291,7 @@ public class edit_profile extends AppCompatActivity {
                 notificationFAB.setClickable(false);
                 homeFAB.setClickable(false);
                 isOpen=false;
-                startActivity(new Intent(edit_profile.this, user_profile.class));
+                startActivity(homeIntent);
             }
         });
 
@@ -323,5 +337,103 @@ public class edit_profile extends AppCompatActivity {
             }
         });
 
+        new setupUser().execute("");
+
+    }
+    /*
+
+    private void bindToUI(){
+
+        SearchUser.searchUsrInfo(getApplicationContext(), myUser.getUserId(), myUser.getToken(), new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    System.out.println(response);
+                    JSONObject data = response.getJSONObject("resultPayload");
+                    firstname.setText(myUser.getName());
+                    //lastname.setText();
+                    aboutme.setText(data.getString("aboutMe"));
+                    interests.setText(data.getString("interests"));
+                    currentcity.setText(data.getString("location"));
+                    homecity.setText(data.getString("original_Location"));
+                    Picasso.with(getApplicationContext()).load(myUser.getProfilePicURL()).into(editPic);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+
+    }
+    */
+
+    private class setupUser extends AsyncTask<String, Integer, JSONObject>{
+
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            myUser = MyUser.getmUser();
+            myUser.setContext(getApplicationContext());
+            JSONObject data = null;
+            SearchUser searchUser = new SearchUser();
+            try {
+                searchUser.findUserInfo(myUser.getUserId(), myUser.getToken());
+                while(data == null){
+                    data = searchUser.getDataObj();
+                }
+
+                System.out.println(data);
+
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject data) {
+            firstname.setText(myUser.getName());
+            Picasso.with(getApplicationContext()).load(myUser.getProfilePicURL()).into(editPic);
+            Picasso.with(getApplicationContext()).load(myUser.getProfilePicURL()).into(profileFAB);
+
+            homeIntent = new Intent();
+            homeIntent.putExtra("USER_ID", myUser.getUserId());
+            homeIntent.setClass(getApplicationContext(), user_profile.class);
+
+
+            try {
+                firstname.setText(data.getString("name"));
+                if(!data.getString("lastName").equals("null")){
+                    lastname.setText(data.getString("lastName"));
+                }
+                if(!data.getString("aboutMe").equals("null")){
+                    aboutme.setText(data.getString("aboutMe"));
+                }
+                if(!data.getString("interests").equals("null")){
+                    interests.setText(data.getString("interests"));
+                }
+                if(!data.getString("location").equals("null")){
+                    currentcity.setText(data.getString("location"));
+                }
+                if(!data.getString("original_Location").equals("null")) {
+                    homecity.setText(data.getString("original_Location"));
+                }
+
+
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
     }
 }

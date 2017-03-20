@@ -3,6 +3,9 @@ package com.golstars.www.glostars;
 import android.content.Context;
 import android.os.Handler;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,14 +26,21 @@ import okhttp3.Response;
 
 public class SearchUser {
 
-    public SearchUser(){}
-
     private final OkHttpClient client = new OkHttpClient();
 
     private String data;
-    private String baseURL = "http://www.glostars.com/";
     private JSONArray dataArray;
     private JSONObject dataObj;
+
+
+    private static final  String baseURL = "http://www.glostars.com/";
+    private static AsyncHttpClient AsyncClient = new AsyncHttpClient();
+
+    public static void searchUsrInfo(Context context, String usrId, String token, AsyncHttpResponseHandler responseHandler)  {
+        AsyncClient.addHeader("Content-Type", "application/json");
+        AsyncClient.addHeader("Authorization", "Bearer " + token);
+        AsyncClient.get(baseURL+ "api/user/GetUserInfo?id=" + usrId ,  responseHandler);
+    }
 
 
     public void search(String email, String token, String userid) throws Exception{

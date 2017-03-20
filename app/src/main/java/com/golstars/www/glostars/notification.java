@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.squareup.picasso.Picasso;
 
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -90,9 +92,10 @@ public class notification extends AppCompatActivity implements OnItemClickListen
     List<NotificationObj> follNotifs;
     NotificationAdapter mAdapter;
     NotificationAdapter follAdapter;
-    Integer unseenNotifs;
+    Integer unseenNotifs = 5;
 
-    MyUser myUser;
+    MyUser mUser;
+    Intent homeIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,8 +140,6 @@ public class notification extends AppCompatActivity implements OnItemClickListen
         camerabadge = (TextView)findViewById(R.id.uploadbadge);
         mainbadge = (TextView)findViewById(R.id.mainbadge);
         competitionbadge = (TextView)findViewById(R.id.competitionbadge);
-
-
 
 
         fab_show = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_show);
@@ -257,7 +258,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                 notificationFAB.setClickable(false);
                 homeFAB.setClickable(false);
                 isOpen=false;
-                startActivity(new Intent(notification.this, user_profile.class));
+                startActivity(homeIntent);
             }
         });
 
@@ -303,6 +304,13 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             }
         });
 
+        if(unseenNotifs > 0){
+            mainbadge.setVisibility(View.VISIBLE);
+            notificationbadge.setVisibility(View.VISIBLE);
+            mainbadge.setText(unseenNotifs.toString());
+            notificationbadge.setText(unseenNotifs.toString());
+
+        }
 
 
 
@@ -381,16 +389,33 @@ public class notification extends AppCompatActivity implements OnItemClickListen
 
 //        RecyclerView noti;
 //        RecyclerView foll;
+        new getUserData().execute("");
 
+    }
 
-        myUser = MyUser.getmUser();
-        try {
-            populateNotificationsList(myUser.getUserId(), myUser.getToken());
-        } catch (JSONException e) {
-            e.printStackTrace();
+    private class getUserData extends AsyncTask<String, Integer, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            mUser = MyUser.getmUser();
+            mUser.setContext(getApplicationContext());
+            return null;
         }
 
+        @Override
+        protected void onPostExecute(JSONObject object) {
+            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
+            try {
+                populateNotificationsList(mUser.getUserId(), mUser.getToken());
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
 
+            homeIntent = new Intent();
+            homeIntent.putExtra("USER_ID",mUser.getUserId());
+            homeIntent.setClass(getApplicationContext(),user_profile.class);
+
+        }
     }
 
 
@@ -512,7 +537,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
         if(!(notif.getDescription() == "started following you")){
             Intent intent = new Intent();
             intent.putExtra("IMAGE_SAUCE",notif.getPicURL());
-            intent.putExtra("IMAGE_AUTHOR", myUser.getName());
+            intent.putExtra("IMAGE_AUTHOR", mUser.getName());
             intent.putExtra("IMAGE_CAPTION","");
             intent.setClass(getApplicationContext(), imagefullscreen.class);
             startActivity(intent);

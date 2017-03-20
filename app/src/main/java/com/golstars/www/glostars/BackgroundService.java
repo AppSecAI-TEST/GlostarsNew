@@ -80,6 +80,7 @@ public class BackgroundService extends IntentService{
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.loginlogo)
                         .setContentTitle("Glostars")
+                        .setAutoCancel(true)
                         .setContentText(msg);
 
         Intent in = new Intent(this, notification.class);

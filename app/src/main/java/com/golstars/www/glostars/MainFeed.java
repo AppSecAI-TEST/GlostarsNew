@@ -189,6 +189,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                     visibleItemCount = layoutManager.getChildCount();
                     totalItemCount = layoutManager.getItemCount();
                     pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+                    System.out.println("CHECKING SCROLL DOWN");
 
                     if(loading){
                         if((visibleItemCount + pastVisiblesItems) >= totalItemCount){

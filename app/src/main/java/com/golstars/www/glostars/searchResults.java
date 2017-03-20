@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,9 +69,14 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
     RecyclerGridAdapter recentsAdapter;
     ArrayList<String> recentsPics;
     ArrayList<JSONObject> recentPostObjs;
-    int pg = 1;
 
+
+    private boolean loading = true;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    GridLayoutManager layoutManager;
     MyUser mUser;
+    int pg = 1;
+    private Intent homeIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,7 +234,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
                 notificationFAB.setClickable(false);
                 homeFAB.setClickable(false);
                 isOpen=false;
-                startActivity(new Intent(searchResults.this, user_profile.class));
+                startActivity(homeIntent);
             }
         });
 
@@ -274,17 +281,16 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
         });
 
         mUser = MyUser.getmUser();
-        mUser.setContext(this);
         searchUser = new SearchUser();
 
         recentPostObjs = new ArrayList<>();
         recentsPics = new ArrayList<>();
         recentsAdapter = new RecyclerGridAdapter(this, recentsPics, this);
+
         int numOfColumns = 3;
-        searchgrid.setLayoutManager(new GridLayoutManager(this, numOfColumns));
-        //=================>>>>><<<<<==========================
+        layoutManager = new GridLayoutManager(this, numOfColumns);
+        searchgrid.setLayoutManager(layoutManager);
         searchgrid.setAdapter(recentsAdapter);
-        //=================>>>>><<<<<==========================
 
 
         usrsNames = new ArrayList<>();
@@ -293,12 +299,62 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
 
 
 
-        try {
-            callAsyncPopulate(pg, mUser.getToken());
-        } catch (Exception e) {
-            e.printStackTrace();
+        new getUserData().execute("");
+
+        searchgrid.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                if(dy > 0){ //check for scroll down
+                    //System.out.println("SCROLL DOWN");
+                    visibleItemCount = layoutManager.getChildCount();
+                    totalItemCount = layoutManager.getItemCount();
+                    pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+
+                    if(loading){
+                        if((visibleItemCount + pastVisiblesItems) >= totalItemCount){
+                            loading = false;
+                            pg++;
+                            try {
+                                callAsyncPopulate(pg, mUser.getToken());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            //populateFeed(mUser.getUserId(), pg, mUser.getToken());
+                        }
+                    }
+                }
+            }
+
+
+        });
+
+
+    }
+
+    private class getUserData extends AsyncTask<String, Integer, JSONObject>{
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            mUser = MyUser.getmUser();
+            mUser.setContext(getApplicationContext());
+            return null;
         }
 
+        @Override
+        protected void onPostExecute(JSONObject object) {
+            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
+            try {
+                callAsyncPopulate(pg, mUser.getToken());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            homeIntent = new Intent();
+            homeIntent.putExtra("USER_ID",mUser.getUserId());
+            homeIntent.setClass(getApplicationContext(),user_profile.class);
+
+        }
     }
 
 
@@ -348,24 +404,6 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
 
         return true;
     }
-    /*
-    @Override
-    public boolean onQueryTextSubmit(String query){
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        System.out.println("search string is : " + newText);
-        try {
-            searchUser.findUserByName(newText, mUser.getToken());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }*/
-
     @Override
     public void callAsyncPopulate(Integer pg, String token) throws Exception{
         JSONObject data = new JSONObject();
@@ -409,6 +447,19 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
                 bindDatatoUI(jsonObject);
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+
+            if(!loading){
+                loading = true;
+            }
+
+            if(pg == 1){
+                pg++;
+                try {
+                    callAsyncPopulate(pg, mUser.getToken());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
 
