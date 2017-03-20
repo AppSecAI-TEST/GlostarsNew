@@ -74,6 +74,7 @@ public class commentModel extends AppCompatActivity {
 //        mins.setTypeface(type);
 //        time.setTypeface(type);
         sendcomment.setTypeface(type);
+        commentbox.setTypeface(type);
 //        namecomment.setTypeface(type);
 
 
@@ -206,16 +207,25 @@ public class commentModel extends AppCompatActivity {
 
             Comment comm = getItem(position);
 
+            Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+
+
             if (comm != null) {
                 TextView namecomment = (TextView) v.findViewById(R.id.namecomment);
                 ImageView commentPic = (ImageView) v.findViewById(R.id.commentpic);
                 TextView  comment = (TextView) v.findViewById(R.id.comment);
                 TextView hours = (TextView) v.findViewById(R.id.hourcomment);
 
+                namecomment.setTypeface(type);
+                comment.setTypeface(type);
+                hours.setTypeface(type);
+
                 Picasso.with(getApplicationContext()).load(comm.getProfilePicUrl()).into(commentPic);
                 comment.setText(comm.getCommentMessage());
                 //hours.setText("2");
                 namecomment.setText(comm.getFirstName() + " " + comm.getLastName());
+
+
             }
 
             return v;

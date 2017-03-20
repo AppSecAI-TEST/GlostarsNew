@@ -216,6 +216,19 @@ public class followersPage extends AppCompatActivity {
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(followersPage.this, MainFeed.class));
             }
         });
@@ -224,6 +237,19 @@ public class followersPage extends AppCompatActivity {
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(followersPage.this, user_profile.class));
             }
         });
@@ -232,6 +258,19 @@ public class followersPage extends AppCompatActivity {
         cameraFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(followersPage.this, upload.class));
             }
         });
@@ -240,6 +279,19 @@ public class followersPage extends AppCompatActivity {
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(followersPage.this, competitionAll.class));
             }
         });

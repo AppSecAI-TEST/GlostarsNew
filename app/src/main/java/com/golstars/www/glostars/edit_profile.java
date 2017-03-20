@@ -223,6 +223,19 @@ public class edit_profile extends AppCompatActivity {
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(edit_profile.this, MainFeed.class));
             }
         });
@@ -231,6 +244,19 @@ public class edit_profile extends AppCompatActivity {
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(edit_profile.this, notification.class));
             }
         });
@@ -238,6 +264,19 @@ public class edit_profile extends AppCompatActivity {
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(edit_profile.this, user_profile.class));
             }
         });
@@ -246,6 +285,19 @@ public class edit_profile extends AppCompatActivity {
         cameraFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(edit_profile.this, upload.class));
             }
         });
@@ -254,6 +306,19 @@ public class edit_profile extends AppCompatActivity {
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(edit_profile.this, competitionAll.class));
             }
         });

@@ -73,6 +73,9 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
     TextView usernameProfile;
     TextView userLocationProfile;
     TextView aboutMeBannerProfile;
+    TextView compBanner;
+    TextView publicBanner;
+    TextView mutualBanner;
     TextView aboutMeTextProfile;
     TextView interestBannerProfile;
     TextView interestTextProfile;
@@ -176,6 +179,9 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         interestBannerProfile = (TextView)findViewById(R.id.userinterestBANNER);
         interestTextProfile = (TextView)findViewById(R.id.userinterestTEXT);
         recognitionBannerProfile =(TextView)findViewById(R.id.recognitionBanner);
+        compBanner = (TextView)findViewById(R.id.competitionBanner);
+        publicBanner = (TextView)findViewById(R.id.publicBanner);
+        mutualBanner = (TextView)findViewById(R.id.mutualBanner);
         weeklyPrizeCountProfile = (TextView)findViewById(R.id.weeklyPrizeCount);
         monthlyPrizeCountProfile = (TextView)findViewById(R.id.monthlyPrizeCount);
         exhibitionPrizeCountProfile = (TextView)findViewById(R.id.exhibitionPrizeCount);
@@ -229,6 +235,13 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         seeAllPublicProfile.setTypeface(type);
         seeAllCompetitionProfile.setTypeface(type);
         settingsuser.setTypeface(type);
+        compBanner.setTypeface(type);
+        publicBanner.setTypeface(type);
+        mutualBanner.setTypeface(type);
+      //  follow.setTypeface(type);
+
+
+
 
 
         editprofile.setOnClickListener(new View.OnClickListener() {
@@ -249,6 +262,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         exhibitionPrizeProfile = (ImageView)findViewById(R.id.exhibitionPrize);
 
         follow = (Button)findViewById(R.id.profileuserFOLLOW);
+        follow.setTransformationMethod(null);
 
 
         //-------------------------- ADAPTER AND NETWORK SETTINGS ---------------------------------//
@@ -486,6 +500,17 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(user_profile.this, MainFeed.class));
                 finish();
             }
@@ -495,6 +520,17 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(user_profile.this, notification.class));
             }
         });
@@ -502,7 +538,19 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               startActivity(homeIntent);
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                isOpen=false;
+
+                startActivity(homeIntent);
             }
         });
 
@@ -510,6 +558,17 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         cameraFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(user_profile.this, upload.class));
             }
         });
@@ -518,6 +577,17 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(user_profile.this, competitionAll.class));
             }
         });

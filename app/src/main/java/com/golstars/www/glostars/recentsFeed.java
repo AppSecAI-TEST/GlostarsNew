@@ -229,6 +229,19 @@ public class recentsFeed extends AppCompatActivity implements OnRatingEventListe
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(recentsFeed.this, MainFeed.class));
             }
         });
@@ -237,6 +250,19 @@ public class recentsFeed extends AppCompatActivity implements OnRatingEventListe
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(recentsFeed.this, notification.class));
             }
         });
@@ -244,6 +270,19 @@ public class recentsFeed extends AppCompatActivity implements OnRatingEventListe
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(userProfileIntent);
             }
         });
@@ -260,6 +299,19 @@ public class recentsFeed extends AppCompatActivity implements OnRatingEventListe
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(recentsFeed.this, competitionAll.class));
             }
         });

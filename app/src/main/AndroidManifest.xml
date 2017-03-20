@@ -112,6 +112,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".followersPage"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".TermsMain"
             android:label="@string/title_activity_terms_main"
             android:theme="@style/AppTheme.NoActionBar" />

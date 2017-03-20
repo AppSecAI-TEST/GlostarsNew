@@ -359,6 +359,19 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(competitionAll.this, MainFeed.class));
             }
         });
@@ -367,6 +380,19 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(competitionAll.this, notification.class));
             }
         });
@@ -374,6 +400,19 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(competitionAll.this, user_profile.class));
             }
         });
@@ -382,6 +421,19 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
         cameraFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(competitionAll.this, upload.class));
             }
         });
@@ -409,7 +461,7 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
 
     }
 
-    private void loadPictures(int pg, String token) {
+    private void loadPictures(int page, String token) {
         JSONArray data = null;
         PictureService pictureService = new PictureService();
         try {
@@ -435,7 +487,11 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
                 e1.printStackTrace();
             }
 
+        }
 
+        if ( pg == 1) {
+            pg ++;
+            loadPictures ( pg , token );
         }
 
 

@@ -1,5 +1,7 @@
 package com.golstars.www.glostars;
 
+import android.graphics.Typeface;
+
 /**
  * Created by edson on 08/03/17.
  */
@@ -24,6 +26,7 @@ public class Comment {
         this.firstName = firstName;
         this.lastName = lastName;
         this.commentId = commentId;
+
     }
 
     public void Comment(){

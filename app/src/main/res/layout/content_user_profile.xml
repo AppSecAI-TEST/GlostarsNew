@@ -32,11 +32,11 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profileuserPIC"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:scaleType="centerCrop"
                     android:layout_marginTop="30dp"
-                    android:src="@drawable/home"/>
+                    android:src="@drawable/nopicmale"/>
 
                 <ImageView
                     android:layout_width="25dp"
@@ -55,7 +55,7 @@
                     android:layout_toRightOf="@+id/profileuserPIC"
                     android:layout_marginLeft="16dp"
                     android:text="USERNAME"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="20sp"/>
 
 
@@ -80,7 +80,7 @@
                     android:textStyle="bold"
                     android:textAllCaps="true"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="#FFFFFF"
                     android:layout_alignParentRight="true"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/followbutton"

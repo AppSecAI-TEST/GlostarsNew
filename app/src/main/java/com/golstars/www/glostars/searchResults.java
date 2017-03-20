@@ -86,7 +86,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
         searchlist = (ListView)findViewById(R.id.searchlist);
 
 
-        recentlyposted = (TextView)findViewById(R.id.recentlyposted);
+        //recentlyposted = (TextView)findViewById(R.id.recentlyposted);
 
 
         mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
@@ -191,6 +191,19 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraFAB.startAnimation(fab_hide);
+                competitionFAB.startAnimation(fab_hide);
+                profileFAB.startAnimation(fab_hide);
+                notificationFAB.startAnimation(fab_hide);
+                homeFAB.startAnimation(fab_hide);
+                mainFAB.startAnimation(rotate_anticlockwise);
+
+                cameraFAB.setClickable(false);
+                competitionFAB.setClickable(false);
+                profileFAB.setClickable(false);
+                notificationFAB.setClickable(false);
+                homeFAB.setClickable(false);
+                isOpen=false;
                 startActivity(new Intent(searchResults.this, notification.class));
             }
         });
