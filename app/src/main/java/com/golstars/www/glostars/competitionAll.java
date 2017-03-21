@@ -456,8 +456,6 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
         //---------------NETWORK AND RECYCLER VIEW --------------------------------
         //recyclerView = (RecyclerView) findViewById(R.id.mainfeedrecycler);
 
-        mUser = MyUser.getmUser();
-        mUser.setContext(this);
         compPicsUrls = new ArrayList<>();
 
         gridImages = new ArrayList<>();
