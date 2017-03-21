@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +30,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class searchResults extends AppCompatActivity implements  PopulatePage, OnSinglePicClick{
@@ -77,6 +81,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
     MyUser mUser;
     int pg = 1;
     private Intent homeIntent;
+    private ArrayList<GridImages> gridImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -286,6 +291,8 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
 
         mUser = MyUser.getmUser();
         searchUser = new SearchUser();
+        gridImages = new ArrayList<>();
+
 
         recentPostObjs = new ArrayList<>();
         recentsPics = new ArrayList<>();
@@ -389,6 +396,9 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
                     usrsNames.clear();
                     for(int i = 0; i < data.length(); i++){
                         usrsNames.add(data.getJSONObject(i).getString("name") + " " + data.getJSONObject(i).getString("lastName"));
+
+
+
                         usrsAdapter.notifyDataSetChanged();
                         System.out.println(usrsNames);
                     }
@@ -419,11 +429,23 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
 
     @Override
     public void onItemClick(String url, Integer pos) {
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("images", gridImages);
+        bundle.putInt("position", pos);
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        SlideShowDialogFragment newFragment = SlideShowDialogFragment.newInstance();
+        newFragment.setArguments(bundle);
+        newFragment.show(ft, "slideshow");
+
+
+        /*
         Intent intent = new Intent();
         intent.putExtra("GOTOPIC", url);
         intent.setClass(searchResults.this, recentsFeed.class);
         startActivity(intent);
-
+        */
     }
 
 
@@ -474,6 +496,34 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
     public void bindDatatoUI(JSONObject object) throws Exception{
         JSONArray data = object.getJSONArray("picsToReturn");
         for(int i = 0; i < data.length(); i++){
+
+
+            JSONObject poster = data.getJSONObject(i).getJSONObject("poster");
+
+            GridImages gridImage = new GridImages();
+            gridImage.setAuthor(poster.getString("name"));
+            gridImage.setPicUrl(data.getJSONObject(i).getString("picUrl"));
+
+            String inPattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            String outPattern = "MMM d yyyy, HH:mm";
+
+            SimpleDateFormat inputFormat = new SimpleDateFormat(inPattern);
+            SimpleDateFormat outputFormat = new SimpleDateFormat(outPattern);
+
+            Date date = null;
+            String str = null;
+
+            try{
+
+                date = inputFormat.parse(data.getJSONObject(i).getString("uploaded"));
+                str = outputFormat.format(date);
+
+            } catch (ParseException e){
+                e.printStackTrace();
+            }
+            gridImage.setTimesTamp(str);
+            gridImages.add(gridImage);
+
             recentPostObjs.add(data.getJSONObject(i));
             System.out.println(data.getJSONObject(i).getString("picUrl"));
             recentsPics.add(data.getJSONObject(i).getString("picUrl"));
