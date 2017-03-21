@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
@@ -54,6 +55,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 
 public class MainFeed extends AppCompatActivity implements OnRatingEventListener, OnItemClickListener {
@@ -114,6 +117,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     private MyUser mUser;
     int pg = 1;
+    Integer unseenNotifs = 0;
     //-------------------------------------------------
     Intent userProfileIntent = new Intent();
 
@@ -378,9 +382,66 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
 
         //profileFAB
+        if(unseenNotifs > 0){
+            mainbadge.setVisibility(View.VISIBLE);
+            notificationbadge.setVisibility(View.VISIBLE);
+            mainbadge.setText(unseenNotifs.toString());
+            notificationbadge.setText(unseenNotifs.toString());
+
+        }
+        getUnseen();
+
+
 
 
     }
+
+    public void getUnseen(){
+
+
+        NotificationService.getNotifications(getApplicationContext(), mUser.getUserId(), mUser.getToken(), new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                try {
+                    JSONObject data = response.getJSONObject("resultPayload");
+                    System.out.println(response);
+                    JSONArray activityNotifications = data.getJSONArray("activityNotifications");
+                    JSONArray followerNotifications = data.getJSONArray("followerNotifications");
+                    System.out.println(activityNotifications);
+                    System.out.println(followerNotifications);
+
+
+                    for(int i = 0; i < activityNotifications.length(); ++i){
+                        if(activityNotifications.getJSONObject(i).getString("seen").equals("false")){
+                            unseenNotifs++;
+                        }
+                    }
+
+                    for(int i = 0; i < followerNotifications.length(); ++i){
+                        if(followerNotifications.getJSONObject(i).getString("seen").equals("false")){
+                            unseenNotifs++;
+                        }
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+            }
+        });
+
+
+
+
+    }
+
+
+
+
     // Setup a recurring alarm every fifteen minutes
     private void scheduleAlarm() {
         // Construct an intent that will execute the AlarmReceiver
@@ -678,9 +739,12 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         }
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
+        Bundle filePath = new Bundle();
 
         bundle.putParcelable("PREVIEW_PICTURE", thumbnail);
+        filePath.putSerializable("FILEPATH", destination);
         intent.putExtras(bundle);
+        intent.putExtras(filePath);
         intent.setClass(this, upload.class);
         startActivity(intent);
 
