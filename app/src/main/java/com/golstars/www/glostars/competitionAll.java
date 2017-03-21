@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -30,7 +32,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class competitionAll extends AppCompatActivity implements OnSinglePicClick {
@@ -111,7 +116,9 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
     int pg = 1;
     private Intent homeIntent;
 
-    GridView competitiongrid;
+
+    private ArrayList<GridImages> gridImages;
+
     private RecyclerGridAdapter compAdapt;
     private ArrayList<String> compPicsUrls;
 
@@ -453,12 +460,13 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
         mUser.setContext(this);
         compPicsUrls = new ArrayList<>();
 
+        gridImages = new ArrayList<>();
 
 
 
-
-        //competitiongrid = (GridView)findViewById(R.id.gallerygrid);
         compAdapt = new RecyclerGridAdapter(this, compPicsUrls, this);
+        //compAdapt = new RecyclerGridAdapter(this, gridImages, this);
+
         int numOfColumns = 3;
         layoutManager = new GridLayoutManager(this, numOfColumns);
         gallery.setLayoutManager(layoutManager);
@@ -554,8 +562,39 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
 
             for(int i = 0; i < data.length(); i++){
 
+                GridImages gridImage = new GridImages();
+
                 try {
                     JSONObject obj = data.getJSONObject(i);
+                    JSONObject poster = obj.getJSONObject("poster");
+
+
+                    gridImage.setAuthor(poster.getString("name"));
+                    gridImage.setPicUrl(obj.getString("picUrl"));
+
+                    String inPattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                    String outPattern = "MMM d yyyy, HH:mm";
+
+                    SimpleDateFormat inputFormat = new SimpleDateFormat(inPattern);
+                    SimpleDateFormat outputFormat = new SimpleDateFormat(outPattern);
+
+                    Date date = null;
+                    String str = null;
+
+                    try{
+
+                        date = inputFormat.parse(obj.getString("uploaded"));
+                        str = outputFormat.format(date);
+
+                    } catch (ParseException e){
+                        e.printStackTrace();
+                    }
+
+
+                    gridImage.setTimesTamp(str);
+
+                    gridImages.add(gridImage);
+
                     //setCompAdapter(obj.getString("picUrl"));
                     compPicsUrls.add(obj.getString("picUrl"));
                     compAdapt.notifyDataSetChanged();
@@ -586,10 +625,21 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
 
     @Override
     public void onItemClick(String url, Integer pos) {
-        Intent intent = new Intent();
-        intent.putExtra("GOTOPIC", url);
-        intent.putExtra("PAGES_LOADED", pg);
-        intent.setClass(this, competitionFeed.class);
-        startActivity(intent);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("images", gridImages);
+        bundle.putInt("position", pos);
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        SlideShowDialogFragment newFragment = SlideShowDialogFragment.newInstance();
+        newFragment.setArguments(bundle);
+        newFragment.show(ft, "slideshow");
+
+
+        //Intent intent = new Intent();
+        //intent.putExtra("GOTOPIC", url);
+        //intent.putExtra("PAGES_LOADED", pg);
+        //intent.setClass(this, competitionFeed.class);
+        //startActivity(intent);
     }
 }

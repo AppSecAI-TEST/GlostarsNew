@@ -456,7 +456,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                             String interval = Timestamp.getInterval(localDateTime);
 
                             if (seen.equals("false")){
-                                unseenNotifs ++;
+                               // unseenNotifs ++;
                             }
 
                             setActivityNotifsAdapter(description, profilePicURL, name, id, usrId, originatedById, pictureId, seen, interval, picURL, checked);
@@ -478,7 +478,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                             String interval = Timestamp.getInterval(localDateTime);
 
                             if (seen.equals("false")){
-                                unseenNotifs ++;
+                               //    unseenNotifs ++;
                             }
 
                             setFollowerNotifsAdapter(description, profilePicURL, name, "", usrId, originatedById, null, seen, interval, checked);

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +13,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URL;
 
+import cz.msebera.android.httpclient.Header;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -46,6 +48,11 @@ public class NotificationService {
         client.addHeader("Authorization", "Bearer " + token);
         client.get(baseURL+"api/notifications/user/" + usrId ,  responseHandler);
     }
+
+
+
+
+
 
     /*
     public void getNotifications(String userid , String token) throws Exception{
