@@ -8,7 +8,128 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white" />
+        android:background="@android:color/black" />
+
+
+    <LinearLayout
+        android:id="@+id/ratecomment"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        >
+
+
+        <RatingBar
+            android:id="@+id/ratingBarfullscreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            style="@style/RatingBarSmall"
+            android:layout_gravity="center_vertical"
+            android:stepSize="1"
+            android:layout_marginLeft="8dp"
+            />
+
+        <TextView
+            android:id="@+id/ratingstarcountfullscreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:layout_gravity="center_vertical"
+            android:text="45"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginStart="4dp"
+            />
+        <ImageView
+            android:id="@+id/clearRatingfullscreen"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="4dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="0dp"
+            android:src="@drawable/deleteicon"
+            android:layout_marginEnd="8dp"
+            />
+
+
+        <View
+            android:layout_width="35dp"
+            android:layout_weight="0.53"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/commenticonfullscreen"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/comment_icon"
+            android:layout_marginTop="2dp"
+            />
+
+        <TextView
+            android:id="@+id/commentcountfullscreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:textSize="12sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/colorPrimary"
+            />
+
+        <View
+            android:layout_width="35dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/sharefullscreen"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="12sp"
+            android:layout_marginBottom="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:text="SHARE"
+            />
+
+        <ImageView
+            android:id="@+id/shareFBfullscreen"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="0dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/share_fb"
+            android:layout_marginEnd="8dp"
+            />
+
+        <ImageView
+            android:id="@+id/shareTWITTERfullscreen"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="0dp"
+            android:src="@drawable/share_twitter"
+            android:layout_marginEnd="8dp"
+            />
+
+        <ImageView
+            android:id="@+id/shareVKfullscreen"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="0dp"
+            android:src="@drawable/share_vk"
+            android:layout_marginEnd="8dp"
+            />
+
+
+
+    </LinearLayout>
 
 
     <LinearLayout
@@ -23,6 +144,7 @@
 
         <TextView
             android:id="@+id/title"
+            android:text="name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
@@ -31,11 +153,29 @@
 
         <TextView
             android:id="@+id/date"
+            android:text="date"
+            android:textSize="10sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:textColor="@android:color/white" />
+
+        <ScrollView
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+            <TextView
+                android:id="@+id/captionFullscreen"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:textColor="@android:color/white" />
+
+        </ScrollView>
 
     </LinearLayout>
 

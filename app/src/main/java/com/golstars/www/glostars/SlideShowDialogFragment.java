@@ -8,10 +8,13 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -26,7 +29,9 @@ public class SlideShowDialogFragment extends DialogFragment {
     private ArrayList<GridImages> images;
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
-    private TextView lblCount, lblTitle, lblDate;
+    private TextView lblCount, lblTitle, lblDate,captionfullscreen,ratingcountfullscreen,sharefullscreen,commentcountfullscreen;
+    private RatingBar ratingfullscreen;
+    private ImageView commentfullscreen,shareFBfullscreen,shareVKfullscreen,shareTWfullscreen;
     private int selectedPosition = 0;
 
     static SlideShowDialogFragment newInstance(){
@@ -43,6 +48,17 @@ public class SlideShowDialogFragment extends DialogFragment {
         //lblCount = (TextView) v.findViewById(R.id.lbl_count);
         lblTitle = (TextView) v.findViewById(R.id.title);
         lblDate = (TextView) v.findViewById(R.id.date);
+        captionfullscreen = (TextView)v.findViewById(R.id.captionFullscreen);
+        ratingcountfullscreen = (TextView)v.findViewById(R.id.ratingstarcountfullscreen);
+        commentcountfullscreen = (TextView)v.findViewById(R.id.commentcountfullscreen);
+        sharefullscreen = (TextView)v.findViewById(R.id.sharefullscreen);
+
+        shareFBfullscreen = (ImageView) v.findViewById(R.id.shareFBfullscreen);
+        shareTWfullscreen = (ImageView) v.findViewById(R.id.shareTWITTERfullscreen);
+        shareVKfullscreen = (ImageView) v.findViewById(R.id.shareVKfullscreen);
+
+
+
 
         // images = (ArrayList<Image>) getArguments().getSerializable("images");
 
