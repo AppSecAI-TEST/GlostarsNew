@@ -188,8 +188,8 @@ public class upload extends AppCompatActivity {
                     homeFAB.startAnimation(fab_show);
                     mainFAB.startAnimation(rotate_clockwise);
 
-                    homebadge.setVisibility(View.VISIBLE);
-                    notificationbadge.setVisibility(View.VISIBLE);
+//                    homebadge.setVisibility(View.VISIBLE);
+//                    notificationbadge.setVisibility(View.VISIBLE);
 
                     cameraFAB.setVisibility(View.VISIBLE);
                     competitionFAB.setVisibility(View.VISIBLE);

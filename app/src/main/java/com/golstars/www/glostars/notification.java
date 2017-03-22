@@ -179,9 +179,9 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                     mainFAB.startAnimation(rotate_anticlockwise);
                     homeFAB.startAnimation(fab_hide);
 
-                    homebadge.setVisibility(View.GONE);
-                    notificationbadge.setVisibility(View.GONE);
-
+//                    homebadge.setVisibility(View.GONE);
+//                    notificationbadge.setVisibility(View.GONE);
+//
 
                     cameraFAB.setClickable(false);
                     competitionFAB.setClickable(false);
@@ -199,8 +199,8 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                     homeFAB.startAnimation(fab_show);
                     mainFAB.startAnimation(rotate_clockwise);
 
-                    homebadge.setVisibility(View.VISIBLE);
-                    notificationbadge.setVisibility(View.VISIBLE);
+//                    homebadge.setVisibility(View.VISIBLE);
+//                    notificationbadge.setVisibility(View.VISIBLE);
 
                     cameraFAB.setVisibility(View.VISIBLE);
                     competitionFAB.setVisibility(View.VISIBLE);
@@ -309,15 +309,13 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             }
         });
 
-        if(unseenNotifs > 0){
-            mainbadge.setVisibility(View.VISIBLE);
-            notificationbadge.setVisibility(View.VISIBLE);
-            mainbadge.setText(unseenNotifs.toString());
-            notificationbadge.setText(unseenNotifs.toString());
-
-        }
-
-
+//        if(unseenNotifs > 0){
+//            mainbadge.setVisibility(View.VISIBLE);
+//            notificationbadge.setVisibility(View.VISIBLE);
+//            mainbadge.setText(unseenNotifs.toString());
+//            notificationbadge.setText(unseenNotifs.toString());
+//
+//        }
 
 
 

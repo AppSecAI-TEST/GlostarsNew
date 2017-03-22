@@ -247,9 +247,9 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         shareVK = (ImageView)findViewById(R.id.shareVK);
         privacyIcon = (ImageView)findViewById(R.id.privacy);
 
-         gl = (ImageView)findViewById(R.id.glostarslogo);
-         slogo = (ImageView)findViewById(R.id.searchlogo);
-         search = (EditText)findViewById(R.id.searchedit);
+        gl = (ImageView)findViewById(R.id.glostarslogo);
+        slogo = (ImageView)findViewById(R.id.searchlogo);
+        search = (EditText)findViewById(R.id.searchedit);
 
 
 
@@ -280,6 +280,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
                     homebadge.setVisibility(View.GONE);
                     notificationbadge.setVisibility(View.GONE);
+                    mainbadge.setVisibility(View.GONE);
 
                     cameraFAB.setClickable(false);
                     competitionFAB.setClickable(false);
@@ -296,8 +297,6 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                     notificationFAB.startAnimation(fab_show);
                     mainFAB.startAnimation(rotate_clockwise);
 
-                    homebadge.setVisibility(View.VISIBLE);
-                    notificationbadge.setVisibility(View.VISIBLE);
 
                     cameraFAB.setVisibility(View.VISIBLE);
                     competitionFAB.setVisibility(View.VISIBLE);
@@ -317,12 +316,12 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
             }
         });
 
-       cameraFAB.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               selectImage();
-           }
-       });
+        cameraFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectImage();
+            }
+        });
 
 
         profileFAB.setOnClickListener(new View.OnClickListener() {
