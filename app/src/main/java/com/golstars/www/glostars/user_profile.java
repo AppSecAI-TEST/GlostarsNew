@@ -454,10 +454,11 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
                         Intent intent = new Intent();
                         intent.putExtra("usrId", mUser.getUserId());
                         intent.putExtra("token", mUser.getToken());
-                        intent.setClass(getApplicationContext(), edit_profile.class);
+                        intent.setClass(getApplicationContext(), settingsPage.class);
                         startActivity(intent);
                     }
                 }
+
 
 
 
@@ -480,9 +481,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
                     homeFAB.startAnimation(fab_hide);
 
 
-                    homebadge.setVisibility(View.GONE);
-                    notificationbadge.setVisibility(View.GONE);
-                    mainbadge.setVisibility(View.GONE);
+//                    homebadge.setVisibility(View.GONE);
+//                    notificationbadge.setVisibility(View.GONE);
 
                     cameraFAB.setClickable(false);
                     competitionFAB.setClickable(false);
@@ -499,6 +499,9 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
                     notificationFAB.startAnimation(fab_show);
                     homeFAB.startAnimation(fab_show);
                     mainFAB.startAnimation(rotate_clockwise);
+
+//                    homebadge.setVisibility(View.VISIBLE);
+//                    notificationbadge.setVisibility(View.VISIBLE);
 
                     cameraFAB.setVisibility(View.VISIBLE);
                     competitionFAB.setVisibility(View.VISIBLE);

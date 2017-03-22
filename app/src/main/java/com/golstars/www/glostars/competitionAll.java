@@ -204,9 +204,8 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
                     homeFAB.startAnimation(fab_hide);
                     mainFAB.startAnimation(rotate_anticlockwise);
 
-                    homebadge.setVisibility(View.GONE);
-                    notificationbadge.setVisibility(View.GONE);
-                    mainbadge.setVisibility(View.GONE);
+//                    homebadge.setVisibility(View.GONE);
+//                    notificationbadge.setVisibility(View.GONE);
 
                     cameraFAB.setClickable(false);
                     competitionFAB.setClickable(false);
@@ -229,6 +228,9 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
                     profileFAB.setVisibility(View.VISIBLE);
                     notificationFAB.setVisibility(View.VISIBLE);
                     homeFAB.setVisibility(View.VISIBLE);
+
+//                    homebadge.setVisibility(View.VISIBLE);
+//                    notificationbadge.setVisibility(View.VISIBLE);
 
                     cameraFAB.setClickable(true);
                     competitionFAB.setClickable(true);

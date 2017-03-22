@@ -106,7 +106,7 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
         setContentView(R.layout.activity_competition_feed);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        
+
         recyclerView = (RecyclerView) findViewById(R.id.competitionfeedrecycler);
 
 
@@ -124,8 +124,8 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
         shareVK = (ImageView)findViewById(R.id.shareVK);
         privacyIcon = (ImageView)findViewById(R.id.privacy);
 
-         gl = (ImageView)findViewById(R.id.glostarslogo);
-         slogo = (ImageView)findViewById(R.id.searchlogo);
+        gl = (ImageView)findViewById(R.id.glostarslogo);
+        slogo = (ImageView)findViewById(R.id.searchlogo);
         search = (EditText)findViewById(R.id.searchedit);
 
 

@@ -282,9 +282,9 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         shareVK = (ImageView)findViewById(R.id.shareVK);
         privacyIcon = (ImageView)findViewById(R.id.privacy);
 
-         gl = (ImageView)findViewById(R.id.glostarslogo);
-         slogo = (ImageView)findViewById(R.id.searchlogo);
-         search = (EditText)findViewById(R.id.searchedit);
+        gl = (ImageView)findViewById(R.id.glostarslogo);
+        slogo = (ImageView)findViewById(R.id.searchlogo);
+        search = (EditText)findViewById(R.id.searchedit);
 
 
 
@@ -351,12 +351,12 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
             }
         });
 
-       cameraFAB.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               selectImage();
-           }
-       });
+        cameraFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectImage();
+            }
+        });
 
 
         profileFAB.setOnClickListener(new View.OnClickListener() {

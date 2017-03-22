@@ -82,7 +82,7 @@
                     android:layout_marginTop="10dp"
                     android:textColor="#FFFFFF"
                     android:layout_alignParentRight="true"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="8dp"
                     android:background="@drawable/followbutton"
                     android:layout_below="@+id/profileuserLOCATION"/>
             </RelativeLayout>
@@ -134,16 +134,15 @@
 
             <TextView
                 android:id="@+id/settingsbutton"
-                android:layout_marginLeft="8dp"
-                android:text="Settings"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:textColor="@color/colorPrimary"
                 android:layout_width="wrap_content"
-                android:textSize="12sp"
-                android:layout_marginRight="4dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_height="wrap_content" />
+                android:layout_marginRight="8dp"
+                android:clickable="true"
+                android:text="Settings"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <View
                 android:layout_marginTop="4dp"
@@ -236,7 +235,7 @@
                     android:textColor="@color/darkGrey"
                     android:layout_gravity="center_vertical"
                     android:text=" 24"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     />
@@ -259,6 +258,16 @@
 
 
                 <TextView
+                    android:id="@+id/numberoffollowingCount"
+                    android:layout_gravity="center_vertical"
+                    android:text=" 10"
+                    android:layout_weight="0.5"
+                    android:textColor="@color/darkGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <TextView
                     android:id="@+id/numberoffollowing"
                     android:paddingStart="8dp"
                     android:text="Following"
@@ -268,15 +277,7 @@
                     android:textColor="@color/darkGrey"
                     android:layout_weight="1"/>
 
-                <TextView
-                    android:id="@+id/numberoffollowingCount"
-                    android:layout_gravity="center_vertical"
-                    android:text=" 10"
-                    android:layout_weight="1"
-                    android:textColor="@color/darkGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+
 
 
                 <View
@@ -287,8 +288,17 @@
                     />
 
                 <TextView
+                    android:id="@+id/numberoffollowersCount"                    android:layout_gravity="center_vertical"
+                    android:text=" 12"
+                    android:layout_weight="0.5"
+                    android:textColor="@color/darkGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <TextView
                     android:id="@+id/numberoffollowers"
-                    android:paddingStart="8dp"
+                    android:paddingStart="4dp"
                     android:textColor="@color/darkGrey"
                     android:layout_gravity="center_vertical"
                     android:text="Followers"
@@ -296,14 +306,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
 
-                <TextView
-                    android:id="@+id/numberoffollowersCount"                    android:layout_gravity="center_vertical"
-                    android:text=" 1512"
-                    android:layout_weight="1"
-                    android:textColor="@color/darkGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+
 
             </LinearLayout>
 

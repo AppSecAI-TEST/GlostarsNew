@@ -127,9 +127,8 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
                     homeFAB.startAnimation(fab_hide);
 
 
-                    homebadge.setVisibility(View.GONE);
-                    notificationbadge.setVisibility(View.GONE);
-                    mainbadge.setVisibility(View.GONE);
+//                    homebadge.setVisibility(View.GONE);
+//                    notificationbadge.setVisibility(View.GONE);
 
 
                     cameraFAB.setClickable(false);
@@ -147,6 +146,9 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
                     notificationFAB.startAnimation(fab_show);
                     homeFAB.startAnimation(fab_show);
                     mainFAB.startAnimation(rotate_clockwise);
+
+//                    homebadge.setVisibility(View.VISIBLE);
+//                    notificationbadge.setVisibility(View.VISIBLE);
 
                     cameraFAB.setVisibility(View.VISIBLE);
                     competitionFAB.setVisibility(View.VISIBLE);

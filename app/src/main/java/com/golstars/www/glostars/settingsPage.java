@@ -1,6 +1,7 @@
 package com.golstars.www.glostars;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -32,7 +33,18 @@ public class settingsPage extends AppCompatActivity {
         dataprivacy = (TextView)findViewById(R.id.dataprivacy);
         contactus = (TextView)findViewById(R.id.contactus);
         Terms = (TextView)findViewById(R.id.termsset);
+        logout = (TextView)findViewById(R.id.logoutset);
 
+
+
+
+        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+        aboutus.setTypeface(type);
+        faq.setTypeface(type);
+        dataprivacy.setTypeface(type);
+        contactus.setTypeface(type);
+        Terms.setTypeface(type);
+        logout.setTypeface(type);
 
 
 

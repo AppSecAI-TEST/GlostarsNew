@@ -42,14 +42,16 @@
                     android:id="@+id/comptext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Picture for Competition"
+                    android:text="Featured Post"
                     android:textSize="12sp"
-                    android:textColor="@color/darkGrey"
+                    android:textColor="@color/colorPrimary"
                     android:layout_toRightOf="@+id/compicon"/>
 
             </RelativeLayout>
             
         </RelativeLayout>
+
+
 
 
         <RelativeLayout
@@ -283,18 +285,46 @@
                 android:layout_alignTop="@+id/uploadTIME"
                 />
 
-
-            <View
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginTop="2dp"
-                android:background="@color/colorAccent"
-                android:layout_below="@+id/ratecomment"
-                />
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ratecomment"
+                android:orientation="vertical">
+
+             <!--   <RelativeLayout
+                    android:id="@+id/seeAllcomppost"
+                    android:background="#CFD8DC"
+                    android:layout_width="match_parent"
+                    android:visibility="visible"
+                    android:layout_height="32dp">
+
+                    <TextView
+                        android:id="@+id/seall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="See All Competition Pictures >"
+                        android:textSize="12sp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/colorPrimary"
+                        />
+
+                </RelativeLayout>
+                -->
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@color/colorAccent"
+                    android:layout_below="@+id/seeAllcomppost"
+                    />
+            </LinearLayout>
 
 
 
         </RelativeLayout>
+
 
 
 

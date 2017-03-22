@@ -94,7 +94,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
 
             /*ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
-
             }); */
 
             propic.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +115,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                     postImgListener.onItemClickPost(postsList.get(getLayoutPosition()));
                 }
             });
-            
+
             commentsBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
