@@ -4,10 +4,15 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.support.constraint.solver.SolverVariable;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -16,6 +21,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.RatingBar.OnRatingBarChangeListener;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
@@ -24,6 +30,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,9 +48,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     private final OnItemClickListener listener;
     private final OnItemClickListener postImgListener;
     private final OnItemClickListener commentsListener;
+    private final OnItemClickListener deleteListener;
     private final OnRatingEventListener ratingListener;
     public Integer screenWidth = 0;
     public String usrId = "";
+    private boolean onBind;
+    MyUser mUser = MyUser.getmUser();
 
 
 
@@ -53,6 +64,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         public RatingBar ratingBar;
         public ImageView commentsBtn;
         public RelativeLayout featuredFlag;
+        public ImageView deleteIcon;
 
         public MyViewHolder(View view, final OnRatingEventListener ratingListener, final OnItemClickListener listener, final OnItemClickListener postImgListener,
                             final OnItemClickListener commentsListener){
@@ -71,6 +83,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             uselessTextView = (TextView)view.findViewById(R.id.timedigit);
             comptext = (TextView)view.findViewById(R.id.comptext);
             featuredFlag = (RelativeLayout)view.findViewById(R.id.compflag);
+            deleteIcon = (ImageView)view.findViewById(R.id.clearRating);
 
             username.setTypeface(type);
             caption.setTypeface(type);
@@ -115,7 +128,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     }
 
     public PostAdapter(List<Post> postsList, Integer width, String usrId, Context context, OnRatingEventListener ratingListener, OnItemClickListener listener,
-                       OnItemClickListener postImgListener, OnItemClickListener commentsListener){
+                       OnItemClickListener postImgListener, OnItemClickListener commentsListener, OnItemClickListener deleteListener){
         this.postsList = postsList;
         this.context = context;
         this.ratingListener = ratingListener;
@@ -124,6 +137,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         this.screenWidth = width;
         this.usrId = usrId;
         this.commentsListener = commentsListener;
+        this.deleteListener = deleteListener;
 
     }
 
@@ -139,13 +153,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        Post post = postsList.get(position);
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
+        onBind = true; // this flag warns as to if the viewHolder is still binding data
+
+        final Integer pos = position;
+        final Post post = postsList.get(position);
         holder.username.setText(post.getAuthor());
         holder.caption.setText(post.getDescription());
         holder.postTime.setText(post.getUploaded());
         holder.uselessTextView.setText("");
-        holder.ratingBar.setOnRatingBarChangeListener(onRatingBarChangeListener(holder, position, ratingListener));
+        //holder.ratingBar.setOnRatingBarChangeListener(onRatingBarChangeListener(holder, position, ratingListener));
+        if(!post.isCompeting()){
+            holder.ratingBar.setNumStars(1);
+        }
+
         holder.ratingBar.setRating((float)getUserRating(post));
         holder.totalStars.setText(String.valueOf(post.getStarsCount()));
         holder.totalComments.setText(String.valueOf(post.getCommentCount()));
@@ -161,32 +182,140 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             holder.featuredFlag.setVisibility(View.VISIBLE);
         } else holder.featuredFlag.setVisibility(View.GONE);
 
+        onBind = false;
+
+        holder.deleteIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
 
+                /* this big and clumsy method cleans the previously
+                   given rating by the user on referred post picture
+                   - it first sends data back to the activity so it can be
+                   unrated on the server
+                   - then it searches the local rating JSONArray list for the
+                   current user's rating object and gets its position
+                   - then it makes a string list with all the rating objects
+                   that belong to the current post picture
+                   - removes the user's rating object
+                   - brings the list back its JSONArray state and sets it as
+                   updated rating list of the current post pic
+                * */
+                deleteListener.onItemClickPost(post);
+                JSONArray ratings = post.getRatings();
+                int itempos = -1;
+                for(int i = 0; i < ratings.length(); i++){
+                    try {
+                        if(ratings.getJSONObject(i).getString("raterId").equals(mUser.getUserId())){
+                            itempos = i;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
 
-    }
+                ArrayList<String> list = new ArrayList<String>();
+                int len = ratings.length();
 
-    private RatingBar.OnRatingBarChangeListener onRatingBarChangeListener(final RecyclerView.ViewHolder holder, final int pos, final OnRatingEventListener ratingListener){
-        return new RatingBar.OnRatingBarChangeListener(){
+                if(ratings != null){
+                    for(int i =0; i < len; i++){
+                        try {
+                            list.add(ratings.get(i).toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
 
+                if(itempos > -1){
+                    list.remove(pos);
+                }
+
+                JSONArray newRatings = new JSONArray(list);
+                post.setRatings(newRatings);
+                postsList.set(pos,post);
+                holder.ratingBar.setRating((float)0);
+                notifyDataSetChanged();
+
+            }
+        });
+
+
+        holder.ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                JSONObject newRating = new JSONObject();
-                try {
-                    newRating.put("starsCount", (int)v);
-                    newRating.put("raterId", usrId);
-                    newRating.put("ratingTime", (new Date()).toString());
-                    postsList.get(pos).setRatings(postsList.get(pos).getRatings().put(newRating));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if(b) ratingListener.onRatingBarChange(postsList.get(pos), v, pos);
+                if(!onBind){
+                    if(getUserRating(post) == 0){ //only make any change if the user has never rated this pic
+                        ratingListener.onRatingBarChange(post, v, pos);
+
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                        JSONArray ratings = post.getRatings();
+                        JSONObject rating = new JSONObject();
+                        try {
+                            rating.put("starsCount", (int)v);
+                            rating.put("raterId", mUser.getUserId());
+                            rating.put("ratingTime", ((sdf.format(new Date())).toString()));
+                            ratings.put(rating);
+                            System.out.println(ratings);
+                            post.setRatings(ratings);
+                            post.setStarsCount(post.getStarsCount() + (int)v);
+                            System.out.println("my id is " + mUser.getUserId());
+                            System.out.println(post.getRatings());
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        Toast.makeText(context, "post " + pos + " 's rating changed to " + (int)v, Toast.LENGTH_SHORT).show();
+                        postsList.set(pos,post);
+                        notifyDataSetChanged();
+                    }
+                } else ratingListener.onRatingBarChange(null, v, pos);
+
 
 
             }
-        };
-//
+        });
+
+        holder.ratingBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        float touchPositionX = event.getX();
+                        float width = holder.ratingBar.getWidth();
+                        float starsf = (touchPositionX / width) * 5.0f;
+                        int stars = (int)starsf + 1;
+                        if(holder.ratingBar.getRating() == 0.0){
+                            holder.ratingBar.setRating(stars);
+                        }
+
+
+
+                        v.setPressed(false);
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        v.setPressed(true);
+                    }
+
+                    if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                        v.setPressed(false);
+                    }
+
+
+
+
+
+
+                return true;
+            }});
+
+
+
+
     }
+
+
 
     public int getItemCount(){
         return postsList.size();
@@ -226,6 +355,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         }
         return 0;
     }
+
+
+
 
 
 

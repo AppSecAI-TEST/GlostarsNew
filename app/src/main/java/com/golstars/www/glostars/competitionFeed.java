@@ -373,6 +373,16 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
             @Override
             public void onItemClickNotif(NotificationObj notif) {
             }
+        }, new OnItemClickListener() {
+            @Override
+            public void onItemClickPost(Post item) {
+
+            }
+
+            @Override
+            public void onItemClickNotif(NotificationObj notif) {
+
+            }
         });
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

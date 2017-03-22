@@ -24,18 +24,22 @@ public class MyUser {
 
     private String token;
 
-
-    //private Context context;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
-
-
-    private static final String MyPREFERENCES = "glostarsPrefs";
+    private static final String MyPREFERENCES = "com.golstars.www.glostars.PREFERENCE_FILE_KEY";
 
 
     private MyUser(){}
 
     public static MyUser getmUser(){
+        return mUser;
+    }
+
+    public static MyUser getmUser(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES,Context.MODE_PRIVATE);
+        mUser.setName(sharedPreferences.getString("NAME", null));
+        mUser.setEmail(sharedPreferences.getString("EMAIL", null));
+        mUser.setProfilePicURL(sharedPreferences.getString("PROFILEPIC", null));
+        mUser.setUserId(sharedPreferences.getString("USER_ID", null));
+        mUser.setToken(sharedPreferences.getString("TOKEN", null));
         return mUser;
     }
 
@@ -104,19 +108,19 @@ public class MyUser {
             e.printStackTrace();
         }
 
+        SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("EMAIL", mUser.getEmail());
+        editor.putString("NAME", mUser.getName());
+        editor.putString("USER_ID", mUser.getUserId());
+        editor.putString("PROFILE_PIC", mUser.getProfilePicURL());
+        editor.putString("TOKEN", mUser.getToken());
+
+
 
 
     }
 
-    public  void getUserData(){
-        SearchUser searchUser = new SearchUser();
-
-        try {
-            searchUser.userEditData(getToken());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public String getToken() {
         return token;
