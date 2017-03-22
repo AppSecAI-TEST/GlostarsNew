@@ -52,11 +52,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 
 public class MainFeed extends AppCompatActivity implements OnRatingEventListener, OnItemClickListener {
@@ -175,6 +178,39 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
             @Override
             public void onItemClickNotif(NotificationObj notif) {
             }
+        }, new OnItemClickListener() {
+            @Override
+            public void onItemClickPost(Post item) {
+
+                JSONObject msg = new JSONObject();
+                try {
+                    msg.put("", "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                StringEntity entity = null;
+                try {
+                    entity = new StringEntity(msg.toString());
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+
+                String picId = item.getPhotoId();
+                PictureService.unratePicture(getApplicationContext(), mUser.getToken(), picId, entity, new JsonHttpResponseHandler(){
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        System.out.println(response);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onItemClickNotif(NotificationObj notif) {
+
+            }
         });
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -193,7 +229,6 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                     visibleItemCount = layoutManager.getChildCount();
                     totalItemCount = layoutManager.getItemCount();
                     pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
-                    System.out.println("CHECKING SCROLL DOWN");
 
                     if(loading){
                         if((visibleItemCount + pastVisiblesItems) >= totalItemCount){
@@ -582,30 +617,33 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
     @Override
     public void onRatingBarChange(Post item, float value, int postPosition){
-        System.out.println("RATING BAR");
-        JSONArray ratings = item.getRatings();
-        if(mUser.getUserId() != null){
-            JSONObject rating = new JSONObject();
-            try {
-                rating.put("starsCount", (int)value);
-                rating.put("raterId", mUser.getUserId());
-                rating.put("ratingTime", (new Date()).toString());
-                ratings.put(rating);
-                item.setRatings(ratings);
-                System.out.println("my id is " + mUser.getUserId());
-                System.out.println(item.getRatings());
 
+        if(item != null){
+            JSONObject msg = new JSONObject();
+            try {
+                msg.put("NumOfStars", (int)value);
+                msg.put("PhotoId", item.getPhotoId());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            postList.set(postPosition,item);
-            mAdapter.notifyDataSetChanged();
+            StringEntity entity = null;
+            try {
+                entity = new StringEntity(msg.toString());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            PictureService.ratePicture(getApplicationContext(), mUser.getToken(), entity, new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    System.out.println(response);
+                }
+            });
 
         }
 
 
-        //postList.set(postPosition,)
 
 
     }

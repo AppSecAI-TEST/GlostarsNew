@@ -1,5 +1,10 @@
 package com.golstars.www.glostars;
 
+import android.content.Context;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,6 +13,7 @@ import java.io.IOException;
 import java.io.PipedReader;
 import java.net.URL;
 
+import cz.msebera.android.httpclient.entity.StringEntity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -30,6 +36,9 @@ public class PictureService {
     private JSONArray data;
     private JSONObject dat;
     String baseURL = "http://www.glostars.com/";
+
+
+    private static AsyncHttpClient AsyncClient = new AsyncHttpClient();
 
     public PictureService(){}
 
@@ -185,43 +194,20 @@ public class PictureService {
 
     }
 
-    public void ratePicture(String picId, Integer rating, String token) throws Exception{
-        URL url = new URL(baseURL + "api/images/rating");
 
-
-        JSONObject msg = new JSONObject();
-        msg.put("NumOfStars", rating);
-        msg.put("PhotoId", picId);
-
-
-        RequestBody body =  RequestBody.create(JSONType, msg.toString());
-
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .addHeader("Content-Type", "application/json")
-                .addHeader("Authorization", "Bearer " + token)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-                String data = response.body().string();
-                System.out.println(data);
-
-
-            }
-        });
-
+    public static void ratePicture(Context context, String token, StringEntity jsonEntity, AsyncHttpResponseHandler responseHandler){
+        AsyncClient.addHeader("Content-Type", "application/json");
+        AsyncClient.addHeader("Authorization", "Bearer " + token);
+        AsyncClient.post(context ,"http://www.glostars.com/api/images/rating", jsonEntity , "application/json", responseHandler);
     }
 
+    public static void unratePicture(Context context, String token, String picId, StringEntity jsonEntity, AsyncHttpResponseHandler responseHandler){
+        AsyncClient.addHeader("Content-Type", "application/json");
+        AsyncClient.addHeader("Authorization", "Bearer " + token);
+        AsyncClient.post(context ,"http://www.glostars.com/api/images/removerate/" + picId, jsonEntity , "application/json", responseHandler);
+    }
+
+    /*
     public void unratePicture(String picId, String token) throws Exception{
         URL url = new URL(baseURL + "api/images/removerate/" + picId);
 
@@ -250,7 +236,7 @@ public class PictureService {
 
             }
         });
-    }
+    }*/
 
     public void getPublicPictures(Integer count, String token) throws Exception{
         URL url = new URL(baseURL + "api/images/public/" + count);

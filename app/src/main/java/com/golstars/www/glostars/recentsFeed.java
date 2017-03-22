@@ -1,3 +1,4 @@
+
 package com.golstars.www.glostars;
 
 import android.content.Intent;
@@ -356,6 +357,16 @@ public class recentsFeed extends AppCompatActivity implements OnRatingEventListe
 
             @Override
             public void onItemClickNotif(NotificationObj notif) {
+            }
+        }, new OnItemClickListener() {
+            @Override
+            public void onItemClickPost(Post item) {
+
+            }
+
+            @Override
+            public void onItemClickNotif(NotificationObj notif) {
+
             }
         });
         recyclerView.setLayoutManager(layoutManager);
