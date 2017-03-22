@@ -354,7 +354,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         }
         return 0;
     }
-
+    //
 
 
 
