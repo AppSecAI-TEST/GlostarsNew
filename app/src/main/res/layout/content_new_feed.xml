@@ -11,7 +11,7 @@
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/mainfeedrecycler"
+        android:id="@+id/newfeedrecycler"
         android:layout_marginLeft="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -19,7 +19,7 @@
     </android.support.v7.widget.RecyclerView>
 
 
-    
+
 
 
 

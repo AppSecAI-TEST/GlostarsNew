@@ -55,20 +55,17 @@
             android:label="@string/title_activity_upload"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".edit_profile"
             android:label="@string/title_activity_edit_profile"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible" />
-
         <activity
             android:name=".competitionUser"
             android:label="@string/title_activity_competition_user"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".competitionAll"
             android:label="@string/title_activity_competition_all"
@@ -79,7 +76,6 @@
             android:label="@string/title_activity_competition_feed"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".imagefullscreen"
             android:label="@string/title_activity_image_full_screen"
@@ -90,67 +86,61 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name=".searchResults"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".recentsFeed"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".competition_page"
             android:label="@string/title_activity_competition_page"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".termsOfUse"
             android:label="Terms"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".settingsPage"
             android:label="@string/title_activity_settings_page"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".followersPage"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".TermsMain"
             android:label="@string/title_activity_terms_main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <service
+            android:name=".BackgroundService"
+            android:exported="false" />
 
-        <service android:name=".BackgroundService"
-            android:exported="false"/>
         <receiver
             android:name=".MyAlarmReceiver"
-            android:process=":remote" >
-        </receiver>
+            android:process=":remote"></receiver>
 
-
-        <activity android:name=".fragmentImageSlider"
-            android:screenOrientation="portrait"
-            />
+        <activity
+            android:name=".fragmentImageSlider"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".imagefullscreenpreview"
             android:label="@string/title_activity_image_full_screen"
             android:theme="@style/AppTheme.NoActionBar" />
-
-
+        <activity
+            android:name=".newFeed"
+            android:label="@string/title_activity_new_feed"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

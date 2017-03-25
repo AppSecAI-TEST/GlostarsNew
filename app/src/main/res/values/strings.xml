@@ -326,4 +326,5 @@ In compliance with Section 26 of the Personal Data Act, everyone is entitled to 
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="title_activity_new_feed">newFeed</string>
 </resources>
