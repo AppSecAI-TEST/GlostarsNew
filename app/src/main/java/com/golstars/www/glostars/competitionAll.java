@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -37,6 +38,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 public class competitionAll extends AppCompatActivity implements OnSinglePicClick {
 
@@ -122,6 +125,7 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
     private RecyclerGridAdapter compAdapt;
     private ArrayList<String> compPicsUrls;
 
+    Integer unseenNotifs = 0;
 
 
 
@@ -502,8 +506,61 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
 
         });
 
+        getUnseen();
 
     }
+
+    public void getUnseen(){
+
+
+        NotificationService.getNotifications(getApplicationContext(), mUser.getUserId(), mUser.getToken(), new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                try {
+                    JSONObject data = response.getJSONObject("resultPayload");
+                    System.out.println(response);
+                    JSONArray activityNotifications = data.getJSONArray("activityNotifications");
+                    JSONArray followerNotifications = data.getJSONArray("followerNotifications");
+                    System.out.println(activityNotifications);
+                    System.out.println(followerNotifications);
+
+
+                    for(int i = 0; i < activityNotifications.length(); ++i){
+                        if(activityNotifications.getJSONObject(i).getString("seen").equals("false")){
+                            unseenNotifs++;
+                        }
+                    }
+
+                    for(int i = 0; i < followerNotifications.length(); ++i){
+                        if(followerNotifications.getJSONObject(i).getString("seen").equals("false")){
+                            unseenNotifs++;
+                        }
+
+                    }
+
+                    if(unseenNotifs > 0){
+                        mainbadge.setVisibility(View.VISIBLE);
+                        notificationbadge.setVisibility(View.VISIBLE);
+                        mainbadge.setText(unseenNotifs.toString());
+                        notificationbadge.setText(unseenNotifs.toString());
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+            }
+        });
+
+
+
+
+    }
+
 
     private class getUserData extends AsyncTask<String, Integer, JSONObject>{
 

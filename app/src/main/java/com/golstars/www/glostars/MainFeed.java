@@ -151,12 +151,40 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         mAdapter = new PostAdapter(postList, Width, mUser.getUserId(), this, this, this, new OnItemClickListener() {
             @Override
             public void onItemClickPost(Post item) {
-                Intent intent = new Intent();
-                intent.putExtra("IMAGE_SAUCE", item.getPicURL());
-                intent.putExtra("IMAGE_AUTHOR", item.getAuthor());
-                intent.putExtra("IMAGE_CAPTION", item.getDescription());
-                intent.setClass(getApplicationContext(), imagefullscreen.class);
-                startActivity(intent);
+                //Intent intent = new Intent();
+                //intent.putExtra("IMAGE_SAUCE", item.getPicURL());
+                //intent.putExtra("IMAGE_AUTHOR", item.getAuthor());
+                //intent.putExtra("IMAGE_CAPTION", item.getDescription());
+                //intent.setClass(getApplicationContext(), imagefullscreen.class);
+                //startActivity(intent);
+
+                // double click rates only one star to photo
+                if(item != null){
+                    JSONObject msg = new JSONObject();
+                    try {
+                        msg.put("NumOfStars", 1);
+                        msg.put("PhotoId", item.getPhotoId());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    StringEntity entity = null;
+                    try {
+                        entity = new StringEntity(msg.toString());
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
+                    PictureService.ratePicture(getApplicationContext(), mUser.getToken(), entity, new JsonHttpResponseHandler(){
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            System.out.println(response);
+                        }
+                    });
+
+                }
+
+
             }
 
             @Override
@@ -416,14 +444,9 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
 
         //profileFAB
-        if(unseenNotifs > 0){
-            mainbadge.setVisibility(View.VISIBLE);
-            notificationbadge.setVisibility(View.VISIBLE);
-            mainbadge.setText(unseenNotifs.toString());
-            notificationbadge.setText(unseenNotifs.toString());
-
-        }
         getUnseen();
+
+
 
 
 
@@ -456,6 +479,14 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                         if(followerNotifications.getJSONObject(i).getString("seen").equals("false")){
                             unseenNotifs++;
                         }
+
+                    }
+
+                    if(unseenNotifs > 0){
+                        mainbadge.setVisibility(View.VISIBLE);
+                        notificationbadge.setVisibility(View.VISIBLE);
+                        mainbadge.setText(unseenNotifs.toString());
+                        notificationbadge.setText(unseenNotifs.toString());
 
                     }
 

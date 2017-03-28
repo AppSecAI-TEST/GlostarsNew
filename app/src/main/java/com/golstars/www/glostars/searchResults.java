@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -34,6 +35,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import cz.msebera.android.httpclient.Header;
 
 
 public class searchResults extends AppCompatActivity implements  PopulatePage, OnSinglePicClick{
@@ -82,6 +85,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
     int pg = 1;
     private Intent homeIntent;
     private ArrayList<GridImages> gridImages;
+    Integer unseenNotifs = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -341,6 +345,58 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
 
 
         });
+
+      getUnseen();
+
+    }
+
+    public void getUnseen(){
+
+
+        NotificationService.getNotifications(getApplicationContext(), mUser.getUserId(), mUser.getToken(), new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                try {
+                    JSONObject data = response.getJSONObject("resultPayload");
+                    System.out.println(response);
+                    JSONArray activityNotifications = data.getJSONArray("activityNotifications");
+                    JSONArray followerNotifications = data.getJSONArray("followerNotifications");
+                    System.out.println(activityNotifications);
+                    System.out.println(followerNotifications);
+
+
+                    for(int i = 0; i < activityNotifications.length(); ++i){
+                        if(activityNotifications.getJSONObject(i).getString("seen").equals("false")){
+                            unseenNotifs++;
+                        }
+                    }
+
+                    for(int i = 0; i < followerNotifications.length(); ++i){
+                        if(followerNotifications.getJSONObject(i).getString("seen").equals("false")){
+                            unseenNotifs++;
+                        }
+
+                    }
+
+                    if(unseenNotifs > 0){
+                        mainbadge.setVisibility(View.VISIBLE);
+                        notificationbadge.setVisibility(View.VISIBLE);
+                        mainbadge.setText(unseenNotifs.toString());
+                        notificationbadge.setText(unseenNotifs.toString());
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+            }
+        });
+
+
 
 
     }

@@ -14,6 +14,7 @@ import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -32,8 +33,10 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Handler;
 
 /**
  * Created by edson on 07/02/17.
@@ -109,12 +112,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                 }
             });
 
-            postImg.setOnClickListener(new View.OnClickListener() {
+            /*postImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     postImgListener.onItemClickPost(postsList.get(getLayoutPosition()));
                 }
-            });
+            }); */
+
 
             commentsBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -183,6 +187,87 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
         onBind = false;
 
+
+        holder.postImg.setOnTouchListener(new View.OnTouchListener() {
+            android.os.Handler handler = new android.os.Handler();
+
+            int numberOfTaps = 0;
+            long lastTapTimeMs = 0;
+            long touchDownMs = 0;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        touchDownMs = System.currentTimeMillis();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        handler.removeCallbacksAndMessages(null);
+
+                        if((System.currentTimeMillis() - touchDownMs) > ViewConfiguration.getTapTimeout()){
+                            //it was not a tap
+                            numberOfTaps = 0;
+                            lastTapTimeMs = 0;
+                        }
+
+                        if(numberOfTaps > 0
+                                && (System.currentTimeMillis() - lastTapTimeMs) < ViewConfiguration.getDoubleTapTimeout()){
+                            numberOfTaps += 1;
+                        } else {
+                            numberOfTaps = 1;
+                        }
+
+                        lastTapTimeMs = System.currentTimeMillis();
+
+                        if(numberOfTaps == 2){
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //handle double tap
+
+                                    if(getUserRating(post) == 0){ //only make any change if the user has never rated this pic
+                                        postImgListener.onItemClickPost(post);
+
+
+                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                                        JSONArray ratings = post.getRatings();
+                                        JSONObject rating = new JSONObject();
+                                        try {
+                                            rating.put("starsCount", 1); /// on double tap, only one star is added
+                                            rating.put("raterId", mUser.getUserId());
+                                            rating.put("ratingTime", ((sdf.format(new Date())).toString()));
+                                            ratings.put(rating);
+                                            System.out.println(ratings);
+                                            post.setRatings(ratings);
+                                            post.setStarsCount(post.getStarsCount() + 1);
+                                            System.out.println("my id is " + mUser.getUserId());
+                                            System.out.println(post.getRatings());
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        holder.ratingBar.setRating((float)1);
+                                        Toast.makeText(context, "post " + pos + " 's rating changed to " + 1, Toast.LENGTH_SHORT).show();
+                                        postsList.set(pos,post);
+                                        notifyDataSetChanged();
+                                    }
+
+
+
+                                }
+                            }, ViewConfiguration.getDoubleTapTimeout());
+                        }
+                }
+
+                return true;
+            }
+        });
+
+
+
+
         holder.deleteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -202,10 +287,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                 * */
                 deleteListener.onItemClickPost(post);
                 JSONArray ratings = post.getRatings();
+                int ratingToRemove = 0;
                 int itempos = -1;
                 for(int i = 0; i < ratings.length(); i++){
                     try {
                         if(ratings.getJSONObject(i).getString("raterId").equals(mUser.getUserId())){
+                            ratingToRemove = ratings.getJSONObject(i).getInt("starsCount");
                             itempos = i;
                         }
                     } catch (JSONException e) {
@@ -227,11 +314,28 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                 }
 
                 if(itempos > -1){
-                    list.remove(pos);
+                    list.remove(itempos);
                 }
 
-                JSONArray newRatings = new JSONArray(list);
+
+                System.out.println("string array resultant :" + list);
+                System.out.println("first element of string array :" + list.get(0));
+                JSONArray newRatings = new JSONArray();
+
+                for(int i = 0; i < list.size(); i++){
+                    try {
+                        JSONObject rating = new JSONObject(list.get(i));
+                        newRatings.put(rating);
+                        
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+
                 post.setRatings(newRatings);
+                post.setStarsCount(post.getStarsCount() - ratingToRemove);
                 postsList.set(pos,post);
                 holder.ratingBar.setRating((float)0);
                 notifyDataSetChanged();
@@ -285,7 +389,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                         float width = holder.ratingBar.getWidth();
                         float starsf = (touchPositionX / width) * 5.0f;
                         int stars = (int)starsf + 1;
-                        if(holder.ratingBar.getRating() == 0.0){
+                        if(holder.ratingBar.getRating() == (float)0){
                             holder.ratingBar.setRating(stars);
                         }
 

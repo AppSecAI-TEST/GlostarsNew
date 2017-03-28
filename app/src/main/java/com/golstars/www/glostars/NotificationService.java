@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -47,6 +48,20 @@ public class NotificationService {
         client.addHeader("Content-Type", "application/json");
         client.addHeader("Authorization", "Bearer " + token);
         client.get(baseURL+"api/notifications/user/" + usrId ,  responseHandler);
+    }
+
+    public static void activityNotifSeen(Context context, String token, StringEntity jsonEntity,  AsyncHttpResponseHandler responseHandler){
+        client.addHeader("Content-Type", "application/json");
+        client.addHeader("Authorization", "Bearer " + token);
+        client.post(context, baseURL + "api/notifications/userActivitySeen" ,jsonEntity , "application/json" , responseHandler);
+
+    }
+
+    public static void userNotifsSeen(Context context, String token, StringEntity jsonEntity,  AsyncHttpResponseHandler responseHandler){
+        client.addHeader("Content-Type", "application/json");
+        client.addHeader("Authorization", "Bearer " + token);
+        client.post(context, baseURL + "api/notifications/userFollowSeen" ,jsonEntity , "application/json" , responseHandler);
+
     }
 
 

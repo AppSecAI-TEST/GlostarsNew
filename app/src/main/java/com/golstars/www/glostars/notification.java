@@ -32,10 +32,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class notification extends AppCompatActivity implements OnItemClickListener {
 
@@ -92,7 +94,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
     List<NotificationObj> follNotifs;
     NotificationAdapter mAdapter;
     NotificationAdapter follAdapter;
-    Integer unseenNotifs = 5;
+    Integer unseenNotifs = 0;
 
     MyUser mUser;
     Intent homeIntent;
@@ -309,13 +311,6 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             }
         });
 
-//        if(unseenNotifs > 0){
-//            mainbadge.setVisibility(View.VISIBLE);
-//            notificationbadge.setVisibility(View.VISIBLE);
-//            mainbadge.setText(unseenNotifs.toString());
-//            notificationbadge.setText(unseenNotifs.toString());
-//
-//        }
 
 
 
@@ -343,12 +338,16 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                 noti.setVisibility(View.GONE);
                 foll.setVisibility(View.VISIBLE);
 
+                setUserNotifSeen();
+
             }
         });
 
         //============================== NETWORK SERVICE HANDLING ========================================
         notifs = new ArrayList<>();
         follNotifs = new ArrayList<>();
+
+        mUser = MyUser.getmUser(this);
 
         mAdapter = new NotificationAdapter(notifs, this, this, new OnItemClickListener() {
             @Override
@@ -421,6 +420,40 @@ public class notification extends AppCompatActivity implements OnItemClickListen
         }
     }
 
+    private void setActivityNotifSeen(){
+
+        StringEntity entity = null;
+        try {
+            entity = new StringEntity("{}");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        NotificationService.activityNotifSeen(getApplicationContext(), mUser.getToken(),entity, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                System.out.println(response.toString());
+            }
+        } );
+    }
+
+    private void setUserNotifSeen(){
+        StringEntity entity = null;
+        try {
+            entity = new StringEntity("{}");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        NotificationService.userNotifsSeen(getApplicationContext(), mUser.getToken(), entity, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                System.out.println(response.toString());
+            }
+        });
+
+    }
+
 
     private void populateNotificationsList(String userId, String token) throws JSONException {
 
@@ -447,7 +480,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                             String pictureId = singleNotif.getString("pictureId");
                             Boolean seen = Boolean.valueOf(singleNotif.getString("seen"));
                             Boolean checked = Boolean.valueOf(singleNotif.getString("checked"));
-
+                            String Seen = singleNotif.getString("seen");
                             String picURL = singleNotif.getString("picUrl");
 
                             String date = singleNotif.getString("date");
@@ -455,8 +488,8 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                             LocalDateTime localDateTime = LocalDateTime.parse(date, DateTimeFormat.forPattern(pattern));
                             String interval = Timestamp.getInterval(localDateTime);
 
-                            if (seen.equals("false")){
-                               // unseenNotifs ++;
+                            if (Seen.equals("false")){
+                               unseenNotifs ++;
                             }
 
                             setActivityNotifsAdapter(description, profilePicURL, name, id, usrId, originatedById, pictureId, seen, interval, picURL, checked);
@@ -471,17 +504,27 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                             String originatedById = singleNotif.getString("originatedById");
                             Boolean seen = Boolean.valueOf(singleNotif.getString("seen"));
                             Boolean checked = Boolean.valueOf(singleNotif.getString("checked"));
+                            String Seen = singleNotif.getString("seen");
 
                             String date = singleNotif.getString("date");
                             String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                             LocalDateTime localDateTime = LocalDateTime.parse(date, DateTimeFormat.forPattern(pattern));
                             String interval = Timestamp.getInterval(localDateTime);
 
-                            if (seen.equals("false")){
-                               //    unseenNotifs ++;
+                            if (Seen.equals("false")){
+                                unseenNotifs ++;
                             }
 
+                            setActivityNotifSeen();
+
                             setFollowerNotifsAdapter(description, profilePicURL, name, "", usrId, originatedById, null, seen, interval, checked);
+
+                        }
+                        if(unseenNotifs > 0){
+                            mainbadge.setVisibility(View.VISIBLE);
+                            notificationbadge.setVisibility(View.VISIBLE);
+                            mainbadge.setText(unseenNotifs.toString());
+                            notificationbadge.setText(unseenNotifs.toString());
 
                         }
                     } catch (JSONException e){

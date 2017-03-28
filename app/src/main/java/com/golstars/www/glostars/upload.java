@@ -33,14 +33,18 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
@@ -92,7 +96,7 @@ public class upload extends AppCompatActivity {
     ImageView twshare;
     Button cancel;
     Button submit;
-
+    File file;
     private Bitmap bm;
     private MyUser mUser;
 
@@ -254,13 +258,20 @@ public class upload extends AppCompatActivity {
         //========================= HANDLING PICTURE ===============================================
 
 
+        file = null;
+
+        Bundle filePath = null;
         Bundle bundle = this.getIntent().getExtras();
         if(bundle != null){
             bm = bundle.getParcelable("PREVIEW_PICTURE");
             image.setImageBitmap(bm);
+            file = (File)getIntent().getExtras().get("FILEPATH");
+            System.out.println("file is:");
+            System.out.println(file);
+
         }
 
-        mUser = MyUser.getmUser();
+        mUser = MyUser.getmUser(getApplicationContext());
         mUser.setContext(this);
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -277,7 +288,7 @@ public class upload extends AppCompatActivity {
                 }
 
                 if((bm != null) && (privacy != "")){
-                    prepareUpload(description.getText().toString(), privacy, competition.isChecked(), mUser.getToken(), bm);
+                    uploadPhoto(description.getText().toString(), privacy, competition.isChecked(), file, bm);
                 }
 
             }
@@ -326,8 +337,6 @@ public class upload extends AppCompatActivity {
             base64 = "data:image/jpeg;base64," + Base64.encodeToString(bytes, Base64.DEFAULT);
 
 
-
-
             JSONObject msg = new JSONObject();
             msg.put("Description", descrip);
             msg.put("IsCompeting", isCompeting.toString());
@@ -336,7 +345,7 @@ public class upload extends AppCompatActivity {
 
             description.setText(msg.getString("ImageDataUri"));
 
-            System.out.println(msg.getString("ImageDataUri"));
+            //System.out.println(msg.getString("ImageDataUri"));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -345,18 +354,56 @@ public class upload extends AppCompatActivity {
 
     }
 
-    private class send2Server extends AsyncTask<JSONObject, Integer, JSONObject>{
+    public void uploadPhoto(String descrip, String privacy, Boolean isCompeting, File file, Bitmap bm){
 
-        @Override
-        protected JSONObject doInBackground(JSONObject... jsonObjects) {
+        String url = "http://www.glostars.com/api/images/upload";
+        AsyncHttpClient client = new AsyncHttpClient();
+        String base64 = null;
+        String imageData = null;
+        try{
+            //ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            //bm.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
 
-            return null;
+            //byte[] bytes = byteArrayOutputStream.toByteArray();
+            //imageData = Base64.encodeToString(bytes, Base64.DEFAULT);
+
+
+            //KeyStore trustore = KeyStore.getInstance(KeyStore.getDefaultType());
+            //trustore.load(null, null);
+            //MySSLSocketFactory sf = new MySSLSocketFactory(trustore);
+            //sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            //client.setSSLSocketFactory(sf);
+
+        } catch (Exception e) {}
+        client.addHeader("Authorization", "Bearer " + mUser.getToken());
+        Log.d("UPLOAD", "token: " + mUser.getToken());
+        RequestParams requestParams = new RequestParams();
+        requestParams.put("Description", descrip);
+        requestParams.put("IsCompeting", isCompeting);
+        requestParams.put("Privacy", privacy);
+        //requestParams.put("ImageDataUri", "data:image/jpeg;base64,"+imageData);
+        try {
+            requestParams.put("file", file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
+        client.post(getApplicationContext(), url, requestParams, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                System.out.println(response.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                System.out.println(responseString);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                System.out.println(errorResponse);
+            }
+        });
+
     }
-
-    public class UploadImages {
-
-          }
-
 
 }

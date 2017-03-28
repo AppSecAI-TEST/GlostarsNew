@@ -207,36 +207,6 @@ public class PictureService {
         AsyncClient.post(context ,"http://www.glostars.com/api/images/removerate/" + picId, jsonEntity , "application/json", responseHandler);
     }
 
-    /*
-    public void unratePicture(String picId, String token) throws Exception{
-        URL url = new URL(baseURL + "api/images/removerate/" + picId);
-
-        RequestBody body =  RequestBody.create(JSONType, "");
-
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .addHeader("Content-Type", "application/json")
-                .addHeader("Authorization", "Bearer " + token)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-                String data = response.body().string();
-                System.out.println(data);
-
-
-            }
-        });
-    }*/
 
     public void getPublicPictures(Integer count, String token) throws Exception{
         URL url = new URL(baseURL + "api/images/public/" + count);
