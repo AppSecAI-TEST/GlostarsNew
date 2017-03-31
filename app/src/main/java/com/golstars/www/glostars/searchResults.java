@@ -346,7 +346,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
 
         });
 
-      getUnseen();
+      //getUnseen();
 
     }
 

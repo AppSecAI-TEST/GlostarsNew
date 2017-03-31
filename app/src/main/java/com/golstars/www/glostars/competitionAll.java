@@ -506,7 +506,7 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
 
         });
 
-        getUnseen();
+        //getUnseen();
 
     }
 

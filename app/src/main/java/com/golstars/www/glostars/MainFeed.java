@@ -7,8 +7,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,6 +25,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.animation.Animation;
@@ -382,7 +386,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         cameraFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectImage();
+                startActivity(new Intent(MainFeed.this, upload.class));
             }
         });
 
@@ -444,7 +448,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
 
         //profileFAB
-        getUnseen();
+        //getUnseen();
 
 
 
@@ -770,8 +774,36 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
         Bitmap bm=null;
+        File imageFile = null;
         if (data != null) {
             try {
+                Uri selectedImageUri = data.getData();
+
+                //OI FILE Manager
+                String filemanagerstring = selectedImageUri.getPath();
+
+                //MEDIA GALLERY
+                String selectedImagePath = getPath(selectedImageUri);
+
+                //DEBUG PURPOSE - you can delete this if you want
+                if(selectedImagePath!=null){
+                    System.out.println(selectedImagePath);
+                    imageFile = new File(selectedImagePath);
+                }
+                else System.out.println("selectedImagePath is null");
+                if(filemanagerstring!=null){
+                    System.out.println(filemanagerstring);
+                    imageFile = new File(filemanagerstring);
+                    System.out.println(imageFile);
+                }
+
+                else System.out.println("filemanagerstring is null");
+
+
+
+
+
+                //imageFile = new File(imagePath);
                 bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -779,9 +811,12 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         }
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
+        Bundle filePath = new Bundle();
 
         bundle.putParcelable("PREVIEW_PICTURE", bm);
+        filePath.putSerializable("FILEPATH", imageFile);
         intent.putExtras(bundle);
+        intent.putExtras(filePath);
         intent.setClass(this, upload.class);
         startActivity(intent);
 
@@ -819,6 +854,22 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         //ivImage.setImageBitmap(thumbnail);
     }
 
+
+    //UPDATED!
+    public String getPath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        if(cursor!=null)
+        {
+            //HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
+            //THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        else return null;
+    }
 
 
 

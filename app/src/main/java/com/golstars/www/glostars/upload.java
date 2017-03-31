@@ -1,16 +1,25 @@
 package com.golstars.www.glostars;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -34,6 +43,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -103,6 +113,9 @@ public class upload extends AppCompatActivity {
     private static final MediaType JSONType = MediaType.parse("application/json; charset=utf-8");
     private final OkHttpClient client = new OkHttpClient();
     String baseURL = "http://www.glostars.com/";
+
+    private int REQUEST_CAMERA = 0, SELECT_FILE = 1, SELECT_FILE_KITKAT = 1;
+    private String userChoosenTask;
 
 
     @Override
@@ -258,18 +271,24 @@ public class upload extends AppCompatActivity {
         //========================= HANDLING PICTURE ===============================================
 
 
-        file = null;
 
+
+        //file = null;
+        image.setVisibility(View.INVISIBLE);
+        selectImage();
+
+        /*
         Bundle filePath = null;
         Bundle bundle = this.getIntent().getExtras();
-        if(bundle != null){
+        if(filePath != null){
             bm = bundle.getParcelable("PREVIEW_PICTURE");
-            image.setImageBitmap(bm);
             file = (File)getIntent().getExtras().get("FILEPATH");
+            //bm = BitmapFactory.decodeFile(file.getPath());
+            image.setImageBitmap(bm);
             System.out.println("file is:");
             System.out.println(file);
 
-        }
+        } */
 
         mUser = MyUser.getmUser(getApplicationContext());
         mUser.setContext(this);
@@ -384,7 +403,9 @@ public class upload extends AppCompatActivity {
         requestParams.put("Privacy", privacy);
         //requestParams.put("ImageDataUri", "data:image/jpeg;base64,"+imageData);
         try {
+            System.out.println("file to load is: " +  file);
             requestParams.put("file", file);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -406,5 +427,234 @@ public class upload extends AppCompatActivity {
         });
 
     }
+
+
+    //-------------CAMERA AND GALLERY CALLERS------------------------------------------
+    /**
+     *  In this method we'll create a dialog box with three options
+     *  for either camera, gallery or cancelling actions
+     */
+
+    private void selectImage(){
+        final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(upload.this);
+        builder.setTitle("Select Source");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int item) {
+                boolean result = Utility.checkPermission(upload.this);
+
+                if(items[item].equals("Take Photo")){
+                    userChoosenTask = "Take Photo";
+                    if(result)
+                        cameraIntent();
+                } else if(items[item].equals("Choose from Library")){
+                    userChoosenTask = "Choose from Library";
+                    if(result)
+                        galleryIntent();
+                } else if(items[item].equals("Cancel")){
+                    dialogInterface.dismiss();
+                    finish();
+                }
+            }
+        });
+        builder.show();
+    }
+
+
+    private void cameraIntent()
+    {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent,  REQUEST_CAMERA);
+    }
+
+    private void galleryIntent()
+    {
+        /*
+        if (Build.VERSION.SDK_INT <19){
+            Intent intent = new Intent();
+            intent.setType("image/jpeg");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("image/jpeg");
+            startActivityForResult(intent, SELECT_FILE_KITKAT);
+        }*/
+
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if(userChoosenTask.equals("Take Photo"))
+                        cameraIntent();
+                    else if(userChoosenTask.equals("Choose from Library"))
+                        galleryIntent();
+                } else {
+                    //code for deny
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_FILE)
+                onSelectFromGalleryResult(data);
+            else if (requestCode == REQUEST_CAMERA)
+                onCaptureImageResult(data);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    @SuppressLint("NewApi")
+    private void onSelectFromGalleryResult(Intent data) {
+        File imageFile = null;
+        if (data != null) {
+            try {
+
+
+
+
+                Uri selectedImageUri = data.getData();
+
+                //OI FILE Manager
+                String filemanagerstring = selectedImageUri.getPath();
+
+                //MEDIA GALLERY
+                String selectedImagePath = getPath(selectedImageUri);
+
+                //DEBUG PURPOSE - you can delete this if you want
+                if(selectedImagePath!=null){
+                    System.out.println(selectedImagePath);
+                    imageFile = new File(selectedImagePath);
+                    file = imageFile;
+                }
+                else System.out.println("selectedImagePath is null");
+                if(filemanagerstring!=null){
+                    System.out.println(filemanagerstring);
+                    imageFile = new File(filemanagerstring);
+                    file = imageFile;
+                    System.out.println(imageFile);
+                }
+
+                else System.out.println("filemanagerstring is null");
+
+                //imageFile = new File(imagePath);
+                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+                image.setImageBitmap(bm);
+                image.setVisibility(View.VISIBLE);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+        /*
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        Bundle filePath = new Bundle();
+
+        bundle.putParcelable("PREVIEW_PICTURE", bm);
+        filePath.putSerializable("FILEPATH", imageFile);
+        intent.putExtras(bundle);
+        intent.putExtras(filePath);
+        intent.setClass(this, upload.class);
+        startActivity(intent);
+        */
+        //ivImage.setImageBitmap(bm);
+    }
+
+    private void onCaptureImageResult(Intent data) {
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        bm = thumbnail;
+        image.setImageBitmap(bm);
+        image.setVisibility(View.VISIBLE);
+        file = destination;
+        /*
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        Bundle filePath = new Bundle();
+
+        bundle.putParcelable("PREVIEW_PICTURE", thumbnail);
+        filePath.putSerializable("FILEPATH", destination);
+        intent.putExtras(bundle);
+        intent.putExtras(filePath);
+        intent.setClass(this, upload.class);
+        startActivity(intent);
+        */
+        //ivImage.setImageBitmap(thumbnail);
+    }
+
+
+    //UPDATED!
+    public String getPath(Uri uri) {
+
+        /*
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        if(cursor!=null)
+        {
+            //HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
+            //THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        else return null;
+        */
+
+        Cursor cursor = getApplicationContext().getContentResolver().query(uri, null, null , null , null, null);
+
+        try{
+            if(cursor != null && cursor.moveToFirst()){
+
+                String displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                return displayName;
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return  null;
+
+    }
+
+
+
+    //-------------/CAMERA AND GALLERY CALLERS<end>------------------------------------------
+
 
 }

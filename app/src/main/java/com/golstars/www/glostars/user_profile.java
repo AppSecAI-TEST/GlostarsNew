@@ -622,7 +622,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
 
 
 
-    getUnseen();
+    //getUnseen();
 
 
 
