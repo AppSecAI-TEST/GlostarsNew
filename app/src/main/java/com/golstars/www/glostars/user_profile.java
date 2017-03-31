@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
@@ -798,9 +799,9 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
                 homeIntent.setClass(getApplicationContext(), user_profile.class);
 
 
-                Picasso.with(getApplicationContext()).load(jsonObject.getString("myUsrPic")).into(profileFAB);
+                Glide.with(getApplicationContext()).load(jsonObject.getString("myUsrPic")).into(profileFAB);
 
-                Picasso.with(getApplicationContext()).load(jsonObject.getString("guestPic")).into(userPicProfile);
+                Glide.with(getApplicationContext()).load(jsonObject.getString("guestPic")).into(userPicProfile);
 
                 //calling populateGallery() method using data from user
                 populateGallery(jsonObject.getString("guestUsrId"), 1, jsonObject.getString("token"));

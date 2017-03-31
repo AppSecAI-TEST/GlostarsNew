@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
@@ -331,6 +332,11 @@ public class followersPage extends AppCompatActivity {
         followingList.setAdapter(followingAdaper);
 
         LoadFollowers(guestUserID, token, mUserID);
+
+        MyUser mUser = MyUser.getmUser(getApplicationContext());
+        mUser.setContext(getApplicationContext());
+        System.out.println("user profile pic: "  + mUser.getProfilePicURL());
+        Glide.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
 
 
 
