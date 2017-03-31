@@ -249,7 +249,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                                         }
 
                                         holder.ratingBar.setRating((float)1);
-                                        Toast.makeText(context, "post " + pos + " 's rating changed to " + 1, Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(context, "post " + pos + " 's rating changed to " + 1, Toast.LENGTH_SHORT).show();
                                         postsList.set(pos,post);
                                         notifyDataSetChanged();
                                     }
@@ -370,7 +370,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                             e.printStackTrace();
                         }
 
-                        Toast.makeText(context, "post " + pos + " 's rating changed to " + (int)v, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "post " + pos + " 's rating changed to " + (int)v, Toast.LENGTH_SHORT).show();
                         postsList.set(pos,post);
                         notifyDataSetChanged();
                     }
