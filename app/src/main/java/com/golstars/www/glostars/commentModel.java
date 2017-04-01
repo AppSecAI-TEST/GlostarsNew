@@ -111,7 +111,15 @@ public class commentModel extends AppCompatActivity {
         //==========================================================================================
 
         commentsList = new ArrayList<>();
-        commentAdapter = new ListAdapter(this, R.layout.content_comment_model, commentsList);
+        commentAdapter = new ListAdapter(this, R.layout.content_comment_model, commentsList, new BtnClickListener(){
+            @Override
+            public void onItemClick(Comment com) {
+                Intent intent = new Intent();
+                intent.putExtra("USER_ID", com.getCommenterId());
+                intent.setClass(getApplicationContext(), user_profile.class);
+                startActivity(intent);
+            }
+        });
         commentlistView.setAdapter(commentAdapter);
 
         Intent intent = getIntent();
@@ -150,7 +158,7 @@ public class commentModel extends AppCompatActivity {
 
     void postComment(String picID,  String comment) throws Exception{
 
-        if(comment != ""){
+        if(!comment.isEmpty()){
             PictureService pictureService = new PictureService();
             pictureService.commentPicture(picID, comment, mUser.getToken());
             JSONObject res = null;
@@ -176,7 +184,10 @@ public class commentModel extends AppCompatActivity {
 
         } else Toast.makeText(this, "couldn't connect to the servers", Toast.LENGTH_LONG).show();
 
+        } else {
+            Toast.makeText(this, "write a message before sending", Toast.LENGTH_LONG).show();
         }
+
 
     }
 
@@ -215,13 +226,11 @@ public class commentModel extends AppCompatActivity {
         //private List<Comment>;
         //public Context context;
 
-        public ListAdapter(Context context, int textViewResourceId) {
-            super(context, textViewResourceId);
+        private BtnClickListener mClickListener = null;
 
-        }
-
-        public ListAdapter(Context context, int resource, List<Comment> items) {
+        public ListAdapter(Context context, int resource, List<Comment> items, BtnClickListener btnClickListener) {
             super(context, resource, items);
+            mClickListener = btnClickListener;
 
         }
 
@@ -236,7 +245,7 @@ public class commentModel extends AppCompatActivity {
                 v = vi.inflate(R.layout.comment_model, null);
             }
 
-            Comment comm = getItem(position);
+            final Comment comm = getItem(position);
 
             Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
 
@@ -256,12 +265,39 @@ public class commentModel extends AppCompatActivity {
                 //hours.setText("2");
                 namecomment.setText(comm.getFirstName() + " " + comm.getLastName());
 
+                commentPic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        System.out.println("pic clicked");
+                        if (mClickListener != null){
+                            mClickListener.onItemClick(comm);
+                        }
+
+                        //
+
+                    }
+                });
+
+                namecomment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        System.out.println("pic clicked");
+                        if (mClickListener != null){
+                            mClickListener.onItemClick(comm);
+                        }
+                    }
+                });
+
 
             }
 
             return v;
         }
 
+    }
+
+    public interface BtnClickListener{
+        void onItemClick(Comment com);
     }
 
 

@@ -465,6 +465,11 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                if(newText.isEmpty()){
+                    searchlist.setVisibility(View.GONE);
+                    searchgrid.setVisibility(View.VISIBLE);
+                    recentlyposted.setVisibility(View.VISIBLE);
+                }
                // usrsAdapter.getFilter().filter(newText);
 
 
