@@ -117,6 +117,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
     RecyclerView publicgrid;
     RecyclerView mutualgrid;
 
+
     private ArrayList<String> compImgsUrls;
     //private GridAdapter compAdapter;
     private RecyclerGridAdapter comAdapter;
@@ -171,6 +172,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
+
+//        competitiongrid.setNestedScrollingEnabled(false);
 
         settingsuser = (TextView)findViewById(R.id.settingsbutton);
         usernameProfile = (TextView)findViewById(R.id.profileuserNAME);
@@ -239,7 +242,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         compBanner.setTypeface(type);
         publicBanner.setTypeface(type);
         mutualBanner.setTypeface(type);
-      //  follow.setTypeface(type);
+        //follow.setTypeface(type);
 
 
 
@@ -465,6 +468,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
 
             }
         });
+
 
 
 

@@ -60,7 +60,7 @@
             android:label="@string/title_activity_edit_profile"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".competitionUser"
             android:label="@string/title_activity_competition_user"
@@ -128,7 +128,9 @@
 
         <receiver
             android:name=".MyAlarmReceiver"
-            android:process=":remote"></receiver>
+            android:process=":remote">
+
+        </receiver>
 
         <activity
             android:name=".fragmentImageSlider"
@@ -140,7 +142,9 @@
         <activity
             android:name=".newFeed"
             android:label="@string/title_activity_new_feed"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>

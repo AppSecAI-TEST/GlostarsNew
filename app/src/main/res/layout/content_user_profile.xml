@@ -98,6 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="About Me : "
+                    android:textSize="14sp"
                     android:textAllCaps="false"
                     android:textColor="@color/darkGrey"
                     />
@@ -117,6 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Interests : "
+                    android:textSize="14sp"
                     android:textAllCaps="false"
                     android:textColor="@color/darkGrey"
                     />
@@ -168,7 +170,8 @@
                     android:id="@+id/weeklyPrize"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:background="@android:drawable/btn_star"
+                    android:src="@drawable/weeklyb"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="30dp"/>
 
                 <TextView
@@ -182,7 +185,7 @@
                     android:id="@+id/monthlyPrize"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:background="@android:drawable/btn_star"
+                    android:src="@drawable/monthlyb"
                     android:layout_marginLeft="30dp"/>
 
                 <TextView
@@ -196,7 +199,7 @@
                     android:id="@+id/exhibitionPrize"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:background="@android:drawable/btn_star"
+                    android:src="@drawable/exhibitionb"
                     android:layout_marginLeft="30dp"/>
 
                 <TextView
@@ -207,10 +210,10 @@
                     android:layout_marginLeft="8dp"/>
 
                 <ImageView
-
+                    android:id="@+id/grandPrize"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:background="@android:drawable/btn_star"
+                    android:src="@drawable/grandb"
                     android:layout_marginLeft="30dp"/>
 
                 <TextView
@@ -314,10 +317,10 @@
                 android:id="@+id/competitionBanner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Competition Photos"
                 android:layout_marginTop="8dp"
-                android:textSize="20dp"
-                android:textColor="@color/darkGrey"/>
+                android:text="Competition Photos"
+                android:textColor="@color/darkGrey"
+                android:textSize="14sp" />
 
 
             <LinearLayout
@@ -330,13 +333,12 @@
                 >
 
                 <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="230dp"
-                    android:numColumns="3"
-                    android:stretchMode="columnWidth"
-                    android:layout_gravity="center"
                     android:id="@+id/competitionPosts"
-                    />
+                    android:layout_width="match_parent"
+                    android:layout_height="341dp"
+                    android:layout_gravity="center"
+                    android:numColumns="3"
+                    android:stretchMode="columnWidth" />
 
                 <TextView
                     android:id="@+id/seeAllCompetition"
@@ -345,7 +347,7 @@
                     android:paddingLeft="120dp"
                     android:layout_height="35dp"
                     android:text="See All"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:paddingTop="4dp"/>
 
             </LinearLayout>
@@ -358,7 +360,7 @@
                 android:layout_height="match_parent"
                 android:text="Public Photos"
                 android:layout_marginTop="8dp"
-                android:textSize="20dp"
+                android:textSize="14dp"
                 android:textColor="@color/darkGrey"/>
 
 
@@ -373,7 +375,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="230dp"
+                    android:layout_height="341dp"
                     android:id="@+id/publicPosts"
                     android:columnWidth="150dp"
                     android:numColumns="auto_fit"
@@ -389,7 +391,7 @@
                     android:paddingLeft="120dp"
                     android:layout_height="35dp"
                     android:text="See All"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:paddingTop="4dp"/>
 
             </LinearLayout>
@@ -401,7 +403,7 @@
                 android:layout_height="match_parent"
                 android:text="Mutual Follower Photos"
                 android:layout_marginTop="8dp"
-                android:textSize="20dp"
+                android:textSize="14dp"
                 android:textColor="@color/darkGrey"/>
 
 
@@ -416,7 +418,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="230dp"
+                    android:layout_height="341dp"
                     android:id="@+id/mutualPosts"
                     android:columnWidth="150dp"
                     android:numColumns="auto_fit"
@@ -432,7 +434,7 @@
                     android:paddingLeft="120dp"
                     android:layout_height="35dp"
                     android:text="See All"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:paddingTop="4dp"/>
 
             </LinearLayout>

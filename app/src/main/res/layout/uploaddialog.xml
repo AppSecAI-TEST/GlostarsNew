@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/uploadDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/colorPrimary"
+        android:layout_gravity="center_horizontal"
+        android:text="Upload  "/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="horizontal">
+
+
+        <ImageButton
+            android:id="@+id/cameraUploadDialog"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/cameraupload"
+            android:scaleType="center"
+            />
+
+        <ImageButton
+            android:id="@+id/galleryUploadDialog"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/galleryupload"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/cancelButtonDialog"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="Cancel"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/uploadbutton"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="8dp"/>
+
+</LinearLayout>

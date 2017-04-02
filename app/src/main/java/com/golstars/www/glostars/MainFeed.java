@@ -416,6 +416,8 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 competitionFAB.startAnimation(fab_hide);
                 profileFAB.startAnimation(fab_hide);
                 notificationFAB.startAnimation(fab_hide);
+                notificationbadge.setVisibility(View.GONE);
+                mainbadge.setVisibility(View.GONE);
                 mainFAB.startAnimation(rotate_anticlockwise);
                 notificationbadge.setVisibility(View.GONE);
                 mainbadge.setVisibility(View.GONE);

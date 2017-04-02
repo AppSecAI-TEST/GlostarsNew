@@ -35,6 +35,7 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 import static com.golstars.www.glostars.R.id.p;
+import static com.golstars.www.glostars.R.id.profileFAB;
 import static java.security.AccessController.getContext;
 
 public class followersPage extends AppCompatActivity {
@@ -93,7 +94,13 @@ public class followersPage extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+//        MyUser mUser = MyUser.getmUser(getApplicationContext());
+//
+//        Glide.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
+
+
 //        final String TAG = followersPage.class.getName();
+
 
         followersList = (ListView)findViewById(R.id.followerList);
         followingList = (ListView)findViewById(R.id.followingList);

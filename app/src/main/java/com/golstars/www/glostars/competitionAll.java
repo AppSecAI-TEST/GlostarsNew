@@ -1,7 +1,9 @@
 package com.golstars.www.glostars;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -9,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,10 +24,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
@@ -378,20 +383,68 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                homeFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
+//                cameraFAB.startAnimation(fab_hide);
+//                competitionFAB.startAnimation(fab_hide);
+//                profileFAB.startAnimation(fab_hide);
+//                notificationFAB.startAnimation(fab_hide);
+//                homeFAB.startAnimation(fab_hide);
+//                mainFAB.startAnimation(rotate_anticlockwise);
+//
+//                cameraFAB.setClickable(false);
+//                competitionFAB.setClickable(false);
+//                profileFAB.setClickable(false);
+//                notificationFAB.setClickable(false);
+//                homeFAB.setClickable(false);
+//                isOpen=false;
+//                startActivity(new Intent(competitionAll.this, MainFeed.class));
 
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                homeFAB.setClickable(false);
-                isOpen=false;
-                startActivity(new Intent(competitionAll.this, MainFeed.class));
+
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(competitionAll.this);
+                View mView  = getLayoutInflater().inflate(R.layout.uploaddialog,null);
+
+                ImageButton cameraUpload = (ImageButton) mView.findViewById(R.id.cameraUploadDialog);
+                ImageButton galleryUpload = (ImageButton) mView.findViewById(R.id.galleryUploadDialog);
+
+                Button cancelUpload = (Button) mView.findViewById(R.id.cancelButtonDialog);
+
+                TextView bannerDialog = (TextView) mView.findViewById(R.id.uploadDialog);
+
+                cameraUpload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(competitionAll.this ,
+                                "Clicked on Camera icon "
+                                ,Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
+                galleryUpload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(competitionAll.this ,
+                                "Clicked on Gallery icon",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
+                cancelUpload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(competitionAll.this ,
+                                "Clicked on Cancel button ",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            mBuilder.setView(mView);
+                AlertDialog dialog = mBuilder.create();
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+
+
+
             }
         });
 
