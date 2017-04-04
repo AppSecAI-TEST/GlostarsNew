@@ -31,7 +31,7 @@ public class SlideShowDialogFragment extends DialogFragment {
     private MyViewPagerAdapter myViewPagerAdapter;
     private TextView lblCount, lblTitle, lblDate,captionfullscreen,ratingcountfullscreen,sharefullscreen,commentcountfullscreen;
     private RatingBar ratingfullscreen;
-    private ImageView commentfullscreen,shareFBfullscreen,shareVKfullscreen,shareTWfullscreen;
+    private ImageView commentfullscreen,shareFBfullscreen,shareVKfullscreen,shareTWfullscreen,clearRating;
     private int selectedPosition = 0;
 
     static SlideShowDialogFragment newInstance(){
@@ -56,6 +56,7 @@ public class SlideShowDialogFragment extends DialogFragment {
         shareFBfullscreen = (ImageView) v.findViewById(R.id.shareFBfullscreen);
         shareTWfullscreen = (ImageView) v.findViewById(R.id.shareTWITTERfullscreen);
         shareVKfullscreen = (ImageView) v.findViewById(R.id.shareVKfullscreen);
+        clearRating = (ImageView)v.findViewById(R.id.clearRatingfullscreen);
 
 
 

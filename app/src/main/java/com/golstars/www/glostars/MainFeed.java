@@ -138,6 +138,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         setSupportActionBar(toolbar);
 
         menuDown = (FloatingActionButton)findViewById(R.id.menu_down);
+       // menuDown.setClosedOnTouchOutside(true);
 
         //---------------NETOWORK AND RECYCLER VIEW --------------------------------
         recyclerView = (RecyclerView) findViewById(R.id.mainfeedrecycler);
