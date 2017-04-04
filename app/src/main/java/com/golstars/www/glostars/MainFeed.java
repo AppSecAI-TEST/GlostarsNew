@@ -100,6 +100,8 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     ImageView profileFAB;
     FloatingActionButton notificationFAB;
 
+    FloatingActionButton menuDown;
+
     TextView homebadge;
     TextView notificationbadge;
     TextView profilebadge;
@@ -135,7 +137,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        menuDown = (FloatingActionButton)findViewById(R.id.menu_down);
 
         //---------------NETOWORK AND RECYCLER VIEW --------------------------------
         recyclerView = (RecyclerView) findViewById(R.id.mainfeedrecycler);

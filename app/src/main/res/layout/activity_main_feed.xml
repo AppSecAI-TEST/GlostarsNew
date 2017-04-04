@@ -93,6 +93,55 @@
         />
 
 
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/menu_down"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:layout_gravity="bottom|end"
+        android:elevation="0dp"
+        fab:menu_backgroundColor="#CCFFFFFF"
+        fab:menu_labels_ellipsize="end"
+        fab:menu_labels_singleLine="true"
+        fab:menu_fab_size="normal"
+        fab:menu_openDirection="up">
+
+
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_size="mini"
+            fab:fab_label="Profile"
+            android:src="@drawable/testpropic"
+            />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_size="mini"
+            fab:fab_label="Competition"
+            />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_size="mini"
+            fab:fab_label="Upload" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_size="mini"
+            fab:fab_label="Notification" />
+
+
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+
 
 
 
