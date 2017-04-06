@@ -22,10 +22,10 @@ import static com.golstars.www.glostars.R.id.view;
 public class RecyclerSwipeAdapter extends RecyclerView.Adapter<RecyclerSwipeAdapter.MyViewHolder> {
 
     private Context mContext;
-    private ArrayList<GridImages> gridImages;
+    private ArrayList<Post> gridImages;
     private LayoutInflater layoutInflater;
 
-    public RecyclerSwipeAdapter(Context mContext, ArrayList<GridImages> gridImages) {
+    public RecyclerSwipeAdapter(Context mContext, ArrayList<Post> gridImages) {
         this.mContext = mContext;
         this.gridImages = gridImages;
         this.layoutInflater = LayoutInflater.from(mContext);
@@ -43,7 +43,8 @@ public class RecyclerSwipeAdapter extends RecyclerView.Adapter<RecyclerSwipeAdap
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Picasso.with(mContext).load(gridImages.get(position).getPicUrl()).into(holder.img);
+        Picasso.with(mContext).load(gridImages.get(position).getPicURL()).into(holder.img);
+
 
     }
 
@@ -53,7 +54,7 @@ public class RecyclerSwipeAdapter extends RecyclerView.Adapter<RecyclerSwipeAdap
     }
 
     // convenience method for getting data at click position
-    public GridImages getItem(int id) {
+    public Post getItem(int id) {
         return gridImages.get(id);
     }
 

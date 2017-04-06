@@ -34,6 +34,8 @@ import android.widget.Toast;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -125,7 +127,7 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
     private Intent homeIntent;
 
 
-    private ArrayList<GridImages> gridImages;
+    private ArrayList<Post> gridImages;
 
     private RecyclerGridAdapter compAdapt;
     private ArrayList<String> compPicsUrls;
@@ -672,6 +674,38 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
 
             for(int i = 0; i < data.length(); i++){
 
+
+                try{
+
+                    JSONObject poster = data.getJSONObject(i).getJSONObject("poster");
+                    JSONObject pic = data.getJSONObject(i);
+                    String name = poster.getString("name");
+                    String usrId = poster.getString("userId");
+                    String profilePicUrl = poster.getString("profilePicURL");
+                    String id = pic.getString("id");
+                    String description = pic.getString("description");
+                    String picURL = pic.getString("picUrl");
+
+                    Boolean isFeatured = Boolean.valueOf(pic.getString("isfeatured"));
+                    Boolean isCompeting = Boolean.valueOf(pic.getString("isCompeting"));
+                    Integer starsCount = Integer.parseInt(pic.getString("starsCount"));
+                    System.out.println("POSTER: " + name + " " + usrId + " " + id + " " + description + " " + picURL + " " + isFeatured + " " + isCompeting + " " + starsCount);
+
+                    JSONArray ratings = pic.getJSONArray("ratings");
+                    JSONArray comments = pic.getJSONArray("comments");
+
+                    String uploaded = pic.getString("uploaded");
+                    String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                    LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
+                    String interval = Timestamp.getInterval(localDateTime);
+
+                    setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, ratings.length(), comments.length(), ratings, comments, interval);
+
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                /*
                 GridImages gridImage = new GridImages();
 
                 try {
@@ -712,6 +746,8 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
                     e1.printStackTrace();
                 }
 
+                */
+
             }
 
             if(!loading){
@@ -729,6 +765,21 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
 
 
         }
+    }
+
+
+    private void setmAdapter(String author, String usr, String photoID, String description, String picURL, String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount,
+                             Integer commentCount, JSONArray ratings, JSONArray comments, String uploaded){
+        if(description == "null"){
+            description = "";
+        }
+        Post post = new Post(author, usr, photoID, description, picURL, profilePicURL, isFeatured, isCompeting, starsCount, commentCount);
+        post.setComments(comments);
+        post.setRatings(ratings);
+        post.setUploaded(uploaded);
+        gridImages.add(post);
+        compPicsUrls.add(post.getPicURL());
+        compAdapt.notifyDataSetChanged();
     }
 
 

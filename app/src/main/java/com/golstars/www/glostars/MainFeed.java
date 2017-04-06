@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -137,7 +138,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        menuDown = (FloatingActionButton)findViewById(R.id.menu_down);
+        //menuDown = (FloatingActionButton)findViewById(R.id.menu_down);
        // menuDown.setClosedOnTouchOutside(true);
 
         //---------------NETOWORK AND RECYCLER VIEW --------------------------------
@@ -155,18 +156,34 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
         layoutManager = new LinearLayoutManager(this);
 
-        mAdapter = new PostAdapter(postList, Width, mUser.getUserId(), this, this, this, new OnItemClickListener() {
+        mAdapter = new PostAdapter(postList, Width, mUser.getUserId(), getApplicationContext(), this, this, new OnItemClickListener() {
             @Override
             public void onItemClickPost(Post item) {
-                //Intent intent = new Intent();
-                //intent.putExtra("IMAGE_SAUCE", item.getPicURL());
-                //intent.putExtra("IMAGE_AUTHOR", item.getAuthor());
-                //intent.putExtra("IMAGE_CAPTION", item.getDescription());
-                //intent.setClass(getApplicationContext(), imagefullscreen.class);
-                //startActivity(intent);
+                /*
+                Intent intent = new Intent();
+                intent.putExtra("IMAGE_SAUCE", item.getPicURL());
+                intent.putExtra("IMAGE_AUTHOR", item.getAuthor());
+                intent.putExtra("IMAGE_CAPTION", item.getDescription());
+                intent.setClass(getApplicationContext(), imagefullscreen.class);
+                startActivity(intent);
+                */
+
+                ArrayList<Post> gridImages = new ArrayList<>();
+                gridImages.add(0, item);
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("images", gridImages);
+                bundle.putInt("position", 0);
+                bundle.putString("token", mUser.getToken());
+                bundle.putString("usrID", mUser.getUserId());
+
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                SlideShowDialogFragment newFragment = SlideShowDialogFragment.newInstance();
+                newFragment.setArguments(bundle);
+                newFragment.show(ft, "slideshow");
 
                 // double click rates only one star to photo
-                if(item != null){
+                /*if(item != null){
                     JSONObject msg = new JSONObject();
                     try {
                         msg.put("NumOfStars", 1);
@@ -189,7 +206,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                         }
                     });
 
-                }
+                } */
 
 
             }
@@ -201,7 +218,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         }, new OnItemClickListener() {
             @Override
             public void onItemClickPost(Post item) {
-
+                //commentsListener handler
                 Intent intent = new Intent();
 
                 intent.putExtra("COMMENTS", item.getComments().toString());
@@ -216,7 +233,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         }, new OnItemClickListener() {
             @Override
             public void onItemClickPost(Post item) {
-
+                //deleteListener handler
                 JSONObject msg = new JSONObject();
                 try {
                     msg.put("", "");
@@ -246,7 +263,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
             public void onItemClickNotif(NotificationObj notif) {
 
             }
-        });
+        }, R.layout.content_main_feed);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);

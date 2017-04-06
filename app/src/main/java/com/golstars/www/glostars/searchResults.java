@@ -27,6 +27,8 @@ import android.widget.TextView;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,8 +76,9 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
     ArrayList<String> usrsNames;
 
     RecyclerGridAdapter recentsAdapter;
+    //recents is a string array that'll receive the pic urls from the recents
     ArrayList<String> recentsPics;
-    ArrayList<JSONObject> recentPostObjs;
+    //ArrayList<JSONObject> recentPostObjs;
 
 
     private boolean loading = true;
@@ -84,7 +87,8 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
     MyUser mUser;
     int pg = 1;
     private Intent homeIntent;
-    private ArrayList<GridImages> gridImages;
+    //gridImages is a Post array provides pic urls for recentsPics
+    private ArrayList<Post> gridImages;
     Integer unseenNotifs = 0;
 
     @Override
@@ -300,7 +304,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
         gridImages = new ArrayList<>();
 
 
-        recentPostObjs = new ArrayList<>();
+        //recentPostObjs = new ArrayList<>();
         recentsPics = new ArrayList<>();
         recentsAdapter = new RecyclerGridAdapter(this, recentsPics, this);
 
@@ -496,6 +500,8 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
         Bundle bundle = new Bundle();
         bundle.putSerializable("images", gridImages);
         bundle.putInt("position", pos);
+        bundle.putString("token", mUser.getToken());
+        bundle.putString("usrID", mUser.getUserId());
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         SlideShowDialogFragment newFragment = SlideShowDialogFragment.newInstance();
@@ -560,7 +566,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
         JSONArray data = object.getJSONArray("picsToReturn");
         for(int i = 0; i < data.length(); i++){
 
-
+            /*
             JSONObject poster = data.getJSONObject(i).getJSONObject("poster");
 
             GridImages gridImage = new GridImages();
@@ -575,24 +581,58 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
 
             Date date = null;
             String str = null;
+            */
 
-            try{
+            /*
+            * here we fetch the data and store in post object from gridImages array
+            * therefore we add the picUrls into recentsPics string array to be viewed
+            * as grid images in setAdapter method
+            *
+            * PS: this is a hack due to changes in structure
+            *
+            * */
 
-                date = inputFormat.parse(data.getJSONObject(i).getString("uploaded"));
-                str = outputFormat.format(date);
 
-            } catch (ParseException e){
-                e.printStackTrace();
-            }
-            gridImage.setTimesTamp(str);
-            gridImages.add(gridImage);
+            JSONObject poster = data.getJSONObject(i).getJSONObject("poster");
+            JSONObject pic = data.getJSONObject(i);
+            String name = poster.getString("name");
+            String usrId = poster.getString("userId");
+            String profilePicUrl = poster.getString("profilePicURL");
+            String id = pic.getString("id");
+            String description = pic.getString("description");
+            String picURL = pic.getString("picUrl");
 
-            recentPostObjs.add(data.getJSONObject(i));
-            System.out.println(data.getJSONObject(i).getString("picUrl"));
-            recentsPics.add(data.getJSONObject(i).getString("picUrl"));
-            recentsAdapter.notifyDataSetChanged();
+            Boolean isFeatured = Boolean.valueOf(pic.getString("isfeatured"));
+            Boolean isCompeting = Boolean.valueOf(pic.getString("isCompeting"));
+            Integer starsCount = Integer.parseInt(pic.getString("starsCount"));
+            System.out.println("POSTER: " + name + " " + usrId + " " + id + " " + description + " " + picURL + " " + isFeatured + " " + isCompeting + " " + starsCount);
+
+            JSONArray ratings = pic.getJSONArray("ratings");
+            JSONArray comments = pic.getJSONArray("comments");
+
+            String uploaded = pic.getString("uploaded");
+            String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
+            String interval = Timestamp.getInterval(localDateTime);
+
+            setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, ratings.length(), comments.length(), ratings, comments, interval);
+
         }
 
+    }
+
+    private void setmAdapter(String author, String usr, String photoID, String description, String picURL, String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount,
+                             Integer commentCount, JSONArray ratings, JSONArray comments, String uploaded){
+        if(description == "null"){
+            description = "";
+        }
+        Post post = new Post(author, usr, photoID, description, picURL, profilePicURL, isFeatured, isCompeting, starsCount, commentCount);
+        post.setComments(comments);
+        post.setRatings(ratings);
+        post.setUploaded(uploaded);
+        gridImages.add(post);
+        recentsPics.add(post.getPicURL());
+        recentsAdapter.notifyDataSetChanged();
     }
 
 

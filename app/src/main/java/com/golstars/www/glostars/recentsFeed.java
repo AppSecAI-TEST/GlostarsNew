@@ -368,7 +368,7 @@ public class recentsFeed extends AppCompatActivity implements OnRatingEventListe
             public void onItemClickNotif(NotificationObj notif) {
 
             }
-        });
+        }, R.layout.content_main_feed);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);

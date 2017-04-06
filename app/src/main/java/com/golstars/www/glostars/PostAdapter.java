@@ -56,6 +56,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     public Integer screenWidth = 0;
     public String usrId = "";
     private boolean onBind;
+    private int resource;
     MyUser mUser = MyUser.getmUser();
 
 
@@ -112,7 +113,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                 }
             });
 
-            /*postImg.setOnClickListener(new View.OnClickListener() {
+            /*
+            postImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     postImgListener.onItemClickPost(postsList.get(getLayoutPosition()));
@@ -126,12 +128,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                     commentsListener.onItemClickPost(postsList.get(getLayoutPosition()));
                 }
             });
+
+
         }
 
     }
 
     public PostAdapter(List<Post> postsList, Integer width, String usrId, Context context, OnRatingEventListener ratingListener, OnItemClickListener listener,
-                       OnItemClickListener postImgListener, OnItemClickListener commentsListener, OnItemClickListener deleteListener){
+                       OnItemClickListener postImgListener, OnItemClickListener commentsListener, OnItemClickListener deleteListener, int resource){
         this.postsList = postsList;
         this.context = context;
         this.ratingListener = ratingListener;
@@ -141,6 +145,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         this.usrId = usrId;
         this.commentsListener = commentsListener;
         this.deleteListener = deleteListener;
+        this.resource = resource;
 
     }
 
@@ -149,7 +154,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.content_main_feed, parent, false);
+                .inflate(resource, parent, false);
+                //.inflate(R.layout.content_main_feed, parent, false);
 
 
         return new MyViewHolder(itemView, ratingListener, listener, postImgListener, commentsListener);
@@ -187,7 +193,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
         onBind = false;
 
+        holder.postImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                postImgListener.onItemClickPost(post);
+            }
+        });
 
+
+        /*
         holder.postImg.setOnTouchListener(new View.OnTouchListener() {
             android.os.Handler handler = new android.os.Handler();
 
@@ -227,6 +241,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                                     //handle double tap
 
                                     if(getUserRating(post) == 0){ //only make any change if the user has never rated this pic
+                                        //METHOD BELOW RATES PIC ON SINGLE STAR
                                         postImgListener.onItemClickPost(post);
 
 
@@ -264,7 +279,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                 return true;
             }
         });
-
+        */
 
 
 
@@ -433,7 +448,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         return -1;
     }
 
-    public int getUserRating(Post post){
+    private int getUserRating(Post post){
         /*this method searches the list of ratings in this post to find whether
           our current user has rated this or not. If so, return the rating number,
           if not, return 0
@@ -443,7 +458,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             try {
                 String raterId = data.getJSONObject(i).getString("raterId");
                 if(raterId.equals(usrId)){
-                    System.out.println("i liked this pic: ");
                     return data.getJSONObject(i).getInt("starsCount");
                 } else{
                     /*System.out.println("poster id is " + data.getJSONObject(i).getString("raterId"));

@@ -1,5 +1,8 @@
 package com.golstars.www.glostars;
+import android.content.Intent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.content.Context;
 import android.os.Bundle;
@@ -12,11 +15,21 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 
 /**
@@ -26,13 +39,17 @@ import java.util.ArrayList;
 public class SlideShowDialogFragment extends DialogFragment {
 
     //private String TAG = SlideshowDialogFragment.class.getSimpleName();
-    private ArrayList<GridImages> images;
+    private ArrayList<Post> images;
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
     private TextView lblCount, lblTitle, lblDate,captionfullscreen,ratingcountfullscreen,sharefullscreen,commentcountfullscreen;
     private RatingBar ratingfullscreen;
     private ImageView commentfullscreen,shareFBfullscreen,shareVKfullscreen,shareTWfullscreen,clearRating;
     private int selectedPosition = 0;
+    private boolean onBind = false;
+    private String token;
+    private String usrID;
+    MyUser mUser;
 
     static SlideShowDialogFragment newInstance(){
         SlideShowDialogFragment f = new SlideShowDialogFragment();
@@ -49,7 +66,7 @@ public class SlideShowDialogFragment extends DialogFragment {
         lblTitle = (TextView) v.findViewById(R.id.title);
         lblDate = (TextView) v.findViewById(R.id.date);
         captionfullscreen = (TextView)v.findViewById(R.id.captionFullscreen);
-        ratingcountfullscreen = (TextView)v.findViewById(R.id.ratingstarcountfullscreen);
+
         commentcountfullscreen = (TextView)v.findViewById(R.id.commentcountfullscreen);
         sharefullscreen = (TextView)v.findViewById(R.id.sharefullscreen);
 
@@ -57,15 +74,18 @@ public class SlideShowDialogFragment extends DialogFragment {
         shareTWfullscreen = (ImageView) v.findViewById(R.id.shareTWITTERfullscreen);
         shareVKfullscreen = (ImageView) v.findViewById(R.id.shareVKfullscreen);
         clearRating = (ImageView)v.findViewById(R.id.clearRatingfullscreen);
+        ratingcountfullscreen = (TextView)v.findViewById(R.id.ratingstarcountfullscreen);
+        captionfullscreen = (TextView)v.findViewById(R.id.captionFullscreen);
+        ratingfullscreen = (RatingBar)v.findViewById(R.id.ratingBarfullscreen);
+        commentfullscreen = (ImageView)v.findViewById(R.id.commenticonfullscreen);
 
 
 
-
-        // images = (ArrayList<Image>) getArguments().getSerializable("images");
-
-
-        images = (ArrayList<GridImages>) getArguments().getSerializable("images");
+        images = (ArrayList<Post>) getArguments().getSerializable("images");
         selectedPosition = getArguments().getInt("position");
+        token = getArguments().getString("token");
+        usrID = getArguments().getString("usrID");
+
 
         //Log.e(TAG, "position: " + selectedPosition);
         //Log.e(TAG, "images size: " + images.size());
@@ -75,6 +95,8 @@ public class SlideShowDialogFragment extends DialogFragment {
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
         setCurrentItem(selectedPosition);
+
+        mUser = MyUser.getmUser(getContext());
 
         return v;
     }
@@ -107,9 +129,33 @@ public class SlideShowDialogFragment extends DialogFragment {
     private void displayMetaInfo(int position) {
         //lblCount.setText((position + 1) + " of " + images.size());
 
-        GridImages gridImage = images.get(position);
+        String description = "";
+
+
+        final Post gridImage = images.get(position);
+
+        if(!gridImage.getDescription().isEmpty()){
+            description = gridImage.getDescription();
+        }
+
+        final Integer sCount = gridImage.getStarsCount();
+        final Integer cCount = gridImage.getCommentCount();
+        String starsCount = sCount.toString();
+        String commentsCount = cCount.toString();
+
+        captionfullscreen.setText(description);
         lblTitle.setText(gridImage.getAuthor());
-        lblDate.setText(gridImage.getTimesTamp());
+        lblDate.setText(gridImage.getUploaded());
+        ratingcountfullscreen.setText(starsCount);
+        commentcountfullscreen.setText(commentsCount);
+        ratingfullscreen.setRating((float)getUserRating(gridImage));
+
+        if(!gridImage.isCompeting()){
+            ratingfullscreen.setNumStars(1);
+        } else {
+            ratingfullscreen.setNumStars(5);
+        }
+
     }
 
     @Override
@@ -131,21 +177,202 @@ public class SlideShowDialogFragment extends DialogFragment {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
+            onBind = true; // this flag warns as to if the viewHolder is still binding data
 
             layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = layoutInflater.inflate(R.layout.image_fullscreen_preview, container, false);
 
+            //instantiating view items
             ImageView imageViewPreview = (ImageView) view.findViewById(R.id.image_preview);
 
-            GridImages image = images.get(position);
+            //biding post elements to those items
+            final Post image = images.get(position);
+            final Integer pos = position;
 
-            Glide.with(getActivity()).load(image.getPicUrl())
+
+            //String starsCount = "";
+            //String commentsCount = "";
+
+
+
+            final Integer sCount = image.getStarsCount();
+            final Integer cCount = image.getCommentCount();
+            //starsCount = sCount.toString();
+            //commentsCount = cCount.toString();
+
+            //System.out.println(image.getDescription());
+            //System.out.println(image.getStarsCount());
+
+
+
+
+
+
+
+
+
+            Glide.with(getActivity()).load(image.getPicURL())
                     .thumbnail(0.5f)
                     .crossFade()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imageViewPreview);
 
             container.addView(view);
+
+
+            onBind = false;
+
+
+
+
+
+            imageViewPreview.setOnTouchListener(new View.OnTouchListener() {
+                android.os.Handler handler = new android.os.Handler();
+
+                int numberOfTaps = 0;
+                long lastTapTimeMs = 0;
+                long touchDownMs = 0;
+
+
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            touchDownMs = System.currentTimeMillis();
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            handler.removeCallbacksAndMessages(null);
+
+                            if((System.currentTimeMillis() - touchDownMs) > ViewConfiguration.getTapTimeout()){
+                                //it was not a tap
+                                numberOfTaps = 0;
+                                lastTapTimeMs = 0;
+                            }
+
+                            if(numberOfTaps > 0
+                                    && (System.currentTimeMillis() - lastTapTimeMs) < ViewConfiguration.getDoubleTapTimeout()){
+                                numberOfTaps += 1;
+                            } else {
+                                numberOfTaps = 1;
+                            }
+
+                            lastTapTimeMs = System.currentTimeMillis();
+
+                            if(numberOfTaps == 2){
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        //handle double tap
+
+                                        if(getUserRating(image) == 0){ //only make any change if the user has never rated this pic
+                                            singleRate(image);
+
+
+                                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                                            JSONArray ratings = image.getRatings();
+                                            JSONObject rating = new JSONObject();
+                                            try {
+                                                rating.put("starsCount", 1); /// on double tap, only one star is added
+                                                rating.put("raterId", usrID);
+                                                rating.put("ratingTime", ((sdf.format(new Date())).toString()));
+                                                ratings.put(rating);
+                                                System.out.println(ratings);
+                                                image.setRatings(ratings);
+                                                image.setStarsCount(image.getStarsCount() + 1);
+                                                Integer newCount = sCount + 1;
+                                                ratingcountfullscreen.setText(newCount.toString());
+                                                System.out.println("my id is " + mUser.getUserId());
+                                                System.out.println(image.getRatings());
+
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                            ratingfullscreen.setRating((float)1);
+                                            //Toast.makeText(context, "post " + pos + " 's rating changed to " + 1, Toast.LENGTH_SHORT).show();
+                                            images.set(pos,image);
+                                            notifyDataSetChanged();
+                                        }
+
+
+
+                                    }
+                                }, ViewConfiguration.getDoubleTapTimeout());
+                            }
+                    }
+
+                    return true;
+                }
+            });
+
+
+            ratingfullscreen.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                    //if(!onBind){
+                        if(getUserRating(image) == 0){ //only make any change if the user has never rated this pic
+                            onRatingBarChange(image, v, pos);
+
+
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                            JSONArray ratings = image.getRatings();
+                            JSONObject rating = new JSONObject();
+                            try {
+                                rating.put("starsCount", (int)v);
+                                rating.put("raterId", usrID);
+                                rating.put("ratingTime", ((sdf.format(new Date())).toString()));
+                                ratings.put(rating);
+                                System.out.println("RATINGS ARE " + ratings);
+                                image.setRatings(ratings);
+                                image.setStarsCount(image.getStarsCount() + (int)v);
+                                System.out.println("my id is " + usrID);
+                                System.out.println(image.getRatings());
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            //Toast.makeText(context, "post " + pos + " 's rating changed to " + (int)v, Toast.LENGTH_SHORT).show();
+                            images.set(pos,image);
+                            notifyDataSetChanged();
+                        }
+                    //} else onRatingBarChange(null, v, pos);
+
+
+
+                }
+            });
+
+
+            //method that handles touch on rating bar
+            ratingfullscreen.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        float touchPositionX = event.getX();
+                        float width = ratingfullscreen.getWidth();
+                        float starsf = (touchPositionX / width) * 5.0f;
+                        int stars = (int)starsf + 1;
+                        if(ratingfullscreen.getRating() == (float)0){
+                            ratingfullscreen.setRating(stars);
+                        }
+
+
+
+                        v.setPressed(false);
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        v.setPressed(true);
+                    }
+
+                    if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                        v.setPressed(false);
+                    }
+
+
+                    return true;
+                }});
+
 
             return view;
         }
@@ -165,6 +392,102 @@ public class SlideShowDialogFragment extends DialogFragment {
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View) object);
         }
+    }
+
+
+
+    private int getUserRating(Post post){
+        /*this method searches the list of ratings in this post to find whether
+          our current user has rated this or not. If so, return the rating number,
+          if not, return 0
+        */
+        JSONArray data = post.getRatings();
+        for(int i = 0; i < data.length(); i++){
+            try {
+                String raterId = data.getJSONObject(i).getString("raterId");
+                if(raterId.equals(usrID)){
+                    return data.getJSONObject(i).getInt("starsCount");
+                } else{
+                    System.out.println("poster id is " + data.getJSONObject(i).getString("raterId"));
+                    System.out.println("my id is " + usrID);
+                    System.out.println("i didnt rate this pic: ");
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return 0;
+    }
+
+    private void singleRate(Post item) {
+        // double click method that rates only one star to photo
+        if(item != null){
+            JSONObject msg = new JSONObject();
+            try {
+                msg.put("NumOfStars", 1);
+                msg.put("PhotoId", item.getPhotoId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            StringEntity entity = null;
+            try {
+                entity = new StringEntity(msg.toString());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            PictureService.ratePicture(getContext(), token, entity, new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    System.out.println(response);
+                }
+
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    System.out.println(errorResponse);
+                }
+            });
+
+        }
+
+
+    }
+
+
+    public void onRatingBarChange(Post item, float value, int postPosition){
+        //method that posts new ratings into server
+        if(item != null){
+            JSONObject msg = new JSONObject();
+            try {
+                msg.put("NumOfStars", (int)value);
+                msg.put("PhotoId", item.getPhotoId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            StringEntity entity = null;
+            try {
+                entity = new StringEntity(msg.toString());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            PictureService.ratePicture(getContext(), token, entity, new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    System.out.println(response);
+                }
+            });
+
+        }
+
+
+
+
     }
 
 
