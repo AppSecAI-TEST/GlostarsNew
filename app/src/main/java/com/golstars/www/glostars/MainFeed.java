@@ -40,6 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.github.clans.fab.FloatingActionMenu;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
@@ -81,7 +82,6 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     TextView postTime;
     TextView totalStars;
     TextView totalComments;
-    TextView shareText;
 
     ImageView slogo;
     EditText search;
@@ -90,26 +90,16 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
     ImageView propic;
     ImageView post;
-    ImageView shareFB;
-    ImageView shareTWITTER;
-    ImageView shareVK;
+    ImageView share_icon;
     ImageView privacyIcon;
 
-    FloatingActionButton mainFAB ;
-    FloatingActionButton cameraFAB;
-    FloatingActionButton competitionFAB;
-    ImageView profileFAB;
-    FloatingActionButton notificationFAB;
+    com.github.clans.fab.FloatingActionButton cameraFAB;
+    com.github.clans.fab.FloatingActionButton competitionFAB;
+    com.github.clans.fab.FloatingActionButton profileFAB;
+    com.github.clans.fab.FloatingActionButton notificationFAB;
 
-    FloatingActionButton menuDown;
+    FloatingActionMenu menuDown;
 
-    TextView homebadge;
-    TextView notificationbadge;
-    TextView profilebadge;
-    TextView camerabadge;
-    TextView mainbadge;
-    TextView competitionbadge;
-    TextView comptext;
 
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private String userChoosenTask;
@@ -138,8 +128,9 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //menuDown = (FloatingActionButton)findViewById(R.id.menu_down);
-       // menuDown.setClosedOnTouchOutside(true);
+
+        menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
+        menuDown.setClosedOnTouchOutside(true);
 
         //---------------NETOWORK AND RECYCLER VIEW --------------------------------
         recyclerView = (RecyclerView) findViewById(R.id.mainfeedrecycler);
@@ -270,7 +261,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         new getUserData().execute("");
         //populateFeed(mUser.getUserId(), pg, mUser.getToken());
 
-        /* checks wether the user has reached the end of the view
+        /* checks whether the user has reached the end of the view
            and calls another page
         * */
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -306,32 +297,22 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         //--------------------------------------------------------------------------
 
 
-        mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
-        cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
-        competitionFAB = (FloatingActionButton)findViewById(R.id.competitionFAB);
-        profileFAB = (ImageView) findViewById(R.id.profileFAB);
-        notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
+        cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
+        competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
+        profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
+        notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
 
-        homebadge = (TextView)findViewById(R.id.homebadge);
-        notificationbadge = (TextView)findViewById(R.id.notificationbadge);
-        profilebadge = (TextView)findViewById(R.id.profilebadge);
-        camerabadge = (TextView)findViewById(R.id.uploadbadge);
-        mainbadge = (TextView)findViewById(R.id.mainbadge);
-        competitionbadge = (TextView)findViewById(R.id.competitionbadge);
 
         username=(TextView)findViewById(R.id.userNAME);
         caption=(TextView)findViewById(R.id.userCAPTION);
         postTime=(TextView)findViewById(R.id.uploadTIME);
         //totalStars=(TextView)findViewById(R.id.numStars);
         //totalComments=(TextView)findViewById(R.id.numComments);
-        shareText=(TextView)findViewById(R.id.share);
-        comptext = (TextView)findViewById(R.id.comptext);
+        //comptext = (TextView)findViewById(R.id.comptext);
 
         post = (ImageView)findViewById(R.id.userPOST);
         propic = (ImageView)findViewById(R.id.userPIC);
-        shareFB = (ImageView)findViewById(R.id.shareFB);
-        shareTWITTER = (ImageView)findViewById(R.id.shareTWITTER);
-        shareVK = (ImageView)findViewById(R.id.shareVK);
+        share_icon = (ImageView)findViewById(R.id.share);
         privacyIcon = (ImageView)findViewById(R.id.privacy);
 
         gl = (ImageView)findViewById(R.id.glostarslogo);
@@ -349,64 +330,18 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         slogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startActivity(new Intent(MainFeed.this,searchResults.class));
 
             }
         });
 
-        mainFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(isOpen) {
-                    cameraFAB.startAnimation(fab_hide);
-                    competitionFAB.startAnimation(fab_hide);
-                    profileFAB.startAnimation(fab_hide);
-                    notificationFAB.startAnimation(fab_hide);
-                    mainFAB.startAnimation(rotate_anticlockwise);
 
-                    homebadge.setVisibility(View.GONE);
-                    notificationbadge.setVisibility(View.GONE);
-                    mainbadge.setVisibility(View.GONE);
-
-                    cameraFAB.setClickable(false);
-                    competitionFAB.setClickable(false);
-                    profileFAB.setClickable(false);
-                    notificationFAB.setClickable(false);
-                    isOpen=false;
-
-                }
-
-                else{
-                    cameraFAB.startAnimation(fab_show);
-                    competitionFAB.startAnimation(fab_show);
-                    profileFAB.startAnimation(fab_show);
-                    notificationFAB.startAnimation(fab_show);
-                    mainFAB.startAnimation(rotate_clockwise);
-
-
-                    cameraFAB.setVisibility(View.VISIBLE);
-                    competitionFAB.setVisibility(View.VISIBLE);
-                    profileFAB.setVisibility(View.VISIBLE);
-                    notificationFAB.setVisibility(View.VISIBLE);
-
-                    cameraFAB.setClickable(true);
-                    competitionFAB.setClickable(true);
-                    profileFAB.setClickable(true);
-                    notificationFAB.setClickable(true);
-                    isOpen=true;
-
-
-
-
-                }
-            }
-        });
 
         cameraFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainFeed.this, upload.class));
+                menuDown.close(true);
             }
         });
 
@@ -414,58 +349,24 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
-
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                isOpen=false;
                 startActivity(userProfileIntent);
+                menuDown.close(true);
             }
         });
 
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                notificationbadge.setVisibility(View.GONE);
-                mainbadge.setVisibility(View.GONE);
-                mainFAB.startAnimation(rotate_anticlockwise);
-                notificationbadge.setVisibility(View.GONE);
-                mainbadge.setVisibility(View.GONE);
-
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                isOpen=false;
                 startActivity(new Intent(MainFeed.this, notification.class));
+                menuDown.close(true);
             }
         });
 
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
-
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                isOpen=false;
                 startActivity(new Intent(MainFeed.this, competitionAll.class));
+                menuDown.close(true);
 
             }
         });
@@ -511,10 +412,10 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                     }
 
                     if(unseenNotifs > 0){
-                        mainbadge.setVisibility(View.VISIBLE);
-                        notificationbadge.setVisibility(View.VISIBLE);
-                        mainbadge.setText(unseenNotifs.toString());
-                        notificationbadge.setText(unseenNotifs.toString());
+//                        mainbadge.setVisibility(View.VISIBLE);
+//                        notificationbadge.setVisibility(View.VISIBLE);
+//                        mainbadge.setText(unseenNotifs.toString());
+//                        notificationbadge.setText(unseenNotifs.toString());
 
                     }
 

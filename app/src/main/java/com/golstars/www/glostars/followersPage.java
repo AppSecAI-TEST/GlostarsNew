@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.github.clans.fab.FloatingActionMenu;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
@@ -60,12 +61,12 @@ public class followersPage extends AppCompatActivity {
     boolean isOpen = false;
 
 
-    FloatingActionButton mainFAB ;
-    FloatingActionButton cameraFAB;
-    FloatingActionButton competitionFAB;
-    ImageView profileFAB;
-    FloatingActionButton notificationFAB;
-    FloatingActionButton homeFAB;
+    com.github.clans.fab.FloatingActionButton cameraFAB;
+    com.github.clans.fab.FloatingActionButton competitionFAB;
+    com.github.clans.fab.FloatingActionButton profileFAB;
+    com.github.clans.fab.FloatingActionButton notificationFAB;
+
+    FloatingActionMenu menuDown;
 
     TextView homebadge;
     TextView notificationbadge;
@@ -102,6 +103,9 @@ public class followersPage extends AppCompatActivity {
 //        final String TAG = followersPage.class.getName();
 
 
+        menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
+        menuDown.setClosedOnTouchOutside(true);
+
         followersList = (ListView)findViewById(R.id.followerList);
         followingList = (ListView)findViewById(R.id.followingList);
 
@@ -113,27 +117,24 @@ public class followersPage extends AppCompatActivity {
         followbutton = (Button)findViewById(R.id.followBUT);
         followerbut = (Button)findViewById(R.id.followersbutuser);
         followingbut = (Button)findViewById(R.id.followingbutuser);
-        //followbutton.setTransformationMethod(null);
 
 
         slogo = (ImageView)findViewById(R.id.searchlogo);
 
 
 
-        mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
-        cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
-        competitionFAB = (FloatingActionButton)findViewById(R.id.competitionFAB);
-        profileFAB = (ImageView) findViewById(R.id.profileFAB);
-        notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
-        homeFAB = (FloatingActionButton)findViewById(R.id.homeFAB);
+        cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
+        competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
+        profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
+        notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
 
         //=============Notification Badges===============================================
-        homebadge = (TextView)findViewById(R.id.homebadge);
-        notificationbadge = (TextView)findViewById(R.id.notificationbadge);
-        profilebadge = (TextView)findViewById(R.id.profilebadge);
-        camerabadge = (TextView)findViewById(R.id.uploadbadge);
-        mainbadge = (TextView)findViewById(R.id.mainbadge);
-        competitionbadge = (TextView)findViewById(R.id.competitionbadge);
+//        homebadge = (TextView)findViewById(R.id.homebadge);
+//        notificationbadge = (TextView)findViewById(R.id.notificationbadge);
+//        profilebadge = (TextView)findViewById(R.id.profilebadge);
+//        camerabadge = (TextView)findViewById(R.id.uploadbadge);
+//        mainbadge = (TextView)findViewById(R.id.mainbadge);
+//        competitionbadge = (TextView)findViewById(R.id.competitionbadge);
 
 
 
@@ -181,103 +182,9 @@ public class followersPage extends AppCompatActivity {
             }
         });
 
-
-        mainFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(isOpen) {
-
-                    cameraFAB.startAnimation(fab_hide);
-                    competitionFAB.startAnimation(fab_hide);
-                    profileFAB.startAnimation(fab_hide);
-                    notificationFAB.startAnimation(fab_hide);
-                    mainFAB.startAnimation(rotate_anticlockwise);
-                    homeFAB.startAnimation(fab_hide);
-
-
-//                    homebadge.setVisibility(View.GONE);
-//                    notificationbadge.setVisibility(View.GONE);
-
-                    cameraFAB.setClickable(false);
-                    competitionFAB.setClickable(false);
-                    profileFAB.setClickable(false);
-                    notificationFAB.setClickable(false);
-                    isOpen=false;
-
-                }
-
-                else{
-                    cameraFAB.startAnimation(fab_show);
-                    competitionFAB.startAnimation(fab_show);
-                    profileFAB.startAnimation(fab_show);
-                    notificationFAB.startAnimation(fab_show);
-                    homeFAB.startAnimation(fab_show);
-                    mainFAB.startAnimation(rotate_clockwise);
-
-//                    homebadge.setVisibility(View.VISIBLE);
-//                    notificationbadge.setVisibility(View.VISIBLE);
-
-                    cameraFAB.setVisibility(View.VISIBLE);
-                    competitionFAB.setVisibility(View.VISIBLE);
-                    profileFAB.setVisibility(View.VISIBLE);
-                    notificationFAB.setVisibility(View.VISIBLE);
-                    homeFAB.setVisibility(View.VISIBLE);
-
-                    cameraFAB.setClickable(true);
-                    competitionFAB.setClickable(true);
-                    profileFAB.setClickable(true);
-                    notificationFAB.setClickable(true);
-                    isOpen=true;
-
-
-
-
-                }
-            }
-        });
-
-
-
-
-        //==========================================================================================
-
-        homeFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                homeFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
-
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                homeFAB.setClickable(false);
-                isOpen=false;
-                startActivity(new Intent(followersPage.this, MainFeed.class));
-            }
-        });
-
-
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                homeFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
-
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                homeFAB.setClickable(false);
-                isOpen=false;
                 startActivity(new Intent(followersPage.this, user_profile.class));
             }
         });
@@ -286,19 +193,6 @@ public class followersPage extends AppCompatActivity {
         cameraFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                homeFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
-
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                homeFAB.setClickable(false);
-                isOpen=false;
                 startActivity(new Intent(followersPage.this, upload.class));
             }
         });
@@ -307,19 +201,6 @@ public class followersPage extends AppCompatActivity {
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                homeFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
-
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                homeFAB.setClickable(false);
-                isOpen=false;
                 startActivity(new Intent(followersPage.this, competitionAll.class));
             }
         });

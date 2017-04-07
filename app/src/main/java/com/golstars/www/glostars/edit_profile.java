@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionMenu;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
@@ -43,11 +44,15 @@ public class edit_profile extends AppCompatActivity {
 
 
     FloatingActionButton mainFAB ;
-    FloatingActionButton cameraFAB;
-    FloatingActionButton competitionFAB;
-    ImageView profileFAB;
-    FloatingActionButton notificationFAB;
+    com.github.clans.fab.FloatingActionButton cameraFAB;
+    com.github.clans.fab.FloatingActionButton competitionFAB;
+    com.github.clans.fab.FloatingActionButton profileFAB;
+    com.github.clans.fab.FloatingActionButton notificationFAB;
     FloatingActionButton homeFAB;
+
+    FloatingActionMenu menuDown;
+
+
 
     TextView homebadge;
     TextView notificationbadge;
@@ -95,6 +100,10 @@ public class edit_profile extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
+        menuDown.setClosedOnTouchOutside(true);
+
         firstname = (EditText)findViewById(R.id.firstnameedit);
         lastname = (EditText)findViewById(R.id.lastnameedit);
         aboutme = (EditText)findViewById(R.id.aboutmeedit);
@@ -129,20 +138,20 @@ public class edit_profile extends AppCompatActivity {
 
         occupation.setAdapter(occupationadapter);
 
-        mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
-        cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
-        competitionFAB = (FloatingActionButton)findViewById(R.id.competitionFAB);
-        profileFAB = (ImageView) findViewById(R.id.profileFAB);
-        notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
-        homeFAB = (FloatingActionButton)findViewById(R.id.homeFAB);
+//        mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
+        cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
+        competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
+        profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
+        notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
+//        homeFAB = (FloatingActionButton)findViewById(R.id.homeFAB);
 
         //=============Notification Badges===============================================
-        homebadge = (TextView)findViewById(R.id.homebadge);
-        notificationbadge = (TextView)findViewById(R.id.notificationbadge);
-        profilebadge = (TextView)findViewById(R.id.profilebadge);
-        camerabadge = (TextView)findViewById(R.id.uploadbadge);
-        mainbadge = (TextView)findViewById(R.id.mainbadge);
-        competitionbadge = (TextView)findViewById(R.id.competitionbadge);
+//        homebadge = (TextView)findViewById(R.id.homebadge);
+//        notificationbadge = (TextView)findViewById(R.id.notificationbadge);
+//        profilebadge = (TextView)findViewById(R.id.profilebadge);
+//        camerabadge = (TextView)findViewById(R.id.uploadbadge);
+//        mainbadge = (TextView)findViewById(R.id.mainbadge);
+//        competitionbadge = (TextView)findViewById(R.id.competitionbadge);
 
 
 
@@ -181,80 +190,13 @@ public class edit_profile extends AppCompatActivity {
         currentcountry.setAdapter(adapter);
 
 
-        mainFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(isOpen) {
-
-                    cameraFAB.startAnimation(fab_hide);
-                    competitionFAB.startAnimation(fab_hide);
-                    profileFAB.startAnimation(fab_hide);
-                    notificationFAB.startAnimation(fab_hide);
-                    mainFAB.startAnimation(rotate_anticlockwise);
-                    homeFAB.startAnimation(fab_hide);
-
-
-//                    homebadge.setVisibility(View.GONE);
-//                    notificationbadge.setVisibility(View.GONE);
-
-                    cameraFAB.setClickable(false);
-                    competitionFAB.setClickable(false);
-                    profileFAB.setClickable(false);
-                    notificationFAB.setClickable(false);
-                    isOpen=false;
-
-                }
-
-                else{
-                    cameraFAB.startAnimation(fab_show);
-                    competitionFAB.startAnimation(fab_show);
-                    profileFAB.startAnimation(fab_show);
-                    notificationFAB.startAnimation(fab_show);
-                    homeFAB.startAnimation(fab_show);
-                    mainFAB.startAnimation(rotate_clockwise);
-
-
-//                    homebadge.setVisibility(View.VISIBLE);
-//                    notificationbadge.setVisibility(View.VISIBLE);
-
-                    cameraFAB.setVisibility(View.VISIBLE);
-                    competitionFAB.setVisibility(View.VISIBLE);
-                    profileFAB.setVisibility(View.VISIBLE);
-                    notificationFAB.setVisibility(View.VISIBLE);
-                    homeFAB.setVisibility(View.VISIBLE);
-
-                    cameraFAB.setClickable(true);
-                    competitionFAB.setClickable(true);
-                    profileFAB.setClickable(true);
-                    notificationFAB.setClickable(true);
-                    isOpen=true;
-
-
-
-
-                }
-            }
-        });
-
 
         //==========================================================================================
 
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                homeFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
 
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                homeFAB.setClickable(false);
-                isOpen=false;
                 startActivity(new Intent(edit_profile.this, MainFeed.class));
             }
         });
@@ -263,19 +205,7 @@ public class edit_profile extends AppCompatActivity {
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                homeFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
 
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                homeFAB.setClickable(false);
-                isOpen=false;
                 startActivity(new Intent(edit_profile.this, notification.class));
             }
         });
@@ -284,19 +214,6 @@ public class edit_profile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                homeFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
-
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                homeFAB.setClickable(false);
-                isOpen=false;
                 startActivity(homeIntent);
             }
         });
@@ -305,19 +222,7 @@ public class edit_profile extends AppCompatActivity {
         cameraFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                homeFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
 
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                homeFAB.setClickable(false);
-                isOpen=false;
                 startActivity(new Intent(edit_profile.this, upload.class));
             }
         });
@@ -326,19 +231,7 @@ public class edit_profile extends AppCompatActivity {
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                homeFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
 
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                homeFAB.setClickable(false);
-                isOpen=false;
                 startActivity(new Intent(edit_profile.this, competitionAll.class));
             }
         });

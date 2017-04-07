@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.github.clans.fab.FloatingActionMenu;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
@@ -52,12 +53,13 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
     boolean isOpen = false;
 
 
-    FloatingActionButton mainFAB ;
-    FloatingActionButton cameraFAB;
-    FloatingActionButton competitionFAB;
-    ImageView profileFAB;
-    FloatingActionButton notificationFAB;
-    FloatingActionButton homeFAB;
+    com.github.clans.fab.FloatingActionButton cameraFAB;
+    com.github.clans.fab.FloatingActionButton competitionFAB;
+    com.github.clans.fab.FloatingActionButton profileFAB;
+    com.github.clans.fab.FloatingActionButton notificationFAB;
+
+    FloatingActionMenu menuDown;
+    com.github.clans.fab.FloatingActionButton homeFAB;
 
     TextView homebadge;
     TextView notificationbadge;
@@ -151,20 +153,22 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         final String TAG = user_profile.class.getName();
 
 
-        mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
-        cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
-        competitionFAB = (FloatingActionButton)findViewById(R.id.competitionFAB);
-        profileFAB = (ImageView) findViewById(R.id.profileFAB);
-        notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
-        homeFAB = (FloatingActionButton)findViewById(R.id.homeFAB);
+        cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
+        competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
+        profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
+        notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
+        homeFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.homeFAB);
+
+        menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
+        menuDown.setClosedOnTouchOutside(true);
 
         //=============Notification Badges===============================================
-        homebadge = (TextView)findViewById(R.id.homebadge);
-        notificationbadge = (TextView)findViewById(R.id.notificationbadge);
-        profilebadge = (TextView)findViewById(R.id.profilebadge);
-        camerabadge = (TextView)findViewById(R.id.uploadbadge);
-        mainbadge = (TextView)findViewById(R.id.mainbadge);
-        competitionbadge = (TextView)findViewById(R.id.competitionbadge);
+//        homebadge = (TextView)findViewById(R.id.homebadge);
+//        notificationbadge = (TextView)findViewById(R.id.notificationbadge);
+//        profilebadge = (TextView)findViewById(R.id.profilebadge);
+//        camerabadge = (TextView)findViewById(R.id.uploadbadge);
+//        mainbadge = (TextView)findViewById(R.id.mainbadge);
+//        competitionbadge = (TextView)findViewById(R.id.competitionbadge);
 
 
         fab_show = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_show);
@@ -471,97 +475,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
 
 
 
-
-
-        mainFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(isOpen) {
-
-                    cameraFAB.startAnimation(fab_hide);
-                    competitionFAB.startAnimation(fab_hide);
-                    profileFAB.startAnimation(fab_hide);
-                    notificationFAB.startAnimation(fab_hide);
-                    mainFAB.startAnimation(rotate_anticlockwise);
-                    homeFAB.startAnimation(fab_hide);
-
-
-//                    homebadge.setVisibility(View.GONE);
-//                    notificationbadge.setVisibility(View.GONE);
-
-                    cameraFAB.setClickable(false);
-                    competitionFAB.setClickable(false);
-                    profileFAB.setClickable(false);
-                    notificationFAB.setClickable(false);
-                    isOpen=false;
-
-                }
-
-                else{
-                    cameraFAB.startAnimation(fab_show);
-                    competitionFAB.startAnimation(fab_show);
-                    profileFAB.startAnimation(fab_show);
-                    notificationFAB.startAnimation(fab_show);
-                    homeFAB.startAnimation(fab_show);
-                    mainFAB.startAnimation(rotate_clockwise);
-
-//                    homebadge.setVisibility(View.VISIBLE);
-//                    notificationbadge.setVisibility(View.VISIBLE);
-
-                    cameraFAB.setVisibility(View.VISIBLE);
-                    competitionFAB.setVisibility(View.VISIBLE);
-                    profileFAB.setVisibility(View.VISIBLE);
-                    notificationFAB.setVisibility(View.VISIBLE);
-                    homeFAB.setVisibility(View.VISIBLE);
-
-                    cameraFAB.setClickable(true);
-                    competitionFAB.setClickable(true);
-                    profileFAB.setClickable(true);
-                    notificationFAB.setClickable(true);
-                    isOpen=true;
-
-
-                }
-            }
-        });
-
-
-        //==========================================================================================
-
-        homeFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
-
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                isOpen=false;
-                startActivity(new Intent(user_profile.this, MainFeed.class));
-                finish();
-            }
-        });
-
-
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
 
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                isOpen=false;
                 startActivity(new Intent(user_profile.this, notification.class));
             }
         });
@@ -569,17 +486,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
 
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                isOpen=false;
 
                 startActivity(homeIntent);
             }
@@ -589,17 +496,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         cameraFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
 
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                isOpen=false;
                 startActivity(new Intent(user_profile.this, upload.class));
             }
         });
@@ -608,17 +505,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraFAB.startAnimation(fab_hide);
-                competitionFAB.startAnimation(fab_hide);
-                profileFAB.startAnimation(fab_hide);
-                notificationFAB.startAnimation(fab_hide);
-                mainFAB.startAnimation(rotate_anticlockwise);
 
-                cameraFAB.setClickable(false);
-                competitionFAB.setClickable(false);
-                profileFAB.setClickable(false);
-                notificationFAB.setClickable(false);
-                isOpen=false;
                 startActivity(new Intent(user_profile.this, competitionAll.class));
             }
         });
@@ -960,6 +847,5 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         comAdapter.notifyDataSetChanged();
         //
     }
-
 
 }

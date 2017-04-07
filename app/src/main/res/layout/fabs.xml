@@ -1,229 +1,71 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+<com.github.clans.fab.FloatingActionMenu
+    android:id="@+id/menu_down"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:layout_gravity="bottom|end"
     android:elevation="0dp"
-    android:padding="0.5dp"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_gravity="bottom|left"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:showIn="@layout/activity_main_feed"
-    >
-  
-    <RelativeLayout
-        android:id="@+id/mainF"
+    fab:menu_backgroundColor="#00FFFFFF"
+    fab:menu_labels_ellipsize="end"
+    fab:menu_labels_singleLine="true"
+    fab:menu_fab_size="normal"
+    fab:menu_openDirection="up"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
+
+    <com.github.clans.fab.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_below="@+id/uploadF"
+        fab:fab_size="mini"
+        fab:fab_label="Home"
+        android:visibility="visible"
+        android:background="@color/colorAccent"
+        android:src="@drawable/home"
+        android:id="@+id/homeFAB"
+        />
 
-        >
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:src="@drawable/menu_open"
-            android:elevation="0dp"
-            android:id="@+id/mainFAB"
-            android:layout_marginBottom="16dp"
-            app:pressedTranslationZ="12dp"
-            />
 
-        <TextView
-            android:id="@+id/mainbadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/badge_item_count"
-            android:text="27"
-            android:layout_toRightOf="@+id/mainFAB"
-            android:textColor="@color/lightViolate"
-            android:textSize="10sp"
-            android:layout_marginLeft="-16dp"
-            android:elevation="7dp"
-            android:visibility="gone"
-            android:textStyle="bold" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/uploadF"
+    <com.github.clans.fab.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_below="@+id/competitionF"
-        >
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start"
-            android:src="@drawable/upload"
-            android:elevation="0dp"
-            android:id="@+id/cameraFAB"
-            app:pressedTranslationZ="12dp"
-            android:stateListAnimator="@null"
-            android:visibility="gone"
-            />
+        fab:fab_size="mini"
+        fab:fab_label="Profile"
+        android:id="@+id/profileFAB"
+        android:src="@drawable/nopicmale"
 
-        <TextView
-            android:id="@+id/uploadbadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/badge_item_count"
-            android:text="27"
-            android:layout_toRightOf="@+id/cameraFAB"
-            android:textColor="@color/lightViolate"
-            android:textSize="10sp"
-            android:layout_marginLeft="-16dp"
-            android:elevation="7dp"
-            android:visibility="gone"
-            android:textStyle="bold" />
+        />
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/competitionF"
+    <com.github.clans.fab.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_below="@+id/profileF"
-        >
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start"
-            android:src="@drawable/competition"
-            android:elevation="0dp"
-            android:stateListAnimator="@null"
-            android:id="@+id/competitionFAB"
-            app:pressedTranslationZ="12dp"
-            android:visibility="gone"
-            />
+        fab:fab_size="mini"
+        android:id="@+id/competitionFAB"
+        fab:fab_label="Competition"
+        android:src="@drawable/competition"
 
-        <TextView
-            android:id="@+id/competitionbadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/badge_item_count"
-            android:text="27"
-            android:layout_toRightOf="@+id/competitionFAB"
-            android:textColor="@color/lightViolate"
-            android:textSize="10sp"
-            android:layout_marginLeft="-16dp"
-            android:elevation="7dp"
-            android:visibility="gone"
-            android:textStyle="bold" />
+        />
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/profileF"
+    <com.github.clans.fab.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:gravity="bottom"
-        android:layout_below="@+id/homeF"
-        >
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="54dp"
-            android:layout_height="54dp"
-            android:layout_gravity="bottom|start"
-            android:src="@drawable/testpropic"
-            android:elevation="0dp"
-            android:id="@+id/profileFAB"
-            android:stateListAnimator="@null"
-            app:pressedTranslationZ="12dp"
-            android:visibility="gone"
-            />
+        fab:fab_size="mini"
+        fab:fab_label="Upload"
+        android:id="@+id/cameraFAB"
+        android:src="@drawable/upload"
+        />
 
-        <TextView
-            android:id="@+id/profilebadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/badge_item_count"
-            android:text="27"
-            android:layout_toRightOf="@+id/profileFAB"
-            android:textColor="@color/lightViolate"
-            android:textSize="10sp"
-            android:layout_marginLeft="-16dp"
-            android:elevation="7dp"
-            android:visibility="gone"
-            android:textStyle="bold" />
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/homeF"
+    <com.github.clans.fab.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:gravity="bottom"
-        >
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start"
-            android:src="@drawable/home"
-            android:elevation="0dp"
-            android:id="@+id/homeFAB"
-            android:stateListAnimator="@null"
-            app:pressedTranslationZ="12dp"
-            android:visibility="gone"
-            />
+        fab:fab_size="mini"
+        fab:fab_label="Notification"
+        android:id="@+id/notificationFAB"
+        android:src="@drawable/notification_icon"
+        />
 
-        <TextView
-            android:id="@+id/homebadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/badge_item_count"
-            android:text="27"
-            android:layout_toRightOf="@+id/homeFAB"
-            android:textColor="@color/lightViolate"
-            android:textSize="10sp"
-            android:layout_marginLeft="-16dp"
-            android:elevation="7dp"
-            android:visibility="gone"
-            android:textStyle="bold" />
 
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/notificationF"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/mainF"
-        android:layout_below="@+id/uploadF"
-        >
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="20dp"
-            android:src="@drawable/notifications_icon"
-            android:elevation="0dp"
-            android:stateListAnimator="@null"
-            android:id="@+id/notificationFAB"
-            app:pressedTranslationZ="12dp"
-            android:visibility="gone"
-            />
-
-        <TextView
-            android:id="@+id/notificationbadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/badge_item_count"
-            android:text="27"
-            android:layout_toRightOf="@+id/notificationFAB"
-            android:textColor="@color/lightViolate"
-            android:textSize="10sp"
-            android:layout_marginLeft="-16dp"
-            android:elevation="7dp"
-            android:visibility="gone"
-            android:textStyle="bold" />
-
-    </RelativeLayout>
-    
-    
-    
-</RelativeLayout>
+</com.github.clans.fab.FloatingActionMenu>

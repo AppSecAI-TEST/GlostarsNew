@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/userNAME"
                 android:text="NAME"
-                android:textSize="14sp"
+                android:textSize="@dimen/textHEADER"
                 android:textStyle="bold"
                 android:paddingTop="4dp"
                 android:textColor="@color/colorPrimary"
@@ -87,7 +87,7 @@
                 android:text="Caption"
                 android:textColor="@color/darkGrey"
                 android:layout_width="wrap_content"
-                android:textSize="12sp"
+                android:textSize="@dimen/textCAPTION"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/userNAME"
                 android:layout_below="@+id/userNAME"
@@ -162,15 +162,16 @@
 
 
                 <View
-                    android:layout_width="35dp"
+                    android:layout_width="75dp"
                     android:layout_weight="0.53"
+                    android:paddingStart="4dp"
                     android:layout_height="match_parent"/>
 
                 <ImageView
                     android:id="@+id/commenticon"
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center_vertical|center_horizontal"
                     android:src="@drawable/comment_icon"
                     android:layout_marginTop="2dp"
                     />
@@ -191,53 +192,13 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent"/>
 
-                <TextView
+                <ImageView
                     android:id="@+id/share"
                     android:layout_width="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:textSize="12sp"
-                    android:layout_marginBottom="0dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
-                    android:text="SHARE"
+                    android:src="@drawable/share_icon"
                     />
-
-                <ImageView
-                    android:id="@+id/shareFB"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginStart="8dp"
-                    android:src="@drawable/share_fb"
-                    android:layout_marginEnd="8dp"
-                    />
-
-                <ImageView
-                    android:id="@+id/shareTWITTER"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="0dp"
-                    android:src="@drawable/share_twitter"
-                    android:layout_marginEnd="8dp"
-                    />
-
-                <ImageView
-                    android:id="@+id/shareVK"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="0dp"
-                    android:src="@drawable/share_vk"
-                    android:layout_marginEnd="8dp"
-                    />
-
-
-
-
-
-
 
 
             </LinearLayout>

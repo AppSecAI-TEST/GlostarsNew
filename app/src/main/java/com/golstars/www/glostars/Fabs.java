@@ -10,6 +10,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionMenu;
+
 /**
  * Created by admin on 2/13/2017.
  */
@@ -25,12 +27,11 @@ public class Fabs extends AppCompatActivity {
     boolean isOpen = false;
 
 
-    FloatingActionButton mainFAB ;
-    FloatingActionButton cameraFAB;
-    FloatingActionButton competitionFAB;
-    ImageView profileFAB;
-    FloatingActionButton notificationFAB;
-    FloatingActionButton homeFAB;
+    com.github.clans.fab.FloatingActionButton cameraFAB;
+    com.github.clans.fab.FloatingActionButton competitionFAB;
+    com.github.clans.fab.FloatingActionButton profileFAB;
+    com.github.clans.fab.FloatingActionButton notificationFAB;
+
 
     TextView homebadge;
     TextView notificationbadge;
@@ -50,20 +51,19 @@ public class Fabs extends AppCompatActivity {
 
 
 
-        mainFAB = (FloatingActionButton)findViewById(R.id.mainFAB);
-        cameraFAB =(FloatingActionButton)findViewById(R.id.cameraFAB);
-        competitionFAB = (FloatingActionButton)findViewById(R.id.competitionFAB);
-        profileFAB = (FloatingActionButton) findViewById(R.id.profileFAB);
-        notificationFAB = (FloatingActionButton)findViewById(R.id.notificationFAB);
-        homeFAB = (FloatingActionButton)findViewById(R.id.homeFAB);
+
+        cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
+        competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
+        profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
+        notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
 
         //=============Notification Badges===============================================
-        homebadge = (TextView)findViewById(R.id.homebadge);
-        notificationbadge = (TextView)findViewById(R.id.notificationbadge);
-        profilebadge = (TextView)findViewById(R.id.profilebadge);
-        camerabadge = (TextView)findViewById(R.id.uploadbadge);
-        mainbadge = (TextView)findViewById(R.id.mainbadge);
-        competitionbadge = (TextView)findViewById(R.id.competitionbadge);
+//        homebadge = (TextView)findViewById(R.id.homebadge);
+//        notificationbadge = (TextView)findViewById(R.id.notificationbadge);
+//        profilebadge = (TextView)findViewById(R.id.profilebadge);
+//        camerabadge = (TextView)findViewById(R.id.uploadbadge);
+//        mainbadge = (TextView)findViewById(R.id.mainbadge);
+//        competitionbadge = (TextView)findViewById(R.id.competitionbadge);
 
 
 
@@ -74,58 +74,15 @@ public class Fabs extends AppCompatActivity {
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
-        mainbadge.setTypeface(type);
-        notificationbadge.setTypeface(type);
-        homebadge.setTypeface(type);
-        profilebadge.setTypeface(type);
-        competitionbadge.setTypeface(type);
-        camerabadge.setTypeface(type);
+//        mainbadge.setTypeface(type);
+//        notificationbadge.setTypeface(type);
+//        homebadge.setTypeface(type);
+//        profilebadge.setTypeface(type);
+//        competitionbadge.setTypeface(type);
+//        camerabadge.setTypeface(type);
 
 
-        mainFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(isOpen) {
 
-                    cameraFAB.startAnimation(fab_hide);
-                    competitionFAB.startAnimation(fab_hide);
-                    profileFAB.startAnimation(fab_hide);
-                    notificationFAB.startAnimation(fab_hide);
-                    homeFAB.startAnimation(fab_hide);
-                    mainFAB.startAnimation(rotate_anticlockwise);
-
-                    cameraFAB.setClickable(false);
-                    competitionFAB.setClickable(false);
-                    profileFAB.setClickable(false);
-                    notificationFAB.setClickable(false);
-                    homeFAB.setClickable(false);
-                    isOpen=false;
-                }
-
-                else{
-                    cameraFAB.startAnimation(fab_show);
-                    competitionFAB.startAnimation(fab_show);
-                    profileFAB.startAnimation(fab_show);
-                    notificationFAB.startAnimation(fab_show);
-                    mainFAB.startAnimation(rotate_clockwise);
-                    homeFAB.startAnimation(fab_show);
-
-                    cameraFAB.setVisibility(View.VISIBLE);
-                    competitionFAB.setVisibility(View.VISIBLE);
-                    profileFAB.setVisibility(View.VISIBLE);
-                    notificationFAB.setVisibility(View.VISIBLE);
-                    homeFAB.setVisibility(View.VISIBLE);
-
-                    cameraFAB.setClickable(true);
-                    competitionFAB.setClickable(true);
-                    profileFAB.setClickable(true);
-                    notificationFAB.setClickable(true);
-                    homeFAB.setClickable(true);
-                    isOpen=true;
-
-                }
-            }
-        });
     }
 
 

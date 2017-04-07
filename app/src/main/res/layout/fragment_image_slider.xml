@@ -43,6 +43,7 @@
             android:textColor="@color/colorPrimary"
             android:layout_marginStart="4dp"
             />
+
         <ImageView
             android:id="@+id/clearRatingfullscreen"
             android:layout_width="16dp"
@@ -53,7 +54,6 @@
             android:src="@drawable/deleteicon"
             android:layout_marginEnd="8dp"
             />
-
 
         <View
             android:layout_width="35dp"
