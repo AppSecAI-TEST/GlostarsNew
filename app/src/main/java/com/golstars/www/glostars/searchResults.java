@@ -507,7 +507,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
             LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
             String interval = Timestamp.getInterval(localDateTime);
 
-            setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, ratings.length(), comments.length(), ratings, comments, interval);
+            setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, starsCount, comments.length(), ratings, comments, interval);
 
         }
 

@@ -155,6 +155,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(resource, parent, false);
+
+
                 //.inflate(R.layout.content_main_feed, parent, false);
 
 
@@ -171,10 +173,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         holder.caption.setText(post.getDescription());
         holder.postTime.setText(post.getUploaded());
         holder.uselessTextView.setText("");
-        //holder.ratingBar.setOnRatingBarChangeListener(onRatingBarChangeListener(holder, position, ratingListener));
         if(!post.isCompeting()){
             holder.ratingBar.setNumStars(1);
-        }
+        } else holder.ratingBar.setNumStars(5);
 
         holder.ratingBar.setRating((float)getUserRating(post));
         holder.totalStars.setText(String.valueOf(post.getStarsCount()));
@@ -404,8 +405,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                         float width = holder.ratingBar.getWidth();
                         float starsf = (touchPositionX / width) * 5.0f;
                         int stars = (int)starsf + 1;
-                        if(holder.ratingBar.getRating() == (float)0){
+
+                        if((int)holder.ratingBar.getRating() == 0){
                             holder.ratingBar.setRating(stars);
+                            notifyDataSetChanged();
                         }
 
 

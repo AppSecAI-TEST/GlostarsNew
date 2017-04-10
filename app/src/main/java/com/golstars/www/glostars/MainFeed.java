@@ -246,6 +246,11 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         System.out.println(response);
                     }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        System.out.println(errorResponse);
+                    }
                 });
 
             }
@@ -538,7 +543,8 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 Boolean isFeatured = Boolean.valueOf(pic.getString("isfeatured"));
                 Boolean isCompeting = Boolean.valueOf(pic.getString("isCompeting"));
                 Integer starsCount = Integer.parseInt(pic.getString("starsCount"));
-                System.out.println("POSTER: " + name + " " + usrId + " " + id + " " + description + " " + picURL + " " + isFeatured + " " + isCompeting + " " + starsCount);
+                String starsCnt = pic.getString("starsCount");
+                System.out.println("POSTER: " + name + " " + usrId + " " + id + " " + description + " " + picURL + " " + isFeatured + " " + isCompeting + " " + starsCnt);
 
                 JSONArray ratings = pic.getJSONArray("ratings");
                 JSONArray comments = pic.getJSONArray("comments");
@@ -548,7 +554,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
                 String interval = Timestamp.getInterval(localDateTime);
 
-                setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, ratings.length(), comments.length(), ratings, comments, interval);
+                setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, starsCount, comments.length(), ratings, comments, interval);
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (Exception e) {
