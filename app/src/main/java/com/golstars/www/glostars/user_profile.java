@@ -801,6 +801,31 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         JSONArray publicPictures = model.getJSONArray("publicPictures");
 
         Integer totalPics = totalmutualFollowerPics + totalCompetitionPic + totalpublicPictures;
+
+        if(totalmutualFollowerPics == 0){
+            mutualBanner.setVisibility(View.GONE);
+            seeAllMutualProfile.setVisibility(View.GONE);
+        } else{
+            mutualBanner.setVisibility(View.VISIBLE);
+            seeAllMutualProfile.setVisibility(View.VISIBLE);
+        }
+
+        if(totalCompetitionPic == 0){
+            compBanner.setVisibility(View.GONE);
+            seeAllCompetitionProfile.setVisibility(View.GONE);
+        } else{
+            compBanner.setVisibility(View.VISIBLE);
+            seeAllCompetitionProfile.setVisibility(View.VISIBLE);
+        }
+
+        if(totalpublicPictures == 0){
+            publicBanner.setVisibility(View.GONE);
+            seeAllPublicProfile.setVisibility(View.GONE);
+        } else{
+            publicBanner.setVisibility(View.VISIBLE);
+            seeAllPublicProfile.setVisibility(View.VISIBLE);
+        }
+
         numPhotosCount.setText(totalPics.toString());
 
 
