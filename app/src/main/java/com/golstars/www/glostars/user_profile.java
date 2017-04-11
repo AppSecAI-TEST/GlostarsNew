@@ -292,10 +292,20 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         mutualAdapter = new RecyclerGridAdapter(this, mutualImgsUrls, this);
 
         int numOfColumns = 3;
+        CustomGridLayout publicLayout = new CustomGridLayout(this, numOfColumns);
+        publicLayout.setScrollEnabled(false);
+
+        CustomGridLayout compLayout = new CustomGridLayout(this, numOfColumns);
+        compLayout.setScrollEnabled(false);
+
+        CustomGridLayout mutualLayout = new CustomGridLayout(this, numOfColumns);
+        mutualLayout.setScrollEnabled(false);
+
         //setting the recyclerviews to exhibit grid views
-        competitiongrid.setLayoutManager(new GridLayoutManager(this, numOfColumns));
-        publicgrid.setLayoutManager(new GridLayoutManager(this, numOfColumns));
-        mutualgrid.setLayoutManager(new GridLayoutManager(this, numOfColumns));
+        competitiongrid.setLayoutManager(compLayout);
+        publicgrid.setLayoutManager(publicLayout);
+        mutualgrid.setLayoutManager(mutualLayout);
+
 
         //assigning the adapter to the recycler views
         competitiongrid.setAdapter(comAdapter); //adapter for competition pictures
@@ -871,6 +881,25 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         compImgsUrls.add(profilePicURL);
         comAdapter.notifyDataSetChanged();
         //
+    }
+
+
+
+    public class CustomGridLayout extends GridLayoutManager{
+        private boolean isScrolEnabled = true;
+
+        public CustomGridLayout(Context context, Integer colummns){
+            super(context, colummns);
+        }
+
+        public void setScrollEnabled(boolean flag){
+            this.isScrolEnabled = flag;
+        }
+
+        @Override
+        public boolean canScrollVertically() {
+            return isScrolEnabled && super.canScrollVertically();
+        }
     }
 
 }
