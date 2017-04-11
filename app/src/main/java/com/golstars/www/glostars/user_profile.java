@@ -308,7 +308,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
 
 
         //assigning the adapter to the recycler views
-        competitiongrid.setAdapter(comAdapter); //adapter for competition pictures
+        competitiongrid.setAdapter(comAdapter); //adapter for competition pics
         publicgrid.setAdapter(publicAdapter);
         mutualgrid.setAdapter(mutualAdapter);
 
