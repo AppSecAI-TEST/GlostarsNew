@@ -5,7 +5,7 @@
     android:id="@+id/content_user_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingBottom="0dp"
     android:paddingLeft="4dp"
     android:paddingRight="4dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -13,7 +13,7 @@
     tools:showIn="@layout/activity_user_profile">
 
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -109,8 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="texttexttexttexttexttetexttexttexttexttexttexttexttextxttexttexttexttexttext" />
-
+                    />
 
                 <TextView
                     android:layout_marginTop="10dp"
@@ -125,7 +124,6 @@
 
                 <TextView
                     android:id="@+id/userinterestTEXT"
-                    android:text="texttexttexttexttexttetexttexttexttexttexttexttexttextxttexttexttexttexttext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -163,6 +161,7 @@
                     android:id="@+id/recognitionBanner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
                     android:text="Recognition: "/>
 
 
@@ -179,6 +178,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2"
+                    android:textColor="@color/colorPrimary"
                     android:layout_marginLeft="8dp"/>
 
                 <ImageView
@@ -193,6 +193,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginLeft="8dp"/>
+
+
+                <ImageView
+                    android:id="@+id/grandPrize"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/grandb"
+                    android:layout_marginLeft="30dp"/>
+
+                <TextView
+                    android:id="@+id/grandprizecount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2"
+                    android:textColor="@color/colorPrimary"
                     android:layout_marginLeft="8dp"/>
 
                 <ImageView
@@ -207,19 +224,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2"
-                    android:layout_marginLeft="8dp"/>
-
-                <ImageView
-                    android:id="@+id/grandPrize"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/grandb"
-                    android:layout_marginLeft="30dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2"
+                    android:textColor="@color/colorPrimary"
                     android:layout_marginLeft="8dp"/>
 
             </LinearLayout>
@@ -309,9 +314,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
 
-
-
             </LinearLayout>
+
+            <LinearLayout
+                android:elevation="2dp"
+                android:id="@+id/postsCompetition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                >
 
             <TextView
                 android:id="@+id/competitionBanner"
@@ -322,15 +334,6 @@
                 android:textColor="@color/darkGrey"
                 android:textSize="14sp" />
 
-
-            <LinearLayout
-                android:elevation="2dp"
-                android:id="@+id/postsCompetition"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical"
-                >
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/competitionPosts"
@@ -350,28 +353,15 @@
                     android:textSize="14sp"
                     android:paddingTop="4dp"/>
 
-            </LinearLayout>
 
-
-
-            <TextView
-                android:id="@+id/publicBanner"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Public Photos"
-                android:layout_marginTop="8dp"
-                android:textSize="14dp"
-                android:textColor="@color/darkGrey"/>
-
-
-            <LinearLayout
-                android:elevation="2dp"
-                android:id="@+id/postsPublic"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical"
-                >
+                <TextView
+                    android:id="@+id/publicBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Public Photos"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14dp"
+                    android:textColor="@color/darkGrey"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
@@ -394,27 +384,15 @@
                     android:textSize="14sp"
                     android:paddingTop="4dp"/>
 
-            </LinearLayout>
 
-
-            <TextView
-                android:id="@+id/mutualBanner"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Mutual Follower Photos"
-                android:layout_marginTop="8dp"
-                android:textSize="14dp"
-                android:textColor="@color/darkGrey"/>
-
-
-            <LinearLayout
-                android:elevation="2dp"
-                android:id="@+id/postsMutual"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical"
-                >
+                <TextView
+                    android:id="@+id/mutualBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Mutual Follower Photos"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14dp"
+                    android:textColor="@color/darkGrey"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
@@ -425,6 +403,7 @@
                     android:verticalSpacing="4dp"
                     android:stretchMode="columnWidth"
                     android:layout_gravity="center"
+                    android:visibility="visible"
                     />
 
                 <TextView
@@ -440,13 +419,11 @@
             </LinearLayout>
 
 
-
-
         </LinearLayout>
 
 
 
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 </RelativeLayout>

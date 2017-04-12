@@ -162,7 +162,7 @@
 
 
                 <View
-                    android:layout_width="75dp"
+                    android:layout_width="40dp"
                     android:layout_weight="0.53"
                     android:paddingStart="4dp"
                     android:layout_height="match_parent"/>

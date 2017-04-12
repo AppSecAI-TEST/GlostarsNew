@@ -122,6 +122,30 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".AboutUs"
+            android:label="@string/title_activity_about_us"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".dataPrivacy"
+            android:label="Data Privacy"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".FAQs"
+            android:label="FAQ"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ContactUs"
+            android:label="Contact Us"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
         <service
             android:name=".BackgroundService"
             android:exported="false" />

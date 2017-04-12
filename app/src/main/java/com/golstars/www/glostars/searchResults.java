@@ -120,6 +120,7 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
         competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
         profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
         notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
+        homeFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.homeFAB);
 
         //=============Notification Badges===============================================
 //        homebadge = (TextView)findViewById(R.id.homebadge);
@@ -139,12 +140,12 @@ public class searchResults extends AppCompatActivity implements  PopulatePage, O
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
-        mainbadge.setTypeface(type);
-        notificationbadge.setTypeface(type);
-        homebadge.setTypeface(type);
-        profilebadge.setTypeface(type);
-        competitionbadge.setTypeface(type);
-        camerabadge.setTypeface(type);
+//        mainbadge.setTypeface(type);
+//        notificationbadge.setTypeface(type);
+//        homebadge.setTypeface(type);
+//        profilebadge.setTypeface(type);
+//        competitionbadge.setTypeface(type);
+//        camerabadge.setTypeface(type);
        recentlyposted.setTypeface(type);
 
 

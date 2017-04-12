@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="12sp"
+            android:textSize="@dimen/textCAPTION"
             android:textColor="@color/darkGrey"
             android:text="@string/what"
             />
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="12sp"
+            android:textSize="@dimen/textCAPTION"
             android:textColor="@color/darkGrey"
             android:text="@string/who"
             />
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="12sp"
+            android:textSize="@dimen/textCAPTION"
             android:textColor="@color/darkGrey"
             android:text="@string/cost"
             />
@@ -85,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="12sp"
+            android:textSize="@dimen/textCAPTION"
             android:textColor="@color/darkGrey"
             android:text="@string/copyright"
             />
@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="12sp"
+            android:textSize="@dimen/textCAPTION"
             android:textColor="@color/darkGrey"
             android:text="@string/prizes"
             />
@@ -123,7 +123,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="12sp"
+            android:textSize="@dimen/textCAPTION"
             android:textColor="@color/darkGrey"
             android:text="@string/winners"
             />
@@ -143,7 +143,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="12sp"
+            android:textSize="@dimen/textCAPTION"
             android:textColor="@color/darkGrey"
             android:text="@string/seepics"
             />
@@ -162,7 +162,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="12sp"
+            android:textSize="@dimen/textCAPTION"
             android:textColor="@color/darkGrey"
             android:text="@string/comptheme"
             />
@@ -181,7 +181,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="12sp"
+            android:textSize="@dimen/textCAPTION"
             android:textColor="@color/darkGrey"
             android:text="@string/cameragood"
             />
@@ -200,7 +200,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="12sp"
+            android:textSize="@dimen/textCAPTION"
             android:textColor="@color/darkGrey"
             android:text="@string/security"
             />
@@ -219,7 +219,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="12sp"
+            android:textSize="@dimen/textCAPTION"
             android:textColor="@color/darkGrey"
             android:text="@string/collectprize"
             />

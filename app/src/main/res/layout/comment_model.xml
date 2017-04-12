@@ -18,7 +18,7 @@
 
     <TextView
         android:text="Name"
-        android:textSize="12sp"
+        android:textSize="@dimen/textCAPTION"
         android:textColor="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         android:text="Comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="@dimen/textHEADER"
         android:layout_marginTop="8dp"
         android:layout_below="@+id/namecomment"
         android:layout_alignStart="@+id/namecomment"

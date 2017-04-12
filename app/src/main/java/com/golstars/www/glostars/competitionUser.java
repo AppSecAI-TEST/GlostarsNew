@@ -39,12 +39,11 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
     boolean isOpen = false;
 
 
-    FloatingActionButton mainFAB ;
     com.github.clans.fab.FloatingActionButton cameraFAB;
     com.github.clans.fab.FloatingActionButton competitionFAB;
     com.github.clans.fab.FloatingActionButton profileFAB;
     com.github.clans.fab.FloatingActionButton notificationFAB;
-    FloatingActionButton homeFAB;
+    com.github.clans.fab.FloatingActionButton homeFAB;
 
     FloatingActionMenu menuDown;
 

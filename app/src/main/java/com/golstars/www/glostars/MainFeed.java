@@ -10,7 +10,9 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -66,6 +68,8 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
+import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
+import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 
 
 public class MainFeed extends AppCompatActivity implements OnRatingEventListener, OnItemClickListener {
@@ -93,12 +97,18 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     ImageView share_icon;
     ImageView privacyIcon;
 
+    com.github.clans.fab.FloatingActionButton homeFAB;
     com.github.clans.fab.FloatingActionButton cameraFAB;
     com.github.clans.fab.FloatingActionButton competitionFAB;
     com.github.clans.fab.FloatingActionButton profileFAB;
     com.github.clans.fab.FloatingActionButton notificationFAB;
 
     FloatingActionMenu menuDown;
+
+
+    View rootView;
+
+    EmojIconActions emojIcon;
 
 
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
@@ -129,13 +139,17 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         setSupportActionBar(toolbar);
 
 
+        final String TAG = MainFeed.class.getSimpleName();
+
+        rootView = findViewById(R.id.rootView);
+
         menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
         menuDown.setClosedOnTouchOutside(true);
 
         //---------------NETOWORK AND RECYCLER VIEW --------------------------------
         recyclerView = (RecyclerView) findViewById(R.id.mainfeedrecycler);
 
-        Context context = MainFeed.this;
+        final Context context = MainFeed.this;
 
         mUser = MyUser.getmUser();
         mUser.setContext(this);
@@ -302,10 +316,65 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         //--------------------------------------------------------------------------
 
 
+
+
+
         cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
         profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
         notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
+        homeFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.homeFAB);
+
+
+        menuDown.setMenuButtonColorNormal(R.color.colorAccent);
+      
+
+
+        homeFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainFeed.this);
+                View mView = getLayoutInflater().inflate(R.layout.commentdialog,null);
+
+                TextView commentsbanner = (TextView)mView.findViewById(R.id.commentbannerdialog);
+                RecyclerView commentrecycler  = (RecyclerView)mView.findViewById(R.id.commentrecycler);
+                ImageView emojibtn = (ImageView)mView.findViewById(R.id.emoji_btn);
+                EmojiconEditText commentbox = (EmojiconEditText)mView.findViewById(R.id.commentBox);
+                TextView sendcomment  = (TextView)mView.findViewById(R.id.sendcomment);
+
+//                emojIcon = new EmojIconActions(this, rootView, commentbox, emojibtn);
+//                emojIcon.ShowEmojIcon();
+//
+//
+//                emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
+//                    @Override
+//                    public void onKeyboardOpen() {
+//                        Log.e(TAG, "Keyboard opened!");
+//                    }
+//
+//                    @Override
+//                    public void onKeyboardClose() {
+//                        Log.e(TAG, "Keyboard closed");
+//                    }
+//                });
+
+
+                sendcomment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(MainFeed.this,
+                                "DO YOUR THING HERE ",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                mBuilder.setView(mView);
+                AlertDialog dialog = mBuilder.create();
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+
+            }
+        });
 
 
         username=(TextView)findViewById(R.id.userNAME);
@@ -801,6 +870,11 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         }
         else return null;
     }
+
+
+
+
+
 
 
 

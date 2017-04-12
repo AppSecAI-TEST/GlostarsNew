@@ -74,7 +74,6 @@
         android:layout_marginTop="4dp"
         android:id="@+id/emailcon"
         android:textSize="14sp"
-
         android:hint="Email"
         android:paddingStart="8dp"
         />

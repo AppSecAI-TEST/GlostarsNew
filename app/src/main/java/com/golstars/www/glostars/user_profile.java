@@ -97,6 +97,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
     TextView exhibitionPrizeCountProfile;
     TextView settingsuser;
     TextView numPhotosCount;
+    TextView grandPrizeCountProfile;
+
     ImageView userPicProfile;
     ImageView weeklyPrizeProfile;
     ImageView monthlyPrizeProfile;
@@ -177,7 +179,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
 
-//        competitiongrid.setNestedScrollingEnabled(false);
+       // competitiongrid.setNestedScrollingEnabled(false);
 
         settingsuser = (TextView)findViewById(R.id.settingsbutton);
         usernameProfile = (TextView)findViewById(R.id.profileuserNAME);
@@ -203,6 +205,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         seeAllPublicProfile = (TextView)findViewById(R.id.seeAllPublic);
         seeAllMutualProfile = (TextView)findViewById(R.id.seeAllMutual);
         numPhotosCount = (TextView)findViewById(R.id.numberofpostsCount);
+        grandPrizeCountProfile = (TextView)findViewById(R.id.grandprizecount);
+
 
         editprofile = (ImageView)findViewById(R.id.editprofile);
 
@@ -246,7 +250,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         compBanner.setTypeface(type);
         publicBanner.setTypeface(type);
         mutualBanner.setTypeface(type);
-        //follow.setTypeface(type);
+        grandPrizeCountProfile.setTypeface(type);
+//        follow.setTypeface(type);
 
 
 
@@ -262,7 +267,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
 
 
 
-        //userPicProfile = (ImageView) findViewById(R.id.userPIC);
+//        userPicProfile = (ImageView) findViewById(R.id.userPIC);
         userPicProfile = (ImageView) findViewById(R.id.profileuserPIC);
 
         weeklyPrizeProfile = (ImageView)findViewById(R.id.weeklyPrize);
@@ -813,6 +818,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick{
         Integer totalPics = totalmutualFollowerPics + totalCompetitionPic + totalpublicPictures;
 
         if(totalmutualFollowerPics == 0){
+            mutualgrid.setVisibility(View.GONE);
             mutualBanner.setVisibility(View.GONE);
             seeAllMutualProfile.setVisibility(View.GONE);
         } else{

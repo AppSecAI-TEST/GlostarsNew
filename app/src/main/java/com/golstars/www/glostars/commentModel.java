@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -96,6 +97,7 @@ public class commentModel extends AppCompatActivity {
         emojIcon = new EmojIconActions(this, rootView, commentbox, emojiImageView);
         emojIcon.ShowEmojIcon();
 
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
             @Override

@@ -16,8 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:orientation="horizontal"
-        android:background="@android:color/white"
-        >
+        android:background="#00FFFFFF"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
 
         <RatingBar
@@ -26,6 +27,7 @@
             android:layout_height="wrap_content"
             android:numStars="5"
             style="@style/RatingBarSmall"
+            android:background="#00FFFFFF"
             android:layout_gravity="center_vertical"
             android:stepSize="1"
             android:layout_marginLeft="8dp"

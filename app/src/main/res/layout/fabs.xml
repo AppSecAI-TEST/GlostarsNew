@@ -7,10 +7,8 @@
     android:paddingBottom="10dp"
     android:paddingLeft="10dp"
     android:layout_gravity="bottom|end"
-    android:elevation="0dp"
-    fab:menu_backgroundColor="#00FFFFFF"
-    fab:menu_labels_ellipsize="end"
-    fab:menu_labels_singleLine="true"
+    fab:menu_showShadow="false"
+    fab:menu_colorNormal="@color/colorAccent"
     fab:menu_fab_size="normal"
     fab:menu_openDirection="up"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_size="mini"
-        fab:fab_label="Home"
+        fab:fab_shadowColor="#00FFFFFF"
         android:visibility="visible"
         android:background="@color/colorAccent"
         android:src="@drawable/home"
@@ -32,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_size="mini"
-        fab:fab_label="Profile"
+        fab:fab_shadowColor="#00FFFFFF"
         android:id="@+id/profileFAB"
         android:src="@drawable/nopicmale"
 
@@ -42,8 +40,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_size="mini"
+        fab:fab_shadowColor="#00FFFFFF"
         android:id="@+id/competitionFAB"
-        fab:fab_label="Competition"
         android:src="@drawable/competition"
 
         />
@@ -52,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_size="mini"
-        fab:fab_label="Upload"
+        fab:fab_shadowColor="#00FFFFFF"
         android:id="@+id/cameraFAB"
         android:src="@drawable/upload"
         />
@@ -61,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_size="mini"
-        fab:fab_label="Notification"
+        fab:fab_shadowColor="#00FFFFFF"
         android:id="@+id/notificationFAB"
         android:src="@drawable/notification_icon"
         />

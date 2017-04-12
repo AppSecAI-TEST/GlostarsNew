@@ -48,7 +48,7 @@ public class edit_profile extends AppCompatActivity {
     com.github.clans.fab.FloatingActionButton competitionFAB;
     com.github.clans.fab.FloatingActionButton profileFAB;
     com.github.clans.fab.FloatingActionButton notificationFAB;
-    FloatingActionButton homeFAB;
+    com.github.clans.fab.FloatingActionButton homeFAB;
 
     FloatingActionMenu menuDown;
 
@@ -143,7 +143,7 @@ public class edit_profile extends AppCompatActivity {
         competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
         profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
         notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
-//        homeFAB = (FloatingActionButton)findViewById(R.id.homeFAB);
+        homeFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.homeFAB);
 
         //=============Notification Badges===============================================
 //        homebadge = (TextView)findViewById(R.id.homebadge);

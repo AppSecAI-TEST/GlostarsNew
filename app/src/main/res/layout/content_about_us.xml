@@ -26,10 +26,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="12sp"
-            android:textColor="@color/darkGrey"
             android:text="@string/aboutus"
-            />
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textCAPTION" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="12sp"
+            android:textSize="@dimen/textCAPTION"
             android:textColor="@color/darkGrey"
             android:text="@string/offers"
             />
@@ -66,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="12sp"
+            android:textSize="@dimen/textCAPTION"
             android:textColor="@color/darkGrey"
             android:text="@string/difference"
             />
@@ -86,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="12sp"
+            android:textSize="@dimen/textCAPTION"
             android:textColor="@color/darkGrey"
             android:text="@string/achievements"
             />

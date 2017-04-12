@@ -1,38 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_comment_model"
+<LinearLayout
+    android:id="@+id/rootView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.golstars.www.glostars.commentModel"
-    tools:showIn="@layout/activity_comment_model">
+    android:background="@drawable/dialog_bg"
+    android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/commentslist"
-            android:layout_margin="8dp"
+    <TextView
+        android:id="@+id/commentbannerdialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comments "
+        android:layout_marginBottom="32dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/commentrecycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="44dp">
+            android:layout_height="wrap_content">
 
-        </ListView>
+        </android.support.v7.widget.RecyclerView>
 
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
+        android:layout_height="55dp"
+        android:background="@drawable/editprofileedittext"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/emoji_btn"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:padding="4dp"
@@ -41,9 +49,10 @@
         <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
             android:id="@+id/commentBox"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:lines="2"
             android:textSize="@dimen/textCAPTION"
+            android:layout_gravity="center_vertical"
             android:paddingStart="4dp"
             android:hint="Write your comment"
             android:textCursorDrawable="@drawable/cursor_color"
@@ -58,17 +67,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Send"
+            android:layout_gravity="center_vertical"
             android:textStyle="bold"
+            android:layout_marginEnd="4dp"
             android:textColor="@color/colorPrimary"
             android:elevation="32dp" />
 
-
     </LinearLayout>
 
-
-
-
-
-
-
-</RelativeLayout>
+</LinearLayout>
