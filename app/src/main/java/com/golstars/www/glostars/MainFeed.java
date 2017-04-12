@@ -59,6 +59,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -217,7 +218,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
             }
         }, new OnItemClickListener() {
             @Override
-            public void onItemClickPost(Post item) {
+            public void onItemClickPost(final Post item) {
                 /* the following method opens a dialog box
                     containing the comments
                 * */
@@ -229,12 +230,12 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 //TextView commentsbanner = (TextView)mView.findViewById(R.id.commentbannerdialog);
                 ListView commentrecycler  = (ListView)mView.findViewById(R.id.commentrecycler);
                 //ImageView emojibtn = (ImageView)mView.findViewById(R.id.emoji_btn);
-                //EmojiconEditText commentbox = (EmojiconEditText)mView.findViewById(R.id.commentBox);
-                TextView sendcomment  = (TextView)mView.findViewById(R.id.sendcomment);
+                final EmojiconEditText commentbox = (EmojiconEditText)mView.findViewById(R.id.commentBox);
+                final TextView sendcomment  = (TextView)mView.findViewById(R.id.sendcomment);
 
 
-                ArrayList<Comment> commentsList = new ArrayList<>();
-                CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), R.layout.content_comment_model, commentsList,
+                final ArrayList<Comment> commentsList = new ArrayList<>();
+                final CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), R.layout.content_comment_model, commentsList,
                         new commentModel.BtnClickListener() {
                             @Override
                             public void onItemClick(Comment com) {
@@ -289,9 +290,14 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 sendcomment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(MainFeed.this,
-                                "DO YOUR THING HERE ",
-                                Toast.LENGTH_LONG).show();
+                        String comment = String.valueOf(commentbox.getText());
+                        try {
+                            postComment(item.getPhotoId(), comment, commentsList, commentAdapter, sendcomment);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        commentbox.setText("");
                     }
                 });
 
@@ -775,6 +781,42 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
     @Override
     public void onItemClickNotif(NotificationObj notif) {
+
+    }
+
+
+    void postComment(String picID,  String comment, ArrayList commentsList, CommentAdapter commentAdapter, TextView commentbox) throws Exception{
+
+        if(!comment.isEmpty()){
+            PictureService pictureService = new PictureService();
+            pictureService.commentPicture(picID, comment, mUser.getToken());
+            JSONObject res = null;
+            while(res == null){
+                res = pictureService.getDataObject();
+            }
+
+            Comment dummyComment = new Comment(
+                    comment,
+                    mUser.getName(),
+                    mUser.getUserId(),
+                    (new Date()).toString(),
+                    mUser.getProfilePicURL(),
+                    mUser.getName(),
+                    "", 0);
+
+
+
+            if(res.getInt("responseCode") == 1){
+                commentsList.add(dummyComment);
+                commentAdapter.notifyDataSetChanged();
+                commentbox.setText("");
+
+            } else Toast.makeText(this, "couldn't connect to the servers", Toast.LENGTH_LONG).show();
+
+        } else {
+            Toast.makeText(this, "write a message before sending", Toast.LENGTH_LONG).show();
+        }
+
 
     }
 
