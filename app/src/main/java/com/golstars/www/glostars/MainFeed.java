@@ -37,6 +37,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -337,7 +338,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 View mView = getLayoutInflater().inflate(R.layout.commentdialog,null);
 
                 TextView commentsbanner = (TextView)mView.findViewById(R.id.commentbannerdialog);
-                RecyclerView commentrecycler  = (RecyclerView)mView.findViewById(R.id.commentrecycler);
+                ListView commentrecycler  = (ListView)mView.findViewById(R.id.commentrecycler);
                 ImageView emojibtn = (ImageView)mView.findViewById(R.id.emoji_btn);
                 EmojiconEditText commentbox = (EmojiconEditText)mView.findViewById(R.id.commentBox);
                 TextView sendcomment  = (TextView)mView.findViewById(R.id.sendcomment);
