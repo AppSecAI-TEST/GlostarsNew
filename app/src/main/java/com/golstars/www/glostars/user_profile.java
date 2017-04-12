@@ -2,13 +2,10 @@ package com.golstars.www.glostars;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,28 +16,29 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.adapters.RecyclerGridAdapter;
+import com.golstars.www.glostars.interfaces.OnSinglePicClick;
+import com.golstars.www.glostars.models.GuestUser;
+import com.golstars.www.glostars.network.FollowerService;
+import com.golstars.www.glostars.network.NotificationService;
+import com.golstars.www.glostars.network.PictureService;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.Header;
 
-public class user_profile extends AppCompatActivity implements OnSinglePicClick{
+public class user_profile extends AppCompatActivity implements OnSinglePicClick {
 
 
     //===========================FABS=========================================

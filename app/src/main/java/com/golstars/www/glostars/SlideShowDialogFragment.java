@@ -1,5 +1,4 @@
 package com.golstars.www.glostars;
-import android.content.Intent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -15,13 +14,14 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.golstars.www.glostars.models.Post;
+import com.golstars.www.glostars.network.PictureService;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;

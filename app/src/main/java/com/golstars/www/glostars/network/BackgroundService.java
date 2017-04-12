@@ -1,4 +1,4 @@
-package com.golstars.www.glostars;
+package com.golstars.www.glostars.network;
 
 import android.app.Activity;
 import android.app.IntentService;
@@ -11,6 +11,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
+
+import com.golstars.www.glostars.MainFeed;
+import com.golstars.www.glostars.R;
+import com.golstars.www.glostars.notification;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +33,7 @@ import okhttp3.Response;
  */
 
 public class BackgroundService extends IntentService{
-    public static final String ACTION = "com.golstars.www.glostars.BackgroundService";
+    public static final String ACTION = "com.golstars.www.glostars.network.BackgroundService";
     private static final int MY_NOTIFICATION_ID=1;
     NotificationManager notificationManager;
     Notification mNotification;
@@ -98,7 +102,7 @@ public class BackgroundService extends IntentService{
 
     private void getNotifs(String token, String usrId) throws Exception{
 
-        URL url = new URL("http://www.glostars.com/api/notifications/user/" + usrId);
+        URL url = new URL("https://www.glostars.com/api/notifications/user/" + usrId);
 
         Request request = new Request.Builder()
                 .url(url)

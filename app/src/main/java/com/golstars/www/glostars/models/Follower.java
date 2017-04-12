@@ -1,4 +1,4 @@
-package com.golstars.www.glostars;
+package com.golstars.www.glostars.models;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

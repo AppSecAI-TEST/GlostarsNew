@@ -1,4 +1,4 @@
-package com.golstars.www.glostars;
+package com.golstars.www.glostars.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.golstars.www.glostars.models.NotificationObj;
+import com.golstars.www.glostars.interfaces.OnItemClickListener;
+import com.golstars.www.glostars.R;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.golstars.www.glostars;
+package com.golstars.www.glostars.network;
 
 import android.content.Context;
 
@@ -35,7 +35,7 @@ public class PictureService {
     private final OkHttpClient client = new OkHttpClient();
     private JSONArray data;
     private JSONObject dat;
-    String baseURL = "http://www.glostars.com/";
+    String baseURL = "https://www.glostars.com/";
 
 
     private static AsyncHttpClient AsyncClient = new AsyncHttpClient();
@@ -44,7 +44,7 @@ public class PictureService {
 
     public void getMutualPictures(String userid, Integer count, String token) throws Exception {
 
-        URL url = new URL("http://www.glostars.com/api/images/mutualpic/" + userid + "/" + count);
+        URL url = new URL("https://www.glostars.com/api/images/mutualpic/" + userid + "/" + count);
         String postMessage = "{ListPhoto:[]}";
         RequestBody body = RequestBody.create(JSONType, postMessage);
 
@@ -83,7 +83,7 @@ public class PictureService {
     }
 
     public void getUserPictures(String userid, Integer count, String token) throws Exception{
-        URL url = new URL("http://www.glostars.com/api/images/user/" + userid + "/" + count);
+        URL url = new URL("https://www.glostars.com/api/images/user/" + userid + "/" + count);
 
         Request request = new Request.Builder()
                 .url(url)
@@ -198,13 +198,13 @@ public class PictureService {
     public static void ratePicture(Context context, String token, StringEntity jsonEntity, AsyncHttpResponseHandler responseHandler){
         AsyncClient.addHeader("Content-Type", "application/json");
         AsyncClient.addHeader("Authorization", "Bearer " + token);
-        AsyncClient.post(context ,"http://www.glostars.com/api/images/rating", jsonEntity , "application/json", responseHandler);
+        AsyncClient.post(context ,"https://www.glostars.com/api/images/rating", jsonEntity , "application/json", responseHandler);
     }
 
     public static void unratePicture(Context context, String token, String picId, StringEntity jsonEntity, AsyncHttpResponseHandler responseHandler){
         AsyncClient.addHeader("Content-Type", "application/json");
         AsyncClient.addHeader("Authorization", "Bearer " + token);
-        AsyncClient.post(context ,"http://www.glostars.com/api/images/removerate/" + picId, jsonEntity , "application/json", responseHandler);
+        AsyncClient.post(context ,"https://www.glostars.com/api/images/removerate/" + picId, jsonEntity , "application/json", responseHandler);
     }
 
 

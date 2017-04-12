@@ -147,7 +147,7 @@
             android:theme="@style/AppTheme" />
 
         <service
-            android:name=".BackgroundService"
+            android:name=".network.BackgroundService"
             android:exported="false" />
 
         <receiver

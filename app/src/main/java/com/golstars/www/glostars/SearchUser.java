@@ -1,8 +1,8 @@
 package com.golstars.www.glostars;
 
 import android.content.Context;
-import android.os.Handler;
 
+import com.golstars.www.glostars.models.GuestUser;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 

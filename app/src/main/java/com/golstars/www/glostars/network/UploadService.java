@@ -1,4 +1,4 @@
-package com.golstars.www.glostars;
+package com.golstars.www.glostars.network;
 
 import android.content.Context;
 
@@ -14,7 +14,7 @@ import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class UploadService {
 
-    private static final String baseURL = "http://www.glostars.com/";
+    private static final String baseURL = "https://www.glostars.com/";
     private static AsyncHttpClient client = new AsyncHttpClient();
 
 

@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,12 +17,17 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.adapters.RecyclerGridAdapter;
+import com.golstars.www.glostars.interfaces.OnSinglePicClick;
+import com.golstars.www.glostars.interfaces.PopulatePage;
+import com.golstars.www.glostars.models.Post;
+import com.golstars.www.glostars.network.NotificationService;
+import com.golstars.www.glostars.network.PictureService;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
@@ -34,15 +37,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import cz.msebera.android.httpclient.Header;
 
 
-public class searchResults extends AppCompatActivity implements  PopulatePage, OnSinglePicClick{
+public class searchResults extends AppCompatActivity implements PopulatePage, OnSinglePicClick {
 
     RecyclerView searchgrid;
     ListView searchlist;

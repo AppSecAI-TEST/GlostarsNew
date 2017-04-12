@@ -319,7 +319,7 @@ public class upload extends AppCompatActivity {
     public void uploadPhoto(String descrip, String privacy, Boolean isCompeting, File file, Bitmap bm){
 
 
-        String url = "http://www.glostars.com/home/upload";
+        String url = "https://www.glostars.com/home/upload";
         AsyncHttpClient client = new AsyncHttpClient();
         String base64 = null;
         String imageData = null;

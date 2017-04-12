@@ -1,4 +1,4 @@
-package com.golstars.www.glostars;
+package com.golstars.www.glostars.network;
 
 import android.content.Context;
 
@@ -41,7 +41,7 @@ public class NotificationService {
     *
     * */
 
-    private static final  String baseURL = "http://www.glostars.com/";
+    private static final  String baseURL = "https://www.glostars.com/";
     private static AsyncHttpClient client = new AsyncHttpClient();
 
     public static void getNotifications(Context context, String usrId, String token, AsyncHttpResponseHandler responseHandler)  {

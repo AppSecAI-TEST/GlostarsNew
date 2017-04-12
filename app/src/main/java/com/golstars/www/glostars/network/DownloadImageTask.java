@@ -1,4 +1,4 @@
-package com.golstars.www.glostars;
+package com.golstars.www.glostars.network;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

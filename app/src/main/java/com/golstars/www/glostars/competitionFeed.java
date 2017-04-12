@@ -1,10 +1,8 @@
 package com.golstars.www.glostars;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +18,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.adapters.PostAdapter;
+import com.golstars.www.glostars.interfaces.OnItemClickListener;
+import com.golstars.www.glostars.interfaces.OnRatingEventListener;
+import com.golstars.www.glostars.models.NotificationObj;
+import com.golstars.www.glostars.models.Post;
+import com.golstars.www.glostars.network.PictureService;
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.LocalDateTime;
@@ -36,7 +40,7 @@ import java.util.List;
  * Created by admin on 2/21/2017.
  */
 
-public class competitionFeed extends AppCompatActivity implements OnRatingEventListener, OnItemClickListener{
+public class competitionFeed extends AppCompatActivity implements OnRatingEventListener, OnItemClickListener {
 
     //===========================FABS=========================================
 

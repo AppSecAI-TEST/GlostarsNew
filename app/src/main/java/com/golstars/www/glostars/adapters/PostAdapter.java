@@ -1,30 +1,23 @@
-package com.golstars.www.glostars;
+package com.golstars.www.glostars.adapters;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.graphics.Typeface;
-import android.support.constraint.solver.SolverVariable;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.RatingBar.OnRatingBarChangeListener;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.golstars.www.glostars.MyUser;
+import com.golstars.www.glostars.interfaces.OnItemClickListener;
+import com.golstars.www.glostars.interfaces.OnRatingEventListener;
+import com.golstars.www.glostars.models.Post;
+import com.golstars.www.glostars.R;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -33,10 +26,8 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Handler;
 
 /**
  * Created by edson on 07/02/17.

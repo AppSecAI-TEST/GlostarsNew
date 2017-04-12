@@ -1,33 +1,26 @@
 package com.golstars.www.glostars;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.adapters.RecyclerGridAdapter;
+import com.golstars.www.glostars.interfaces.OnSinglePicClick;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class competitionUser extends AppCompatActivity implements OnSinglePicClick{
+public class competitionUser extends AppCompatActivity implements OnSinglePicClick {
 
     //===========================FABS=========================================
 

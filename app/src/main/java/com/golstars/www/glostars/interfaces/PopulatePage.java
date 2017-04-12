@@ -1,4 +1,4 @@
-package com.golstars.www.glostars;
+package com.golstars.www.glostars.interfaces;
 
 import android.os.AsyncTask;
 

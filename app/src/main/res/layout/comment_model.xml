@@ -29,6 +29,7 @@
 
     <hani.momanii.supernova_emoji_library.Helper.EmojiconTextView
         android:text="Comment"
+        android:textColor="@color/darkGrey"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/textHEADER"

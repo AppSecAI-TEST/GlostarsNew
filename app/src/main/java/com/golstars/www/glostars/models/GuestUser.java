@@ -1,4 +1,4 @@
-package com.golstars.www.glostars;
+package com.golstars.www.glostars.models;
 
 /**
  * Created by edson on 03/03/17.

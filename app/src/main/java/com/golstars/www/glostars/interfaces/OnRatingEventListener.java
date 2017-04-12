@@ -1,4 +1,6 @@
-package com.golstars.www.glostars;
+package com.golstars.www.glostars.interfaces;
+
+import com.golstars.www.glostars.models.Post;
 
 /**
  * Created by edson on 02/03/17.

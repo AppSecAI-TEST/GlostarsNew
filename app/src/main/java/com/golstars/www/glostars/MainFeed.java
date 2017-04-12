@@ -9,17 +9,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -28,29 +24,29 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.adapters.CommentAdapter;
+import com.golstars.www.glostars.adapters.PostAdapter;
+import com.golstars.www.glostars.interfaces.OnItemClickListener;
+import com.golstars.www.glostars.interfaces.OnRatingEventListener;
+import com.golstars.www.glostars.models.Comment;
+import com.golstars.www.glostars.models.NotificationObj;
+import com.golstars.www.glostars.models.Post;
+import com.golstars.www.glostars.network.NotificationService;
+import com.golstars.www.glostars.network.PictureService;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
-import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,9 +58,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -224,13 +218,97 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         }, new OnItemClickListener() {
             @Override
             public void onItemClickPost(Post item) {
-                //commentsListener handler
+                /* the following method opens a dialog box
+                    containing the comments
+                * */
+
+
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainFeed.this);
+                View mView = getLayoutInflater().inflate(R.layout.commentdialog,null);
+
+                //TextView commentsbanner = (TextView)mView.findViewById(R.id.commentbannerdialog);
+                ListView commentrecycler  = (ListView)mView.findViewById(R.id.commentrecycler);
+                //ImageView emojibtn = (ImageView)mView.findViewById(R.id.emoji_btn);
+                //EmojiconEditText commentbox = (EmojiconEditText)mView.findViewById(R.id.commentBox);
+                TextView sendcomment  = (TextView)mView.findViewById(R.id.sendcomment);
+
+
+                ArrayList<Comment> commentsList = new ArrayList<>();
+                CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), R.layout.content_comment_model, commentsList,
+                        new commentModel.BtnClickListener() {
+                            @Override
+                            public void onItemClick(Comment com) {
+                                Intent intent = new Intent();
+                                intent.putExtra("USER_ID", com.getCommenterId());
+                                intent.setClass(getApplicationContext(), user_profile.class);
+                                startActivity(intent);
+                            }
+                        });
+                commentrecycler.setAdapter(commentAdapter);
+
+                for(int i = 0; i < item.getComments().length(); i++){
+                    try{
+                        JSONObject com = item.getComments().getJSONObject(i);
+                        Integer commentId = com.getInt("commentId");
+                        String  commentMessage = com.getString("commentMessage");
+                        String commenterUserName = com.getString("commenterUserName");
+                        String commenterID = com.getString("commenterId");
+                        String commentTime = com.getString("commentTime");
+                        String profilePicUrl = com.getString("profilePicUrl");
+                        String firstName = com.getString("firstName");
+                        String lastName = com.getString("lastName");
+                        Comment comment = new Comment(commentMessage, commenterUserName, commenterID, commentTime, profilePicUrl, firstName, lastName, commentId);
+                        commentsList.add(comment);
+                        commentAdapter.notifyDataSetChanged();
+
+                    } catch (JSONException e){
+                        e.printStackTrace();
+                    }
+
+
+                }
+
+
+//                emojIcon = new EmojIconActions(this, rootView, commentbox, emojibtn);
+//                emojIcon.ShowEmojIcon();
+//
+//
+//                emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
+//                    @Override
+//                    public void onKeyboardOpen() {
+//                        Log.e(TAG, "Keyboard opened!");
+//                    }
+//
+//                    @Override
+//                    public void onKeyboardClose() {
+//                        Log.e(TAG, "Keyboard closed");
+//                    }
+//                });
+
+
+                sendcomment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(MainFeed.this,
+                                "DO YOUR THING HERE ",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                mBuilder.setView(mView);
+                AlertDialog dialog = mBuilder.create();
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+
+
+
+                /*
                 Intent intent = new Intent();
 
                 intent.putExtra("COMMENTS", item.getComments().toString());
                 intent.putExtra("PICID", item.getPhotoId());
                 intent.setClass(getApplicationContext(), commentModel.class);
-                startActivity(intent);
+                startActivity(intent);*/
             }
 
             @Override
@@ -342,6 +420,8 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 ImageView emojibtn = (ImageView)mView.findViewById(R.id.emoji_btn);
                 EmojiconEditText commentbox = (EmojiconEditText)mView.findViewById(R.id.commentBox);
                 TextView sendcomment  = (TextView)mView.findViewById(R.id.sendcomment);
+
+
 
 //                emojIcon = new EmojIconActions(this, rootView, commentbox, emojibtn);
 //                emojIcon.ShowEmojIcon();
