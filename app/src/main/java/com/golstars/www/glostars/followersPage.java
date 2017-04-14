@@ -217,7 +217,7 @@ public class followersPage extends AppCompatActivity {
         MyUser mUser = MyUser.getmUser(getApplicationContext());
         mUser.setContext(getApplicationContext());
         System.out.println("user profile pic: "  + mUser.getProfilePicURL());
-        Glide.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
+//        Glide.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
 
 
 

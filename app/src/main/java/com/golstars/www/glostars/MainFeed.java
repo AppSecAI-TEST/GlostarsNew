@@ -90,7 +90,6 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
     ImageView propic;
     ImageView post;
-    ImageView share_icon;
     ImageView privacyIcon;
 
     com.github.clans.fab.FloatingActionButton homeFAB;
@@ -396,8 +395,6 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
 
 
-
-
         cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
         profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
@@ -405,55 +402,11 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         homeFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.homeFAB);
 
 
-        menuDown.setMenuButtonColorNormal(R.color.colorAccent);
-      
-
 
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainFeed.this);
-                View mView = getLayoutInflater().inflate(R.layout.commentdialog,null);
-
-                TextView commentsbanner = (TextView)mView.findViewById(R.id.commentbannerdialog);
-                ListView commentrecycler  = (ListView)mView.findViewById(R.id.commentrecycler);
-                ImageView emojibtn = (ImageView)mView.findViewById(R.id.emoji_btn);
-                EmojiconEditText commentbox = (EmojiconEditText)mView.findViewById(R.id.commentBox);
-                TextView sendcomment  = (TextView)mView.findViewById(R.id.sendcomment);
-
-
-
-//                emojIcon = new EmojIconActions(this, rootView, commentbox, emojibtn);
-//                emojIcon.ShowEmojIcon();
-//
-//
-//                emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
-//                    @Override
-//                    public void onKeyboardOpen() {
-//                        Log.e(TAG, "Keyboard opened!");
-//                    }
-//
-//                    @Override
-//                    public void onKeyboardClose() {
-//                        Log.e(TAG, "Keyboard closed");
-//                    }
-//                });
-
-
-                sendcomment.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(MainFeed.this,
-                                "DO YOUR THING HERE ",
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                mBuilder.setView(mView);
-                AlertDialog dialog = mBuilder.create();
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-
+                menuDown.close(true);
             }
         });
 
@@ -467,7 +420,6 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
         post = (ImageView)findViewById(R.id.userPOST);
         propic = (ImageView)findViewById(R.id.userPIC);
-        share_icon = (ImageView)findViewById(R.id.share);
         privacyIcon = (ImageView)findViewById(R.id.privacy);
 
         gl = (ImageView)findViewById(R.id.glostarslogo);
@@ -621,7 +573,6 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
         @Override
         protected void onPostExecute(JSONObject object) {
-            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
             //userProfileIntent = new Intent();
             userProfileIntent.putExtra("USER_ID",mUser.getUserId());
             userProfileIntent.setClass(getApplicationContext(),user_profile.class);

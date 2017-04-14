@@ -295,7 +295,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
 
         @Override
         protected void onPostExecute(JSONObject object) {
-            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
+//            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
             try {
                 populateNotificationsList(mUser.getUserId(), mUser.getToken());
             } catch (Exception e1) {

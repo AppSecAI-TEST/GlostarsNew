@@ -464,7 +464,7 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
 
         @Override
         protected void onPostExecute(JSONObject object) {
-            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
+//            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
             try {
                 callAsyncPopulate(pg, mUser.getToken());
             } catch (Exception e1) {

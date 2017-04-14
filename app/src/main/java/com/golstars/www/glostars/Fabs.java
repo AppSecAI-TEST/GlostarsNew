@@ -1,5 +1,6 @@
 package com.golstars.www.glostars;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -31,6 +32,8 @@ public class Fabs extends AppCompatActivity {
     com.github.clans.fab.FloatingActionButton competitionFAB;
     com.github.clans.fab.FloatingActionButton profileFAB;
     com.github.clans.fab.FloatingActionButton notificationFAB;
+
+    FloatingActionMenu menuDown;
 
 
     TextView homebadge;
@@ -84,6 +87,8 @@ public class Fabs extends AppCompatActivity {
 
 
     }
+
+
 
 
 

@@ -23,7 +23,6 @@
 
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:src="@drawable/nopicmale"
                 android:id="@+id/editpic"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"

@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionMenu;
+
 import org.w3c.dom.Text;
 
 public class settingsPage extends AppCompatActivity {
@@ -20,6 +22,14 @@ public class settingsPage extends AppCompatActivity {
     TextView dataprivacy;
     TextView contactus;
     TextView Terms;
+
+    com.github.clans.fab.FloatingActionButton homeFAB;
+    com.github.clans.fab.FloatingActionButton cameraFAB;
+    com.github.clans.fab.FloatingActionButton competitionFAB;
+    com.github.clans.fab.FloatingActionButton profileFAB;
+    com.github.clans.fab.FloatingActionButton notificationFAB;
+
+    FloatingActionMenu menuDown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +44,15 @@ public class settingsPage extends AppCompatActivity {
         contactus = (TextView)findViewById(R.id.contactus);
         Terms = (TextView)findViewById(R.id.termsset);
         logout = (TextView)findViewById(R.id.logoutset);
+
+
+
+
+        cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
+        competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
+        profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
+        notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
+        homeFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.homeFAB);
 
 
 
@@ -91,6 +110,47 @@ public class settingsPage extends AppCompatActivity {
         });
 
 
+        homeFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(settingsPage.this,MainFeed.class));
+            }
+        });
+
+
+        cameraFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(settingsPage.this, upload.class));
+                menuDown.close(true);
+            }
+        });
+
+
+        profileFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(settingsPage.this,user_profile.class));
+                menuDown.close(true);
+            }
+        });
+
+        notificationFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(settingsPage.this, notification.class));
+                menuDown.close(true);
+            }
+        });
+
+        competitionFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(settingsPage.this, competitionAll.class));
+                menuDown.close(true);
+
+            }
+        });
 
     }
 

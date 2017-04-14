@@ -58,7 +58,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         public ImageView propic;
         public RatingBar ratingBar;
         public ImageView commentsBtn;
-        public RelativeLayout featuredFlag;
+        public RelativeLayout featuredFlag,seeAllcomp;
         public ImageView deleteIcon;
 
         public MyViewHolder(View view, final OnRatingEventListener ratingListener, final OnItemClickListener listener, final OnItemClickListener postImgListener,
@@ -79,6 +79,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             comptext = (TextView)view.findViewById(R.id.comptext);
             featuredFlag = (RelativeLayout)view.findViewById(R.id.compflag);
             deleteIcon = (ImageView)view.findViewById(R.id.clearRating);
+            seeAllcomp = (RelativeLayout)view.findViewById(R.id.seeAllcomppost);
 
             username.setTypeface(type);
             caption.setTypeface(type);

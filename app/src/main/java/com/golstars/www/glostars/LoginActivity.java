@@ -129,7 +129,7 @@ public class LoginActivity extends Fragment {
 
     public void login(String grantType, String password, String username) throws Exception{
 
-        URL url = new URL("http://www.glostars.com/Token");
+        URL url = new URL("https://www.glostars.com/Token");
         /*
         String postMessage = "{'grant_type':" + "password," +
                              "'password':" + "91113603," +

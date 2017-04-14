@@ -299,7 +299,7 @@ public class edit_profile extends AppCompatActivity {
         protected void onPostExecute(JSONObject data) {
             firstname.setText(myUser.getName());
             Picasso.with(getApplicationContext()).load(myUser.getProfilePicURL()).into(editPic);
-            Picasso.with(getApplicationContext()).load(myUser.getProfilePicURL()).into(profileFAB);
+//            Picasso.with(getApplicationContext()).load(myUser.getProfilePicURL()).into(profileFAB);
 
             homeIntent = new Intent();
             homeIntent.putExtra("USER_ID", myUser.getUserId());

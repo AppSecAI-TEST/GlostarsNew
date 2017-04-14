@@ -703,7 +703,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
                 homeIntent.setClass(getApplicationContext(), user_profile.class);
 
 
-                Glide.with(getApplicationContext()).load(jsonObject.getString("myUsrPic")).into(profileFAB);
+//                Glide.with(getApplicationContext()).load(jsonObject.getString("myUsrPic")).into(profileFAB);
 
                 Glide.with(getApplicationContext()).load(jsonObject.getString("guestPic")).into(userPicProfile);
 

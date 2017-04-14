@@ -7,7 +7,9 @@
     android:paddingBottom="10dp"
     android:paddingLeft="10dp"
     android:layout_gravity="bottom|end"
+    fab:menu_backgroundColor="#ccffffff"
     fab:menu_showShadow="false"
+    fab:menu_icon="@drawable/ic_action_name"
     fab:menu_colorNormal="@color/colorAccent"
     fab:menu_fab_size="normal"
     fab:menu_openDirection="up"
@@ -20,7 +22,8 @@
         fab:fab_size="mini"
         fab:fab_shadowColor="#00FFFFFF"
         android:visibility="visible"
-        android:background="@color/colorAccent"
+        fab:fab_colorNormal="@color/colorAccent"
+        fab:fab_colorPressed="#FFFFFF"
         android:src="@drawable/home"
         android:id="@+id/homeFAB"
         />
@@ -31,37 +34,43 @@
         android:layout_height="wrap_content"
         fab:fab_size="mini"
         fab:fab_shadowColor="#00FFFFFF"
-        android:id="@+id/profileFAB"
+        fab:fab_colorNormal="@color/colorAccent"
         android:src="@drawable/nopicmale"
-
+        fab:fab_colorPressed="#FFFFFF"
+        android:id="@+id/profileFAB"
         />
 
     <com.github.clans.fab.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_size="mini"
+        fab:fab_colorNormal="@color/colorAccent"
+        fab:fab_colorPressed="#FFFFFF"
         fab:fab_shadowColor="#00FFFFFF"
         android:id="@+id/competitionFAB"
         android:src="@drawable/competition"
-
         />
 
     <com.github.clans.fab.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_size="mini"
+        android:src="@drawable/upload"
+        fab:fab_colorNormal="@color/colorAccent"
+        fab:fab_colorPressed="#FFFFFF"
         fab:fab_shadowColor="#00FFFFFF"
         android:id="@+id/cameraFAB"
-        android:src="@drawable/upload"
         />
 
     <com.github.clans.fab.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_size="mini"
+        android:src="@drawable/notification"
+        fab:fab_colorNormal="@color/colorAccent"
+        fab:fab_colorPressed="#FFFFFF"
         fab:fab_shadowColor="#00FFFFFF"
         android:id="@+id/notificationFAB"
-        android:src="@drawable/notification_icon"
         />
 
 

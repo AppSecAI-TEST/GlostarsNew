@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/testpropic" />
+         />
 
     <TextView
         android:text="Name"

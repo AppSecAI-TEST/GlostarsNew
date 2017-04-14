@@ -322,7 +322,7 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
 
         @Override
         protected void onPostExecute(JSONObject object) {
-            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
+//            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
             //userProfileIntent = new Intent();
             userProfileIntent.putExtra("USER_ID",mUser.getUserId());
             userProfileIntent.setClass(getApplicationContext(),user_profile.class);

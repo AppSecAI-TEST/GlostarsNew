@@ -309,7 +309,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 
         @Override
         protected void onPostExecute(JSONObject object) {
-            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
+//            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
             try {
                 callAsyncPopulate(pg, mUser.getToken());
             } catch (Exception e) {
