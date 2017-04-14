@@ -37,7 +37,7 @@ import java.util.List;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> {
 
 
-    private List<Post> postsList;
+    private ArrayList<Post> postsList;
     public  Context context;
     private final OnItemClickListener listener;
     private final OnItemClickListener postImgListener;
@@ -125,7 +125,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
     }
 
-    public PostAdapter(List<Post> postsList, Integer width, String usrId, Context context, OnRatingEventListener ratingListener, OnItemClickListener listener,
+    public PostAdapter(ArrayList<Post> postsList, Integer width, String usrId, Context context, OnRatingEventListener ratingListener, OnItemClickListener listener,
                        OnItemClickListener postImgListener, OnItemClickListener commentsListener, OnItemClickListener deleteListener, int resource){
         this.postsList = postsList;
         this.context = context;
@@ -292,60 +292,73 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                    - brings the list back its JSONArray state and sets it as
                    updated rating list of the current post pic
                 * */
-                deleteListener.onItemClickPost(post);
-                JSONArray ratings = post.getRatings();
-                int ratingToRemove = 0;
-                int itempos = -1;
-                for(int i = 0; i < ratings.length(); i++){
-                    try {
-                        if(ratings.getJSONObject(i).getString("raterId").equals(mUser.getUserId())){
-                            ratingToRemove = ratings.getJSONObject(i).getInt("starsCount");
-                            itempos = i;
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                ArrayList<String> list = new ArrayList<String>();
-                int len = ratings.length();
-
-                if(ratings != null){
-                    for(int i =0; i < len; i++){
+                if(!onBind){
+                    System.out.println("my user is " + mUser.getUserId());
+                    deleteListener.onItemClickPost(post);
+                    JSONArray ratings = post.getRatings();
+                    int ratingToRemove = 0;
+                    int itempos = -1;
+                    for(int i = 0; i < ratings.length(); i++){
                         try {
-                            list.add(ratings.get(i).toString());
+                            if(ratings.getJSONObject(i).getString("raterId").equals(mUser.getUserId())){
+                                ratingToRemove = ratings.getJSONObject(i).getInt("starsCount");
+                                itempos = i;
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
-                }
 
-                if(itempos > -1){
-                    list.remove(itempos);
-                }
+                    ArrayList<String> list = new ArrayList<String>();
+                    int len = ratings.length();
 
-
-                System.out.println("string array resultant :" + list);
-                System.out.println("first element of string array :" + list.get(0));
-                JSONArray newRatings = new JSONArray();
-
-                for(int i = 0; i < list.size(); i++){
-                    try {
-                        JSONObject rating = new JSONObject(list.get(i));
-                        newRatings.put(rating);
-                        
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if(ratings != null){
+                        for(int i =0; i < len; i++){
+                            try {
+                                list.add(ratings.get(i).toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
+
+                    if(itempos > -1){
+                        list.remove(itempos);
+                    }
+
+
+
+                    JSONArray newRatings = new JSONArray();
+
+                    for(int i = 0; i < list.size(); i++){
+                        try {
+                            JSONObject rating = new JSONObject(list.get(i));
+
+                            newRatings.put(rating);
+                            System.out.println("LIST ITEM ADDED " + newRatings);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                    System.out.println("string array resultant(list) :" + list);
+                    System.out.println("string array resultant(method) :" + newRatings);
+                    Post mPost = postsList.get(pos);
+                    mPost.setRatings(newRatings);
+                    mPost.setStarsCount(mPost.getStarsCount() - ratingToRemove);
+                    //postsList.get(pos).setStarsCount(post.getStarsCount() - ratingToRemove);
+                    postsList.set(pos,mPost);
+
+
+                    System.out.println("string array resultant(post) :" + mPost.getRatings());
+                    System.out.println("string array resultant(postslist) :" + postsList.get(pos).getRatings());
+                    holder.ratingBar.setRating((float)0);
+                    notifyDataSetChanged();
+
                 }
 
-
-
-                post.setRatings(newRatings);
-                post.setStarsCount(post.getStarsCount() - ratingToRemove);
-                postsList.set(pos,post);
-                holder.ratingBar.setRating((float)0);
-                notifyDataSetChanged();
 
             }
         });
@@ -391,6 +404,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         holder.ratingBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                if(!onBind){
                     if (event.getAction() == MotionEvent.ACTION_UP) {
                         float touchPositionX = event.getX();
                         float width = holder.ratingBar.getWidth();
@@ -398,6 +412,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                         int stars = (int)starsf + 1;
 
                         if((int)holder.ratingBar.getRating() == 0){
+                            System.out.println("CURRENT RATING IS " + holder.ratingBar.getRating());
                             holder.ratingBar.setRating(stars);
                             notifyDataSetChanged();
                         }
@@ -413,6 +428,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                     if (event.getAction() == MotionEvent.ACTION_CANCEL) {
                         v.setPressed(false);
                     }
+
+                }
+
 
 
 
@@ -452,6 +470,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             try {
                 String raterId = data.getJSONObject(i).getString("raterId");
                 if(raterId.equals(usrId)){
+                    System.out.println("DIRTY PIC");
                     return data.getJSONObject(i).getInt("starsCount");
                 } else{
                     /*System.out.println("poster id is " + data.getJSONObject(i).getString("raterId"));
@@ -464,6 +483,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                 e.printStackTrace();
             }
         }
+        System.out.println("PRISTINE PIC");
         return 0;
     }
     //

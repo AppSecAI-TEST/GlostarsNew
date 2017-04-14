@@ -114,7 +114,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     boolean isOpen = false;
 
     // --------------- recycler view settings ---------
-    private List<Post> postList = new ArrayList<>();
+    private ArrayList<Post> postList = new ArrayList<>();
     private RecyclerView recyclerView;
     private PostAdapter mAdapter;
     //-------------------------------------------------
@@ -308,13 +308,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
 
 
-                /*
-                Intent intent = new Intent();
 
-                intent.putExtra("COMMENTS", item.getComments().toString());
-                intent.putExtra("PICID", item.getPhotoId());
-                intent.setClass(getApplicationContext(), commentModel.class);
-                startActivity(intent);*/
             }
 
             @Override

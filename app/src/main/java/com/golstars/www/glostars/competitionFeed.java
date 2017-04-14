@@ -89,7 +89,7 @@ public class competitionFeed extends AppCompatActivity implements OnRatingEventL
     boolean showingFirst = true;
 
     // --------------- recycler view settings ---------
-    private List<Post> postList = new ArrayList<>();
+    private ArrayList<Post> postList = new ArrayList<>();
     private PostAdapter mAdapter;
     //-------------------------------------------------
     LinearLayoutManager layoutManager;

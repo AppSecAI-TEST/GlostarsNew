@@ -1,4 +1,8 @@
 package com.golstars.www.glostars;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.AlertDialog;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -10,10 +14,15 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.golstars.www.glostars.adapters.CommentAdapter;
+import com.golstars.www.glostars.models.Comment;
 import com.golstars.www.glostars.models.Post;
 import com.golstars.www.glostars.network.PictureService;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -30,6 +39,7 @@ import java.util.Date;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
+import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 
 
 /**
@@ -224,7 +234,84 @@ public class SlideShowDialogFragment extends DialogFragment {
 
 
 
+            commentfullscreen.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
+                    final Post item = image;
+
+                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+                    View mView = getActivity().getLayoutInflater().inflate(R.layout.commentdialog,null);
+
+                    //TextView commentsbanner = (TextView)mView.findViewById(R.id.commentbannerdialog);
+                    ListView commentrecycler  = (ListView)mView.findViewById(R.id.commentrecycler);
+                    //ImageView emojibtn = (ImageView)mView.findViewById(R.id.emoji_btn);
+                    final EmojiconEditText commentbox = (EmojiconEditText)mView.findViewById(R.id.commentBox);
+                    final TextView sendcomment  = (TextView)mView.findViewById(R.id.sendcomment);
+
+
+                    final ArrayList<Comment> commentsList = new ArrayList<>();
+                    final CommentAdapter commentAdapter = new CommentAdapter(getContext(), R.layout.content_comment_model, commentsList,
+                            new commentModel.BtnClickListener() {
+                                @Override
+                                public void onItemClick(Comment com) {
+                                    Intent intent = new Intent();
+                                    intent.putExtra("USER_ID", com.getCommenterId());
+                                    intent.setClass(getContext(), user_profile.class);
+                                    startActivity(intent);
+                                }
+                            });
+                    commentrecycler.setAdapter(commentAdapter);
+
+                    for(int i = 0; i < item.getComments().length(); i++){
+                        try{
+                            JSONObject com = item.getComments().getJSONObject(i);
+                            Integer commentId = com.getInt("commentId");
+                            String  commentMessage = com.getString("commentMessage");
+                            String commenterUserName = com.getString("commenterUserName");
+                            String commenterID = com.getString("commenterId");
+                            String commentTime = com.getString("commentTime");
+                            String profilePicUrl = com.getString("profilePicUrl");
+                            String firstName = com.getString("firstName");
+                            String lastName = com.getString("lastName");
+                            Comment comment = new Comment(commentMessage, commenterUserName, commenterID, commentTime, profilePicUrl, firstName, lastName, commentId);
+                            commentsList.add(comment);
+                            commentAdapter.notifyDataSetChanged();
+
+                        } catch (JSONException e){
+                            e.printStackTrace();
+                        }
+
+
+                    }
+
+
+                    sendcomment.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String comment = String.valueOf(commentbox.getText());
+                            try {
+                                postComment(item.getPhotoId(), comment, commentsList, commentAdapter, sendcomment);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            commentbox.setText(""); ///
+                        }
+                    });
+
+                    mBuilder.setView(mView);
+                    AlertDialog dialog = mBuilder.create();
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
+
+
+
+
+                }
+
+
+            });
 
             imageViewPreview.setOnTouchListener(new View.OnTouchListener() {
                 android.os.Handler handler = new android.os.Handler();
@@ -309,8 +396,8 @@ public class SlideShowDialogFragment extends DialogFragment {
             ratingfullscreen.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                    //if(!onBind){
-                        if(getUserRating(image) == 0){ //only make any change if the user has never rated this pic
+                    if(!onBind) {
+                        if (getUserRating(image) == 0) { //only make any change if the user has never rated this pic
                             onRatingBarChange(image, v, pos);
 
 
@@ -318,13 +405,13 @@ public class SlideShowDialogFragment extends DialogFragment {
                             JSONArray ratings = image.getRatings();
                             JSONObject rating = new JSONObject();
                             try {
-                                rating.put("starsCount", (int)v);
+                                rating.put("starsCount", (int) v);
                                 rating.put("raterId", usrID);
                                 rating.put("ratingTime", ((sdf.format(new Date())).toString()));
                                 ratings.put(rating);
                                 System.out.println("RATINGS ARE " + ratings);
                                 image.setRatings(ratings);
-                                image.setStarsCount(image.getStarsCount() + (int)v);
+                                image.setStarsCount(image.getStarsCount() + (int) v);
                                 System.out.println("my id is " + usrID);
                                 System.out.println(image.getRatings());
 
@@ -333,12 +420,12 @@ public class SlideShowDialogFragment extends DialogFragment {
                             }
 
                             //Toast.makeText(context, "post " + pos + " 's rating changed to " + (int)v, Toast.LENGTH_SHORT).show();
-                            images.set(pos,image);
+                            images.set(pos, image);
                             notifyDataSetChanged();
                         }
-                    //} else onRatingBarChange(null, v, pos);
+                        //} else onRatingBarChange(null, v, pos);
 
-
+                    }
 
                 }
             });
@@ -348,28 +435,31 @@ public class SlideShowDialogFragment extends DialogFragment {
             ratingfullscreen.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                        float touchPositionX = event.getX();
-                        float width = ratingfullscreen.getWidth();
-                        float starsf = (touchPositionX / width) * 5.0f;
-                        int stars = (int)starsf + 1;
-                        if(ratingfullscreen.getRating() == (float)0){
-                            ratingfullscreen.setRating(stars);
+                    if(!onBind){
+                        if (event.getAction() == MotionEvent.ACTION_UP) {
+                            float touchPositionX = event.getX();
+                            float width = ratingfullscreen.getWidth();
+                            float starsf = (touchPositionX / width) * 5.0f;
+                            int stars = (int)starsf + 1;
+                            if(ratingfullscreen.getRating() == (float)0){
+                                ratingfullscreen.setRating(stars);
+                            }
+
+
+
+                            v.setPressed(false);
+                        }
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            v.setPressed(true);
+                        }
+
+                        if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                            v.setPressed(false);
                         }
 
 
 
-                        v.setPressed(false);
                     }
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        v.setPressed(true);
-                    }
-
-                    if (event.getAction() == MotionEvent.ACTION_CANCEL) {
-                        v.setPressed(false);
-                    }
-
-
                     return true;
                 }});
 
@@ -486,6 +576,41 @@ public class SlideShowDialogFragment extends DialogFragment {
         }
 
 
+
+
+    }
+
+    void postComment(String picID,  String comment, ArrayList commentsList, CommentAdapter commentAdapter, TextView commentbox) throws Exception{
+
+        if(!comment.isEmpty()){
+            PictureService pictureService = new PictureService();
+            pictureService.commentPicture(picID, comment, mUser.getToken());
+            JSONObject res = null;
+            while(res == null){
+                res = pictureService.getDataObject();
+            }
+
+            Comment dummyComment = new Comment(
+                    comment,
+                    mUser.getName(),
+                    mUser.getUserId(),
+                    (new Date()).toString(),
+                    mUser.getProfilePicURL(),
+                    mUser.getName(),
+                    "", 0);
+
+
+
+            if(res.getInt("responseCode") == 1){
+                commentsList.add(dummyComment);
+                commentAdapter.notifyDataSetChanged();
+                commentbox.setText("");
+
+            } else Toast.makeText(getContext(), "couldn't connect to the servers", Toast.LENGTH_LONG).show();
+
+        } else {
+            Toast.makeText(getContext(), "write a message before sending", Toast.LENGTH_LONG).show();
+        }
 
 
     }
