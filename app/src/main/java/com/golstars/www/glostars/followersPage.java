@@ -1,9 +1,11 @@
 package com.golstars.www.glostars;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -16,18 +18,23 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionMenu;
 import com.golstars.www.glostars.models.Follower;
 import com.golstars.www.glostars.network.FollowerService;
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.MySSLSocketFactory;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.KeyStore;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
@@ -335,7 +342,7 @@ public class followersPage extends AppCompatActivity {
                 v = vi.inflate(R.layout.activity_followers_model, null);
             }
 
-            Follower p = getItem(position);
+            final Follower p = getItem(position);
 
             if (p != null) {
 
@@ -343,7 +350,7 @@ public class followersPage extends AppCompatActivity {
 
                 TextView name = (TextView) v.findViewById(R.id.namefollow);
                 TextView surname = (TextView) v.findViewById(R.id.surnamefollow);
-                Button follow = (Button) v.findViewById(R.id.followBUT);
+                final Button follow = (Button) v.findViewById(R.id.followBUT);
 
                 if (name != null) {
                     name.setText(p.getUserName());
@@ -365,11 +372,122 @@ public class followersPage extends AppCompatActivity {
                     follow.setBackgroundColor(Color.parseColor("#E1C8FF"));
                 } else if(fStatus.equals("mutual")){
                     follow.setBackgroundColor(Color.parseColor("#640064"));
+                }else if(fStatus.equals("follow")){
+                    follow.setBackgroundResource(R.drawable.followbutton);
                 }
 
                 follow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+                        if(follow.getText().toString().equalsIgnoreCase("follower") || follow.getText().toString().equalsIgnoreCase("follow")){
+                            String url = ServerInfo.BASE_URL_FOLLOWER_API+"Following/"+p.getUserId();
+                            AsyncHttpClient client=new AsyncHttpClient();
+                            try {
+                                KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                                trustStore.load(null, null);
+                                MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+                                sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                                client.setSSLSocketFactory(sf);
+                            }
+                            catch (Exception e) {}
+                            MyUser myUser=MyUser.getmUser();
+                            client.addHeader("Authorization", "Bearer " + myUser.getToken());
+                            RequestParams requestParams=new RequestParams();
+
+                            client.post(getApplicationContext(), url,requestParams,new JsonHttpResponseHandler(){
+
+
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                    try {
+                                        System.out.println("1. "+response.toString());
+                                        if(response.getJSONObject("resultPayload").getBoolean("result")){
+                                            if(response.getJSONObject("resultPayload").getBoolean("is_mutual")){
+                                                follow.setText("Mutual");
+                                                follow.setBackgroundColor(Color.parseColor("#640064"));
+                                            }
+                                            else if(response.getJSONObject("resultPayload").getBoolean("me_follow")){
+                                                follow.setText("Following");
+                                                follow.setBackgroundColor(Color.parseColor("#E1C8FF"));
+                                            }else if(response.getJSONObject("resultPayload").getBoolean("he_follow")){
+                                                follow.setText("follower");
+                                                follow.setBackgroundColor(Color.parseColor("#007FFF"));
+                                            }else{
+                                                follow.setText("follow");
+                                                follow.setBackgroundResource(R.drawable.followbutton);
+                                            }
+                                        }else{
+                                            Toast.makeText(context, response.getJSONObject("resultPayload").getString("msg"), Toast.LENGTH_SHORT).show();
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }else{
+                            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if(DialogInterface.BUTTON_POSITIVE==which){
+                                        String url = ServerInfo.BASE_URL_FOLLOWER_API+"Unfollowing/"+p.getUserId();
+                                        AsyncHttpClient client=new AsyncHttpClient();
+                                        try {
+                                            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                                            trustStore.load(null, null);
+                                            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+                                            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                                            client.setSSLSocketFactory(sf);
+                                        }
+                                        catch (Exception e) {}
+                                        MyUser myUser=MyUser.getmUser();
+                                        client.addHeader("Authorization", "Bearer " + myUser.getToken());
+                                        RequestParams requestParams=new RequestParams();
+
+                                        client.post(getApplicationContext(), url,requestParams,new JsonHttpResponseHandler(){
+
+
+                                            @Override
+                                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                                try {
+                                                    System.out.println("1. "+response.toString());
+                                                    if(response.getJSONObject("resultPayload").getBoolean("result")){
+                                                        if(response.getJSONObject("resultPayload").getBoolean("is_mutual")){
+                                                            follow.setText("Mutual");
+                                                            follow.setBackgroundColor(Color.parseColor("#640064"));
+                                                        }
+                                                        else if(response.getJSONObject("resultPayload").getBoolean("me_follow")){
+                                                            follow.setText("Following");
+                                                            follow.setBackgroundColor(Color.parseColor("#E1C8FF"));
+                                                        }else if(response.getJSONObject("resultPayload").getBoolean("he_follow")){
+                                                            follow.setText("follower");
+                                                            follow.setBackgroundColor(Color.parseColor("#007FFF"));
+                                                        }else{
+                                                            follow.setText("follow");
+                                                            follow.setBackgroundResource(R.drawable.followbutton);
+                                                        }
+                                                    }else{
+                                                        Toast.makeText(context, response.getJSONObject("resultPayload").getString("msg"), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+                                    }else{
+                                        dialog.dismiss();
+                                    }
+
+                                }
+                            };
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setMessage("Are you sure?").setPositiveButton("Unfollow", dialogClickListener)
+                                    .setNegativeButton("Cancel", dialogClickListener).show();
+
+
+
+                        }
 
                     }
                 });
