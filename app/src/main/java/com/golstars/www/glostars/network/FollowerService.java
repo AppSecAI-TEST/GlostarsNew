@@ -4,11 +4,13 @@ import android.content.Context;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.MySSLSocketFactory;
 import com.loopj.android.http.RequestParams;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.KeyStore;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -26,6 +28,14 @@ public class FollowerService {
     private static AsyncHttpClient client = new AsyncHttpClient();
 
     public static void LoadFollowers(Context context,String usrId, String token, AsyncHttpResponseHandler responseHandler)  {
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
         client.addHeader("Content-Type", "application/json");
         client.addHeader("Authorization", "Bearer " + token);
         client.get(baseURL+"api/account/GetUserFollowById?userId=" + usrId,  responseHandler);

@@ -1,11 +1,13 @@
 package com.golstars.www.glostars;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,12 +30,16 @@ import com.golstars.www.glostars.models.GuestUser;
 import com.golstars.www.glostars.network.FollowerService;
 import com.golstars.www.glostars.network.NotificationService;
 import com.golstars.www.glostars.network.PictureService;
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.MySSLSocketFactory;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.KeyStore;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
@@ -274,6 +280,121 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
 
         follow = (Button)findViewById(R.id.profileuserFOLLOW);
         follow.setTransformationMethod(null);
+
+
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(follow.getText().toString().equalsIgnoreCase("follower") || follow.getText().toString().equalsIgnoreCase("follow")){
+                    String url = ServerInfo.BASE_URL_FOLLOWER_API+"Following/"+guestUser.getUserId();
+                    AsyncHttpClient client=new AsyncHttpClient();
+                    try {
+                        KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                        trustStore.load(null, null);
+                        MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+                        sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                        client.setSSLSocketFactory(sf);
+                    }
+                    catch (Exception e) {}
+                    MyUser myUser=MyUser.getmUser();
+                    client.addHeader("Authorization", "Bearer " + myUser.getToken());
+                    RequestParams requestParams=new RequestParams();
+
+                    client.post(getApplicationContext(), url,requestParams,new JsonHttpResponseHandler(){
+
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            try {
+                                System.out.println("1. "+response.toString());
+                                if(response.getJSONObject("resultPayload").getBoolean("result")){
+                                    if(response.getJSONObject("resultPayload").getBoolean("is_mutual")){
+                                        follow.setText("Mutual");
+                                        follow.setBackgroundColor(Color.parseColor("#640064"));
+                                    }
+                                    else if(response.getJSONObject("resultPayload").getBoolean("me_follow")){
+                                        follow.setText("Following");
+                                        follow.setBackgroundColor(Color.parseColor("#E1C8FF"));
+                                    }else if(response.getJSONObject("resultPayload").getBoolean("he_follow")){
+                                        follow.setText("follower");
+                                        follow.setBackgroundColor(Color.parseColor("#007FFF"));
+                                    }else{
+                                        follow.setText("follow");
+                                        follow.setBackgroundResource(R.drawable.followbutton);
+                                    }
+                                }else{
+                                    Toast.makeText(user_profile.this, response.getJSONObject("resultPayload").getString("msg"), Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }else{
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(DialogInterface.BUTTON_POSITIVE==which){
+                                String url = ServerInfo.BASE_URL_FOLLOWER_API+"Unfollowing/"+guestUser.getUserId();
+                                AsyncHttpClient client=new AsyncHttpClient();
+                                try {
+                                    KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                                    trustStore.load(null, null);
+                                    MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+                                    sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                                    client.setSSLSocketFactory(sf);
+                                }
+                                catch (Exception e) {}
+                                MyUser myUser=MyUser.getmUser();
+                                client.addHeader("Authorization", "Bearer " + myUser.getToken());
+                                RequestParams requestParams=new RequestParams();
+
+                                client.post(getApplicationContext(), url,requestParams,new JsonHttpResponseHandler(){
+
+
+                                    @Override
+                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                        try {
+                                            System.out.println("1. "+response.toString());
+                                            if(response.getJSONObject("resultPayload").getBoolean("result")){
+                                                if(response.getJSONObject("resultPayload").getBoolean("is_mutual")){
+                                                    follow.setText("Mutual");
+                                                    follow.setBackgroundColor(Color.parseColor("#640064"));
+                                                }
+                                                else if(response.getJSONObject("resultPayload").getBoolean("me_follow")){
+                                                    follow.setText("Following");
+                                                    follow.setBackgroundColor(Color.parseColor("#E1C8FF"));
+                                                }else if(response.getJSONObject("resultPayload").getBoolean("he_follow")){
+                                                    follow.setText("follower");
+                                                    follow.setBackgroundColor(Color.parseColor("#007FFF"));
+                                                }else{
+                                                    follow.setText("follow");
+                                                    follow.setBackgroundResource(R.drawable.followbutton);
+                                                }
+                                            }else{
+                                                Toast.makeText(user_profile.this, response.getJSONObject("resultPayload").getString("msg"), Toast.LENGTH_SHORT).show();
+                                            }
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            }else{
+                                dialog.dismiss();
+                            }
+
+                        }
+                    };
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(user_profile.this);
+                    builder.setMessage("Are you sure?").setPositiveButton("Unfollow", dialogClickListener)
+                            .setNegativeButton("Cancel", dialogClickListener).show();
+
+                }
+            }
+
+        });
+
 
 
         //-------------------------- ADAPTER AND NETWORK SETTINGS ---------------------------------//
@@ -726,8 +847,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            numFollowersCountProfile.setText(followerList.length());
-                            numFollowingCountProfile.setText(followingList.length());
+                            numFollowersCountProfile.setText(followerList.length()+"");
+                           // numFollowingCountProfile.setText(followingList.length()+"");
 
                             boolean isFollower = false;
                             boolean isFollowing = false;

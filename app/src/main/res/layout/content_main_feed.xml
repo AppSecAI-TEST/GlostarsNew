@@ -35,7 +35,7 @@
                     android:id="@+id/compicon"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@mipmap/competition"
+                    android:src="@drawable/competition"
                     android:layout_marginRight="4dp"
                     />
                 <TextView
