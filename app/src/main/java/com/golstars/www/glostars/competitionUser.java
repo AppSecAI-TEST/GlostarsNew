@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.golstars.www.glostars.adapters.RecyclerGridAdapter;
 import com.golstars.www.glostars.interfaces.OnSinglePicClick;
@@ -81,6 +82,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
         profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
         notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
+        homeFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.homeFAB);
 
         //=============Notification Badges===============================================
 //        homebadge = (TextView)findViewById(R.id.homebadge);

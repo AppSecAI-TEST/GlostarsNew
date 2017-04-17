@@ -118,7 +118,7 @@
             <LinearLayout
                 android:id="@+id/ratecomment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:orientation="horizontal"
                 android:layout_below="@+id/userPOST">
 
@@ -129,9 +129,10 @@
                     android:layout_height="wrap_content"
                     android:numStars="5"
                     style="@style/RatingBarSmall"
+                    android:layout_marginTop="2dp"
                     android:layout_gravity="center_vertical"
                     android:stepSize="1"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     />
 
                 <TextView

@@ -26,8 +26,14 @@
 
     <style name="RatingBarSmall" parent="android:Widget.DeviceDefault.Light.RatingBar.Indicator">
         <item name="android:progressDrawable">@drawable/rating_bar</item>
-        <item name="android:minHeight">20dp</item>
-        <item name="android:maxHeight">20dp</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:maxHeight">30dp</item>
+    </style>
+
+    <style name="RatingBarSmallGrey" parent="android:Widget.DeviceDefault.Light.RatingBar.Indicator">
+        <item name="android:progressDrawable">@drawable/rating_bar_grey</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:maxHeight">30dp</item>
     </style>
 
     <style name="FullscreenTheme" parent="AppTheme">

@@ -52,9 +52,9 @@ public class SlideShowDialogFragment extends DialogFragment {
     private ArrayList<Post> images;
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
-    private TextView lblCount, lblTitle, lblDate,captionfullscreen,ratingcountfullscreen,sharefullscreen,commentcountfullscreen;
+    private TextView lblCount, lblTitle, lblDate,captionfullscreen,ratingcountfullscreen,commentcountfullscreen;
     private RatingBar ratingfullscreen;
-    private ImageView commentfullscreen,shareFBfullscreen,shareVKfullscreen,shareTWfullscreen,clearRating;
+    private ImageView commentfullscreen,sharefullscreen,clearRating;
     private int selectedPosition = 0;
     private boolean onBind = false;
     private String token;
@@ -78,11 +78,8 @@ public class SlideShowDialogFragment extends DialogFragment {
         captionfullscreen = (TextView)v.findViewById(R.id.captionFullscreen);
 
         commentcountfullscreen = (TextView)v.findViewById(R.id.commentcountfullscreen);
-        sharefullscreen = (TextView)v.findViewById(R.id.sharefullscreen);
+        sharefullscreen = (ImageView) v.findViewById(R.id.sharefullscreen);
 
-        shareFBfullscreen = (ImageView) v.findViewById(R.id.shareFBfullscreen);
-        shareTWfullscreen = (ImageView) v.findViewById(R.id.shareTWITTERfullscreen);
-        shareVKfullscreen = (ImageView) v.findViewById(R.id.shareVKfullscreen);
         clearRating = (ImageView)v.findViewById(R.id.clearRatingfullscreen);
         ratingcountfullscreen = (TextView)v.findViewById(R.id.ratingstarcountfullscreen);
         captionfullscreen = (TextView)v.findViewById(R.id.captionFullscreen);
