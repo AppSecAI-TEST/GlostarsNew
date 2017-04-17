@@ -33,6 +33,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.github.clans.fab.FloatingActionMenu;
 import com.golstars.www.glostars.adapters.CommentAdapter;
 import com.golstars.www.glostars.adapters.PostAdapter;
@@ -43,7 +44,9 @@ import com.golstars.www.glostars.models.NotificationObj;
 import com.golstars.www.glostars.models.Post;
 import com.golstars.www.glostars.network.NotificationService;
 import com.golstars.www.glostars.network.PictureService;
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.MySSLSocketFactory;
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.LocalDateTime;
@@ -58,6 +61,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -125,6 +129,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     Integer unseenNotifs = 0;
     //-------------------------------------------------
     Intent userProfileIntent = new Intent();
+    PullRefreshLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +138,20 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        layout = (PullRefreshLayout) findViewById(R.id.pullRefreshLayout);
+        layout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                postList.clear();
+                pg=1;
+                try {
+                    //callAsyncPopulate(pg);
+                    loadFeed();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         final String TAG = MainFeed.class.getSimpleName();
 
         rootView = findViewById(R.id.rootView);
@@ -355,7 +373,8 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
-        new getUserData().execute("");
+        loadFeed();
+        //new getUserData().execute("");
         //populateFeed(mUser.getUserId(), pg, mUser.getToken());
 
         /* checks whether the user has reached the end of the view
@@ -365,17 +384,19 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 //super.onScrolled(recyclerView, dx, dy);
+                System.out.println("Scrolling "+dx+" "+dy);
                 if(dy > 0){ //check for scroll down
                     visibleItemCount = layoutManager.getChildCount();
                     totalItemCount = layoutManager.getItemCount();
                     pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
-
-                    if(loading){
-                        if((visibleItemCount + pastVisiblesItems) >= totalItemCount){
-                            loading = false;
-                            pg++;
+                    System.out.println("Total Item "+totalItemCount+" Loading "+loading);
+                    if(!loading){
+                        if((visibleItemCount + pastVisiblesItems) >= totalItemCount-2){
+                            loading = true;
+                            //pg++;
                             try {
-                                callAsyncPopulate(pg);
+                                //callAsyncPopulate(pg);
+                                loadFeed();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -488,7 +509,82 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
 
     }
+    public void loadFeed(){
 
+        String url = ServerInfo.BASE_URL_API+"images/mutualpic/" + mUser.getUserId() + "/" + pg;
+
+        System.out.println(url);
+
+        AsyncHttpClient client=new AsyncHttpClient();
+        client.addHeader("Authorization", "Bearer " + mUser.getToken());
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
+        StringEntity stringEntity=null;
+        try {
+            stringEntity=new StringEntity("{ListPhoto:[]}");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        client.post(getApplicationContext(), url,stringEntity,"application/json",new JsonHttpResponseHandler(){
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    System.out.println("1. "+response.toString());
+                    JSONObject resultPayload = response.getJSONObject("resultPayload");
+                    JSONArray data = resultPayload.getJSONArray("data");
+                    for(int i = 0; i < data.length(); ++i){
+                        try {
+                            JSONObject pic = data.getJSONObject(i);
+                            JSONObject poster = pic.getJSONObject("poster");
+                            String name = poster.getString("name");
+                            String usrId = poster.getString("userId");
+                            String profilePicUrl = poster.getString("profilePicURL");
+                            String id = pic.getString("id");
+                            String description = pic.getString("description");
+                            String picURL = pic.getString("picUrl");
+
+                            Boolean isFeatured = Boolean.valueOf(pic.getString("isfeatured"));
+                            Boolean isCompeting = Boolean.valueOf(pic.getString("isCompeting"));
+                            Integer starsCount = Integer.parseInt(pic.getString("starsCount"));
+                            System.out.println("POSTER: " + name + " " + usrId + " " + id + " " + description + " " + picURL + " " + isFeatured + " " + isCompeting + " " + starsCount);
+
+                            JSONArray ratings = pic.getJSONArray("ratings");
+                            JSONArray comments = pic.getJSONArray("comments");
+
+                            String uploaded = pic.getString("uploaded");
+                            String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                            LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
+                            String interval = Timestamp.getInterval(localDateTime);
+
+                            setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, ratings.length(), comments.length(), ratings, comments, interval);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    mAdapter.notifyDataSetChanged();
+                    loading=false;
+                    pg++;
+                    layout.setRefreshing(false);
+                    System.out.println("Loading complete");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+    }
     public void getUnseen(){
 
 

@@ -54,4 +54,6 @@ dependencies {
     compile 'joda-time:joda-time:2.9.7'
     compile 'hani.momanii.supernova_emoji_library:supernova-emoji-library:0.0.2'
     testCompile 'junit:junit:4.12'
+    compile 'com.github.jkwiecien:EasyImage:1.3.1'
+    compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
 }

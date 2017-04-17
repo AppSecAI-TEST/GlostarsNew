@@ -175,6 +175,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
         Picasso.with(context)
                 .load(post.getPicURL())
+                .placeholder(R.drawable.loading)
                 .resize(screenWidth,1000)
                 .centerInside()
                 .into(holder.postImg);

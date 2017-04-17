@@ -6,21 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.golstars.www.glostars.testfeed"
-    >
+    tools:context="com.golstars.www.glostars.testfeed">
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/mainfeedrecycler"
-        android:layout_marginLeft="0dp"
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/pullRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:refreshType="material">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mainfeedrecycler"
+            android:layout_marginLeft="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
 
-
-    
-
-
-
+    </com.baoyz.widget.PullRefreshLayout>
 </RelativeLayout>
