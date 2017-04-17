@@ -286,7 +286,6 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                         e.printStackTrace();
                     }
 
-
                 }
 
 

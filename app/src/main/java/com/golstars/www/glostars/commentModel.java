@@ -93,7 +93,6 @@ public class commentModel extends AppCompatActivity {
         emojIcon = new EmojIconActions(this, rootView, commentbox, emojiImageView);
         emojIcon.ShowEmojIcon();
 
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
             @Override
