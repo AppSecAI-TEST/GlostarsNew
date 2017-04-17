@@ -261,6 +261,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
 
 
 
+
         editprofile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -281,6 +282,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
         follow = (Button)findViewById(R.id.profileuserFOLLOW);
         follow.setTransformationMethod(null);
 
+
+        settingsuser.setVisibility(View.GONE);
+        editprofile.setVisibility(View.GONE);
+        follow.setVisibility(View.GONE);
 
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -790,6 +795,9 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
                 data.put("ocupationOther", dat.getString("ocupationOther"));
 
 
+
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -800,6 +808,15 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             try {
+
+                if(mUser.getUserId().equals(guestUser.getUserId())){
+                    settingsuser.setVisibility(View.VISIBLE);
+                    editprofile.setVisibility(View.VISIBLE);
+                } else {
+                    settingsuser.setVisibility(View.GONE);
+                    editprofile.setVisibility(View.GONE);
+
+                }
                 //setting UI rss with user data
                 usernameProfile.setText(jsonObject.getString("guestName"));
                 //fService.LoadFollowers(jsonObject.getString("guestUsrId"), jsonObject.getString("token"));
@@ -872,7 +889,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
                             System.out.println(isFollowing + " for following and " + isFollower + " for follower");
 
                             if(mUser.getUserId().equals(guestUser.getUserId())){
-                                follow.setVisibility(View.INVISIBLE);
+                                follow.setVisibility(View.GONE);
                             } else if(isFollower && !isFollowing){
                                 follow.setVisibility(View.VISIBLE);
                                 follow.setBackgroundColor(Color.parseColor("#007FFF"));

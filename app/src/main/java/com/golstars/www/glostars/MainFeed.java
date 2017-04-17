@@ -167,6 +167,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         final Context context = MainFeed.this;
 
         mUser = MyUser.getmUser();
+        //getUserData("");
         mUser.setContext(this);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -244,15 +245,15 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainFeed.this);
-                View mView = getLayoutInflater().inflate(R.layout.commentdialog,null);
+                View mView = getLayoutInflater().inflate(R.layout.commentdialog, null);
 
                 //TextView commentsbanner = (TextView)mView.findViewById(R.id.commentbannerdialog);
-                ListView commentrecycler  = (ListView)mView.findViewById(R.id.commentrecycler);
-                ImageView emojibtn = (ImageView)mView.findViewById(R.id.emoji_btn);
-                final EmojiconEditText commentbox = (EmojiconEditText)mView.findViewById(R.id.commentBox);
-                final TextView sendcomment  = (TextView)mView.findViewById(R.id.sendcomment);
+                ListView commentrecycler = (ListView) mView.findViewById(R.id.commentrecycler);
+                //ImageView emojibtn = (ImageView)mView.findViewById(R.id.emoji_btn);
+                final EmojiconEditText commentbox = (EmojiconEditText) mView.findViewById(R.id.commentBox);
+                final TextView sendcomment = (TextView) mView.findViewById(R.id.sendcomment);
 
-               // rootView = mView.findViewById(R.id.rootView);
+                // rootView = mView.findViewById(R.id.rootView);
 
                 final ArrayList<Comment> commentsList = new ArrayList<>();
                 final CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), R.layout.content_comment_model, commentsList,
@@ -267,11 +268,11 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                         });
                 commentrecycler.setAdapter(commentAdapter);
 
-                for(int i = 0; i < item.getComments().length(); i++){
-                    try{
+                for (int i = 0; i < item.getComments().length(); i++) {
+                    try {
                         JSONObject com = item.getComments().getJSONObject(i);
                         Integer commentId = com.getInt("commentId");
-                        String  commentMessage = com.getString("commentMessage");
+                        String commentMessage = com.getString("commentMessage");
                         String commenterUserName = com.getString("commenterUserName");
                         String commenterID = com.getString("commenterId");
                         String commentTime = com.getString("commentTime");
@@ -282,7 +283,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                         commentsList.add(comment);
                         commentAdapter.notifyDataSetChanged();
 
-                    } catch (JSONException e){
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
@@ -290,12 +291,12 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
 
                 //emojIcon = new EmojIconActions(MainFeed.this, rootView, commentbox, emojibtn);
-                emojIcon = new EmojIconActions(mView.getContext(), mView, commentbox, emojibtn);
+                //emojIcon = new EmojIconActions(mView.getContext(), mView, commentbox, emojibtn);
 
                 //emojIcon.setUseSystemEmoji(true);
                 //commentbox.setUsetUseSystemEmoji(true);
                 //commentbox.setUseSystemDefault(true);
-
+                /*
                 emojIcon.ShowEmojIcon();
 
 
@@ -310,7 +311,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                         Log.e(TAG, "Keyboard closed");
                     }
                 });
-
+                */
 
                 sendcomment.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -330,8 +331,6 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 AlertDialog dialog = mBuilder.create();
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
-
-
 
 
             }
@@ -359,7 +358,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
 
                 String picId = item.getPhotoId();
-                PictureService.unratePicture(getApplicationContext(), mUser.getToken(), picId, entity, new JsonHttpResponseHandler(){
+                PictureService.unratePicture(getApplicationContext(), mUser.getToken(), picId, entity, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         System.out.println(response);
@@ -377,12 +376,22 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
             public void onItemClickNotif(NotificationObj notif) {
 
             }
+        }, new OnItemClickListener() {
+            @Override
+            public void onItemClickPost(Post item) {
+                startActivity(new Intent(getApplicationContext(), competitionAll.class));
+            }
+
+            @Override
+            public void onItemClickNotif(NotificationObj notif) {
+
+            }
         }, R.layout.content_main_feed);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
         loadFeed();
-        //new getUserData().execute("");
+        new getUserData().execute("");
         //populateFeed(mUser.getUserId(), pg, mUser.getToken());
 
         /* checks whether the user has reached the end of the view

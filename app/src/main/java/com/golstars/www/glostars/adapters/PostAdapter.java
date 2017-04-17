@@ -22,6 +22,7 @@ import com.golstars.www.glostars.R;
 import com.squareup.picasso.Picasso;
 import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,6 +47,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     private final OnItemClickListener commentsListener;
     private final OnItemClickListener deleteListener;
     private final OnRatingEventListener ratingListener;
+    private final OnItemClickListener compAllListener;
     public Integer screenWidth = 0;
     public String usrId = "";
     private boolean onBind;
@@ -94,6 +96,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             /*ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
             }); */
 
+            seeAllcomp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    compAllListener.onItemClickPost(postsList.get(getLayoutPosition()));
+                }
+            });
+
             propic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -129,7 +138,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     }
 
     public PostAdapter(ArrayList<Post> postsList, Integer width, String usrId, Context context, OnRatingEventListener ratingListener, OnItemClickListener listener,
-                       OnItemClickListener postImgListener, OnItemClickListener commentsListener, OnItemClickListener deleteListener, int resource){
+                       OnItemClickListener postImgListener, OnItemClickListener commentsListener, OnItemClickListener deleteListener, OnItemClickListener compAll, int resource){
         this.postsList = postsList;
         this.context = context;
         this.ratingListener = ratingListener;
@@ -138,6 +147,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         this.screenWidth = width;
         this.usrId = usrId;
         this.commentsListener = commentsListener;
+        this.compAllListener = compAll;
         this.deleteListener = deleteListener;
         this.resource = resource;
 
@@ -178,6 +188,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         // Hash tags that are in the text will be hightlighed with a color passed to HasTagHelper
         holder.caption.setText(post.getDescription());
         mTextHashTagHelper.handle(holder.caption);
+
         /***********************/
 
 
@@ -201,7 +212,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
         if(post.isFeatured()){
             holder.featuredFlag.setVisibility(View.VISIBLE);
-        } else holder.featuredFlag.setVisibility(View.GONE);
+            holder.seeAllcomp.setVisibility(View.VISIBLE);
+        } else{
+            holder.featuredFlag.setVisibility(View.GONE);
+            holder.seeAllcomp.setVisibility(View.GONE);
+        }
+
 
         onBind = false;
 

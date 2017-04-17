@@ -1,6 +1,8 @@
 package com.golstars.www.glostars;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -106,6 +108,20 @@ public class settingsPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(settingsPage.this, ContactUs.class));
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                getApplicationContext().getSharedPreferences("glostarsPrefs", Context.MODE_PRIVATE).edit().clear().commit(); // delete all saved data
+                Auth auth = new Auth(getApplicationContext());
+                System.out.println("ACCESS TOKEN AFTER LOGOUT " + auth.getAcessToken());
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             }
         });
 

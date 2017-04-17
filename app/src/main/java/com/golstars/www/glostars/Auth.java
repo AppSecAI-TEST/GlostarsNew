@@ -50,10 +50,6 @@ class Auth  {
 
 
 
-    private static final MediaType txtType = MediaType.parse("text/plain; charset=utf-8");
-    private final OkHttpClient client = new OkHttpClient();
-
-
 
 
 
@@ -70,63 +66,6 @@ class Auth  {
         this.acessToken = sharedPrefs.getString("token", null);
         this.issued = sharedPrefs.getString("issued", null);
         this.expires = sharedPrefs.getString("expires", null);
-
-    }
-
-
-
-    public void login(String grantType, String password, String username) throws Exception{
-
-        URL url = new URL("http://www.glostars.com/Token");
-        /*
-        String postMessage = "{'grant_type':" + "password," +
-                             "'password':" + "91113603," +
-                             "'username':" + "netosilvan@hotmail.com" + "}";
-        */
-        String postMessage = "username=" + username +
-                             "&password="+ password +
-                             "&grant_type=password";
-
-        RequestBody body =  RequestBody.create(txtType, postMessage);
-
-        System.out.println(body);
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                //.addHeader("content-type", "application/json; charset=utf-8")
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-
-                /*Headers responseHeaders = response.headers();
-                for (int i = 0, size = responseHeaders.size(); i < size; i++) {
-                    System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
-                }*/
-                String authData = response.body().string();
-                System.out.println(authData);
-
-
-                try {
-                    JSONObject authObject = new JSONObject(authData);
-                    setUsername(authObject.getString("userName"));
-                    setAcessToken(authObject.getString("access_token"));
-                    setExpires(authObject.getString(".expires"));
-                    setIssued(authObject.getString(".issued"));
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        });
 
     }
 
@@ -203,5 +142,10 @@ class Auth  {
 
     public String getAcessToken() {
         return acessToken;
+    }
+
+    public void clearData(){
+            editor.clear();
+            editor.commit();
     }
 }
