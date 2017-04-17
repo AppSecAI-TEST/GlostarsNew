@@ -24,6 +24,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -47,6 +48,7 @@ import com.golstars.www.glostars.network.PictureService;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.MySSLSocketFactory;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.LocalDateTime;
@@ -137,7 +139,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         setContentView(R.layout.activity_main_feed);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        rootView = findViewById(R.id.myRoot);
         layout = (PullRefreshLayout) findViewById(R.id.pullRefreshLayout);
         layout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
@@ -154,7 +156,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         });
         final String TAG = MainFeed.class.getSimpleName();
 
-        rootView = findViewById(R.id.rootView);
+
 
         menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
         menuDown.setClosedOnTouchOutside(true);
@@ -246,10 +248,11 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
                 //TextView commentsbanner = (TextView)mView.findViewById(R.id.commentbannerdialog);
                 ListView commentrecycler  = (ListView)mView.findViewById(R.id.commentrecycler);
-                //ImageView emojibtn = (ImageView)mView.findViewById(R.id.emoji_btn);
+                ImageView emojibtn = (ImageView)mView.findViewById(R.id.emoji_btn);
                 final EmojiconEditText commentbox = (EmojiconEditText)mView.findViewById(R.id.commentBox);
                 final TextView sendcomment  = (TextView)mView.findViewById(R.id.sendcomment);
 
+               // rootView = mView.findViewById(R.id.rootView);
 
                 final ArrayList<Comment> commentsList = new ArrayList<>();
                 final CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), R.layout.content_comment_model, commentsList,
@@ -287,21 +290,27 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 }
 
 
-//                emojIcon = new EmojIconActions(this, rootView, commentbox, emojibtn);
-//                emojIcon.ShowEmojIcon();
-//
-//
-//                emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
-//                    @Override
-//                    public void onKeyboardOpen() {
-//                        Log.e(TAG, "Keyboard opened!");
-//                    }
-//
-//                    @Override
-//                    public void onKeyboardClose() {
-//                        Log.e(TAG, "Keyboard closed");
-//                    }
-//                });
+                //emojIcon = new EmojIconActions(MainFeed.this, rootView, commentbox, emojibtn);
+                emojIcon = new EmojIconActions(mView.getContext(), mView, commentbox, emojibtn);
+
+                //emojIcon.setUseSystemEmoji(true);
+                //commentbox.setUsetUseSystemEmoji(true);
+                //commentbox.setUseSystemDefault(true);
+
+                emojIcon.ShowEmojIcon();
+
+
+                emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
+                    @Override
+                    public void onKeyboardOpen() {
+                        Log.e(TAG, "Keyboard opened!");
+                    }
+
+                    @Override
+                    public void onKeyboardClose() {
+                        Log.e(TAG, "Keyboard closed");
+                    }
+                });
 
 
                 sendcomment.setOnClickListener(new View.OnClickListener() {
@@ -826,33 +835,63 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     }
 
 
-    void postComment(String picID,  String comment, ArrayList commentsList, CommentAdapter commentAdapter, TextView commentbox) throws Exception{
+    void postComment(String picID, final String comment, final ArrayList commentsList, final CommentAdapter commentAdapter, final TextView commentbox) throws Exception{
 
         if(!comment.isEmpty()){
-            PictureService pictureService = new PictureService();
-            pictureService.commentPicture(picID, comment, mUser.getToken());
-            JSONObject res = null;
-            while(res == null){
+            //PictureService pictureService = new PictureService();
+            //pictureService.commentPicture(picID, comment, mUser.getToken());
+            final JSONObject res = null;
+            /*while(res == null){
                 res = pictureService.getDataObject();
+            }*/
+
+            String url = ServerInfo.BASE_URL + "api/images/comment";
+
+
+
+
+
+            AsyncHttpClient client=new AsyncHttpClient();
+            try {
+                KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                trustStore.load(null, null);
+                MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+                sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                client.setSSLSocketFactory(sf);
             }
+            catch (Exception e) {}
+            RequestParams msg=new RequestParams();
+            client.addHeader("Authorization", "Bearer " + mUser.getToken());
+            msg.add("CommentText", comment);
+            msg.add("PhotoId", picID);
 
-            Comment dummyComment = new Comment(
-                    comment,
-                    mUser.getName(),
-                    mUser.getUserId(),
-                    (new Date()).toString(),
-                    mUser.getProfilePicURL(),
-                    mUser.getName(),
-                    "", 0);
+            client.post(getApplicationContext(), url,msg,new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Comment dummyComment = new Comment(
+                            comment,
+                            mUser.getName(),
+                            mUser.getUserId(),
+                            (new Date()).toString(),
+                            mUser.getProfilePicURL(),
+                            mUser.getName(),
+                            "", 0);
 
 
+                    try {
+                        if(response.getInt("responseCode") == 1){
+                            commentsList.add(dummyComment);
+                            commentAdapter.notifyDataSetChanged();
+                            commentbox.setText("");
 
-            if(res.getInt("responseCode") == 1){
-                commentsList.add(dummyComment);
-                commentAdapter.notifyDataSetChanged();
-                commentbox.setText("");
+                        } else Toast.makeText(MainFeed.this, "couldn't connect to the servers", Toast.LENGTH_LONG).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
 
-            } else Toast.makeText(this, "couldn't connect to the servers", Toast.LENGTH_LONG).show();
+
 
         } else {
             Toast.makeText(this, "write a message before sending", Toast.LENGTH_LONG).show();

@@ -12,6 +12,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.RatingBar.OnRatingBarChangeListener;
+import android.widget.Toast;
 
 import com.golstars.www.glostars.MyUser;
 import com.golstars.www.glostars.interfaces.OnItemClickListener;
@@ -19,6 +20,7 @@ import com.golstars.www.glostars.interfaces.OnRatingEventListener;
 import com.golstars.www.glostars.models.Post;
 import com.golstars.www.glostars.R;
 import com.squareup.picasso.Picasso;
+import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -162,7 +164,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         final Integer pos = position;
         final Post post = postsList.get(position);
         holder.username.setText(post.getAuthor());
+
+        /*Use for hash tag*/
+        HashTagHelper mTextHashTagHelper;
+        mTextHashTagHelper = HashTagHelper.Creator.create(context.getResources().getColor(R.color.hashtag), new HashTagHelper.OnHashTagClickListener() {
+            @Override
+            public void onHashTagClicked(String hashTag) {
+                Toast.makeText(context, hashTag, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // pass a TextView or any descendant of it (incliding EditText) here.
+        // Hash tags that are in the text will be hightlighed with a color passed to HasTagHelper
         holder.caption.setText(post.getDescription());
+        mTextHashTagHelper.handle(holder.caption);
+        /***********************/
+
+
         holder.postTime.setText(post.getUploaded());
         holder.uselessTextView.setText("");
         if(!post.isCompeting()){
@@ -193,6 +211,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                 postImgListener.onItemClickPost(post);
             }
         });
+
+
+
 
 
         /*

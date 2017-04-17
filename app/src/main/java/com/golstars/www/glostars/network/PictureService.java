@@ -2,8 +2,13 @@ package com.golstars.www.glostars.network;
 
 import android.content.Context;
 
+import com.golstars.www.glostars.R;
+import com.golstars.www.glostars.ServerInfo;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.MySSLSocketFactory;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,7 +17,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.PipedReader;
 import java.net.URL;
+import java.security.KeyStore;
 
+import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import okhttp3.Call;
 import okhttp3.Callback;
