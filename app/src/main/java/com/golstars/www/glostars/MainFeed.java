@@ -798,6 +798,9 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     @Override
     public void onRatingBarChange(Post item, float value, int postPosition){
 
+        System.out.println("PHOTO TO RATE: " + item.getPhotoId());
+        System.out.println("WITH ID: " + value);
+
         if(item != null){
             JSONObject msg = new JSONObject();
             try {
@@ -810,6 +813,8 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
             StringEntity entity = null;
             try {
                 entity = new StringEntity(msg.toString());
+                System.out.println("ENTITY TO SEND: " + msg.toString());
+
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -818,6 +823,18 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     System.out.println(response);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    System.out.println("ERROR IN onRatingBarChange AT MAINFEED");
+                    System.out.println(errorResponse);
+                    Toast.makeText(getApplicationContext(), "Servers unavailable at the moment", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    Toast.makeText(getApplicationContext(), "Servers unavailable at the moment", Toast.LENGTH_LONG).show();
                 }
             });
 

@@ -82,7 +82,7 @@ public class BackgroundService extends IntentService{
         mNotification = new Notification();
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.loginlogo)
+                        .setSmallIcon(R.drawable.triangle)
                         .setContentTitle("Glostars")
                         .setAutoCancel(true)
                         .setContentText(msg);

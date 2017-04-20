@@ -408,6 +408,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                 if(!onBind){
                     if(getUserRating(post) == 0){ //only make any change if the user has never rated this pic
+                        System.out.println("GETUSERRATING IS 0");
                         ratingListener.onRatingBarChange(post, v, pos);
 
 
@@ -432,8 +433,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                         //Toast.makeText(context, "post " + pos + " 's rating changed to " + (int)v, Toast.LENGTH_SHORT).show();
                         postsList.set(pos,post);
                         notifyDataSetChanged();
+                    } else{
+                        System.out.println("GETUSERRATING IS NOT 0");
+                        ratingListener.onRatingBarChange(null, v, pos);
                     }
-                } else ratingListener.onRatingBarChange(null, v, pos);
+                }
 
 
 
@@ -505,6 +509,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
           if not, return 0
         */
         JSONArray data = post.getRatings();
+        System.out.println(data);
         for(int i = 0; i < data.length(); i++){
             try {
                 String raterId = data.getJSONObject(i).getString("raterId");
