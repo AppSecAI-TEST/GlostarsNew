@@ -1,6 +1,7 @@
 package com.golstars.www.glostars.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.Toast;
 
 import com.golstars.www.glostars.MyUser;
+import com.golstars.www.glostars.hashtagResults;
 import com.golstars.www.glostars.interfaces.OnItemClickListener;
 import com.golstars.www.glostars.interfaces.OnRatingEventListener;
 import com.golstars.www.glostars.models.Post;
@@ -180,7 +182,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         mTextHashTagHelper = HashTagHelper.Creator.create(context.getResources().getColor(R.color.hashtag), new HashTagHelper.OnHashTagClickListener() {
             @Override
             public void onHashTagClicked(String hashTag) {
-                Toast.makeText(context, hashTag, Toast.LENGTH_SHORT).show();
+                context.startActivity(new Intent(context,hashtagResults.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("data",hashTag));
             }
         });
 
