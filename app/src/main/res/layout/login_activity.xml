@@ -62,7 +62,7 @@
                 android:textColor="#E1BEE7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/logInButton"
+                android:layout_below="@+id/upwrong"
                 android:layout_marginTop="32dp"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/signUp"
@@ -107,16 +107,6 @@
                 android:layout_marginTop="30dp"
                 android:id="@+id/upwrong" />
 
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Remember Me"
-                android:textColor="@color/lightViolate"
-                android:textSize="15sp"
-                android:layout_alignLeft="@id/passwordEditText"
-                android:layout_below="@id/passwordEditText"
-                android:layout_marginTop="8dp"/>
 
         </RelativeLayout>
 

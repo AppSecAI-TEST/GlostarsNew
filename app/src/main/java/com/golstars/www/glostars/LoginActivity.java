@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import android.view.View;
@@ -173,6 +174,9 @@ public class LoginActivity extends Fragment {
                     auth.setIssued(authObject.getString(".issued"));
                     //auth.isTokenValid();
 
+//                    login.setBackgroundResource(R.drawable.roundedbutton1);
+//                    login.setTextColor(getResources().getColor(R.color.colorPrimary));
+
                     startActivity(new Intent(getActivity(), MainFeed.class));
                     getActivity().finish();
 
@@ -185,6 +189,8 @@ public class LoginActivity extends Fragment {
         });
 
     }
+
+
 
     //You can work with them now using the objects like :
     // email.getText().... blah blah blah

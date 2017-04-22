@@ -129,7 +129,7 @@ public class SignUp extends Fragment{
         terms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), termsOfUse.class));
+                startActivity(new Intent(getActivity(), signupForward.class));
             }
         });
 

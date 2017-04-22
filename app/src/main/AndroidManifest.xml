@@ -150,7 +150,7 @@
 
         <receiver
             android:name=".MyAlarmReceiver"
-            android:process=":remote"></receiver>
+            android:process=":remote" />
 
         <activity
             android:name=".fragmentImageSlider"
@@ -162,8 +162,13 @@
         <activity
             android:name=".newFeed"
             android:label="@string/title_activity_new_feed"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".hashtagResults"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".hashtagResults" />
+        <activity
+            android:name=".signupForward"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+
     </application>
 
 </manifest>
