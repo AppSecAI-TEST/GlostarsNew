@@ -14,11 +14,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,6 +73,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
     TextView camerabadge;
     TextView mainbadge;
     TextView competitionbadge;
+
+    TextView compno,publicno,mutualno;
     //===================================================================
 
 
@@ -118,6 +122,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
     boolean showingFirst = true;
 
 
+    RelativeLayout publicnopost,mutualnopost,compnopost;
+
     Button follow;
 
 
@@ -158,6 +164,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
 
         final String TAG = user_profile.class.getName();
 
+
+        publicnopost = (RelativeLayout)findViewById(R.id.publicnopost);
+        compnopost = (RelativeLayout)findViewById(R.id.compnopost);
+        mutualnopost = (RelativeLayout)findViewById(R.id.mutualnopost);
 
         cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
@@ -212,6 +222,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
         grandPrizeCountProfile = (TextView)findViewById(R.id.grandprizecount);
 
 
+        compno = (TextView)findViewById(R.id.compno);
+        publicno = (TextView)findViewById(R.id.publicno);
+        mutualno = (TextView)findViewById(R.id.mutualno);
+
         editprofile = (ImageView)findViewById(R.id.editprofile);
 
 
@@ -255,6 +269,9 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
         publicBanner.setTypeface(type);
         mutualBanner.setTypeface(type);
         grandPrizeCountProfile.setTypeface(type);
+        publicno.setTypeface(type);
+        compno.setTypeface(type);
+        mutualno.setTypeface(type);
 //        follow.setTypeface(type);
 
 
@@ -598,9 +615,6 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
                         startActivity(intent);
                     }
                 }
-
-
-
 
             }
         });
@@ -1090,24 +1104,51 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
 
         if(totalmutualFollowerPics == 0){
             mutualgrid.setVisibility(View.GONE);
-            mutualBanner.setVisibility(View.GONE);
             seeAllMutualProfile.setVisibility(View.GONE);
-        } else{
-            mutualBanner.setVisibility(View.VISIBLE);
-            seeAllMutualProfile.setVisibility(View.VISIBLE);
+            mutualnopost.setVisibility(View.VISIBLE);
+        } else if (totalmutualFollowerPics >0 && totalmutualFollowerPics <=3) {
+            ViewGroup.LayoutParams mutual = mutualgrid.getLayoutParams();
+            mutual.height = 330;
+            mutualgrid.setLayoutParams(mutual);
+        }else if (totalmutualFollowerPics > 3 && totalmutualFollowerPics <=6) {
+            ViewGroup.LayoutParams mutual1 = mutualgrid.getLayoutParams();
+            mutual1.height = 690;
+            mutualgrid.setLayoutParams(mutual1);
+        }else{
+            mutualgrid.setVisibility(View.VISIBLE);
+            mutualnopost.setVisibility(View.GONE);
         }
 
         if(totalCompetitionPic == 0){
-            compBanner.setVisibility(View.GONE);
+            compnopost.setVisibility(View.VISIBLE);
+            competitiongrid.setVisibility(View.GONE);
             seeAllCompetitionProfile.setVisibility(View.GONE);
+        }else if (totalCompetitionPic >0 && totalCompetitionPic <=3) {
+            ViewGroup.LayoutParams comp = competitiongrid.getLayoutParams();
+            comp.height = 330;
+            competitiongrid.setLayoutParams(comp);
+        }else if (totalCompetitionPic > 3 && totalCompetitionPic <=6) {
+            ViewGroup.LayoutParams comp1 = mutualgrid.getLayoutParams();
+            comp1.height = 690;
+            competitiongrid.setLayoutParams(comp1);
         } else{
             compBanner.setVisibility(View.VISIBLE);
             seeAllCompetitionProfile.setVisibility(View.VISIBLE);
+            compnopost.setVisibility(View.GONE);
         }
 
         if(totalpublicPictures == 0){
-            publicBanner.setVisibility(View.GONE);
+            publicnopost.setVisibility(View.VISIBLE);
+            publicgrid.setVisibility(View.GONE);
             seeAllPublicProfile.setVisibility(View.GONE);
+        }else if (totalpublicPictures >0 && totalpublicPictures <=3) {
+            ViewGroup.LayoutParams pub = publicgrid.getLayoutParams();
+            pub.height = 330;
+            publicgrid.setLayoutParams(pub);
+        }else if (totalCompetitionPic > 3 && totalCompetitionPic <=6) {
+            ViewGroup.LayoutParams pub1 = publicgrid.getLayoutParams();
+            pub1.height = 690;
+            publicgrid.setLayoutParams(pub1);
         } else{
             publicBanner.setVisibility(View.VISIBLE);
             seeAllPublicProfile.setVisibility(View.VISIBLE);
