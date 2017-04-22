@@ -142,6 +142,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                             System.out.println("1. "+response.toString());
                             try {
                                 data.get(position).setStarsCount(response.getJSONObject("resultPayload").getInt("totalRating"));
+                                data.get(position).setMyStarCount(0);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -160,7 +161,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         /****************Rating bar Change ***********************************/
         holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+            public void onRatingChanged(final RatingBar ratingBar, float v, boolean b) {
 
                 String url = ServerInfo.BASE_URL_API+"images/rating";
 
@@ -187,6 +188,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                             System.out.println("1. "+response.toString());
                             try {
                                 data.get(position).setStarsCount(response.getJSONObject("resultPayload").getInt("totalRating"));
+                                data.get(position).setMyStarCount((int)holder.ratingBar.getRating());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
