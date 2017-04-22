@@ -183,7 +183,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
 
-       // competitiongrid.setNestedScrollingEnabled(false);
+        // competitiongrid.setNestedScrollingEnabled(false);
 
         settingsuser = (TextView)findViewById(R.id.settingsbutton);
         usernameProfile = (TextView)findViewById(R.id.profileuserNAME);
@@ -416,7 +416,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
         //compAdapter = new GridAdapter(this, compImgsUrls);
 
         comAdapter = new RecyclerGridAdapter(this, compImgsUrls, this); // the last "this" means the onItemClick method is
-                                                                        // implemented somewhere in this class
+        // implemented somewhere in this class
         publicAdapter = new RecyclerGridAdapter(this, publicImgsUrls, this);
         mutualAdapter = new RecyclerGridAdapter(this, mutualImgsUrls, this);
 
@@ -451,7 +451,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
 
 
         mUser = MyUser.getmUser();
-       // mUser.setContext(context);
+        // mUser.setContext(context);
 
 
 
@@ -463,8 +463,9 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
         if(target != null){
             try {
 
-                new getUserAndSetData().execute(target);
+                //new getUserAndSetData().execute(target);
 
+                loadUserInformation(target);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -491,25 +492,18 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             e.printStackTrace();
         }*/
 
+        final String finalTarget = target;
         numFollowersProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(guestUser != null){
-                    Intent intent = new Intent();
-                    intent.putExtra("guestUserId", guestUser.getUserId());
-                    intent.putExtra("myUserId", mUser.getUserId());
-                    intent.putExtra("myUserPic", mUser.getProfilePicURL());
-                    intent.putExtra("token", mUser.getToken());
-                    intent.setClass(getApplicationContext(),followersPage.class);
-                    startActivity(intent);
-                }
-                /*
-                try{
-                    startActivity(new Intent(user_profile.this,followersPage.class));
-                }
-                catch (Exception e){
-                    Log.e(TAG,"ERROR HERE",e);
-                }*/
+                Intent intent = new Intent();
+                intent.putExtra("guestUserId", finalTarget);
+                intent.putExtra("myUserId", mUser.getUserId());
+                intent.putExtra("myUserPic", mUser.getProfilePicURL());
+                intent.putExtra("token", mUser.getToken());
+                intent.setClass(user_profile.this,followersPage.class);
+                startActivity(intent);
+                System.out.println("Calling");
 
             }
         });
@@ -517,15 +511,14 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
         numFollowingProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(guestUser != null){
-                    Intent intent = new Intent();
-                    intent.putExtra("guestUserId", guestUser.getUserId());
-                    intent.putExtra("myUserId", mUser.getUserId());
-                    intent.putExtra("myUserPic", mUser.getProfilePicURL());
-                    intent.putExtra("token", mUser.getToken());
-                    intent.setClass(getApplicationContext(),followersPage.class);
-                    startActivity(intent);
-                }
+                Intent intent = new Intent();
+                intent.putExtra("guestUserId", finalTarget);
+                intent.putExtra("myUserId", mUser.getUserId());
+                intent.putExtra("myUserPic", mUser.getProfilePicURL());
+                intent.putExtra("token", mUser.getToken());
+                intent.setClass(user_profile.this,followersPage.class);
+                startActivity(intent);
+                System.out.println("Calling");
             }
         });
 
@@ -653,11 +646,153 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
 
 
 
-    //getUnseen();
+        //getUnseen();
 
 
 
     }
+
+    private void loadUserInformation(final String target) {
+        String url = ServerInfo.BASE_URL_API+"account/GetUserDetails?userId="+target;
+
+        AsyncHttpClient client=new AsyncHttpClient();
+        client.addHeader("Authorization", "Bearer " + mUser.getToken());
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
+        client.get(this, url,new JsonHttpResponseHandler() {
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    System.out.println("1. " + response.toString());
+                    if (mUser.getUserId().equals(target)) {
+                        settingsuser.setVisibility(View.VISIBLE);
+                        editprofile.setVisibility(View.VISIBLE);
+                    } else {
+                        settingsuser.setVisibility(View.GONE);
+                        editprofile.setVisibility(View.GONE);
+
+                    }
+                    //setting UI rss with user data
+                    try {
+
+                        JSONObject jsonObject = response.getJSONObject("resultPayload");
+
+                        weeklyPrizeCountProfile.setText(jsonObject.getJSONObject("recogprofile").getString("weekly"));
+                        monthlyPrizeCountProfile.setText(jsonObject.getJSONObject("recogprofile").getString("monthly"));
+                        grandPrizeCountProfile.setText(jsonObject.getJSONObject("recogprofile").getString("grand"));
+                        exhibitionPrizeCountProfile.setText(jsonObject.getJSONObject("recogprofile").getString("exhibition"));
+
+                        usernameProfile.setText(jsonObject.getString("name") + " " + jsonObject.getString("lastName"));
+
+                        String location = jsonObject.getString("location");
+                        if (location != "null") {
+                            userLocationProfile.setText(jsonObject.getString("location"));
+                        } else userLocationProfile.setText("");
+
+                        String aboutMe = jsonObject.getString("aboutMe");
+                        if (aboutMe != "null") aboutMeTextProfile.setText(aboutMe);
+                        else aboutMeTextProfile.setText("");
+
+                        String interests = jsonObject.getString("interests");
+                        if (interests != "null") interestTextProfile.setText(interests);
+                        else interestTextProfile.setText("");
+
+
+                        //setting an intent to user profile with user data
+                        homeIntent = new Intent();
+                        homeIntent.putExtra("USER_ID", jsonObject.getString("id"));
+                        homeIntent.setClass(getApplicationContext(), user_profile.class);
+
+
+                        Glide.with(getApplicationContext()).load(jsonObject.getString("profilePicURL")).into(userPicProfile);
+
+
+
+                        FollowerService.LoadFollowers(getApplicationContext(), target, mUser.getToken(), new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                // If the response is JSONObject instead of expected JSONArray
+                                try {
+                                    System.out.println(response);
+                                    JSONArray followerList = null;
+                                    JSONArray followingList = null;
+                                    try {
+                                        JSONObject resultPayload = response.getJSONObject("resultPayload");
+                                        followerList = resultPayload.getJSONArray("followerList");
+                                        followingList = resultPayload.getJSONArray("followingList");
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    numFollowersCountProfile.setText(followerList.length() + "");
+                                    numFollowingCountProfile.setText(followingList.length()+"");
+
+                                    boolean isFollower = false;
+                                    boolean isFollowing = false;
+
+                                    for (int i = 0; i < followerList.length() - 1; i++) {
+                                        if (followerList.getJSONObject(i).getString("id").equals(mUser.getUserId())) {
+                                            isFollower = true;
+                                            break;
+                                        }
+
+
+                                    }
+
+                                    for (int i = 0; i < followingList.length() - 1; i++) {
+                                        if (followingList.getJSONObject(i).getString("id").equals(mUser.getUserId())) {
+                                            isFollowing = true;
+                                            break;
+                                        }
+
+                                    }
+                                    System.out.println(isFollowing + " for following and " + isFollower + " for follower");
+
+                                    if (mUser.getUserId().equals(target)) {
+                                        follow.setVisibility(View.GONE);
+                                    } else if (isFollower && !isFollowing) {
+                                        follow.setVisibility(View.VISIBLE);
+                                        follow.setBackgroundColor(Color.parseColor("#007FFF"));
+                                        follow.setText("Follower");
+                                    } else if (!isFollower && isFollowing) {
+                                        follow.setVisibility(View.VISIBLE);
+                                        follow.setBackgroundColor(Color.parseColor("#E1C8FF"));
+                                        follow.setText("Following");
+                                    } else if (isFollower && isFollowing) {
+                                        follow.setVisibility(View.VISIBLE);
+                                        follow.setBackgroundColor(Color.parseColor("#640064"));
+                                        follow.setText("Mutual");
+                                    } else {
+                                        follow.setVisibility(View.VISIBLE);
+                                        follow.setText("Follow");
+                                    }
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        });
+                        //calling populateGallery() method using data from user
+                        populateGallery(jsonObject.getString("id"), 1, mUser.getToken());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 
     public void getUnseen(){
 
@@ -735,7 +870,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             try {
                 pictureService.getUserPictures(jsonObjects[0].getString("usrId"), jsonObjects[0].getInt("pg"), jsonObjects[0].getString("token"));
                 while(data == null){
-                   data = pictureService.getDataObject();
+                    data = pictureService.getDataObject();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -865,7 +1000,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
                                 e.printStackTrace();
                             }
                             numFollowersCountProfile.setText(followerList.length()+"");
-                           // numFollowingCountProfile.setText(followingList.length()+"");
+                            // numFollowingCountProfile.setText(followingList.length()+"");
 
                             boolean isFollower = false;
                             boolean isFollowing = false;

@@ -776,9 +776,9 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
             }
 
         }
-        if(!loading){
+       /* if(!loading){
             loading = true;
-        }
+        }*/
 
     }
 

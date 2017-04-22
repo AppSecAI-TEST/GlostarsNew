@@ -36,6 +36,8 @@ import org.json.JSONObject;
 
 import java.security.KeyStore;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -231,7 +233,7 @@ public class followersPage extends AppCompatActivity {
     }
 
     public void LoadFollowers(String usr, String token, final String myID){
-        FollowerService.LoadFollowers(this, myID, token, new JsonHttpResponseHandler(){
+       /* FollowerService.LoadFollowers(this, myID, token, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
@@ -242,7 +244,7 @@ public class followersPage extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
 
         FollowerService.LoadFollowers(this, usr, token, new JsonHttpResponseHandler(){
             @Override
@@ -256,55 +258,86 @@ public class followersPage extends AppCompatActivity {
                     followerList = resultPayload.getJSONArray("followerList");
                     followingList = resultPayload.getJSONArray("followingList");
 
-                   if((myFollowers != null)  && (myFollowing != null)){
-                        for(int i = 0; i < followerList.length(); i++){
-                            Follower follower = new Follower();
-                            follower.setUserId(followerList.getJSONObject(i).getString("id"));
+                   /*if((myFollowers != null)  && (myFollowing != null)){
 
-                            String name = followerList.getJSONObject(i).getString("name");
-                            String surname = followerList.getJSONObject(i).getString("lastName");
+                   }*/
 
-                            follower.setUserName(name + " " + surname);
-                            follower.setProfilePicture(followingList.getJSONObject(i).getString("profilemediumPath"));
-
-                            if(follower.getUserId().equals(mUserID)){
-                                follower.setRigStatus("");
-                            } else{
-                                follower.setStatus(myFollowers, myFollowing);
-                            }
+                    Set<String> followerListSet=new HashSet<String>();
+                    Set<String> followingListSet=new HashSet<String>();
 
 
 
-                            followers.add(follower);
-                            followersAdapter.notifyDataSetChanged();
+                    for(int i = 0; i < followerList.length(); i++){
+                        Follower follower = new Follower();
+                        follower.setUserId(followerList.getJSONObject(i).getString("id"));
+
+                        followerListSet.add(followerList.getJSONObject(i).getString("id"));
+
+                        String name = followerList.getJSONObject(i).getString("name");
+                        String surname = followerList.getJSONObject(i).getString("lastName");
+
+                        follower.setUserName(name + " " + surname);
+                        follower.setProfilePicture(followerList.getJSONObject(i).getString("profilemediumPath"));
+
+                        if(follower.getUserId().equals(mUserID)){
+                            follower.setRigStatus("");
+                        }
+                        followers.add(follower);
+                    }
 
 
+                    for(int i = 0; i < followingList.length(); i++){
+                        Follower follower = new Follower();
+                        follower.setUserId(followingList.getJSONObject(i).getString("id"));
 
+                        followingListSet.add(followingList.getJSONObject(i).getString("id"));
+
+                        String name = followingList.getJSONObject(i).getString("name");
+                        String surname = followingList.getJSONObject(i).getString("lastName");
+
+                        follower.setUserName(name + " " + surname);
+                        follower.setProfilePicture(followingList.getJSONObject(i).getString("profilemediumPath"));
+
+                        if(follower.getUserId().equals(mUserID)){
+                            follower.setRigStatus("");
                         }
 
-                       for(int i = 0; i < followingList.length(); i++){
-                           Follower follower = new Follower();
-                           follower.setUserId(followingList.getJSONObject(i).getString("id"));
-
-                           String name = followingList.getJSONObject(i).getString("name");
-                           String surname = followingList.getJSONObject(i).getString("lastName");
-
-                           follower.setUserName(name + " " + surname);
-                           follower.setProfilePicture(followingList.getJSONObject(i).getString("profilemediumPath"));
-
-                           if(follower.getUserId().equals(mUserID)){
-                               follower.setRigStatus("");
-                           } else{
-                               follower.setStatus(myFollowers, myFollowing);
-                           }
-
-                           following.add(follower);
-                           followingAdaper.notifyDataSetChanged();
+                        following.add(follower);
 
 
-                       }
-                   }
+                    }
 
+
+
+                    for ( Follower f  :followers
+                         ) {
+
+                        if(followerListSet.contains(f.getUserId()) && followingListSet.contains(f.getUserId())){
+                            f.setRigStatus("mutual");
+                        }else if(followerListSet.contains(f.getUserId())){
+                            f.setRigStatus("follower");
+                        }else if(followingListSet.contains(f.getUserId())){
+                            f.setRigStatus("following");
+                        }else{
+                            f.setRigStatus("follow");
+                        }
+                    }
+
+                    for ( Follower f  :following
+                         ) {
+
+                        if(followerListSet.contains(f.getUserId()) && followingListSet.contains(f.getUserId())){
+                            f.setRigStatus("mutual");
+                        }else if(followerListSet.contains(f.getUserId())){
+                            f.setRigStatus("follower");
+                        }else if(followingListSet.contains(f.getUserId())){
+                            f.setRigStatus("following");
+                        }else{
+                            f.setRigStatus("follow");
+                        }
+                    }
+                    followersAdapter.notifyDataSetChanged();
+                    followingAdaper.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
