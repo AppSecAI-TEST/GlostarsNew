@@ -626,6 +626,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             public void onClick(View view) {
 
                 startActivity(new Intent(user_profile.this, notification.class));
+                menuDown.close(true);
             }
         });
 
@@ -633,8 +634,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             @Override
             public void onClick(View view) {
 
-
-                startActivity(homeIntent);
+                menuDown.close(true);
             }
         });
 
@@ -644,6 +644,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             public void onClick(View view) {
 
                 startActivity(new Intent(user_profile.this, upload.class));
+                menuDown.close(true);
             }
         });
 
@@ -653,6 +654,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             public void onClick(View view) {
 
                 startActivity(new Intent(user_profile.this, competitionAll.class));
+                menuDown.close(true);
             }
         });
 
