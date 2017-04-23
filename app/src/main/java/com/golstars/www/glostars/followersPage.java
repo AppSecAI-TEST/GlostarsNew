@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -365,7 +366,7 @@ public class followersPage extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
 
             View v = convertView;
 
@@ -384,6 +385,16 @@ public class followersPage extends AppCompatActivity {
                 TextView name = (TextView) v.findViewById(R.id.namefollow);
                 TextView surname = (TextView) v.findViewById(R.id.surnamefollow);
                 final Button follow = (Button) v.findViewById(R.id.followBUT);
+
+                LinearLayout informationContainer= (LinearLayout) v.findViewById(R.id.informationContainer);
+                informationContainer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(context,user_profile.class);
+                        intent.putExtra("USER_ID",followers.get(position).getUserId());
+                        startActivity(intent);
+                    }
+                });
 
                 if (name != null) {
                     name.setText(p.getUserName());
