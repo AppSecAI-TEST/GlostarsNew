@@ -22,7 +22,8 @@
         android:orientation="vertical"
         android:background="#cc000000"
         android:layout_marginBottom="8dp"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:id="@+id/captionContainer">
 
         <TextView
             android:id="@+id/title"

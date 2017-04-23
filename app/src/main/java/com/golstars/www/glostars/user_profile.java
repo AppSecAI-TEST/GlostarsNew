@@ -603,11 +603,12 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
 
         //settingsuser = (Button)findViewById(R.id.settingsbutton);
 
+        final String finalTarget1 = target;
         settingsuser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mUser.getUserId() != null){
-                    if(guestUser.getUserId().equals(mUser.getUserId())){
+                if(finalTarget1 != null){
+                    if(finalTarget1.equals(mUser.getUserId())){
                         Intent intent = new Intent();
                         intent.putExtra("usrId", mUser.getUserId());
                         intent.putExtra("token", mUser.getToken());

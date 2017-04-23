@@ -1,28 +1,15 @@
 package com.golstars.www.glostars;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.provider.OpenableColumns;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -32,43 +19,27 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
-import com.loopj.android.http.*;
-import org.json.*;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.MySSLSocketFactory;
+import com.loopj.android.http.RequestParams;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.security.KeyStore;
+
+import cz.msebera.android.httpclient.Header;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
 
 public class upload extends AppCompatActivity {
 
@@ -249,8 +220,14 @@ public class upload extends AppCompatActivity {
                     privacy = "followers";
                 }
 
-                if((bm != null) && (privacy != "")){
-                    uploadPhoto(description.getText().toString(), privacy, competition.isChecked(), file, bm);
+                if((file != null) && (privacy != "")){
+                    uploadPhoto(description.getText().toString(), privacy, competition.isChecked(), file);
+                }else{
+                    if(file==null){
+                        Toast.makeText(upload.this, "Please select a photo for upload", Toast.LENGTH_SHORT).show();
+                    }else if(privacy.equals("")){
+                        Toast.makeText(upload.this, "Please select privacy.", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }
@@ -266,8 +243,145 @@ public class upload extends AppCompatActivity {
 
 
     }
+    private void requestDevicePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
+        }
+    }
 
-    public static String getBase64ForBitmap(File file) {
+
+
+    public void uploadPhoto(String descrip, String privacy, Boolean isCompeting, File file) {
+
+        final ProgressDialog dialog = ProgressDialog.show(upload.this, "",
+                "Image uploading. Please wait...", true);
+        dialog.show();
+        String url = "https://www.glostars.com/home/upload";
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.addHeader("Authorization", "Bearer " + mUser.getToken());
+        Log.d("UPLOAD", "token: " + mUser.getToken());
+        final RequestParams requestParams = new RequestParams();
+        requestParams.put("Description", descrip);
+        requestParams.put("IsCompeting", isCompeting);
+        requestParams.put("Privacy", privacy);
+        try {
+            System.out.println("file to load is: " + file);
+            requestParams.put("file", file);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }catch (Exception e){
+
+        }
+        client.post(getApplicationContext(), url, requestParams, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                System.out.println(response.toString());
+                try {
+                    if(response.getString("status").equalsIgnoreCase("ok")){
+                        finish();
+                        Intent intent=new Intent(upload.this,MainFeed.class);
+                        startActivity(intent);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                System.out.println(responseString);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                System.out.println(errorResponse);
+            }
+        });
+
+    }
+
+
+
+    private void selectImage() {
+        /*final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(upload.this);
+        builder.setTitle("Select Source");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int item) {
+                boolean result = Utility.checkPermission(upload.this);
+
+                if (items[item].equals("Take Photo")) {
+                    userChoosenTask = "Take Photo";
+                    if (result)
+                        cameraIntent();
+                } else if (items[item].equals("Choose from Library")) {
+                    userChoosenTask = "Choose from Library";
+                    if (result)
+                        galleryIntent();
+                } else if (items[item].equals("Cancel")) {
+                    dialogInterface.dismiss();
+                    finish();
+                }
+            }
+        });
+        builder.show();*/
+        galleryIntent();
+    }
+
+
+    private void cameraIntent() {
+        EasyImage.openCamera(this, 0);
+    }
+
+    private void galleryIntent() {
+        EasyImage.openGallery(this, 0);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                   /* if (userChoosenTask.equals("Take Photo"))
+                        cameraIntent();
+                    else if (userChoosenTask.equals("Choose from Library"))*/
+                    galleryIntent();
+                } else {
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+
+            @Override
+            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
+                System.out.println("Selected File Is : " + imageFile.getAbsolutePath());
+                file = imageFile;
+                /*image.setImageURI(Uri.fromFile(imageFile));*/
+                Picasso.with(upload.this).load(file).fit().centerCrop().into(image);
+                image.setVisibility(View.VISIBLE);
+                //Bitmap bitmap = BitmapFactory.decodeFile(imageFile);
+            }
+        });
+    }
+}
+
+    /*public static String getBase64ForBitmap(File file) {
 
         int size = (int) file.length();
 
@@ -373,10 +487,10 @@ public class upload extends AppCompatActivity {
 
 
     //-------------CAMERA AND GALLERY CALLERS------------------------------------------
-    /**
-     *  In this method we'll create a dialog box with three options
-     *  for either camera, gallery or cancelling actions
-     */
+    *//**
+ *  In this method we'll create a dialog box with three options
+ *  for either camera, gallery or cancelling actions
+ *//*
 
     private void selectImage(){
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
@@ -414,7 +528,7 @@ public class upload extends AppCompatActivity {
 
     private void galleryIntent()
     {
-        /*
+        *//*
         if (Build.VERSION.SDK_INT <19){
             Intent intent = new Intent();
             intent.setType("image/jpeg");
@@ -425,10 +539,10 @@ public class upload extends AppCompatActivity {
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("image/jpeg");
             startActivityForResult(intent, SELECT_FILE_KITKAT);
-        }*/
+        }*//*
 
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("image*//*");
         intent.setAction(Intent.ACTION_GET_CONTENT);//
         startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
 
@@ -507,7 +621,7 @@ public class upload extends AppCompatActivity {
 
 
 
-        /*
+        *//*
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         Bundle filePath = new Bundle();
@@ -518,7 +632,7 @@ public class upload extends AppCompatActivity {
         intent.putExtras(filePath);
         intent.setClass(this, upload.class);
         startActivity(intent);
-        */
+        *//*
         //ivImage.setImageBitmap(bm);
     }
 
@@ -545,7 +659,7 @@ public class upload extends AppCompatActivity {
         image.setImageBitmap(bm);
         image.setVisibility(View.VISIBLE);
         file = destination;
-        /*
+        *//*
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         Bundle filePath = new Bundle();
@@ -556,7 +670,7 @@ public class upload extends AppCompatActivity {
         intent.putExtras(filePath);
         intent.setClass(this, upload.class);
         startActivity(intent);
-        */
+        *//*
         //ivImage.setImageBitmap(thumbnail);
     }
 
@@ -564,7 +678,7 @@ public class upload extends AppCompatActivity {
     //UPDATED!
     public String getPath(Uri uri) {
 
-        /*
+        *//*
         String[] projection = { MediaStore.Images.Media.DATA };
         Cursor cursor = managedQuery(uri, projection, null, null, null);
         if(cursor!=null)
@@ -577,7 +691,7 @@ public class upload extends AppCompatActivity {
             return cursor.getString(column_index);
         }
         else return null;
-        */
+        *//*
 
         Cursor cursor = getApplicationContext().getContentResolver().query(uri, null, null , null , null, null);
 
@@ -599,5 +713,4 @@ public class upload extends AppCompatActivity {
 
     //-------------/CAMERA AND GALLERY CALLERS<end>------------------------------------------
 
-
-}
+}*/

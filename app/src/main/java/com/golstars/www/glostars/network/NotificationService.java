@@ -5,6 +5,7 @@ import android.content.Context;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.MySSLSocketFactory;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +13,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.KeyStore;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
@@ -49,12 +51,28 @@ public class NotificationService {
     public static void getNotifications(Context context, String usrId, String token, AsyncHttpResponseHandler responseHandler)  {
         client.addHeader("Content-Type", "application/json");
         client.addHeader("Authorization", "Bearer " + token);
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
         client.get(baseURL+"api/notifications/user/" + usrId ,  responseHandler);
     }
 
     public static void activityNotifSeen(Context context, String token, StringEntity jsonEntity,  AsyncHttpResponseHandler responseHandler){
         client.addHeader("Content-Type", "application/json");
         client.addHeader("Authorization", "Bearer " + token);
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
         client.post(context, baseURL + "api/notifications/userActivitySeen" ,jsonEntity , "application/json" , responseHandler);
 
     }
@@ -62,6 +80,14 @@ public class NotificationService {
     public static void userNotifsSeen(Context context, String token, StringEntity jsonEntity,  AsyncHttpResponseHandler responseHandler){
         client.addHeader("Content-Type", "application/json");
         client.addHeader("Authorization", "Bearer " + token);
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
         client.post(context, baseURL + "api/notifications/userFollowSeen" ,jsonEntity , "application/json" , responseHandler);
 
     }

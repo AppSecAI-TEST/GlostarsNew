@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 
@@ -95,6 +96,14 @@ public class LoginActivity extends Fragment {
         signup.setTypeface(type);
         login.setTypeface(type);
         forgotpass.setTypeface(type);
+
+        forgotpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.glostars.com/Account/ForgotPassword"));
+                startActivity(browserIntent);
+            }
+        });
 
 
         login.setTransformationMethod(null);

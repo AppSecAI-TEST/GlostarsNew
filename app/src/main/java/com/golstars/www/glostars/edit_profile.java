@@ -1,5 +1,6 @@
 package com.golstars.www.glostars;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -8,28 +9,38 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.MySSLSocketFactory;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
 
 public class edit_profile extends AppCompatActivity {
 
@@ -52,13 +63,14 @@ public class edit_profile extends AppCompatActivity {
 
     FloatingActionMenu menuDown;
 
-
+    private MyUser mUser;
 
     TextView homebadge;
     TextView notificationbadge;
     TextView profilebadge;
     TextView camerabadge;
     TextView mainbadge;
+    TextView textChange;
     TextView competitionbadge;
     //===================================================================
 
@@ -74,6 +86,7 @@ public class edit_profile extends AppCompatActivity {
 
     Button save;
     Button cancel;
+    Button uploadbutton;
 
     TextView changepass;
 
@@ -91,7 +104,30 @@ public class edit_profile extends AppCompatActivity {
     Spinner occupation;
     ArrayAdapter<CharSequence> occupationadapter;
 
+    FrameLayout editpicframe;
+
     Intent homeIntent;
+    File selectedImage;
+    private ImageView final_view;
+
+
+
+    //<editor-fold desc="User Information">
+    String Id;
+    String AboutMe;
+    String Interests;
+    String  Name;
+    String LastName;
+    String Location;
+    String Country;
+    String Original_Location;
+    String Original_Country;
+    String  Ocupation;
+    String OcupationOther;
+    //</editor-fold>
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +136,25 @@ public class edit_profile extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
+        //<editor-fold desc="Easy Image Default Config">
+        EasyImage.configuration(this)
+                .setImagesFolderName("AOS") //images folder name, default is "EasyImage"
+                //.saveInAppExternalFilesDir() //if you want to use root internal memory for storying images
+                .saveInRootPicturesDirectory(); //if you want to use internal memory for storying images - default
+        //</editor-fold>
+
+        mUser = MyUser.getmUser();
+        editpicframe = (FrameLayout) findViewById(R.id.editpicframe);
+
+
+        editpicframe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EasyImage.openGallery(edit_profile.this, 0);
+            }
+        });
 
         menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
         menuDown.setClosedOnTouchOutside(true);
@@ -115,9 +170,27 @@ public class edit_profile extends AppCompatActivity {
         save = (Button)findViewById(R.id.savebutton);
         cancel = (Button)findViewById(R.id.cancelbutton);
 
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateProfile();
+            }
+        });
+
+        textChange = (TextView) findViewById(R.id.textChange);
+
+
         gl = (ImageView)findViewById(R.id.glostarslogo);
         slogo = (ImageView)findViewById(R.id.searchlogo);
         editPic = (ImageView)findViewById(R.id.editpic);
+        final_view = (ImageView)findViewById(R.id.final_view);
         search = (EditText)findViewById(R.id.searchedit);
 
 
@@ -236,9 +309,182 @@ public class edit_profile extends AppCompatActivity {
             }
         });
 
-        new setupUser().execute("");
+        //new setupUser().execute("");
+        Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(editPic);
+        loadUserInformation();
+    }
+
+    public void loadUserInformation(){
+
+        //Picasso.with(getApplicationContext()).load(myUser.getProfilePicURL()).into(editPic);
+
+        String url = ServerInfo.BASE_URL_API+"account/GetUserDetails?userId="+mUser.getUserId();
+
+        AsyncHttpClient client=new AsyncHttpClient();
+        client.addHeader("Authorization", "Bearer " + mUser.getToken());
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
+        client.get(this, url,new JsonHttpResponseHandler() {
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    System.out.println("1. " + response.toString());
+
+                    JSONObject jsonObject = response.getJSONObject("resultPayload");
+                    Id=jsonObject.getString("id");
+                    AboutMe=jsonObject.getString("aboutMe");
+                    Interests=jsonObject.getString("interests");
+                    Name=jsonObject.getString("name");
+                    LastName=jsonObject.getString("lastName");
+                    Location=jsonObject.getString("location");
+                    Country=jsonObject.getString("country");
+                    Original_Location=jsonObject.getString("original_Location");
+                    Original_Country=jsonObject.getString("original_Country");
+                    Ocupation=jsonObject.getString("ocupation");
+                    OcupationOther=jsonObject.getString("ocupationOther");
+
+                    firstname.setText(Name);
+                    lastname.setText(LastName);
+                    aboutme.setText(AboutMe);
+                    interests.setText(Interests);
+                    /*try {
+
+                        *//*currentcity.setText(data.getString("location"));
+                        if(!data.getString("original_Location").equals("null")) {
+                            homecity.setText(data.getString("original_Location"));
+                        }*//*
+
+
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }*/
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+
+            @Override
+            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
+                System.out.println("Selected File Is : " + imageFile.getAbsolutePath());
+                selectedImage = imageFile;
+                /*image.setImageURI(Uri.fromFile(imageFile));*/
+                editPic.setVisibility(View.GONE);
+                textChange.setVisibility(View.GONE);
+                Picasso.with(edit_profile.this).load(selectedImage).fit().centerCrop().into(final_view);
+                //editPic.setVisibility(View.VISIBLE);
+                //Bitmap bitmap = BitmapFactory.decodeFile(imageFile);
+            }
+        });
+    }
+    public void updateProfile() {
+
+        final ProgressDialog dialog = ProgressDialog.show(edit_profile.this, "","Profile updating. Please wait...", true);
+        dialog.show();
+
+        String url = ServerInfo.BASE_URL+"Home/Edit";
+        AsyncHttpClient client = new AsyncHttpClient();
+
+
+        client.addHeader("Authorization", "Bearer " + mUser.getToken());
+
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }catch (Exception e){
+
+        }
+
+
+        //Log.d("UPLOAD", "token: " + mUser.getToken());
+        final RequestParams requestParams = new RequestParams();
+
+        requestParams.put("Id", Id);
+        requestParams.put("AboutMe", aboutme.getText().toString());
+        requestParams.put("Interests", interests.getText().toString());
+        requestParams.put("Name", firstname.getText().toString());
+        requestParams.put("LastName", lastname.getText().toString());
+        requestParams.put("Location", Location);
+        requestParams.put("Country", Country);
+        requestParams.put("Original_Location", Original_Location);
+        requestParams.put("Original_Country", Original_Country);
+        requestParams.put("Ocupation",Ocupation );
+        requestParams.put("OcupationOther", OcupationOther);
+        if(selectedImage!=null){
+            try {
+                requestParams.put("file", selectedImage);
+                System.out.println("Successfully selected");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        /*try {
+            System.out.println("file to load is: " + file);
+            requestParams.put("file", file);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }*/
+        client.post(getApplicationContext(), url, requestParams, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                System.out.println(response.toString());
+                try {
+                    if(response.getInt("responseCode")==1){
+
+                       // JSONObject data=response.getJSONObject("resultPayload").getJSONObject("edited");
+
+                        Intent userProfileIntent=new Intent();
+                        userProfileIntent.putExtra("USER_ID",mUser.getUserId());
+                        userProfileIntent.setClass(getApplicationContext(),user_profile.class);
+
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                System.out.println("2. "+responseString);
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                System.out.println("3. "+errorResponse);
+                dialog.dismiss();
+            }
+        });
 
     }
+
     /*
 
     private void bindToUI(){

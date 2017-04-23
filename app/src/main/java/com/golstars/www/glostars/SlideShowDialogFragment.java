@@ -14,6 +14,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -61,16 +62,27 @@ public class SlideShowDialogFragment extends DialogFragment {
     private String usrID;
     MyUser mUser;
 
+    LinearLayout captionContainer;
+    private ImageView imageViewPreview;
+
     static SlideShowDialogFragment newInstance(){
         SlideShowDialogFragment f = new SlideShowDialogFragment();
         return f;
     }
 
 
+    boolean isShowCaption=false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_image_slider, container, false);
+
+        captionContainer= (LinearLayout) v.findViewById(R.id.captionContainer);
+
+        captionContainer.setVisibility(View.GONE);
+
+
+
         viewPager = (ViewPager) v.findViewById(R.id.viewpager);
         //lblCount = (TextView) v.findViewById(R.id.lbl_count);
         lblTitle = (TextView) v.findViewById(R.id.title);
@@ -190,7 +202,22 @@ public class SlideShowDialogFragment extends DialogFragment {
             View view = layoutInflater.inflate(R.layout.image_fullscreen_preview, container, false);
 
             //instantiating view items
-            ImageView imageViewPreview = (ImageView) view.findViewById(R.id.image_preview);
+            imageViewPreview = (ImageView) view.findViewById(R.id.image_preview);
+
+            imageViewPreview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Toast.makeText(getContext(), "Working", Toast.LENGTH_SHORT).show();
+                    if(isShowCaption){
+                        captionContainer.setVisibility(View.GONE);
+                        isShowCaption=false;
+                    }else{
+                        captionContainer.setVisibility(View.VISIBLE);
+                        isShowCaption=true;
+                    }
+                    //captionContainer.setVisibility(View.GONE);
+                }
+            });
 
             //biding post elements to those items
             final Post image = images.get(position);
@@ -310,7 +337,7 @@ public class SlideShowDialogFragment extends DialogFragment {
 
             });
 
-            imageViewPreview.setOnTouchListener(new View.OnTouchListener() {
+            /*imageViewPreview.setOnTouchListener(new View.OnTouchListener() {
                 android.os.Handler handler = new android.os.Handler();
 
                 int numberOfTaps = 0;
@@ -387,7 +414,7 @@ public class SlideShowDialogFragment extends DialogFragment {
 
                     return true;
                 }
-            });
+            });*/
 
 
             ratingfullscreen.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
