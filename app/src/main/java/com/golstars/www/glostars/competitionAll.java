@@ -328,6 +328,7 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 menuDown.close(true);
             }
         });

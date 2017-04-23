@@ -179,6 +179,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             public void onClick(View view) {
 
                 startActivity(homeIntent);
+                menuDown.close(true);
             }
         });
 
@@ -188,6 +189,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             public void onClick(View view) {
 
                 startActivity(new Intent(notification.this, upload.class));
+                menuDown.close(true);
             }
         });
 
@@ -197,10 +199,18 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             public void onClick(View view) {
 
                 startActivity(new Intent(notification.this, competitionAll.class));
+                menuDown.close(true);
             }
         });
 
 
+        notificationFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                menuDown.close(true);
+            }
+        });
 
 
         notification.setOnClickListener(new View.OnClickListener() {

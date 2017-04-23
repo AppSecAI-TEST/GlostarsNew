@@ -267,6 +267,7 @@
                     android:id="@+id/numberoffollowingCount"
                     android:layout_gravity="center_vertical"
                     android:text=" 10"
+                    android:layout_marginLeft="4dp"
                     android:layout_weight="0.5"
                     android:textColor="@color/darkGrey"
                     android:layout_width="wrap_content"
@@ -297,6 +298,7 @@
                     android:id="@+id/numberoffollowersCount"                    android:layout_gravity="center_vertical"
                     android:text=" 12"
                     android:layout_weight="0.5"
+                    android:layout_marginLeft="4dp"
                     android:textColor="@color/darkGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -341,6 +343,24 @@
                     android:numColumns="3"
                     android:stretchMode="columnWidth" />
 
+                <RelativeLayout
+                    android:id="@+id/compnopost"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:visibility="gone"
+                    >
+
+                    <TextView
+                        android:id="@+id/compno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No Posts "
+                        android:textColor="@color/hashtag"
+                        android:textSize="24sp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"/>
+                </RelativeLayout>
+
                 <TextView
                     android:id="@+id/seeAllCompetition"
                     android:layout_gravity="center_horizontal"
@@ -371,6 +391,24 @@
                     android:stretchMode="columnWidth"
                     android:layout_gravity="center"
                     />
+
+                <RelativeLayout
+                    android:id="@+id/publicnopost"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:visibility="gone"
+                    >
+
+                    <TextView
+                        android:id="@+id/publicno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No Posts "
+                        android:textColor="@color/hashtag"
+                        android:textSize="24sp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"/>
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/seeAllPublic"
@@ -403,6 +441,24 @@
                     android:layout_gravity="center"
                     android:visibility="visible"
                     />
+
+                <RelativeLayout
+                    android:id="@+id/mutualnopost"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:visibility="gone"
+                    >
+
+                    <TextView
+                        android:id="@+id/mutualno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No Posts "
+                        android:textColor="@color/hashtag"
+                        android:textSize="24sp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"/>
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/seeAllMutual"

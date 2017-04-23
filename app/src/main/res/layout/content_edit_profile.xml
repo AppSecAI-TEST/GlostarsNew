@@ -16,18 +16,41 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        >
+
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/editpic"
+            <FrameLayout
+                android:id="@+id/editpicframe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
-                android:layout_width="90dp"
-                android:layout_height="90dp" />
+                android:layout_marginEnd="16dp"
+                android:layout_alignParentStart="true">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/editpic"
+                    android:src="@drawable/nopicmale"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:background="#ccE0E0E0"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Change"
+                    android:textColor="@color/darkGrey"
+                    android:layout_marginTop="16dp"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_horizontal|center_vertical"/>
+            </FrameLayout>
+
 
             <EditText
                 android:layout_width="wrap_content"
@@ -92,10 +115,9 @@
                 android:paddingLeft="8dp"
                 android:ems="10"
                 android:background="@drawable/roundededittext"
-                android:layout_marginStart="27dp"
                 android:id="@+id/firstnameedit"
                 android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/editpic" />
+                android:layout_toEndOf="@+id/editpicframe" />
 
 
             <LinearLayout
@@ -184,27 +206,6 @@
 
             </Spinner>
 
-            <Button
-                android:text="Save"
-                android:background="@drawable/uploadbutton"
-                android:textColor="#FFFFFF"
-                android:layout_width="200dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="26dp"
-                android:id="@+id/savebutton"
-                android:layout_below="@+id/occupationspinner"
-                android:layout_centerHorizontal="true" />
-
-            <Button
-                android:text="Cancel"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/roundededittext"
-                android:layout_width="200dp"
-                android:layout_height="35dp"
-                android:id="@+id/cancelbutton"
-                android:layout_below="@+id/savebutton"
-                android:layout_centerHorizontal="true" />
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -212,7 +213,7 @@
                 android:orientation="horizontal"
                 android:id="@+id/ban"
                 android:layout_marginTop="16dp"
-                android:layout_below="@+id/cancelbutton"
+                android:layout_below="@+id/occupationspinner"
                 >
 
                 <TextView
@@ -265,7 +266,26 @@
                     android:background="@drawable/roundededittext"
                     android:id="@+id/newpass"
                      />
+                <Button
+                    android:text="Save"
+                    android:background="@drawable/uploadbutton"
+                    android:textColor="#FFFFFF"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="26dp"
+                    android:id="@+id/savebutton"
+                     />
 
+                <Button
+                    android:text="Cancel"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/roundededittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:id="@+id/cancelbutton"
+                    android:layout_marginBottom="32dp"
+
+                     />
 
             </LinearLayout>
 

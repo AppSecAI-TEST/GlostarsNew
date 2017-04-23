@@ -441,12 +441,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
 
 
-        homeFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                menuDown.close(true);
-            }
-        });
+
 
 
         username=(TextView)findViewById(R.id.userNAME);
@@ -480,6 +475,13 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
             }
         });
 
+
+        homeFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menuDown.close(true);
+            }
+        });
 
 
         cameraFAB.setOnClickListener(new View.OnClickListener() {
