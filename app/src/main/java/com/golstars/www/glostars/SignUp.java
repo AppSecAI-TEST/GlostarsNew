@@ -27,12 +27,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.golstars.www.glostars.network.Signupnet;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
 
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -181,7 +186,7 @@ public class SignUp extends Fragment{
 
 
     public void createAccount(String username, String email, String name, String bdayY, String bdayM, String bdayD, String gender, String lastname, final String password) throws Exception {
-        URL url = new URL("http://www.glostars.com/api/account/register");
+        URL url = new URL("https://www.glostars.com/api/account/register");
         JSONObject msg = new JSONObject();
         msg.put("UserName", username);
         msg.put("Email", email);
@@ -194,6 +199,18 @@ public class SignUp extends Fragment{
         msg.put("Password", password);
 
         System.out.println(msg);
+
+        /*
+        StringEntity entity = null;
+        entity = new StringEntity(msg.toString());
+
+        Signupnet.signupService(getContext(), entity, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                System.out.println("SUCCESS!");
+                Toast.makeText(getContext(), "SUCCESS!", Toast.LENGTH_LONG).show();
+            }
+        }); */
 
 
         RequestBody body = RequestBody.create(JSONType, msg.toString());

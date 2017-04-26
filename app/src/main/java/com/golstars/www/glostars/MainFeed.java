@@ -569,6 +569,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                             String profilePicUrl = poster.getString("profilePicURL");
                             String id = pic.getString("id");
                             String description = pic.getString("description");
+                            String privacy = pic.getString("privacy");
                             String picURL = pic.getString("picUrl");
 
                             Boolean isFeatured = Boolean.valueOf(pic.getString("isfeatured"));
@@ -584,7 +585,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                             LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
                             String interval = Timestamp.getInterval(localDateTime);
 
-                            setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, ratings.length(), comments.length(), ratings, comments, interval);
+                            setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, ratings.length(), comments.length(), ratings, comments, interval, privacy);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (Exception e) {
@@ -755,6 +756,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 String id = pic.getString("id");
                 String description = pic.getString("description");
                 String picURL = pic.getString("picUrl");
+                String privacy = pic.getString("privacy");
 
                 Boolean isFeatured = Boolean.valueOf(pic.getString("isfeatured"));
                 Boolean isCompeting = Boolean.valueOf(pic.getString("isCompeting"));
@@ -770,7 +772,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
                 String interval = Timestamp.getInterval(localDateTime);
 
-                setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, starsCount, comments.length(), ratings, comments, interval);
+                setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, starsCount, comments.length(), ratings, comments, interval, privacy);
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -785,7 +787,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     }
 
     private void setmAdapter(String author, String usr, String photoID, String description, String picURL, String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount,
-                             Integer commentCount, JSONArray ratings, JSONArray comments, String uploaded){
+                             Integer commentCount, JSONArray ratings, JSONArray comments, String uploaded, String privacy){
         if(description == "null"){
             description = "";
         }
@@ -793,6 +795,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         post.setComments(comments);
         post.setRatings(ratings);
         post.setUploaded(uploaded);
+        post.setPrivacy(privacy);
         postList.add(post);
         mAdapter.notifyDataSetChanged();
     }
