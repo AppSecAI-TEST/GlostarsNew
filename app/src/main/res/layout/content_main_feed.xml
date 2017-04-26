@@ -188,30 +188,9 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/privacyALL"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginTop="2dp"
-                android:src="@drawable/bench"
-                android:layout_marginRight="0dp"
-                android:visibility="gone"
-                android:layout_alignTop="@+id/uploadTIME"
-                android:layout_toLeftOf="@+id/timedigit"/>
 
             <ImageView
-                android:id="@+id/privacyMUTUAL"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginTop="2dp"
-                android:src="@drawable/privacy_mutual_follower_photo"
-                android:layout_marginRight="0dp"
-                android:layout_alignTop="@+id/uploadTIME"
-                android:visibility="gone"
-                android:layout_toLeftOf="@+id/timedigit"/>
-
-            <ImageView
-                android:id="@+id/privacyCOMP"
+                android:id="@+id/privacy"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_marginTop="2dp"

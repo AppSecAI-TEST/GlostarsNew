@@ -268,7 +268,7 @@
                     android:layout_marginTop="4dp"
                     android:background="@drawable/roundededittext"
                     android:id="@+id/newpass"
-                     />
+                    />
                 <Button
                     android:text="Save"
                     android:background="@drawable/uploadbutton"
@@ -277,7 +277,7 @@
                     android:layout_height="35dp"
                     android:layout_marginTop="26dp"
                     android:id="@+id/savebutton"
-                     />
+                    />
 
                 <Button
                     android:text="Cancel"
@@ -288,7 +288,7 @@
                     android:id="@+id/cancelbutton"
                     android:layout_marginBottom="32dp"
 
-                     />
+                    />
 
             </LinearLayout>
 
