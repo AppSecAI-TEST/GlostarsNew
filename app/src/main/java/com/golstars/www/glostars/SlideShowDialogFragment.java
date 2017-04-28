@@ -65,7 +65,7 @@ public class SlideShowDialogFragment extends DialogFragment {
     LinearLayout captionContainer;
     private ImageView imageViewPreview;
 
-    static SlideShowDialogFragment newInstance(){
+    public static SlideShowDialogFragment newInstance(){
         SlideShowDialogFragment f = new SlideShowDialogFragment();
         return f;
     }
@@ -275,7 +275,7 @@ public class SlideShowDialogFragment extends DialogFragment {
 
 
                     final ArrayList<Comment> commentsList = new ArrayList<>();
-                    final CommentAdapter commentAdapter = new CommentAdapter(getContext(), R.layout.content_comment_model, commentsList,
+                   /* final CommentAdapter commentAdapter = new CommentAdapter(getContext(), R.layout.content_comment_model, commentsList,
                             new commentModel.BtnClickListener() {
                                 @Override
                                 public void onItemClick(Comment com) {
@@ -284,8 +284,8 @@ public class SlideShowDialogFragment extends DialogFragment {
                                     intent.setClass(getContext(), user_profile.class);
                                     startActivity(intent);
                                 }
-                            });
-                    commentrecycler.setAdapter(commentAdapter);
+                            });*/
+                    //commentrecycler.setAdapter(commentAdapter);
 
                     for(int i = 0; i < item.getComments().length(); i++){
                         try{
@@ -300,7 +300,7 @@ public class SlideShowDialogFragment extends DialogFragment {
                             String lastName = com.getString("lastName");
                             Comment comment = new Comment(commentMessage, commenterUserName, commenterID, commentTime, profilePicUrl, firstName, lastName, commentId);
                             commentsList.add(comment);
-                            commentAdapter.notifyDataSetChanged();
+                            //commentAdapter.notifyDataSetChanged();
 
                         } catch (JSONException e){
                             e.printStackTrace();
@@ -315,7 +315,7 @@ public class SlideShowDialogFragment extends DialogFragment {
                         public void onClick(View view) {
                             String comment = String.valueOf(commentbox.getText());
                             try {
-                                postComment(item.getPhotoId(), comment, commentsList, commentAdapter, sendcomment);
+                                //postComment(item.getPhotoId(), comment, commentsList, commentAdapter, sendcomment);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

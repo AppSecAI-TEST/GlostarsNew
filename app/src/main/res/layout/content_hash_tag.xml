@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#CFD8DC"
+        android:visibility="visible"
+        android:id="@+id/compflag">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            >
+            <ImageView
+                android:id="@+id/compicon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/competition"
+                android:layout_marginRight="4dp"
+                />
+            <TextView
+                android:id="@+id/comptext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Featured Post"
+                android:textSize="12sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_toRightOf="@+id/compicon"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/userPIC"
+            android:scaleType="centerCrop"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/userNAME"
+            android:text="NAME"
+            android:textSize="@dimen/textHEADER"
+            android:textStyle="bold"
+            android:paddingTop="4dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginStart="8dp"
+            android:layout_alignTop="@+id/userPIC"
+            android:layout_toEndOf="@+id/userPIC"/>
+
+        <TextView
+            android:text="Caption"
+            android:textColor="@color/darkGrey"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/textCAPTION"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/userNAME"
+            android:layout_below="@+id/userNAME"
+            android:layout_marginTop="10dp"
+            android:id="@+id/userCAPTION" />
+
+        <ImageView
+            android:layout_width="700dp"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="12dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/userPOST"
+            android:layout_below="@+id/userCAPTION"/>
+
+        <TextView
+            android:id="@+id/uploadTIME"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  mins ago"
+            android:textSize="12sp"
+            android:textColor="@color/darkGrey"
+            android:layout_marginEnd="8dp"
+            android:layout_alignTop="@+id/userNAME"
+            android:layout_alignEnd="@+id/userPOST"
+            android:visibility="visible"/>
+
+
+        <LinearLayout
+            android:id="@+id/ratecomment"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:layout_below="@+id/userPOST">
+
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                style="@style/RatingBarSmall"
+                android:layout_marginTop="2dp"
+                android:layout_gravity="center_vertical"
+                android:stepSize="1"
+                android:layout_marginStart="8dp"
+                />
+
+            <TextView
+                android:id="@+id/ratingstarcount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:textStyle="normal"
+                android:textSize="12sp"
+                android:layout_gravity="center_vertical"
+                android:text="45"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginStart="4dp"
+                />
+            <ImageView
+                android:id="@+id/clearRating"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="4dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="0dp"
+                android:src="@drawable/deleteicon"
+                android:layout_marginEnd="8dp"
+                />
+
+
+            <View
+                android:layout_width="40dp"
+                android:layout_weight="0.53"
+                android:paddingStart="4dp"
+                android:layout_height="match_parent"/>
+
+            <ImageView
+                android:id="@+id/commenticon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:src="@drawable/comment_icon"
+                android:layout_marginTop="2dp"
+                />
+
+            <TextView
+                android:id="@+id/commentcount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textSize="12sp"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/colorPrimary"
+                />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/privacyALL"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/bench"
+            android:layout_marginRight="0dp"
+            android:visibility="gone"
+            android:layout_alignTop="@+id/uploadTIME"
+            android:layout_toLeftOf="@+id/timedigit"/>
+
+        <ImageView
+            android:id="@+id/privacyMUTUAL"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/privacy_mutual_follower_photo"
+            android:layout_marginRight="0dp"
+            android:layout_alignTop="@+id/uploadTIME"
+            android:visibility="gone"
+            android:layout_toLeftOf="@+id/timedigit"/>
+
+        <ImageView
+            android:id="@+id/privacyCOMP"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/privacy_competition_photo"
+            android:layout_marginRight="0dp"
+            android:layout_alignTop="@+id/uploadTIME"
+            android:layout_toLeftOf="@+id/timedigit"/>
+
+        <TextView
+            android:id="@+id/timedigit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = "2"
+            android:textSize="12sp"
+            android:layout_marginLeft="4dp"
+            android:layout_toLeftOf="@+id/uploadTIME"
+            android:layout_alignTop="@+id/uploadTIME"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ratecomment"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/seeAllcomppost"
+                android:background="#CFD8DC"
+                android:layout_width="match_parent"
+                android:visibility="visible"
+                android:layout_height="32dp">
+
+                <TextView
+                    android:id="@+id/seall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="See All Competition Pictures >"
+                    android:textSize="12sp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorPrimary"
+                    />
+
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="0dp"
+                android:background="@color/colorAccent"
+                android:layout_below="@+id/seeAllcomppost"
+                />
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>

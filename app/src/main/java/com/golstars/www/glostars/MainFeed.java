@@ -9,14 +9,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -24,35 +21,28 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.adapters.CommentAdapter;
-import com.golstars.www.glostars.adapters.PostAdapter;
-import com.golstars.www.glostars.interfaces.OnItemClickListener;
-import com.golstars.www.glostars.interfaces.OnRatingEventListener;
+import com.golstars.www.glostars.adapters.PostData;
 import com.golstars.www.glostars.models.Comment;
-import com.golstars.www.glostars.models.NotificationObj;
-import com.golstars.www.glostars.models.Post;
 import com.golstars.www.glostars.network.NotificationService;
-import com.golstars.www.glostars.network.PictureService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.MySSLSocketFactory;
 import com.loopj.android.http.RequestParams;
-import com.squareup.picasso.Picasso;
 
-import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,15 +56,13 @@ import java.io.UnsupportedEncodingException;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
-import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 
 
-public class MainFeed extends AppCompatActivity implements OnRatingEventListener, OnItemClickListener {
+public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 
 
     Animation fab_hide;
@@ -119,9 +107,9 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     boolean isOpen = false;
 
     // --------------- recycler view settings ---------
-    private ArrayList<Post> postList = new ArrayList<>();
+    private ArrayList<Hashtag> postList = new ArrayList<>();
     private RecyclerView recyclerView;
-    private PostAdapter mAdapter;
+    private PostData mAdapter;
     //-------------------------------------------------
     LinearLayoutManager layoutManager;
     private boolean loading = true;
@@ -177,216 +165,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
         layoutManager = new LinearLayoutManager(this);
 
-        mAdapter = new PostAdapter(postList, Width, mUser.getUserId(), getApplicationContext(), this, this, new OnItemClickListener() {
-            @Override
-            public void onItemClickPost(Post item) {
-                /*
-                Intent intent = new Intent();
-                intent.putExtra("IMAGE_SAUCE", item.getPicURL());
-                intent.putExtra("IMAGE_AUTHOR", item.getAuthor());
-                intent.putExtra("IMAGE_CAPTION", item.getDescription());
-                intent.setClass(getApplicationContext(), imagefullscreen.class);
-                startActivity(intent);
-                */
-
-                ArrayList<Post> gridImages = new ArrayList<>();
-                gridImages.add(0, item);
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("images", gridImages);
-                bundle.putInt("position", 0);
-                bundle.putString("token", mUser.getToken());
-                bundle.putString("usrID", mUser.getUserId());
-
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                SlideShowDialogFragment newFragment = SlideShowDialogFragment.newInstance();
-                newFragment.setArguments(bundle);
-                newFragment.show(ft, "slideshow");
-
-                // double click rates only one star to photo
-                /*if(item != null){
-                    JSONObject msg = new JSONObject();
-                    try {
-                        msg.put("NumOfStars", 1);
-                        msg.put("PhotoId", item.getPhotoId());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    StringEntity entity = null;
-                    try {
-                        entity = new StringEntity(msg.toString());
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-
-                    PictureService.ratePicture(getApplicationContext(), mUser.getToken(), entity, new JsonHttpResponseHandler(){
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            System.out.println(response);
-                        }
-                    });
-
-                } */
-
-
-            }
-
-            @Override
-            public void onItemClickNotif(NotificationObj notif) {
-
-            }
-        }, new OnItemClickListener() {
-            @Override
-            public void onItemClickPost(final Post item) {
-                /* the following method opens a dialog box
-                    containing the comments
-                * */
-
-
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainFeed.this);
-                View mView = getLayoutInflater().inflate(R.layout.commentdialog, null);
-
-                //TextView commentsbanner = (TextView)mView.findViewById(R.id.commentbannerdialog);
-                ListView commentrecycler = (ListView) mView.findViewById(R.id.commentrecycler);
-                //ImageView emojibtn = (ImageView)mView.findViewById(R.id.emoji_btn);
-                final EmojiconEditText commentbox = (EmojiconEditText) mView.findViewById(R.id.commentBox);
-                final TextView sendcomment = (TextView) mView.findViewById(R.id.sendcomment);
-
-                // rootView = mView.findViewById(R.id.rootView);
-
-                final ArrayList<Comment> commentsList = new ArrayList<>();
-                final CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), R.layout.content_comment_model, commentsList,
-                        new commentModel.BtnClickListener() {
-                            @Override
-                            public void onItemClick(Comment com) {
-                                Intent intent = new Intent();
-                                intent.putExtra("USER_ID", com.getCommenterId());
-                                intent.setClass(getApplicationContext(), user_profile.class);
-                                startActivity(intent);
-                            }
-                        });
-                commentrecycler.setAdapter(commentAdapter);
-
-                for (int i = 0; i < item.getComments().length(); i++) {
-                    try {
-                        JSONObject com = item.getComments().getJSONObject(i);
-                        Integer commentId = com.getInt("commentId");
-                        String commentMessage = com.getString("commentMessage");
-                        String commenterUserName = com.getString("commenterUserName");
-                        String commenterID = com.getString("commenterId");
-                        String commentTime = com.getString("commentTime");
-                        String profilePicUrl = com.getString("profilePicUrl");
-                        String firstName = com.getString("firstName");
-                        String lastName = com.getString("lastName");
-                        Comment comment = new Comment(commentMessage, commenterUserName, commenterID, commentTime, profilePicUrl, firstName, lastName, commentId);
-                        commentsList.add(comment);
-                        commentAdapter.notifyDataSetChanged();
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-
-                //emojIcon = new EmojIconActions(MainFeed.this, rootView, commentbox, emojibtn);
-                //emojIcon = new EmojIconActions(mView.getContext(), mView, commentbox, emojibtn);
-
-                //emojIcon.setUseSystemEmoji(true);
-                //commentbox.setUsetUseSystemEmoji(true);
-                //commentbox.setUseSystemDefault(true);
-                /*
-                emojIcon.ShowEmojIcon();
-
-
-                emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
-                    @Override
-                    public void onKeyboardOpen() {
-                        Log.e(TAG, "Keyboard opened!");
-                    }
-
-                    @Override
-                    public void onKeyboardClose() {
-                        Log.e(TAG, "Keyboard closed");
-                    }
-                });
-                */
-
-                sendcomment.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String comment = String.valueOf(commentbox.getText());
-                        try {
-                            postComment(item.getPhotoId(), comment, commentsList, commentAdapter, sendcomment);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                        commentbox.setText(""); ///
-                    }
-                });
-
-                mBuilder.setView(mView);
-                AlertDialog dialog = mBuilder.create();
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-
-
-            }
-
-            @Override
-            public void onItemClickNotif(NotificationObj notif) {
-            }
-        }, new OnItemClickListener() {
-            @Override
-            public void onItemClickPost(Post item) {
-                //deleteListener handler
-                JSONObject msg = new JSONObject();
-                try {
-                    msg.put("", "");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                StringEntity entity = null;
-                try {
-                    entity = new StringEntity(msg.toString());
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-
-                String picId = item.getPhotoId();
-                PictureService.unratePicture(getApplicationContext(), mUser.getToken(), picId, entity, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        System.out.println(response);
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        System.out.println(errorResponse);
-                    }
-                });
-
-            }
-
-            @Override
-            public void onItemClickNotif(NotificationObj notif) {
-
-            }
-        }, new OnItemClickListener() {
-            @Override
-            public void onItemClickPost(Post item) {
-                startActivity(new Intent(getApplicationContext(), competitionAll.class));
-            }
-
-            @Override
-            public void onItemClickNotif(NotificationObj notif) {
-
-            }
-        }, R.layout.content_main_feed);
+        mAdapter = new PostData(postList,MainFeed.this,Width,getSupportFragmentManager());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
@@ -447,10 +226,6 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         username=(TextView)findViewById(R.id.userNAME);
         caption=(TextView)findViewById(R.id.userCAPTION);
         postTime=(TextView)findViewById(R.id.uploadTIME);
-        //totalStars=(TextView)findViewById(R.id.numStars);
-        //totalComments=(TextView)findViewById(R.id.numComments);
-        //comptext = (TextView)findViewById(R.id.comptext);
-
         post = (ImageView)findViewById(R.id.userPOST);
         propic = (ImageView)findViewById(R.id.userPIC);
         privacyIcon = (ImageView)findViewById(R.id.privacy);
@@ -519,14 +294,6 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
         });
 
 
-        //profileFAB
-        //getUnseen();
-
-
-
-
-
-
     }
     public void loadFeed(){
 
@@ -556,46 +323,16 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
                 try {
                     System.out.println("1. "+response.toString());
-                    JSONObject resultPayload = response.getJSONObject("resultPayload");
-                    JSONArray data = resultPayload.getJSONArray("data");
-                    for(int i = 0; i < data.length(); ++i){
-                        try {
-                            JSONObject pic = data.getJSONObject(i);
-                            JSONObject poster = pic.getJSONObject("poster");
-                            String name = poster.getString("name");
-                            String usrId = poster.getString("userId");
-                            String profilePicUrl = poster.getString("profilePicURL");
-                            String id = pic.getString("id");
-                            String description = pic.getString("description");
-                            String picURL = pic.getString("picUrl");
-
-                            Boolean isFeatured = Boolean.valueOf(pic.getString("isfeatured"));
-                            Boolean isCompeting = Boolean.valueOf(pic.getString("isCompeting"));
-                            Integer starsCount = Integer.parseInt(pic.getString("starsCount"));
-                            System.out.println("POSTER: " + name + " " + usrId + " " + id + " " + description + " " + picURL + " " + isFeatured + " " + isCompeting + " " + starsCount);
-
-                            JSONArray ratings = pic.getJSONArray("ratings");
-                            JSONArray comments = pic.getJSONArray("comments");
-
-                            String uploaded = pic.getString("uploaded");
-                            String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                            LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
-                            String interval = Timestamp.getInterval(localDateTime);
-
-                            setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, ratings.length(), comments.length(), ratings, comments, interval);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }
+                    Gson gson=new Gson();
+                    ArrayList<Hashtag> getAllPost=gson.fromJson(response.getJSONObject("resultPayload").getJSONArray("data").toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
+                    postList.addAll(getAllPost);
+                    System.out.println("Total Post "+postList.size());
                     mAdapter.notifyDataSetChanged();
                     loading=false;
                     pg++;
-                    layout.setRefreshing(false);
                     System.out.println("Loading complete");
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -677,6 +414,16 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
                 AlarmManager.INTERVAL_FIFTEEN_MINUTES, pIntent);
     }
 
+    @Override
+    public ArrayList<Hashtag> getAllData() {
+        return postList;
+    }
+
+    @Override
+    public PostData getAdapter() {
+        return mAdapter;
+    }
+
 
     private class getUserData extends AsyncTask<String, Integer, JSONObject>{
 
@@ -694,7 +441,7 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
             //setting up alarm to service
             scheduleAlarm();
             try {
-                callAsyncPopulate(pg);
+                // callAsyncPopulate(pg);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -703,163 +450,6 @@ public class MainFeed extends AppCompatActivity implements OnRatingEventListener
     }
 
 
-    class populatePageAsync extends AsyncTask<Integer, Integer, JSONArray>{
-        @Override
-        protected JSONArray doInBackground(Integer... integers) {
-            JSONArray data = null;
-            PictureService pictureService = new PictureService();
-            try {
-                pictureService.getMutualPictures(mUser.getUserId(), integers[0], mUser.getToken());
-                while(data == null){
-                    data = pictureService.getData();
-                }
-                System.out.println("PICTURES: " + data);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return data;
-        }
-
-        protected void onPostExecute(JSONArray jsonArray) {
-            populateFeed(jsonArray);
-        }
-    };
-
-    void callAsyncPopulate(Integer pg) throws Exception {
-        new populatePageAsync().execute(pg);
-
-    }
-
-
-    //private void populateFeed(String userId, int pg, String token) {
-    private void populateFeed(JSONArray data){
-        /*JSONArray data = null;
-        PictureService pictureService = new PictureService();
-        try {
-            pictureService.getMutualPictures(userId, pg, token);
-            while(data == null){
-                data = pictureService.getData();
-            }
-            System.out.println("PICTURES: " + data);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
-        for(int i = 0; i < data.length(); ++i){
-            try {
-                JSONObject pic = data.getJSONObject(i);
-                JSONObject poster = pic.getJSONObject("poster");
-                String name = poster.getString("name");
-                String usrId = poster.getString("userId");
-                String profilePicUrl = poster.getString("profilePicURL");
-                String id = pic.getString("id");
-                String description = pic.getString("description");
-                String picURL = pic.getString("picUrl");
-
-                Boolean isFeatured = Boolean.valueOf(pic.getString("isfeatured"));
-                Boolean isCompeting = Boolean.valueOf(pic.getString("isCompeting"));
-                Integer starsCount = Integer.parseInt(pic.getString("starsCount"));
-                String starsCnt = pic.getString("starsCount");
-                System.out.println("POSTER: " + name + " " + usrId + " " + id + " " + description + " " + picURL + " " + isFeatured + " " + isCompeting + " " + starsCnt);
-
-                JSONArray ratings = pic.getJSONArray("ratings");
-                JSONArray comments = pic.getJSONArray("comments");
-
-                String uploaded = pic.getString("uploaded");
-                String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
-                String interval = Timestamp.getInterval(localDateTime);
-
-                setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, starsCount, comments.length(), ratings, comments, interval);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-       /* if(!loading){
-            loading = true;
-        }*/
-
-    }
-
-    private void setmAdapter(String author, String usr, String photoID, String description, String picURL, String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount,
-                             Integer commentCount, JSONArray ratings, JSONArray comments, String uploaded){
-        if(description == "null"){
-            description = "";
-        }
-        Post post = new Post(author, usr, photoID, description, picURL, profilePicURL, isFeatured, isCompeting, starsCount, commentCount);
-        post.setComments(comments);
-        post.setRatings(ratings);
-        post.setUploaded(uploaded);
-        postList.add(post);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onRatingBarChange(Post item, float value, int postPosition){
-
-        System.out.println("PHOTO TO RATE: " + item.getPhotoId());
-        System.out.println("WITH ID: " + value);
-
-        if(item != null){
-            JSONObject msg = new JSONObject();
-            try {
-                msg.put("NumOfStars", (int)value);
-                msg.put("PhotoId", item.getPhotoId());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            StringEntity entity = null;
-            try {
-                entity = new StringEntity(msg.toString());
-                System.out.println("ENTITY TO SEND: " + msg.toString());
-
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-
-            PictureService.ratePicture(getApplicationContext(), mUser.getToken(), entity, new JsonHttpResponseHandler(){
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    System.out.println(response);
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                    System.out.println("ERROR IN onRatingBarChange AT MAINFEED");
-                    System.out.println(errorResponse);
-                    Toast.makeText(getApplicationContext(), "Servers unavailable at the moment", Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Toast.makeText(getApplicationContext(), "Servers unavailable at the moment", Toast.LENGTH_LONG).show();
-                }
-            });
-
-        }
-
-
-
-
-    }
-
-    @Override
-    public void onItemClickPost(Post item) {
-        //sends user id to the next activity before starting it
-        Intent intent = new Intent();
-        intent.putExtra("USER_ID", item.getUserId());
-        intent.setClass(this, user_profile.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onItemClickNotif(NotificationObj notif) {
-
-    }
 
 
     void postComment(String picID, final String comment, final ArrayList commentsList, final CommentAdapter commentAdapter, final TextView commentbox) throws Exception{

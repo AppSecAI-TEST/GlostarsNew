@@ -1,43 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/dialog_bg"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
 
     <TextView
         android:id="@+id/commentbannerdialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Comments "
-        android:layout_marginBottom="32dp"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
-        />
+        android:layout_marginStart="4dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.032"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp" />
 
-
-        <ListView
-            android:id="@+id/commentrecycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </ListView>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
         android:layout_height="55dp"
         android:background="@drawable/editprofileedittext"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp">
 
         <ImageView
             android:id="@+id/emoji_btn"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
+            android:layout_gravity="center_vertical"
             android:padding="4dp"
             android:src="@drawable/smiley" />
 
@@ -45,29 +55,46 @@
             android:id="@+id/commentBox"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:lines="2"
-            android:textSize="@dimen/textCAPTION"
             android:layout_gravity="center_vertical"
-            android:paddingStart="4dp"
-            android:hint="Write your comment"
-            android:textCursorDrawable="@drawable/cursor_color"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
+            android:background="@drawable/edit"
             android:elevation="8dp"
+            android:hint="Write your comment"
+            android:lines="2"
             android:maxLines="4"
-            android:background="@drawable/edit"/>
+            android:paddingStart="4dp"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:textSize="@dimen/textCAPTION" />
 
         <TextView
             android:id="@+id/sendcomment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send"
             android:layout_gravity="center_vertical"
-            android:textStyle="bold"
             android:layout_marginEnd="4dp"
+            android:elevation="32dp"
+            android:text="Send"
             android:textColor="@color/colorPrimary"
-            android:elevation="32dp" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
-</LinearLayout>
+    <ListView
+        android:id="@+id/commentrecycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commentbannerdialog">
+
+    </ListView>
+
+</android.support.constraint.ConstraintLayout>

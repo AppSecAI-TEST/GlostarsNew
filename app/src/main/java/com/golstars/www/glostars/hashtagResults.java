@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
-public class hashtagResults extends AppCompatActivity {
+public class hashtagResults extends AppCompatActivity implements AdapterInfomation {
 
     RecyclerView hashtags;
 
@@ -52,17 +52,17 @@ public class hashtagResults extends AppCompatActivity {
 
 
         hashtags = (RecyclerView)findViewById(R.id.hashtagrecycler);
-        postDataAdapter=new PostData(posts,hashtagResults.this,Width);
+        postDataAdapter=new PostData(posts,hashtagResults.this,Width,getSupportFragmentManager());
         getPostData(getIntent().getStringExtra("data"));
 
 
         LinearLayoutManager horizontalLayoutManagaer= new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         hashtags.setLayoutManager(horizontalLayoutManagaer);
         hashtags.setAdapter(postDataAdapter);
-
-
-
     }
+
+
+
 
     private void getPostData(String data) {
         //posts.clear();
@@ -103,5 +103,15 @@ public class hashtagResults extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public ArrayList<Hashtag> getAllData() {
+        return this.posts;
+    }
+
+    @Override
+    public PostData getAdapter() {
+        return postDataAdapter;
     }
 }

@@ -3,6 +3,8 @@ package com.golstars.www.glostars.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,6 @@ import android.widget.TextView;
 
 import com.golstars.www.glostars.ModelData.Comment;
 import com.golstars.www.glostars.R;
-import com.golstars.www.glostars.commentModel;
 import com.golstars.www.glostars.user_profile;
 import com.squareup.picasso.Picasso;
 
@@ -21,19 +22,13 @@ import java.util.List;
 import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
 
 /**
- * Created by edson on 12/04/17.
+ * Created by Arif on 4/28/2017.
  */
 
-public class CommentAdapter extends ArrayAdapter<Comment> {
+public class CommentData extends ArrayAdapter<Comment> {
 
-    //private List<Comment>;
-    //public Context context;
-
-    private commentModel.BtnClickListener mClickListener = null;
-
-    public CommentAdapter(Context context, int resource, List<Comment> items) {
-        super(context, resource, items);
-
+    public CommentData(Context context, List<Comment> objects) {
+        super(context, R.layout.comment_model, objects);
     }
 
     @Override
@@ -93,5 +88,4 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 
         return v;
     }
-
 }

@@ -11,6 +11,17 @@ public class Comment {
     private String firstName;
     private String lastName;
 
+    public Comment(int commentId, String commentMessage, String commenterUserName, String commenterId, String commentTime, String profilePicUrl, String firstName, String lastName) {
+        this.commentId = commentId;
+        this.commentMessage = commentMessage;
+        this.commenterUserName = commenterUserName;
+        this.commenterId = commenterId;
+        this.commentTime = commentTime;
+        this.profilePicUrl = profilePicUrl;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public int getCommentId() {
         return commentId;
     }
