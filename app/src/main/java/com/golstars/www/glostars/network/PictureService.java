@@ -203,15 +203,46 @@ public class PictureService {
 
 
     public static void ratePicture(Context context, String token, StringEntity jsonEntity, AsyncHttpResponseHandler responseHandler){
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            AsyncClient.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
+
         AsyncClient.addHeader("Content-Type", "application/json");
         AsyncClient.addHeader("Authorization", "Bearer " + token);
         AsyncClient.post(context ,"https://www.glostars.com/api/images/rating", jsonEntity , "application/json", responseHandler);
     }
 
     public static void unratePicture(Context context, String token, String picId, StringEntity jsonEntity, AsyncHttpResponseHandler responseHandler){
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            AsyncClient.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
         AsyncClient.addHeader("Content-Type", "application/json");
         AsyncClient.addHeader("Authorization", "Bearer " + token);
         AsyncClient.post(context ,"https://www.glostars.com/api/images/removerate/" + picId, jsonEntity , "application/json", responseHandler);
+    }
+
+    public static void getSinglePic(String token, String picId, AsyncHttpResponseHandler responseHandler){
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            AsyncClient.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
+        AsyncClient.addHeader("Content-Type", "application/json");
+        AsyncClient.addHeader("Authorization", "Bearer " + token);
+        AsyncClient.get("https://www.glostars.com/api/images/picture/" + picId, responseHandler);
     }
 
 

@@ -140,7 +140,8 @@
                 android:id="@+id/privacy"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:src="@drawable/bench"
+                android:src="@drawable/privacy_public_photo"
+
                 android:layout_marginRight="16dp"
                 android:layout_alignTop="@+id/userNAME"
                 android:layout_toLeftOf="@+id/uploadTIME"/>

@@ -480,7 +480,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
         if(target != null){
             try {
 
-                //new getUserAndSetData().execute(target);
+                new getUserAndSetData().execute(target);
 
                 loadUserInformation(target);
             } catch (Exception e) {
@@ -700,6 +700,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
                     //setting UI rss with user data
                     try {
 
+                        homeIntent = new Intent();
+                        homeIntent.putExtra("USER_ID", mUser.getUserId());
+                        homeIntent.setClass(getApplicationContext(), user_profile.class);
+
                         JSONObject jsonObject = response.getJSONObject("resultPayload");
 
                         weeklyPrizeCountProfile.setText(jsonObject.getJSONObject("recogprofile").getString("weekly"));
@@ -723,10 +727,6 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
                         else interestTextProfile.setText("");
 
 
-                        //setting an intent to user profile with user data
-                        homeIntent = new Intent();
-                        homeIntent.putExtra("USER_ID", jsonObject.getString("id"));
-                        homeIntent.setClass(getApplicationContext(), user_profile.class);
 
 
                         Glide.with(getApplicationContext()).load(jsonObject.getString("profilePicURL")).into(userPicProfile);
@@ -959,6 +959,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
+
+            /*
             try {
 
                 if(mUser.getUserId().equals(guestUser.getUserId())){
@@ -1085,6 +1087,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            */
 
         }
     }

@@ -39,4 +39,5 @@ public class Poster {
         this.userId = userId;
     }
 
+
 }

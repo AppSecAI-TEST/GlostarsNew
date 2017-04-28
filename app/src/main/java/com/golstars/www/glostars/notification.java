@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,6 +26,7 @@ import com.golstars.www.glostars.interfaces.OnItemClickListener;
 import com.golstars.www.glostars.models.NotificationObj;
 import com.golstars.www.glostars.models.Post;
 import com.golstars.www.glostars.network.NotificationService;
+import com.golstars.www.glostars.network.PictureService;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
@@ -88,6 +91,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
     EditText search;
     ImageView gl;
     boolean showingFirst = true;
+    String tempToken;
 
     RecyclerView noti;
     RecyclerView foll;
@@ -246,7 +250,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
         notifs = new ArrayList<>();
         follNotifs = new ArrayList<>();
 
-        mUser = MyUser.getmUser(this);
+        //mUser = MyUser.getmUser(this);
 
         mAdapter = new NotificationAdapter(notifs, this, this, new OnItemClickListener() {
             @Override
@@ -306,6 +310,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
         @Override
         protected void onPostExecute(JSONObject object) {
 //            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
+            tempToken = mUser.getToken();
             try {
                 populateNotificationsList(mUser.getUserId(), mUser.getToken());
             } catch (Exception e1) {
@@ -480,12 +485,93 @@ public class notification extends AppCompatActivity implements OnItemClickListen
     @Override
     public void onItemClickNotif(NotificationObj notif) {
         if(!(notif.getDescription() == "started following you")){
+
+            System.out.println("PIC NOTIFICATION TO OPEN: " + notif.getPicID());
+            System.out.println("USER TOKEN: " + tempToken); // im using this tempToken string because there was some error with tokens within this class
+            PictureService.getSinglePic(tempToken, notif.getPicID(), new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    System.out.println("SINGLE PICTURE SERVICE");
+                    System.out.println(response);
+                    ArrayList<Post> gridImages = new ArrayList();
+
+                    JSONObject pic = null;
+                    try {
+                        pic = response.getJSONObject("resultPayload");
+                        JSONObject poster = pic.getJSONObject("poster");
+                        String name = poster.getString("name");
+                        String usrId = poster.getString("userId");
+                        String profilePicUrl = poster.getString("profilePicURL");
+                        String id = pic.getString("id");
+                        String description = pic.getString("description");
+                        String privacy = pic.getString("privacy");
+                        String picURL = pic.getString("picUrl");
+
+                        Boolean isFeatured = Boolean.valueOf(pic.getString("isfeatured"));
+                        Boolean isCompeting = Boolean.valueOf(pic.getString("isCompeting"));
+                        Integer starsCount = Integer.parseInt(pic.getString("starsCount"));
+
+                        JSONArray ratings = pic.getJSONArray("ratings");
+                        JSONArray comments = pic.getJSONArray("comments");
+
+                        String uploaded = pic.getString("uploaded");
+                        String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                        LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
+                        String interval = Timestamp.getInterval(localDateTime);
+
+                        Post post = new Post(name,usrId,id, description,picURL,profilePicUrl, isFeatured, isCompeting, starsCount,comments.length());
+                        post.setUploaded(interval);
+                        post.setRatings(ratings);
+                        post.setComments(comments);
+                        post.setPrivacy(privacy);
+
+
+                        gridImages.add(0, post);
+
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("images", gridImages);
+                    bundle.putInt("position", 0);
+                    bundle.putString("token", mUser.getToken());
+                    bundle.putString("usrID", mUser.getUserId());
+
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    SlideShowDialogFragment newFragment = SlideShowDialogFragment.newInstance();
+                    newFragment.setArguments(bundle);
+                    newFragment.show(ft, "slideshow");
+
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    System.out.println("FAILURE AT SINGLE PIC SERVICE");
+                    System.out.println(errorResponse);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    System.out.println("FAILURE AT SINGLE PIC SERVICE");
+                    System.out.println(responseString);
+                }
+            });
+
+
+
+
+
+            /*
             Intent intent = new Intent();
             intent.putExtra("IMAGE_SAUCE",notif.getPicURL());
             intent.putExtra("IMAGE_AUTHOR", mUser.getName());
             intent.putExtra("IMAGE_CAPTION","");
             intent.setClass(getApplicationContext(), imagefullscreen.class);
-            startActivity(intent);
+            startActivity(intent); */
         }
     }
 }

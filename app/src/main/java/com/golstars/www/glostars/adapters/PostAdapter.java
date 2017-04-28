@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.golstars.www.glostars.R.drawable.privacy_public_photo;
+
 /**
  * Created by edson on 07/02/17.
  * class for handling post object lists
@@ -65,7 +67,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         public RatingBar ratingBar;
         public ImageView commentsBtn;
         public RelativeLayout featuredFlag,seeAllcomp;
-        public ImageView deleteIcon;
+        public ImageView deleteIcon, privacyIcon;
 
         public MyViewHolder(View view, final OnRatingEventListener ratingListener, final OnItemClickListener listener, final OnItemClickListener postImgListener,
                             final OnItemClickListener commentsListener){
@@ -86,6 +88,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             featuredFlag = (RelativeLayout)view.findViewById(R.id.compflag);
             deleteIcon = (ImageView)view.findViewById(R.id.clearRating);
             seeAllcomp = (RelativeLayout)view.findViewById(R.id.seeAllcomppost);
+            privacyIcon = (ImageView)view.findViewById(R.id.privacy);
 
             username.setTypeface(type);
             caption.setTypeface(type);
@@ -199,6 +202,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         if(!post.isCompeting()){
             holder.ratingBar.setNumStars(1);
         } else holder.ratingBar.setNumStars(5);
+
+        if(post.isCompeting()){
+            holder.privacyIcon.setImageResource(R.drawable.privacy_competition_photo);
+        } else {
+            if(post.getPrivacy().equals("public")){
+                holder.privacyIcon.setImageResource(R.drawable.privacy_public_photo);
+            } else if (post.getPrivacy().equals("mutual")) {
+                holder.privacyIcon.setImageResource(R.drawable.privacy_mutual_follower_photo);
+            }
+        }
+
+
 
         holder.ratingBar.setRating((float)getUserRating(post));
         holder.totalStars.setText(String.valueOf(post.getStarsCount()));

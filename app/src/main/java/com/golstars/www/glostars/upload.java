@@ -433,55 +433,64 @@ public class upload extends AppCompatActivity {
     public void uploadPhoto(String descrip, String privacy, Boolean isCompeting, File file, Bitmap bm){
 
 
-        String url = "https://www.glostars.com/home/upload";
-        AsyncHttpClient client = new AsyncHttpClient();
-        String base64 = null;
-        String imageData = null;
-        try{
-            //ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            //bm.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        if(privacy.isEmpty() || privacy.equals(null)){
+            // toast to tell the user he/she must pick a privacy setting
+            Toast.makeText(getApplicationContext(), "Select a privacy setting", Toast.LENGTH_LONG).show();
+        } else {
 
-            //byte[] bytes = byteArrayOutputStream.toByteArray();
-            //imageData = Base64.encodeToString(bytes, Base64.DEFAULT);
+            String url = "https://www.glostars.com/home/upload";
+            AsyncHttpClient client = new AsyncHttpClient();
+            String base64 = null;
+            String imageData = null;
+            try{
+                //ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                //bm.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+
+                //byte[] bytes = byteArrayOutputStream.toByteArray();
+                //imageData = Base64.encodeToString(bytes, Base64.DEFAULT);
 
 
-            //KeyStore trustore = KeyStore.getInstance(KeyStore.getDefaultType());
-            //trustore.load(null, null);
-            //MySSLSocketFactory sf = new MySSLSocketFactory(trustore);
-            //sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-            //client.setSSLSocketFactory(sf);
+                //KeyStore trustore = KeyStore.getInstance(KeyStore.getDefaultType());
+                //trustore.load(null, null);
+                //MySSLSocketFactory sf = new MySSLSocketFactory(trustore);
+                //sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                //client.setSSLSocketFactory(sf);
 
-        } catch (Exception e) {}
-        client.addHeader("Authorization", "Bearer " + mUser.getToken());
-        Log.d("UPLOAD", "token: " + mUser.getToken());
-        RequestParams requestParams = new RequestParams();
-        requestParams.put("Description", descrip);
-        requestParams.put("IsCompeting", isCompeting);
-        requestParams.put("Privacy", privacy);
-        //requestParams.put("ImageDataUri", "data:image/jpeg;base64,"+imageData);
-        try {
-            System.out.println("file to load is: " +  file);
-            requestParams.put("file", file);
+            } catch (Exception e) {}
+            client.addHeader("Authorization", "Bearer " + mUser.getToken());
+            Log.d("UPLOAD", "token: " + mUser.getToken());
+            RequestParams requestParams = new RequestParams();
+            requestParams.put("Description", descrip);
+            requestParams.put("IsCompeting", isCompeting);
+            requestParams.put("Privacy", privacy);
+            //requestParams.put("ImageDataUri", "data:image/jpeg;base64,"+imageData);
+            try {
+                System.out.println("file to load is: " +  file);
+                requestParams.put("file", file);
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            client.post(getApplicationContext(), url, requestParams, new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    System.out.println(response.toString());
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    System.out.println(responseString);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    System.out.println(errorResponse);
+                }
+            });
+
         }
-        client.post(getApplicationContext(), url, requestParams, new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                System.out.println(response.toString());
-            }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                System.out.println(responseString);
-            }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                System.out.println(errorResponse);
-            }
-        });
 
     }
 

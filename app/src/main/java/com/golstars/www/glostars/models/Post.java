@@ -17,12 +17,14 @@ public class Post {
     private String picURL;
     private String profilePicURL;
     private String uploaded;
+    private String privacy;
     private boolean isFeatured;
     private boolean isCompeting;
     private int starsCount;
     private int commentCount;
     private JSONArray ratings;
     private JSONArray comments;
+
 
     public Post(){
     }
@@ -148,4 +150,11 @@ public class Post {
     }
 
 
+    public String getPrivacy() {
+        return privacy;
+    }
+
+    public void setPrivacy(String privacy) {
+        this.privacy = privacy;
+    }
 }
