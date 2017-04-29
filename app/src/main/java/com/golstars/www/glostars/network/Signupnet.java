@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.MySSLSocketFactory;
+
+import java.security.KeyStore;
 
 import cz.msebera.android.httpclient.entity.StringEntity;
 import okhttp3.MediaType;
@@ -20,6 +23,14 @@ public class Signupnet {
 
 
     public static void signupService(Context context , StringEntity jsonEntity, AsyncHttpResponseHandler responseHandler){
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            AsyncClient.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
         AsyncClient.addHeader("Content-Type", "application/json");
         AsyncClient.post(context ,"https://www.glostars.com/api/account/register", jsonEntity , "application/json", responseHandler);
     }

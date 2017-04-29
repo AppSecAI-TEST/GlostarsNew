@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Looper;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 
 
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,6 +59,7 @@ public class LoginActivity extends Fragment {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private android.os.Handler mHander;
+    private android.os.Handler handler;
 
     private static final MediaType txtType = MediaType.parse("text/plain; charset=utf-8");
     private final OkHttpClient client = new OkHttpClient();
@@ -79,7 +82,12 @@ public class LoginActivity extends Fragment {
 
         mHander = new android.os.Handler(Looper.getMainLooper());
 
-
+        handler = new android.os.Handler(Looper.getMainLooper()){
+            @Override
+            public void handleMessage(Message msg) {
+                Toast.makeText(getContext(), msg.obj.toString(), Toast.LENGTH_LONG).show();
+            }
+        };
 
 
         email = (EditText) rootView.findViewById(R.id.emailEditText);
@@ -117,13 +125,23 @@ public class LoginActivity extends Fragment {
 
                 String pwd = password.getText().toString();
                 String usrname = email.getText().toString();
-                try {
-                    login("password", pwd, usrname);
+                if(pwd.isEmpty() || usrname.isEmpty()){
+
+                    Toast.makeText(getContext(), "Login or password missing", Toast.LENGTH_LONG).show();
+                } else {
+                    try {
+                        login("password", pwd, usrname);
 
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
+
+
+
+
             }
         });
 
@@ -157,13 +175,24 @@ public class LoginActivity extends Fragment {
                 .post(body)
                 .build();
 
-        client.newCall(request).enqueue(new Callback() {
+        client.newCall(request).enqueue( new Callback() {
             @Override public void onFailure(Call call, IOException e) {
+                Message msg = handler.obtainMessage(1,"Servers currently unavailable");
+                msg.sendToTarget();
+
+                //Toast.makeText(getContext(), "Servers currently unavailable", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
 
             @Override public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                if (!response.isSuccessful()){
+                    Message msg = handler.obtainMessage(1,"Login or password incorrect");
+                    msg.sendToTarget();
+
+                    //Toast.makeText(getContext(), "Login or password incorrect", Toast.LENGTH_LONG).show();
+                    throw new IOException("Unexpected code " + response);
+
+                }
                 //TODO: CREATE A DIALOG FOR FAILED LOGIN
 
 
