@@ -397,7 +397,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         bundle.putString("usrID", mUser.getUserId());
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        SlideShowDialogFragment newFragment = SlideShowDialogFragment.newInstance();
+        SingleItemDialogFragment newFragment = SingleItemDialogFragment.newInstance();
         newFragment.setArguments(bundle);
         newFragment.show(ft, "slideshow");
 

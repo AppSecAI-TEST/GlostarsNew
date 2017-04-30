@@ -136,7 +136,10 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
                 pg=1;
                 try {
                     //callAsyncPopulate(pg);
+                    pg = 1;
+                    loading=false;
                     loadFeed();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -333,6 +336,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
                     mAdapter.notifyDataSetChanged();
                     loading=false;
                     pg++;
+                    layout.setRefreshing(false);
                     System.out.println("Loading complete");
                 } catch (Exception e) {
                     e.printStackTrace();

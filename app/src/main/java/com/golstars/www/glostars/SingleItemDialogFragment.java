@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -144,18 +145,25 @@ public class SingleItemDialogFragment extends DialogFragment {
 
         captionContainer= (LinearLayout) dialog.findViewById(R.id.captionContainer);
 
-        captionContainer.setVisibility(View.GONE);
-        viewpager.setOnClickListener(new View.OnClickListener() {
+        //captionContainer.setVisibility(View.GONE);
+       /* captionContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                captionContainer.setVisibility(View.VISIBLE);
+            }
+        });*/
+        /*viewpager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(captionContainer.getVisibility()== View.VISIBLE){
                     captionContainer.setVisibility(View.GONE);
                 }else{
-                    captionContainer.bringToFront();
                     captionContainer.setVisibility(View.VISIBLE);
                 }
             }
-        });
+        });*/
+       // viewpager.setSi
+
 
         //lblCount = (TextView) v.findViewById(R.id.lbl_count);
         lblTitle = (TextView) dialog.findViewById(R.id.title);
@@ -324,11 +332,6 @@ public class SingleItemDialogFragment extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        Dialog d = getDialog();
-        if (d!=null) {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            d.getWindow().setLayout(width, height);
-        }
+
     }
 }

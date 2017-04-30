@@ -1,34 +1,36 @@
 package com.golstars.www.glostars;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
-
-
-
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.MySSLSocketFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
+import java.security.KeyStore;
 
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -118,7 +120,8 @@ public class LoginActivity extends Fragment {
                 String pwd = password.getText().toString();
                 String usrname = email.getText().toString();
                 try {
-                    login("password", pwd, usrname);
+                    //login("password", pwd, usrname);
+                    newlogin(pwd,usrname);
 
 
                 } catch (Exception e) {
@@ -137,8 +140,62 @@ public class LoginActivity extends Fragment {
         }
     }
 
-    public void login(String grantType, String password, String username) throws Exception{
+    public void newlogin(String password, String username){
+        final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
+                "Login. Please wait...", true);
+        dialog.show();
+        AsyncHttpClient client = new AsyncHttpClient();
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }catch (Exception e){}
+        try {
+            StringEntity entity = new StringEntity("username=" + username + "&password=" + password + "&grant_type=password");
+            client.post(getContext(), "https://www.glostars.com/Token", entity, "application/json", new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject authObject) {
+                    try {
+                        System.out.println("1 result "+authObject);
+                        auth.setUsername(authObject.getString("userName"));
+                        auth.setAcessToken(authObject.getString("access_token"));
+                        auth.setExpires(authObject.getString(".expires"));
+                        auth.setIssued(authObject.getString(".issued"));
 
+                        startActivity(new Intent(getActivity(), MainFeed.class));
+                        getActivity().finish();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    try {
+                        System.out.println(errorResponse.toString());
+                        if (errorResponse.get("error").toString().equals("invalid_grant")) {
+                            Toast.makeText(getActivity(), "Login failed.Wrong user mail or password", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    dialog.dismiss();
+                }
+
+
+            });
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void login(String grantType, String password, String username) throws Exception{
+        final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
+                "Login. Please wait...", true);
+        dialog.show();
         URL url = new URL("https://www.glostars.com/Token");
         /*
         String postMessage = "{'grant_type':" + "password," +
@@ -163,7 +220,11 @@ public class LoginActivity extends Fragment {
             }
 
             @Override public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                dialog.dismiss();
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getActivity(), "Login failed.Wrong user mail or password", Toast.LENGTH_SHORT).show();
+                    throw new IOException("Unexpected code " + response);
+                }
                 //TODO: CREATE A DIALOG FOR FAILED LOGIN
 
 
@@ -195,6 +256,7 @@ public class LoginActivity extends Fragment {
 
 
             }
+
         });
 
     }

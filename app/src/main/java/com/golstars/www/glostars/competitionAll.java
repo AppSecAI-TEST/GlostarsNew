@@ -629,7 +629,7 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
         bundle.putInt("position", pos);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        SlideShowDialogFragment newFragment = SlideShowDialogFragment.newInstance();
+        SingleItemDialogFragment newFragment = SingleItemDialogFragment.newInstance();
         newFragment.setArguments(bundle);
         newFragment.show(ft, "slideshow");
 

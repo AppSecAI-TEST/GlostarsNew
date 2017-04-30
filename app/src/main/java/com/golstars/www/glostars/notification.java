@@ -542,7 +542,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                     bundle.putString("usrID", mUser.getUserId());
 
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    SlideShowDialogFragment newFragment = SlideShowDialogFragment.newInstance();
+                    SingleItemDialogFragment newFragment = SingleItemDialogFragment.newInstance();
                     newFragment.setArguments(bundle);
                     newFragment.show(ft, "slideshow");
 

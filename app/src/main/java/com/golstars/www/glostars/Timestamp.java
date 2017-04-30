@@ -1,7 +1,12 @@
 package com.golstars.www.glostars;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
 import org.joda.time.Period;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 
 /**
  * Created by edson on 16/03/17.
@@ -102,4 +107,16 @@ public class Timestamp {
 
 
     }
+    public static String getOwnZoneTime(String s){
+        String[] date=s.split("\\.");
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
+        DateTime dateTime= DateTime.parse(date[0], formatter).withZone(DateTimeZone.UTC);
+        return dateTime.toString("yyyy-MM-dd HH:mm:ss");
+    }
+
+    public static LocalDateTime getOwnZoneDateTime(String s){
+        DateTime dt = ISODateTimeFormat.dateTime().parseDateTime(s);
+        return dt.toLocalDateTime();
+    }
+
 }

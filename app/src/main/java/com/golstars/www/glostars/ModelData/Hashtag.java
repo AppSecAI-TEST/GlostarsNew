@@ -1,5 +1,7 @@
 package com.golstars.www.glostars.ModelData;
 
+import com.golstars.www.glostars.Timestamp;
+
 import java.util.List;
 
 public class Hashtag {
@@ -74,7 +76,7 @@ public class Hashtag {
     }
 
     public String getUploaded() {
-        return uploaded;
+        return Timestamp.getInterval(Timestamp.getOwnZoneDateTime(uploaded));
     }
 
     public void setUploaded(String uploaded) {
