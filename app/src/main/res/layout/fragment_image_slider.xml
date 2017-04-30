@@ -5,30 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/black" />-->
-    <ImageView
+    <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="0dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:background="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.501"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 
     <LinearLayout
@@ -131,23 +121,30 @@
                 android:layout_weight="0.53"
                 android:layout_height="match_parent" />
 
-            <ImageView
-                android:id="@+id/commenticonfullscreen"
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/comment_icon"
-                android:layout_marginTop="2dp" />
-
-            <TextView
-                android:id="@+id/commentcountfullscreen"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5"
-                android:textSize="12sp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="8dp"
-                android:textColor="#d9d9d9" />
+                android:layout_height="match_parent"
+                android:id="@+id/commentContainer">
+
+                <ImageView
+                    android:id="@+id/commenticonfullscreen"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/comment_icon"
+                    android:layout_marginTop="2dp" />
+
+                <TextView
+                    android:id="@+id/commentcountfullscreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5"
+                    android:textSize="12sp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:textColor="#d9d9d9" />
+            </LinearLayout>
+
 
             <View
                 android:layout_width="35dp"

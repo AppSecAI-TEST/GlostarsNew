@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -22,6 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.golstars.www.glostars.ModelData.Hashtag;
+import com.golstars.www.glostars.adapters.ImagePagerAdapter;
 import com.golstars.www.glostars.adapters.PostData;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import java.security.KeyStore;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -48,7 +49,7 @@ public class SingleItemDialogFragment extends DialogFragment {
     private ArrayList<Hashtag> postData;
     private TextView lblCount, lblTitle, lblDate,captionfullscreen,ratingcountfullscreen,commentcountfullscreen;
     private RatingBar ratingfullscreen;
-    private ImageView commentfullscreen,sharefullscreen,clearRating,viewpager;
+    private ImageView commentfullscreen,sharefullscreen,clearRating;
     private int selectedPosition = 0;
     private boolean onBind = false;
     private String token;
@@ -59,8 +60,8 @@ public class SingleItemDialogFragment extends DialogFragment {
     LinearLayout captionContainer;
 
     Context context;
-
-
+    ViewPager pager;
+    ImagePagerAdapter pagerAdapter;
 
 
     private ImageView imageViewPreview;
@@ -141,7 +142,21 @@ public class SingleItemDialogFragment extends DialogFragment {
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.getWindow().setContentView(R.layout.fragment_image_slider);
 
-        viewpager= (ImageView) dialog.findViewById(R.id.viewpager);
+
+
+        pagerAdapter=new ImagePagerAdapter(context,postData,postDataAdapter);
+
+
+        pager= (ViewPager) dialog.findViewById(R.id.viewpager);
+
+        pager.setAdapter(pagerAdapter);
+
+        pager.setCurrentItem(selectedPosition);
+
+
+
+
+
 
         captionContainer= (LinearLayout) dialog.findViewById(R.id.captionContainer);
 
@@ -162,7 +177,7 @@ public class SingleItemDialogFragment extends DialogFragment {
                 }
             }
         });*/
-       // viewpager.setSi
+        // viewpager.setSi
 
 
         //lblCount = (TextView) v.findViewById(R.id.lbl_count);
@@ -172,6 +187,16 @@ public class SingleItemDialogFragment extends DialogFragment {
         lblDate.setText(postData.get(selectedPosition).getUploaded());
         captionfullscreen = (TextView)dialog.findViewById(R.id.captionFullscreen);
         captionfullscreen.setText(postData.get(selectedPosition).getDescription());
+
+        LinearLayout commentContainer= (LinearLayout) dialog.findViewById(R.id.commentContainer);
+        commentContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Comment section click", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
         commentcountfullscreen = (TextView)dialog.findViewById(R.id.commentcountfullscreen);
         commentcountfullscreen.setText(postData.get(selectedPosition).getComments().size()+"");
@@ -183,12 +208,41 @@ public class SingleItemDialogFragment extends DialogFragment {
         ratingfullscreen = (RatingBar)dialog.findViewById(R.id.ratingBarfullscreen);
         commentfullscreen = (ImageView)dialog.findViewById(R.id.commenticonfullscreen);
 
+
+
+
+
+
         if(!postData.get(selectedPosition).isIsCompeting()){
             ratingfullscreen.setNumStars(1);
         }
         else ratingfullscreen.setNumStars(5);
 
         ratingfullscreen.setRating((float)(postData.get(selectedPosition).getMyStarCount()));
+
+
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            public void onPageSelected(int position) {
+                //which item currently view
+                lblTitle.setText(postData.get(position).getPoster().getName());
+                lblDate.setText(postData.get(position).getUploaded());
+                captionfullscreen.setText(postData.get(position).getDescription());
+                commentcountfullscreen.setText(postData.get(position).getComments().size()+"");
+                ratingcountfullscreen.setText(postData.get(position).getStarsCount()+"");
+                if(!postData.get(position).isIsCompeting()){
+                    ratingfullscreen.setNumStars(1);
+                }
+                else ratingfullscreen.setNumStars(5);
+
+                ratingfullscreen.setRating((float)(postData.get(position).getMyStarCount()));
+                selectedPosition=position;
+            }
+        });
+
+
         clearRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,6 +264,11 @@ public class SingleItemDialogFragment extends DialogFragment {
                 RequestParams params=new RequestParams();
                 params.add("NumOfStars","0");
                 params.add("PhotoId",postData.get(selectedPosition).getId()+"");
+
+                final HashMap<Integer,Integer> hashMap=new HashMap<Integer, Integer>(); //use for hold selected position
+                hashMap.put(postData.get(selectedPosition).getId(),selectedPosition);
+
+
                 client.post(context, url,params,new JsonHttpResponseHandler(){
 
 
@@ -218,9 +277,17 @@ public class SingleItemDialogFragment extends DialogFragment {
                         try {
                             System.out.println("1. "+response.toString());
                             try {
-                                postData.get(selectedPosition).setStarsCount(response.getJSONObject("resultPayload").getInt("totalRating"));
-                                postData.get(selectedPosition).setMyStarCount(0);
-                                ratingcountfullscreen.setText(response.getJSONObject("resultPayload").getInt("totalRating")+"");
+                                int picId=response.getJSONObject("resultPayload").getInt("picId");
+                                postData.get(hashMap.get(picId)).setStarsCount(response.getJSONObject("resultPayload").getInt("totalRating"));
+                                postData.get(hashMap.get(picId)).setMyStarCount(0);
+
+                                if (hashMap.get(picId)==selectedPosition) {
+                                    ratingcountfullscreen.setText(response.getJSONObject("resultPayload").getInt("totalRating")+"");
+                                    ratingcountfullscreen.setText(postData.get(hashMap.get(picId)).getStarsCount()+"");
+                                    ratingfullscreen.setRating((float)(postData.get(hashMap.get(picId)).getMyStarCount()));
+                                }
+
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -254,11 +321,7 @@ public class SingleItemDialogFragment extends DialogFragment {
 
 
 
-        Glide.with(getActivity()).load(postData.get(selectedPosition).getPicUrl())
-                .thumbnail(0.5f)
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(viewpager);
+
         return dialog;
     }
     public void changeRating(final RatingBar ratingBar, final int position){
