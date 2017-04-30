@@ -3,6 +3,8 @@ package com.golstars.www.glostars;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -29,6 +31,7 @@ import android.widget.Toast;
 
 import com.golstars.www.glostars.network.Signupnet;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.SyncHttpClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,6 +82,8 @@ public class SignUp extends Fragment{
     private static final MediaType JSONType = MediaType.parse("application/json; charset=utf-8");
     private static final MediaType txtType = MediaType.parse("text/plain; charset=utf-8");
     private final OkHttpClient client = new OkHttpClient();
+    private android.os.Handler hander;
+
 
 
     private static final String MyPREFERENCES = "glostarsPrefs";
@@ -129,6 +134,13 @@ public class SignUp extends Fragment{
         signupbanner.setTypeface(type);
 
 
+        hander = new android.os.Handler(Looper.getMainLooper()){
+            @Override
+            public void handleMessage(Message msg) {
+                Toast.makeText(getContext(), msg.obj.toString(), Toast.LENGTH_LONG).show();
+            }
+        };
+
         signUp.setTransformationMethod(null);
 
         terms.setOnClickListener(new View.OnClickListener() {
@@ -156,20 +168,36 @@ public class SignUp extends Fragment{
                 pWd = pwd;
 
                 if(termscheck.isChecked()){
-                    try {
-                        createAccount(usrname, email, name, bdayY, bdayM, bdayD, genderSelected, lastname, pwd);
-                        JSONObject c = null;
-                        while (c == null){
-                            c = getData();
-                        }
-                        if(c.getInt("responseCode") == 1){
-                            Toast.makeText(getContext(), c.getString("message"), Toast.LENGTH_LONG).show();
-                            login("password", password.getText().toString(), c.getJSONObject("resultPayload").getString("email"));
+                    if(name.isEmpty()){
+
+                        Toast.makeText(getContext(), "'First Name' field is obligatory", Toast.LENGTH_LONG).show();
+                    }else if(email.isEmpty()){
+
+                        Toast.makeText(getContext(), "'Email' field is obligatory", Toast.LENGTH_LONG).show();
+                    }else if(pwd.isEmpty()){
+
+                        Toast.makeText(getContext(), "'Password' field is obligatory", Toast.LENGTH_LONG).show();
+                    }else{
+
+                        try {
+                            createAccount(usrname, email, name, bdayY, bdayM, bdayD, genderSelected, lastname, pwd);
+                            JSONObject c = null;
+                            while (c == null){
+                                c = getData();
+                            }
+                            if(c.getInt("responseCode") == 1){
+                                Toast.makeText(getContext(), c.getString("message"), Toast.LENGTH_LONG).show();
+                                //login("password", password.getText().toString(), c.getJSONObject("resultPayload").getString("email"));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
+
+
+
                 } else {
                     Toast.makeText(getActivity(), "You have to accept the terms and conditions to create an account", Toast.LENGTH_LONG).show();
                 }
@@ -185,7 +213,7 @@ public class SignUp extends Fragment{
 
 
 
-    public void createAccount(String username, String email, String name, String bdayY, String bdayM, String bdayD, String gender, String lastname, final String password) throws Exception {
+    public void createAccount(final String username, String email, String name, String bdayY, String bdayM, String bdayD, String gender, String lastname, final String password) throws Exception {
         URL url = new URL("https://www.glostars.com/api/account/register");
         JSONObject msg = new JSONObject();
         msg.put("UserName", username);
@@ -209,9 +237,19 @@ public class SignUp extends Fragment{
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 System.out.println("SUCCESS!");
                 Toast.makeText(getContext(), "SUCCESS!", Toast.LENGTH_LONG).show();
+                try {
+                    login("password", password, username);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                System.out.println("SIGNUP FAIL");
             }
         }); */
-
 
         RequestBody body = RequestBody.create(JSONType, msg.toString());
         Request request = new Request.Builder()
@@ -223,6 +261,7 @@ public class SignUp extends Fragment{
             @Override
             public void onFailure(Call call, IOException e) {
 
+
                 JSONObject newUser = new JSONObject();
                 try {
                     newUser.put("responseCode", 0);
@@ -231,11 +270,30 @@ public class SignUp extends Fragment{
                     e1.printStackTrace();
                 }
                 e.printStackTrace();
+                Message msg = hander.obtainMessage(1,"Servers currently unavailable");
+                msg.sendToTarget();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                if (!response.isSuccessful()){
+                    Message msg = hander.obtainMessage(1,"this user already exists");
+                    msg.sendToTarget();
+
+                    JSONObject newUser = new JSONObject();
+                    try {
+                        newUser.put("responseCode", 0);
+                        setData(newUser);
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+
+                    System.out.println("ERROR AT CREATE ACCOUNT");
+                    throw new IOException("Unexpected code " + response);
+                }
+
+                Message msge = hander.obtainMessage(1,"user created");
+                msge.sendToTarget();
 
                 String msg = response.body().string();
                 System.out.println(msg);
@@ -244,7 +302,9 @@ public class SignUp extends Fragment{
                     JSONObject newUser = new JSONObject(msg);
                     //Toast.makeText(getContext(), newUser.getString("message"), Toast.LENGTH_LONG).show();
                     setData(newUser);
-                    //login("password", pWd ,newUser.getJSONObject("resultPayload").getString("email"));
+                    login("password", pWd , newUser.getJSONObject("resultPayload").getString("email"));
+
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -259,7 +319,7 @@ public class SignUp extends Fragment{
 
     public void login(String grantType, String password, String username) throws Exception{
 
-        URL url = new URL("http://www.glostars.com/Token");
+        URL url = new URL("https://www.glostars.com/Token");
         /*
         String postMessage = "{'grant_type':" + "password," +
                              "'password':" + "91113603," +
@@ -277,13 +337,24 @@ public class SignUp extends Fragment{
                 .post(body)
                 .build();
 
-        client.newCall(request).enqueue(new Callback() {
+        client.newCall(request).enqueue( new Callback() {
             @Override public void onFailure(Call call, IOException e) {
+                Message msg = hander.obtainMessage(1,"Servers currently unavailable");
+                msg.sendToTarget();
+
+                //Toast.makeText(getContext(), "Servers currently unavailable", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
 
             @Override public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                if (!response.isSuccessful()){
+                    Message msg = hander.obtainMessage(1,"Login or password incorrect");
+                    msg.sendToTarget();
+
+                    //Toast.makeText(getContext(), "Login or password incorrect", Toast.LENGTH_LONG).show();
+                    throw new IOException("Unexpected code " + response);
+
+                }
                 //TODO: CREATE A DIALOG FOR FAILED LOGIN
 
 
@@ -302,6 +373,9 @@ public class SignUp extends Fragment{
                     auth.setExpires(authObject.getString(".expires"));
                     auth.setIssued(authObject.getString(".issued"));
                     //auth.isTokenValid();
+
+//                    login.setBackgroundResource(R.drawable.roundedbutton1);
+//                    login.setTextColor(getResources().getColor(R.color.colorPrimary));
 
                     startActivity(new Intent(getActivity(), MainFeed.class));
                     getActivity().finish();

@@ -31,7 +31,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     private final OnItemClickListener listener;
     private final OnItemClickListener listener2;
 
-    public NotificationAdapter(List<NotificationObj> nots, Context context, OnItemClickListener listener, OnItemClickListener listener2){
+    public NotificationAdapter(List<NotificationObj> nots, Context context, OnItemClickListener listener, OnItemClickListener listener2 ){
         this.notfications = nots;
         this.context = context;
         this.listener = listener;
@@ -75,7 +75,23 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 }
             });
 
+            name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener2.onItemClickNotif(notfications.get(getLayoutPosition()));
+                }
+            });
+
+            surname.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener2.onItemClickNotif(notfications.get(getLayoutPosition()));
+                }
+            });
+
         }
+
+
     }
 
 

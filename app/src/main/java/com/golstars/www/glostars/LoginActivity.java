@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,7 @@ public class LoginActivity extends Fragment {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private android.os.Handler mHander;
+    private android.os.Handler handler;
 
     private static final MediaType txtType = MediaType.parse("text/plain; charset=utf-8");
     private final OkHttpClient client = new OkHttpClient();
@@ -81,7 +83,12 @@ public class LoginActivity extends Fragment {
 
         mHander = new android.os.Handler(Looper.getMainLooper());
 
-
+        handler = new android.os.Handler(Looper.getMainLooper()){
+            @Override
+            public void handleMessage(Message msg) {
+                Toast.makeText(getContext(), msg.obj.toString(), Toast.LENGTH_LONG).show();
+            }
+        };
 
 
         email = (EditText) rootView.findViewById(R.id.emailEditText);
@@ -119,14 +126,21 @@ public class LoginActivity extends Fragment {
 
                 String pwd = password.getText().toString();
                 String usrname = email.getText().toString();
-                try {
-                    //login("password", pwd, usrname);
-                    newlogin(pwd,usrname);
 
+                if(pwd.isEmpty() || usrname.isEmpty()){
+                    Toast.makeText(getContext(), "Login or password missing", Toast.LENGTH_LONG).show();
+                } else {
+                    try {
+                        newlogin(pwd,usrname);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
+
+
+
+
             }
         });
 
@@ -191,76 +205,6 @@ public class LoginActivity extends Fragment {
             e.printStackTrace();
         }
     }
-
-    public void login(String grantType, String password, String username) throws Exception{
-        final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
-                "Login. Please wait...", true);
-        dialog.show();
-        URL url = new URL("https://www.glostars.com/Token");
-        /*
-        String postMessage = "{'grant_type':" + "password," +
-                             "'password':" + "91113603," +
-                             "'username':" + "netosilvan@hotmail.com" + "}";
-        */
-        String postMessage = "username=" + username +
-                "&password="+ password +
-                "&grant_type=" + grantType;
-
-        RequestBody body =  RequestBody.create(txtType, postMessage);
-
-        System.out.println(body);
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override public void onResponse(Call call, Response response) throws IOException {
-                dialog.dismiss();
-                if (!response.isSuccessful()) {
-                    Toast.makeText(getActivity(), "Login failed.Wrong user mail or password", Toast.LENGTH_SHORT).show();
-                    throw new IOException("Unexpected code " + response);
-                }
-                //TODO: CREATE A DIALOG FOR FAILED LOGIN
-
-
-                /*Headers responseHeaders = response.headers();
-                for (int i = 0, size = responseHeaders.size(); i < size; i++) {
-                    System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
-                }*/
-                String authData = response.body().string();
-                System.out.println(authData);
-
-
-                try {
-                    JSONObject authObject = new JSONObject(authData);
-                    auth.setUsername(authObject.getString("userName"));
-                    auth.setAcessToken(authObject.getString("access_token"));
-                    auth.setExpires(authObject.getString(".expires"));
-                    auth.setIssued(authObject.getString(".issued"));
-                    //auth.isTokenValid();
-
-//                    login.setBackgroundResource(R.drawable.roundedbutton1);
-//                    login.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-                    startActivity(new Intent(getActivity(), MainFeed.class));
-                    getActivity().finish();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-
-        });
-
-    }
-
 
 
     //You can work with them now using the objects like :
