@@ -85,7 +85,7 @@ public class ContactUs extends AppCompatActivity {
                     }
 
                     String message = usertype + " message: " + query + '\n' + '\n' + "Contact info: " + extra ;
-                    String emailtosend = "netosilvan@hotmail.com";
+                    String emailtosend = "care.glostars@gmail.com";
                     submit(emailtosend, message);
                 }
 
