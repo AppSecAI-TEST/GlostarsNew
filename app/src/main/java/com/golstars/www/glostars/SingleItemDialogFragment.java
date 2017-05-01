@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -55,7 +56,8 @@ public class SingleItemDialogFragment extends DialogFragment {
     private String token;
     private String usrID;
     MyUser mUser;
-    PostData postDataAdapter;
+    //PostData postDataAdapter;
+    RecyclerView.Adapter postDataAdapter;
 
     LinearLayout captionContainer;
 
@@ -144,7 +146,7 @@ public class SingleItemDialogFragment extends DialogFragment {
 
 
 
-        pagerAdapter=new ImagePagerAdapter(context,postData,postDataAdapter);
+        pagerAdapter=new ImagePagerAdapter(context,postData);
 
 
         pager= (ViewPager) dialog.findViewById(R.id.viewpager);

@@ -230,11 +230,9 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         holder.postImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<Hashtag> gridImages = new ArrayList<>();
-                gridImages.add(0, post);
+
 
                 Bundle bundle = new Bundle();
-                //bundle.putSerializable("images", gridImages);
                 bundle.putInt("position",position);
                 bundle.putString("token", mUser.getToken());
                 bundle.putString("usrID", mUser.getUserId());

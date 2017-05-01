@@ -17,11 +17,9 @@ import java.util.ArrayList;
 public class ImagePagerAdapter extends PagerAdapter {
     Context context;
     ArrayList<Hashtag> data;
-    PostData adapter;
-    public ImagePagerAdapter(Context context,ArrayList<Hashtag> data,PostData adapter){
+    public ImagePagerAdapter(Context context,ArrayList<Hashtag> data){
         this.context=context;
         this.data=data;
-        this.adapter=adapter;
     }
 
     @Override

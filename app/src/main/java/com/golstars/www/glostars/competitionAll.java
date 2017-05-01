@@ -20,27 +20,31 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.ModelData.Hashtag;
+import com.golstars.www.glostars.adapters.CompetitionData;
 import com.golstars.www.glostars.adapters.PostAdapter;
+import com.golstars.www.glostars.adapters.PostData;
 import com.golstars.www.glostars.adapters.RecyclerGridAdapter;
 import com.golstars.www.glostars.interfaces.OnSinglePicClick;
 import com.golstars.www.glostars.models.Post;
 import com.golstars.www.glostars.network.NotificationService;
-import com.golstars.www.glostars.network.PictureService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.squareup.picasso.Picasso;
+import com.loopj.android.http.MySSLSocketFactory;
 
-import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-public class competitionAll extends AppCompatActivity implements OnSinglePicClick {
+public class competitionAll extends AppCompatActivity implements AdapterInfomation {
 
 
 
@@ -107,7 +111,7 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
     boolean showingFirst = true;
 
     // --------------- recycler view settings ---------
-    private List<Post> postList = new ArrayList<>();
+    private ArrayList<Hashtag> postList = new ArrayList<>();
     private RecyclerView recyclerView;
     private PostAdapter mAdapter;
     //-------------------------------------------------
@@ -119,10 +123,10 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
     private Intent homeIntent;
 
 
-    private ArrayList<Post> gridImages;
+    private ArrayList<Hashtag> gridImages;
 
-    private RecyclerGridAdapter compAdapt;
-    private ArrayList<String> compPicsUrls;
+    private CompetitionData compAdapt;
+    private ArrayList<Hashtag> compPicsUrls;
 
     Integer unseenNotifs = 0;
 
@@ -162,13 +166,13 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
         e = (TextView)findViewById(R.id.e);
         f = (TextView)findViewById(R.id.f);
         g = (TextView)findViewById(R.id.g);
-       h = (TextView)findViewById(R.id.h);
+        h = (TextView)findViewById(R.id.h);
         i = (TextView)findViewById(R.id.i);
         j = (TextView)findViewById(R.id.j);
         k = (TextView)findViewById(R.id.k);
         ll = (TextView)findViewById(R.id.ll);
         m = (TextView)findViewById(R.id.m);
-       n = (TextView)findViewById(R.id.n);
+        n = (TextView)findViewById(R.id.n);
         o = (TextView)findViewById(R.id.o);
         p = (TextView)findViewById(R.id.p);
 
@@ -360,7 +364,7 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
 
 
 
-        compAdapt = new RecyclerGridAdapter(this, compPicsUrls, this);
+        compAdapt = new CompetitionData(this, compPicsUrls,getSupportFragmentManager());
         //compAdapt = new RecyclerGridAdapter(this, gridImages, this);
 
         int numOfColumns = 3;
@@ -368,24 +372,26 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
         gallery.setLayoutManager(layoutManager);
         gallery.setAdapter(compAdapt);
 
-        new getUserData().execute("");
-
+        //new getUserData().execute("");
+        mUser = MyUser.getmUser();
         gallery.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
+                //super.onScrolled(recyclerView, dx, dy);
+                System.out.println("Scrolling "+dx+" "+dy);
                 if(dy > 0){ //check for scroll down
-                    //System.out.println("SCROLL DOWN");
                     visibleItemCount = layoutManager.getChildCount();
                     totalItemCount = layoutManager.getItemCount();
                     pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
-
-                    if(loading){
-                        if((visibleItemCount + pastVisiblesItems) >= totalItemCount){
-                            loading = false;
-                            pg++;
+                    System.out.println("Total Item "+totalItemCount+" Loading "+loading);
+                    if(!loading){
+                        if((visibleItemCount + pastVisiblesItems) >= totalItemCount-2){
+                            loading = true;
+                            //pg++;
                             try {
-                                callAsyncPopulate(pg, mUser.getToken());
+                                //callAsyncPopulate(pg);
+                                load();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -397,9 +403,51 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
 
 
         });
-
+        load();
         //getUnseen();
 
+    }
+
+    public void load(){
+        String url = ServerInfo.BASE_URL_API+"/images/competition/" + pg;
+
+        System.out.println(url);
+
+        AsyncHttpClient client=new AsyncHttpClient();
+        client.addHeader("Authorization", "Bearer " + mUser.getToken());
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
+
+
+        client.get(getApplicationContext(), url,new JsonHttpResponseHandler(){
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                try {
+                    System.out.println("1. "+response.toString());
+                    Gson gson=new Gson();
+                    ArrayList<Hashtag> getAllPost=gson.fromJson(response.getJSONArray("resultPayload").toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
+                    compPicsUrls.addAll(getAllPost);
+                    System.out.println("Total Post "+postList.size());
+                    compAdapt.notifyDataSetChanged();
+                    loading=false;
+                    pg++;
+                    System.out.println("Loading complete");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
     }
 
     public void getUnseen(){
@@ -454,41 +502,41 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
     }
 
 
-    private class getUserData extends AsyncTask<String, Integer, JSONObject>{
+//    private class getUserData extends AsyncTask<String, Integer, JSONObject> {
+//
+//        @Override
+//        protected JSONObject doInBackground(String... strings) {
+//            mUser = MyUser.getmUser();
+//            mUser.setContext(getApplicationContext());
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(JSONObject object) {
+///*//            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
+//            try {
+//                callAsyncPopulate(pg, mUser.getToken());
+//            } catch (Exception e1) {
+//                e1.printStackTrace();
+//            }*/
+//
+//            homeIntent = new Intent();
+//            homeIntent.putExtra("USER_ID",mUser.getUserId());
+//            homeIntent.setClass(getApplicationContext(),user_profile.class);
+//
+//        }
+//    }
 
-        @Override
-        protected JSONObject doInBackground(String... strings) {
-            mUser = MyUser.getmUser();
-            mUser.setContext(getApplicationContext());
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject object) {
-//            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
-            try {
-                callAsyncPopulate(pg, mUser.getToken());
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-
-            homeIntent = new Intent();
-            homeIntent.putExtra("USER_ID",mUser.getUserId());
-            homeIntent.setClass(getApplicationContext(),user_profile.class);
-
-        }
-    }
-
-    public void callAsyncPopulate(Integer pg, String token) throws Exception{
+   /* public void callAsyncPopulate(Integer pg, String token) throws Exception{
         JSONObject data = new JSONObject();
         data.put("pg", pg);
         data.put("token", token);
         new populatePageAsync().execute(data);
 
-    }
+    }*/
 
 
-    private class populatePageAsync extends AsyncTask<JSONObject, Integer, JSONArray>{
+    /*private class populatePageAsync extends AsyncTask<JSONObject, Integer, JSONArray>{
 
         @Override
         protected JSONArray doInBackground(JSONObject... jsonObjects) {
@@ -532,9 +580,9 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
                     JSONArray comments = pic.getJSONArray("comments");
 
                     String uploaded = pic.getString("uploaded");
-                    String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                    LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
-                    String interval = Timestamp.getInterval(localDateTime);
+                    *//*String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                    LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));*//*
+                    String interval = Timestamp.getInterval(Timestamp.getOwnZoneDateTime(uploaded));
 
                     setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, starsCount, comments.length(), ratings, comments, interval);
 
@@ -542,48 +590,7 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
                     e.printStackTrace();
                 }
 
-                /*
-                GridImages gridImage = new GridImages();
 
-                try {
-                    JSONObject obj = data.getJSONObject(i);
-                    JSONObject poster = obj.getJSONObject("poster");
-
-
-                    gridImage.setAuthor(poster.getString("name"));
-                    gridImage.setPicUrl(obj.getString("picUrl"));
-
-                    String inPattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                    String outPattern = "MMM d yyyy, HH:mm";
-
-                    SimpleDateFormat inputFormat = new SimpleDateFormat(inPattern);
-                    SimpleDateFormat outputFormat = new SimpleDateFormat(outPattern);
-
-                    Date date = null;
-                    String str = null;
-
-                    try{
-
-                        date = inputFormat.parse(obj.getString("uploaded"));
-                        str = outputFormat.format(date);
-
-                    } catch (ParseException e){
-                        e.printStackTrace();
-                    }
-
-
-                    gridImage.setTimesTamp(str);
-
-                    gridImages.add(gridImage);
-
-                    //setCompAdapter(obj.getString("picUrl"));
-                    compPicsUrls.add(obj.getString("picUrl"));
-                    compAdapt.notifyDataSetChanged();
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-
-                */
 
             }
 
@@ -602,42 +609,34 @@ public class competitionAll extends AppCompatActivity implements OnSinglePicClic
 
 
         }
-    }
+    }*/
 
 
-    private void setmAdapter(String author, String usr, String photoID, String description, String picURL, String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount,
+   /* private void setmAdapter(String author, String usr, String photoID, String description, String picURL, String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount,
                              Integer commentCount, JSONArray ratings, JSONArray comments, String uploaded){
         if(description == "null"){
             description = "";
         }
-        Post post = new Post(author, usr, photoID, description, picURL, profilePicURL, isFeatured, isCompeting, starsCount, commentCount);
+        Hashtag hashtag = new Hashtag(author, usr, photoID, description, picURL, profilePicURL, isFeatured, isCompeting, starsCount, commentCount);
         post.setComments(comments);
         post.setRatings(ratings);
         post.setUploaded(uploaded);
         gridImages.add(post);
         compPicsUrls.add(post.getPicURL());
         compAdapt.notifyDataSetChanged();
-    }
+    }*/
+
+
 
 
 
     @Override
-    public void onItemClick(String url, Integer pos) {
+    public ArrayList<Hashtag> getAllData() {
+        return compPicsUrls;
+    }
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("images", gridImages);
-        bundle.putInt("position", pos);
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        SingleItemDialogFragment newFragment = SingleItemDialogFragment.newInstance();
-        newFragment.setArguments(bundle);
-        newFragment.show(ft, "slideshow");
-
-
-        //Intent intent = new Intent();
-        //intent.putExtra("GOTOPIC", url);
-        //intent.putExtra("PAGES_LOADED", pg);
-        //intent.setClass(this, competitionFeed.class);
-        //startActivity(intent);
+    @Override
+    public RecyclerView.Adapter getAdapter() {
+        return compAdapt;
     }
 }
