@@ -29,6 +29,7 @@ import com.golstars.www.glostars.R;
 import com.golstars.www.glostars.ServerInfo;
 import com.golstars.www.glostars.SingleItemDialogFragment;
 import com.golstars.www.glostars.hashtagResults;
+import com.golstars.www.glostars.user_profile;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.MySSLSocketFactory;
@@ -129,6 +130,25 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
 
 
         onBind = false;
+
+        holder.propic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, user_profile.class);
+                intent.putExtra("USER_ID",post.getPoster().getUserId());
+
+                context.startActivity(intent);
+            }
+        });
+        holder.username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, user_profile.class);
+                intent.putExtra("USER_ID",post.getPoster().getUserId());
+
+                context.startActivity(intent);
+            }
+        });
 
         holder.deleteIcon.setOnClickListener(new View.OnClickListener() {
             @Override

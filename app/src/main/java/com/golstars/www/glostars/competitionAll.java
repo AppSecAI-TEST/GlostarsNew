@@ -367,7 +367,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
         compAdapt = new CompetitionData(this, compPicsUrls,getSupportFragmentManager());
         //compAdapt = new RecyclerGridAdapter(this, gridImages, this);
 
-        int numOfColumns = 3;
+        int numOfColumns = 2;
         layoutManager = new GridLayoutManager(this, numOfColumns);
         gallery.setLayoutManager(layoutManager);
         gallery.setAdapter(compAdapt);
