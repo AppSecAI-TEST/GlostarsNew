@@ -367,7 +367,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
         compAdapt = new CompetitionData(this, compPicsUrls,getSupportFragmentManager());
         //compAdapt = new RecyclerGridAdapter(this, gridImages, this);
 
-        int numOfColumns = 2;
+        int numOfColumns = 3;
         layoutManager = new GridLayoutManager(this, numOfColumns);
         gallery.setLayoutManager(layoutManager);
         gallery.setAdapter(compAdapt);
@@ -403,13 +403,58 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
 
 
         });
-        load();
+        //load();
         //getUnseen();
-
+        load2(1);
+        load2(2);
+        //load2(3);
     }
 
     public void load(){
+        loading=true;
         String url = ServerInfo.BASE_URL_API+"/images/competition/" + pg;
+
+        System.out.println(url);
+
+        AsyncHttpClient client=new AsyncHttpClient();
+        client.addHeader("Authorization", "Bearer " + mUser.getToken());
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
+
+
+        client.get(getApplicationContext(), url,new JsonHttpResponseHandler(){
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                try {
+                    System.out.println("1. "+response.toString());
+                    Gson gson=new Gson();
+                    ArrayList<Hashtag> getAllPost=gson.fromJson(response.getJSONArray("resultPayload").toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
+                    compPicsUrls.addAll(getAllPost);
+                    System.out.println("Total Post "+postList.size());
+                    compAdapt.notifyDataSetChanged();
+                    loading=false;
+                    pg++;
+                    System.out.println("Loading complete");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+    }
+    public void load2(int x){
+        loading=true;
+        String url = ServerInfo.BASE_URL_API+"/images/competition/" + x;
 
         System.out.println(url);
 

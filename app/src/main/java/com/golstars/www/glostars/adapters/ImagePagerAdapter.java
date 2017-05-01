@@ -11,15 +11,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.R;
+import com.golstars.www.glostars.SingleItemDialogFragment;
 
 import java.util.ArrayList;
 
 public class ImagePagerAdapter extends PagerAdapter {
     Context context;
     ArrayList<Hashtag> data;
-    public ImagePagerAdapter(Context context,ArrayList<Hashtag> data){
+    SingleItemDialogFragment singleItemDialogFragment;
+    public ImagePagerAdapter(Context context,ArrayList<Hashtag> data,SingleItemDialogFragment singleItemDialogFragment){
         this.context=context;
         this.data=data;
+        this.singleItemDialogFragment=singleItemDialogFragment;
     }
 
     @Override
@@ -34,6 +37,12 @@ public class ImagePagerAdapter extends PagerAdapter {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(image_content);
         collection.addView(layout);
+        image_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                singleItemDialogFragment.SwitchCaption();
+            }
+        });
         return layout;
     }
 

@@ -146,7 +146,7 @@ public class SingleItemDialogFragment extends DialogFragment {
 
 
 
-        pagerAdapter=new ImagePagerAdapter(context,postData);
+        pagerAdapter=new ImagePagerAdapter(context,postData,this);
 
 
         pager= (ViewPager) dialog.findViewById(R.id.viewpager);
@@ -161,6 +161,9 @@ public class SingleItemDialogFragment extends DialogFragment {
 
 
         captionContainer= (LinearLayout) dialog.findViewById(R.id.captionContainer);
+        captionContainer.setVisibility(View.GONE);
+
+
 
         //captionContainer.setVisibility(View.GONE);
        /* captionContainer.setOnClickListener(new View.OnClickListener() {
@@ -326,6 +329,14 @@ public class SingleItemDialogFragment extends DialogFragment {
 
         return dialog;
     }
+
+    public void SwitchCaption(){
+        if(captionContainer.getVisibility()== View.VISIBLE){
+            captionContainer.setVisibility(View.GONE);
+        }else{
+            captionContainer.setVisibility(View.VISIBLE);
+        }
+    }
     public void changeRating(final RatingBar ratingBar, final int position){
         System.out.println("Change Call "+position);
 
@@ -386,6 +397,7 @@ public class SingleItemDialogFragment extends DialogFragment {
     }
 
     public void setContent(){
+
     }
 
     @Override
