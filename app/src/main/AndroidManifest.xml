@@ -164,9 +164,8 @@
         <activity android:name=".hashtagResults" />
         <activity
             android:name=".signupForward"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".noInternet"></activity>
     </application>
 
 </manifest>

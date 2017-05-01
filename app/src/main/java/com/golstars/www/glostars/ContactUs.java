@@ -31,15 +31,12 @@ public class ContactUs extends AppCompatActivity {
         coninfo  = (TextView)findViewById(R.id.coninfo);
         message  = (TextView)findViewById(R.id.message);
 
-
         emailcon = (EditText)findViewById(R.id.emailcon);
         phonecon = (EditText)findViewById(R.id.phonecon);
         querycon = (EditText)findViewById(R.id.querycon);
 
-
         cancelcon = (Button)findViewById(R.id.cancelcon);
         submitcon = (Button)findViewById(R.id.submitcon);
-
 
         sender = (Spinner)findViewById(R.id.sender);
 
@@ -54,7 +51,6 @@ public class ContactUs extends AppCompatActivity {
         iam.setTypeface(type);
         fillform.setTypeface(type);
         happy.setTypeface(type);
-
 
         cancelcon.setTransformationMethod(null);
         submitcon.setTransformationMethod(null);
