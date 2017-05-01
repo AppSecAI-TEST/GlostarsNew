@@ -52,7 +52,7 @@
             android:background="@drawable/editprofileedittext"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:id="@+id/gender_spinner" />
+            android:id="@+id/sender" />
 
     </LinearLayout>
 
@@ -114,7 +114,7 @@
         android:lines="3"
         android:background="@drawable/edit"
         android:layout_marginTop="8dp"
-        android:id="@+id/aboutmeedit"
+        android:id="@+id/querycon"
         android:layout_alignParentEnd="true" />
 
     <LinearLayout
@@ -124,6 +124,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/cancelcon"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_weight="1"
@@ -136,6 +137,7 @@
             />
 
         <Button
+            android:id="@+id/submitcon"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_weight="1"

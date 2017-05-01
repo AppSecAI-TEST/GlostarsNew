@@ -5,7 +5,7 @@
     android:id="@+id/content_notification"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingBottom="4dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.golstars.www.glostars.notification"
     tools:showIn="@layout/activity_notification">
@@ -43,14 +43,11 @@
 
    </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bannerLin">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bannerLin">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/notificationRecycler"
@@ -69,7 +66,5 @@
 
             </android.support.v7.widget.RecyclerView>
         </RelativeLayout>
-
-    </ScrollView>
 
 </RelativeLayout>

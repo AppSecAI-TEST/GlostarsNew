@@ -60,6 +60,7 @@ import java.util.Date;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
+import io.github.rockerhieu.emojiconize.Emojiconize;
 
 
 public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
@@ -123,6 +124,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Emojiconize.activity(this).go();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_feed);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

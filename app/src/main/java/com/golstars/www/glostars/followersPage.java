@@ -42,6 +42,10 @@ import java.util.Set;
 
 import cz.msebera.android.httpclient.Header;
 
+import static com.golstars.www.glostars.R.drawable.followbackbutton;
+import static com.golstars.www.glostars.R.drawable.followingbutton;
+import static com.golstars.www.glostars.R.drawable.mutualfollowerbutton;
+
 public class followersPage extends AppCompatActivity {
 
     ListView followersList;
@@ -114,7 +118,6 @@ public class followersPage extends AppCompatActivity {
 
 
         followpropic = (ImageView)findViewById(R.id.propicfollow);
-        surname = (TextView) findViewById(R.id.surnamefollow);
         lastname = (TextView)findViewById(R.id.namefollow);
 
         followbutton = (Button)findViewById(R.id.followBUT);
@@ -383,7 +386,7 @@ public class followersPage extends AppCompatActivity {
                 ImageView usrPic= (ImageView) v.findViewById(R.id.propicfollow);
 
                 TextView name = (TextView) v.findViewById(R.id.namefollow);
-                TextView surname = (TextView) v.findViewById(R.id.surnamefollow);
+
                 final Button follow = (Button) v.findViewById(R.id.followBUT);
 
                 LinearLayout informationContainer= (LinearLayout) v.findViewById(R.id.informationContainer);
@@ -411,11 +414,11 @@ public class followersPage extends AppCompatActivity {
                 if(fStatus.equals("")){
                     follow.setVisibility(View.INVISIBLE);
                 } else if(fStatus.equals("follower")){
-                    follow.setBackgroundColor(Color.parseColor("#007FFF"));
+                    follow.setBackground(getResources().getDrawable(followbackbutton));
                 } else if(fStatus.equals("following")){
-                    follow.setBackgroundColor(Color.parseColor("#E1C8FF"));
+                    follow.setBackground(getResources().getDrawable(followingbutton));
                 } else if(fStatus.equals("mutual")){
-                    follow.setBackgroundColor(Color.parseColor("#640064"));
+                    follow.setBackground(getResources().getDrawable(mutualfollowerbutton));
                 }else if(fStatus.equals("follow")){
                     follow.setBackgroundResource(R.drawable.followbutton);
                 }
@@ -449,16 +452,20 @@ public class followersPage extends AppCompatActivity {
                                         if(response.getJSONObject("resultPayload").getBoolean("result")){
                                             if(response.getJSONObject("resultPayload").getBoolean("is_mutual")){
                                                 follow.setText("Mutual");
+                                                follow.setTextColor(Color.parseColor("#FFFFFF"));
                                                 follow.setBackgroundColor(Color.parseColor("#640064"));
                                             }
                                             else if(response.getJSONObject("resultPayload").getBoolean("me_follow")){
                                                 follow.setText("Following");
+                                                follow.setTextColor(Color.parseColor("#FFFFFF"));
                                                 follow.setBackgroundColor(Color.parseColor("#E1C8FF"));
                                             }else if(response.getJSONObject("resultPayload").getBoolean("he_follow")){
                                                 follow.setText("follower");
+                                                follow.setTextColor(Color.parseColor("#FFFFFF"));
                                                 follow.setBackgroundColor(Color.parseColor("#007FFF"));
                                             }else{
                                                 follow.setText("follow");
+                                                follow.setTextColor(Color.parseColor("#FFFFFF"));
                                                 follow.setBackgroundResource(R.drawable.followbutton);
                                             }
                                         }else{
