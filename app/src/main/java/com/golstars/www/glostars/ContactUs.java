@@ -1,12 +1,16 @@
 package com.golstars.www.glostars;
 
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ContactUs extends AppCompatActivity {
 
@@ -54,5 +58,69 @@ public class ContactUs extends AppCompatActivity {
 
         cancelcon.setTransformationMethod(null);
         submitcon.setTransformationMethod(null);
+
+
+        submitcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String usertype = sender.getSelectedItem().toString();
+                String email = emailcon.getText().toString();
+                String phone = phonecon.getText().toString();
+                String query = querycon.getText().toString();
+                String extra = null;
+
+                if(email.isEmpty() && phone.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Please add your email or phone number", Toast.LENGTH_LONG).show();
+                }
+                else if(query.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Please add the content of your message", Toast.LENGTH_LONG).show();
+
+                } else{
+
+                    if(!email.isEmpty()){
+                        extra = email;
+                    } else if(!phone.isEmpty()){
+                        extra = phone;
+                    }
+
+                    String message = usertype + " message: " + query + '\n' + '\n' + "Contact info: " + extra ;
+                    String emailtosend = "netosilvan@hotmail.com";
+                    submit(emailtosend, message);
+                }
+
+
+            }
+        });
+
+        cancelcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emailcon.setText("");
+                phonecon.setText("");
+                querycon.setText("");
+                finish();
+
+            }
+        });
+
+
+    }
+
+
+    private void submit(String email, String msg){
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
+        i.putExtra(Intent.EXTRA_SUBJECT, "Message to Glostars");
+        i.putExtra(Intent.EXTRA_TEXT, msg);
+        try{
+            startActivity(Intent.createChooser(i, "Send mail..."));
+
+        } catch (android.content.ActivityNotFoundException ex){
+            Toast.makeText(getApplicationContext(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 }
