@@ -311,7 +311,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                 commentbox.setUseSystemDefault(true);
 
                 emojIcon.ShowEmojIcon();
-
+//
 
                 emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
                     @Override
