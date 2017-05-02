@@ -515,12 +515,12 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                         JSONArray comments = pic.getJSONArray("comments");
 
                         String uploaded = pic.getString("uploaded");
-                        String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                        LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
-                        String interval = Timestamp.getInterval(localDateTime);
+                        //String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                        //LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
+                        //String interval = Timestamp.getInterval(localDateTime);
 
                         Post post = new Post(name,usrId,id, description,picURL,profilePicUrl, isFeatured, isCompeting, starsCount,comments.length());
-                        post.setUploaded(interval);
+                        post.setUploaded(uploaded);
                         post.setRatings(ratings);
                         post.setComments(comments);
                         post.setPrivacy(privacy);

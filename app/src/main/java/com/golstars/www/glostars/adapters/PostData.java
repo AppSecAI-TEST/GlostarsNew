@@ -129,6 +129,19 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         }
 
 
+        if(post.isIsCompeting()){
+            holder.privacyIcon.setImageResource(R.drawable.privacy_competition_photo);
+        } else {
+            if(post.getPrivacy().equals("public")) {
+                holder.privacyIcon.setImageResource(R.drawable.privacy_public_photo);
+            } else if (post.getPrivacy().equals("mutual")) {
+                holder.privacyIcon.setImageResource(R.drawable.privacy_mutual_follower_photo);
+            }
+        }
+
+
+
+
         onBind = false;
 
         holder.propic.setOnClickListener(new View.OnClickListener() {
@@ -213,7 +226,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         });
 
 
-        /****************Rating bar Change ***********************************/
+        /**************** Rating bar Change ***********************************/
         holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(final RatingBar ratingBar, float v, boolean b) {
@@ -381,7 +394,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         public ImageView postImg;
         public ImageView propic;
         public RatingBar ratingBar;
-        public ImageView commentsBtn;
+        public ImageView commentsBtn, privacyIcon;
         public RelativeLayout featuredFlag,seeAllcomp;
         public ImageView deleteIcon;
         public MyViewHolder(View view) {
@@ -402,6 +415,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
             featuredFlag = (RelativeLayout)view.findViewById(R.id.compflag);
             deleteIcon = (ImageView)view.findViewById(R.id.clearRating);
             seeAllcomp = (RelativeLayout)view.findViewById(R.id.seeAllcomppost);
+            privacyIcon = (ImageView)view.findViewById(R.id.privacyCOMP);
 
             username.setTypeface(type);
             caption.setTypeface(type);
