@@ -205,7 +205,7 @@ public class SingleItemDialogFragment extends DialogFragment {
 
         commentcountfullscreen = (TextView)dialog.findViewById(R.id.commentcountfullscreen);
         commentcountfullscreen.setText(postData.get(selectedPosition).getComments().size()+"");
-        sharefullscreen = (ImageView) dialog.findViewById(R.id.sharefullscreen);
+        //sharefullscreen = (ImageView) dialog.findViewById(R.id.sharefullscreen);
 
         clearRating = (ImageView)dialog.findViewById(R.id.clearRatingfullscreen);
         ratingcountfullscreen = (TextView)dialog.findViewById(R.id.ratingstarcountfullscreen);
