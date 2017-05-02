@@ -1,7 +1,10 @@
 package com.golstars.www.glostars;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -295,6 +298,21 @@ public class notification extends AppCompatActivity implements OnItemClickListen
 //        RecyclerView noti;
 //        RecyclerView foll;
         new getUserData().execute("");
+
+        if(!isConnected()){
+            startActivity(new Intent(this, noInternet.class));
+        }
+
+    }
+
+    public boolean isConnected(){
+        boolean hasConnection;
+        ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        hasConnection = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+        return hasConnection;
 
     }
 

@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -677,13 +679,26 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             }
         });
 
-
+        if(!isConnected()){
+            startActivity(new Intent(this, noInternet.class));
+        }
 
 
 
         //getUnseen();
 
 
+
+    }
+
+    public boolean isConnected(){
+        boolean hasConnection;
+        ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        hasConnection = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+        return hasConnection;
 
     }
 

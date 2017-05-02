@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -298,8 +300,25 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
             }
         });
 
+        if(!isConnected()){
+            startActivity(new Intent(this, noInternet.class));
+        }
+
+
 
     }
+
+    public boolean isConnected(){
+        boolean hasConnection;
+        ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        hasConnection = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+        return hasConnection;
+
+    }
+
     public void loadFeed(){
 
         String url = ServerInfo.BASE_URL_API+"images/mutualpic/" + mUser.getUserId() + "/" + pg;

@@ -1,6 +1,9 @@
 package com.golstars.www.glostars;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -220,6 +223,21 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
             System.out.println("something else happened here");
         }
 
+        if(!isConnected()){
+            startActivity(new Intent(this, noInternet.class));
+        }
+
+
+    }
+
+    public boolean isConnected(){
+        boolean hasConnection;
+        ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        hasConnection = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+        return hasConnection;
 
     }
 
