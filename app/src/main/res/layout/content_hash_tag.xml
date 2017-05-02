@@ -178,7 +178,7 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_marginTop="2dp"
-            android:src="@drawable/bench"
+            android:src="@drawable/privacy_public_photo"
             android:layout_marginRight="0dp"
             android:visibility="gone"
             android:layout_alignTop="@+id/uploadTIME"

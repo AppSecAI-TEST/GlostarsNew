@@ -425,10 +425,10 @@ public class notification extends AppCompatActivity implements OnItemClickListen
 
                         }
                         if(unseenNotifs > 0){
-                            mainbadge.setVisibility(View.VISIBLE);
-                            notificationbadge.setVisibility(View.VISIBLE);
-                            mainbadge.setText(unseenNotifs.toString());
-                            notificationbadge.setText(unseenNotifs.toString());
+//                            mainbadge.setVisibility(View.VISIBLE);
+//                            notificationbadge.setVisibility(View.VISIBLE);
+//                            mainbadge.setText(unseenNotifs.toString());
+//                            notificationbadge.setText(unseenNotifs.toString());
 
                         }
                     } catch (JSONException e){

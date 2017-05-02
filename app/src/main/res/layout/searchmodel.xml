@@ -13,8 +13,6 @@
         android:src="@drawable/nopicmale"
         android:id="@+id/propicSearchModel"/>
 
-
-
     <TextView
         android:id="@+id/usernameSearchModel"
         android:layout_width="wrap_content"

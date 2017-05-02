@@ -131,7 +131,7 @@
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/comment_icon"
+                    android:src="@drawable/commentgrey"
                     android:layout_marginTop="2dp" />
 
                 <TextView
@@ -146,21 +146,7 @@
             </LinearLayout>
 
 
-            <View
-                android:layout_width="35dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent" />
 
-            <ImageView
-                android:id="@+id/sharefullscreen"
-                android:layout_width="35dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="0dp"
-                android:padding="2dp"
-                android:layout_height="35dp"
-                android:src="@drawable/share_icon"
-
-                />
 
 
         </LinearLayout>
