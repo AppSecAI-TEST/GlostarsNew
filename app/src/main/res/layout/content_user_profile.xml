@@ -10,474 +10,480 @@
     android:paddingRight="4dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-    <android.support.v4.widget.NestedScrollView
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/pullRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/userLIN"
+        android:layout_height="wrap_content"
+        app:refreshType="material">
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation = "vertical"
-            >
-
-            <RelativeLayout
-                android:id="@+id/rel1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profileuserPIC"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:scaleType="centerCrop"
-                    android:layout_marginTop="30dp"
-                    />
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:id="@+id/editprofile"
-                    android:src="@drawable/settingsicon"
-                    android:layout_toRightOf="@+id/profileuserNAME"
-                    android:layout_alignTop="@+id/profileuserNAME"
-                    android:layout_marginLeft="8dp"/>
-
-                <TextView
-                    android:id="@+id/profileuserNAME"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/profileuserPIC"
-                    android:layout_toRightOf="@+id/profileuserPIC"
-                    android:layout_marginLeft="16dp"
-                    android:text="USERNAME"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="20sp"/>
-
-
-                <TextView
-                    android:id="@+id/profileuserLOCATION"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/profileuserPIC"
-                    android:layout_below="@+id/profileuserNAME"
-                    android:layout_marginLeft="16dp"
-                    android:text="LOCATION"
-                    android:textColor="@color/darkGrey"
-                    android:layout_marginTop="2dp"
-                    android:textSize="12sp"/>
-
-
-                <Button
-                    android:id="@+id/profileuserFOLLOW"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="Follow"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:layout_marginTop="10dp"
-                    android:textColor="#FFFFFF"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/followbutton"
-                    android:layout_below="@+id/profileuserLOCATION"/>
-            </RelativeLayout>
-
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp">
-                <TextView
-                    android:id="@+id/useraboutBANNER"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="About Me : "
-                    android:textSize="14sp"
-                    android:textAllCaps="false"
-                    android:textColor="@color/darkGrey"
-                    />
-
-                <TextView
-                    android:id="@+id/useraboutTEXT"
-                    android:textSize="12sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    />
-
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/userinterestBANNER"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Interests : "
-                    android:textSize="14sp"
-                    android:textAllCaps="false"
-                    android:textColor="@color/darkGrey"
-                    />
-
-                <TextView
-                    android:id="@+id/userinterestTEXT"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:layout_marginBottom="25dp"
-                    android:layout_marginTop="4dp"/>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/settingsbutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginRight="8dp"
-                android:clickable="true"
-                android:text="Settings"
-                android:textColor="@color/colorPrimary"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
+                android:id="@+id/userLIN"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/darkGrey"/>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/recognitionBanner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
-                    android:text="Recognition: "/>
-
-
-                <ImageView
-                    android:id="@+id/weeklyPrize"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/weeklyb"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="30dp"/>
-
-                <TextView
-                    android:id="@+id/weeklyPrizeCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_marginLeft="8dp"/>
-
-                <ImageView
-                    android:id="@+id/monthlyPrize"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/monthlyb"
-                    android:layout_marginLeft="30dp"/>
-
-                <TextView
-                    android:id="@+id/monthlyPrizeCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_marginLeft="8dp"/>
-
-
-                <ImageView
-                    android:id="@+id/grandPrize"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/grandb"
-                    android:layout_marginLeft="30dp"/>
-
-                <TextView
-                    android:id="@+id/grandprizecount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_marginLeft="8dp"/>
-
-                <ImageView
-                    android:id="@+id/exhibitionPrize"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/exhibitionb"
-                    android:layout_marginLeft="30dp"/>
-
-                <TextView
-                    android:id="@+id/exhibitionPrizeCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_marginLeft="8dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginTop="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:orientation="horizontal"
-                android:elevation="0dp"
-                android:background="@color/lightViolate">
-
-                <TextView
-                    android:id="@+id/numberofpostsCount"
-                    android:paddingStart="8dp"
-                    android:textColor="@color/darkGrey"
-                    android:layout_gravity="center_vertical"
-                    android:text=" 24"
-                    android:layout_weight="0.5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
-
-                <TextView
-                    android:id="@+id/numberofposts"
-                    android:layout_gravity="center_vertical"
-                    android:text=" Photos"
-                    android:textColor="@color/darkGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-                <View
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/black"
-                    />
-
-
-                <TextView
-                    android:id="@+id/numberoffollowingCount"
-                    android:layout_gravity="center_vertical"
-                    android:text=" 10"
-                    android:layout_marginLeft="4dp"
-                    android:layout_weight="0.5"
-                    android:textColor="@color/darkGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
-
-                <TextView
-                    android:id="@+id/numberoffollowing"
-                    android:paddingStart="8dp"
-                    android:text="Following"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/darkGrey"
-                    android:layout_weight="1"/>
-
-
-
-
-                <View
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/black"
-                    />
-
-                <TextView
-                    android:id="@+id/numberoffollowersCount"                    android:layout_gravity="center_vertical"
-                    android:text=" 12"
-                    android:layout_weight="0.5"
-                    android:layout_marginLeft="4dp"
-                    android:textColor="@color/darkGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
-
-                <TextView
-                    android:id="@+id/numberoffollowers"
-                    android:paddingStart="4dp"
-                    android:textColor="@color/darkGrey"
-                    android:layout_gravity="center_vertical"
-                    android:text="Followers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:elevation="2dp"
-                android:id="@+id/postsCompetition"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical"
+                android:layout_height="match_parent"
+                android:orientation = "vertical"
                 >
 
-                <TextView
-                    android:id="@+id/competitionBanner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:text="Competition Photos"
-                    android:textColor="@color/darkGrey"
-                    android:textSize="14sp" />
-
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/competitionPosts"
-                    android:layout_width="match_parent"
-                    android:layout_height="341dp"
-                    android:layout_gravity="center"
-                    android:numColumns="3"
-                    android:stretchMode="columnWidth" />
-
                 <RelativeLayout
-                    android:id="@+id/compnopost"
+                    android:id="@+id/rel1"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:visibility="gone"
+                    android:layout_height="match_parent">
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profileuserPIC"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:scaleType="centerCrop"
+                        android:layout_marginTop="30dp"
+                        />
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:id="@+id/editprofile"
+                        android:src="@drawable/settingsicon"
+                        android:layout_toRightOf="@+id/profileuserNAME"
+                        android:layout_alignTop="@+id/profileuserNAME"
+                        android:layout_marginLeft="8dp"/>
+
+                    <TextView
+                        android:id="@+id/profileuserNAME"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/profileuserPIC"
+                        android:layout_toRightOf="@+id/profileuserPIC"
+                        android:layout_marginLeft="16dp"
+                        android:text="USERNAME"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp"/>
+
+
+                    <TextView
+                        android:id="@+id/profileuserLOCATION"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/profileuserPIC"
+                        android:layout_below="@+id/profileuserNAME"
+                        android:layout_marginLeft="16dp"
+                        android:text="LOCATION"
+                        android:textColor="@color/darkGrey"
+                        android:layout_marginTop="2dp"
+                        android:textSize="12sp"/>
+
+
+                    <Button
+                        android:id="@+id/profileuserFOLLOW"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="Follow"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#FFFFFF"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/followbutton"
+                        android:layout_below="@+id/profileuserLOCATION"/>
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp">
+                    <TextView
+                        android:id="@+id/useraboutBANNER"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="About Me : "
+                        android:textSize="14sp"
+                        android:textAllCaps="false"
+                        android:textColor="@color/darkGrey"
+                        />
+
+                    <TextView
+                        android:id="@+id/useraboutTEXT"
+                        android:textSize="12sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        />
+
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/userinterestBANNER"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Interests : "
+                        android:textSize="14sp"
+                        android:textAllCaps="false"
+                        android:textColor="@color/darkGrey"
+                        />
+
+                    <TextView
+                        android:id="@+id/userinterestTEXT"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="25dp"
+                        android:layout_marginTop="4dp"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/settingsbutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginRight="8dp"
+                    android:clickable="true"
+                    android:text="Settings"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/darkGrey"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/recognitionBanner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Recognition: "/>
+
+
+                    <ImageView
+                        android:id="@+id/weeklyPrize"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/weeklyb"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="30dp"/>
+
+                    <TextView
+                        android:id="@+id/weeklyPrizeCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_marginLeft="8dp"/>
+
+                    <ImageView
+                        android:id="@+id/monthlyPrize"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/monthlyb"
+                        android:layout_marginLeft="30dp"/>
+
+                    <TextView
+                        android:id="@+id/monthlyPrizeCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_marginLeft="8dp"/>
+
+
+                    <ImageView
+                        android:id="@+id/grandPrize"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/grandb"
+                        android:layout_marginLeft="30dp"/>
+
+                    <TextView
+                        android:id="@+id/grandprizecount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_marginLeft="8dp"/>
+
+                    <ImageView
+                        android:id="@+id/exhibitionPrize"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/exhibitionb"
+                        android:layout_marginLeft="30dp"/>
+
+                    <TextView
+                        android:id="@+id/exhibitionPrizeCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_marginLeft="8dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:orientation="horizontal"
+                    android:elevation="0dp"
+                    android:background="@color/lightViolate">
+
+                    <TextView
+                        android:id="@+id/numberofpostsCount"
+                        android:paddingStart="8dp"
+                        android:textColor="@color/darkGrey"
+                        android:layout_gravity="center_vertical"
+                        android:text=" 24"
+                        android:layout_weight="0.5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <TextView
+                        android:id="@+id/numberofposts"
+                        android:layout_gravity="center_vertical"
+                        android:text=" Photos"
+                        android:textColor="@color/darkGrey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <View
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/numberoffollowingCount"
+                        android:layout_gravity="center_vertical"
+                        android:text=" 10"
+                        android:layout_marginLeft="4dp"
+                        android:layout_weight="0.5"
+                        android:textColor="@color/darkGrey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <TextView
+                        android:id="@+id/numberoffollowing"
+                        android:paddingStart="8dp"
+                        android:text="Following"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/darkGrey"
+                        android:layout_weight="1"/>
+
+
+
+
+                    <View
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        />
+
+                    <TextView
+                        android:id="@+id/numberoffollowersCount"                    android:layout_gravity="center_vertical"
+                        android:text=" 12"
+                        android:layout_weight="0.5"
+                        android:layout_marginLeft="4dp"
+                        android:textColor="@color/darkGrey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <TextView
+                        android:id="@+id/numberoffollowers"
+                        android:paddingStart="4dp"
+                        android:textColor="@color/darkGrey"
+                        android:layout_gravity="center_vertical"
+                        android:text="Followers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:elevation="2dp"
+                    android:id="@+id/postsCompetition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical"
                     >
 
                     <TextView
-                        android:id="@+id/compno"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="No Posts "
-                        android:textColor="@color/hashtag"
-                        android:textSize="24sp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"/>
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/seeAllCompetition"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="300dp"
-                    android:paddingLeft="120dp"
-                    android:layout_height="35dp"
-                    android:text="See All"
-                    android:textSize="14sp"
-                    android:paddingTop="4dp"/>
+                        android:id="@+id/competitionBanner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:text="Competition Photos"
+                        android:textColor="@color/darkGrey"
+                        android:textSize="14sp" />
 
 
-                <TextView
-                    android:id="@+id/publicBanner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Public Photos"
-                    android:layout_marginTop="8dp"
-                    android:textSize="14dp"
-                    android:textColor="@color/darkGrey"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/competitionPosts"
+                        android:layout_width="match_parent"
+                        android:layout_height="341dp"
+                        android:layout_gravity="center"
+                        android:numColumns="3"
+                        android:stretchMode="columnWidth" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="341dp"
-                    android:id="@+id/publicPosts"
-                    android:columnWidth="150dp"
-                    android:numColumns="auto_fit"
-                    android:verticalSpacing="4dp"
-                    android:stretchMode="columnWidth"
-                    android:layout_gravity="center"
-                    />
+                    <RelativeLayout
+                        android:id="@+id/compnopost"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:visibility="gone"
+                        >
 
-                <RelativeLayout
-                    android:id="@+id/publicnopost"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:visibility="gone"
-                    >
+                        <TextView
+                            android:id="@+id/compno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No Posts "
+                            android:textColor="@color/hashtag"
+                            android:textSize="24sp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"/>
+                    </RelativeLayout>
 
                     <TextView
-                        android:id="@+id/publicno"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="No Posts "
-                        android:textColor="@color/hashtag"
-                        android:textSize="24sp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"/>
-                </RelativeLayout>
+                        android:id="@+id/seeAllCompetition"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="300dp"
+                        android:paddingLeft="120dp"
+                        android:layout_height="35dp"
+                        android:text="See All"
+                        android:textSize="14sp"
+                        android:paddingTop="4dp"/>
 
-                <TextView
-                    android:id="@+id/seeAllPublic"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="300dp"
-                    android:paddingLeft="120dp"
-                    android:layout_height="35dp"
-                    android:text="See All"
-                    android:textSize="14sp"
-                    android:paddingTop="4dp"/>
-
-
-                <TextView
-                    android:id="@+id/mutualBanner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Mutual Follower Photos"
-                    android:layout_marginTop="8dp"
-                    android:textSize="14dp"
-                    android:textColor="@color/darkGrey"/>
-
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="341dp"
-                    android:id="@+id/mutualPosts"
-                    android:columnWidth="150dp"
-                    android:numColumns="auto_fit"
-                    android:verticalSpacing="4dp"
-                    android:stretchMode="columnWidth"
-                    android:layout_gravity="center"
-                    android:visibility="visible"
-                    />
-
-                <RelativeLayout
-                    android:id="@+id/mutualnopost"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:visibility="gone"
-                    >
 
                     <TextView
-                        android:id="@+id/mutualno"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="No Posts "
-                        android:textColor="@color/hashtag"
-                        android:textSize="24sp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"/>
-                </RelativeLayout>
+                        android:id="@+id/publicBanner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Public Photos"
+                        android:layout_marginTop="8dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/darkGrey"/>
 
-                <TextView
-                    android:id="@+id/seeAllMutual"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="300dp"
-                    android:paddingLeft="120dp"
-                    android:layout_height="35dp"
-                    android:text="See All"
-                    android:textSize="14sp"
-                    android:paddingTop="4dp"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="341dp"
+                        android:id="@+id/publicPosts"
+                        android:columnWidth="150dp"
+                        android:numColumns="auto_fit"
+                        android:verticalSpacing="4dp"
+                        android:stretchMode="columnWidth"
+                        android:layout_gravity="center"
+                        />
+
+                    <RelativeLayout
+                        android:id="@+id/publicnopost"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:visibility="gone"
+                        >
+
+                        <TextView
+                            android:id="@+id/publicno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No Posts "
+                            android:textColor="@color/hashtag"
+                            android:textSize="24sp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"/>
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/seeAllPublic"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="300dp"
+                        android:paddingLeft="120dp"
+                        android:layout_height="35dp"
+                        android:text="See All"
+                        android:textSize="14sp"
+                        android:paddingTop="4dp"/>
+
+
+                    <TextView
+                        android:id="@+id/mutualBanner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Mutual Follower Photos"
+                        android:layout_marginTop="8dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/darkGrey"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="341dp"
+                        android:id="@+id/mutualPosts"
+                        android:columnWidth="150dp"
+                        android:numColumns="auto_fit"
+                        android:verticalSpacing="4dp"
+                        android:stretchMode="columnWidth"
+                        android:layout_gravity="center"
+                        android:visibility="visible"
+                        />
+
+                    <RelativeLayout
+                        android:id="@+id/mutualnopost"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:visibility="gone"
+                        >
+
+                        <TextView
+                            android:id="@+id/mutualno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No Posts "
+                            android:textColor="@color/hashtag"
+                            android:textSize="24sp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"/>
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/seeAllMutual"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="300dp"
+                        android:paddingLeft="120dp"
+                        android:layout_height="35dp"
+                        android:text="See All"
+                        android:textSize="14sp"
+                        android:paddingTop="4dp"/>
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
 
-        </LinearLayout>
 
 
+        </android.support.v4.widget.NestedScrollView>
+    </com.baoyz.widget.PullRefreshLayout>
 
-
-    </android.support.v4.widget.NestedScrollView>
 
 </RelativeLayout>

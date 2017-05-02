@@ -6,13 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.golstars.www.glostars.hashtagResults">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/hashtagrecycler"
-        android:layout_marginLeft="0dp"
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/pullRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:refreshType="material">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/hashtagrecycler"
+            android:layout_marginLeft="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
+    </com.baoyz.widget.PullRefreshLayout>
+
 
 </RelativeLayout>
