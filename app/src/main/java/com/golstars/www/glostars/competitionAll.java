@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.github.clans.fab.FloatingActionMenu;
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.adapters.CompetitionData;
@@ -131,7 +132,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
     Integer unseenNotifs = 0;
 
 
-
+    PullRefreshLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +140,20 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
         setContentView(R.layout.activity_competition_all);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        layout = (PullRefreshLayout) findViewById(R.id.pullRefreshLayout);
+        layout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
 
+                try {
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         gallery = (RecyclerView) findViewById(R.id.gallerygrid);
         tips = (LinearLayout)findViewById(R.id.tipslin);
         terms = (ScrollView)findViewById(R.id.termslin);

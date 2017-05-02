@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.ModelData.Poster;
 import com.golstars.www.glostars.adapters.PostData;
@@ -37,13 +38,33 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
     int pg=1;
     MyUser mUser = MyUser.getmUser();
     private boolean loading=false;
-
+    PullRefreshLayout layout;
+    String searchTag="";
+    LinearLayoutManager horizontalLayoutManagaer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("Hashtags"); //Changing the activity label here.
         setContentView(R.layout.activity_hashtag_results);
 
+
+        layout = (PullRefreshLayout) findViewById(R.id.pullRefreshLayout);
+        layout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                posts.clear();
+                pg=1;
+                try {
+                    //callAsyncPopulate(pg);
+                    pg = 1;
+                    loading=false;
+                    getPostData(searchTag);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -53,12 +74,45 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
 
         hashtags = (RecyclerView)findViewById(R.id.hashtagrecycler);
         postDataAdapter=new PostData(posts,hashtagResults.this,Width,getSupportFragmentManager());
-        getPostData(getIntent().getStringExtra("data"));
 
 
-        LinearLayoutManager horizontalLayoutManagaer= new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        searchTag=getIntent().getStringExtra("data");
+        getPostData(searchTag);
+        horizontalLayoutManagaer= new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         hashtags.setLayoutManager(horizontalLayoutManagaer);
         hashtags.setAdapter(postDataAdapter);
+
+
+
+        hashtags.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                //super.onScrolled(recyclerView, dx, dy);
+                System.out.println("Scrolling "+dx+" "+dy);
+                if(dy > 0){ //check for scroll down
+                    int visibleItemCount = horizontalLayoutManagaer.getChildCount();
+                    int totalItemCount = horizontalLayoutManagaer.getItemCount();
+                    int pastVisiblesItems = horizontalLayoutManagaer.findFirstVisibleItemPosition();
+                    System.out.println("Total Item "+totalItemCount+" Loading "+loading);
+                    if(!loading){
+                        if((visibleItemCount + pastVisiblesItems) >= totalItemCount-2){
+                            loading = true;
+                            //pg++;
+                            try {
+                                //callAsyncPopulate(pg);
+                                getPostData(searchTag);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            //populateFeed(mUser.getUserId(), pg, mUser.getToken());
+                        }
+                    }
+                }
+            }
+        });
+
+        setTitle("#"+searchTag);
+
     }
 
 
@@ -94,6 +148,7 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
                     postDataAdapter.notifyDataSetChanged();
                     loading=false;
                     pg++;
+                    layout.setRefreshing(false);
                     System.out.println("Loading complete");
                 } catch (Exception e) {
                     e.printStackTrace();

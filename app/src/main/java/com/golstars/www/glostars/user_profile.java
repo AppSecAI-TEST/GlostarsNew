@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionMenu;
 import com.golstars.www.glostars.adapters.RecyclerGridAdapter;
@@ -152,15 +153,32 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
     Integer unseenNotifs = 0;
 
 
-
+    PullRefreshLayout layout;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        layout = (PullRefreshLayout) findViewById(R.id.pullRefreshLayout);
+        layout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                try {
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        System.out.println("Loading................");
 
         final String TAG = user_profile.class.getName();
 
@@ -1106,7 +1124,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
         JSONArray mutualFollowerPictures = model.getJSONArray("mutualFollowerPictures");
         JSONArray publicPictures = model.getJSONArray("publicPictures");
 
-        Integer totalPics = totalmutualFollowerPics + totalCompetitionPic + totalpublicPictures;
+        Integer totalPics =  data.getInt("allPictureCount");
 
         if(totalmutualFollowerPics == 0){
             mutualgrid.setVisibility(View.GONE);
