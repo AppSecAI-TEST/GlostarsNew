@@ -1,7 +1,10 @@
 package com.golstars.www.glostars;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -101,8 +104,23 @@ public class ContactUs extends AppCompatActivity {
         });
 
 
+        if(!isConnected()){
+            startActivity(new Intent(this, noInternet.class));
+        }
+
+
     }
 
+    public boolean isConnected(){
+        boolean hasConnection;
+        ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        hasConnection = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+        return hasConnection;
+
+    }
 
     private void submit(String email, String msg){
         Intent i = new Intent(Intent.ACTION_SEND);

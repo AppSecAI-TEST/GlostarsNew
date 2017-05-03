@@ -151,6 +151,7 @@ public class followersPage extends AppCompatActivity {
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
 
+
         followingbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -215,6 +216,12 @@ public class followersPage extends AppCompatActivity {
         String guestUserID  = this.getIntent().getStringExtra("guestUserId");
         mUserID = this.getIntent().getStringExtra("myUserId");
         String token =  this.getIntent().getStringExtra("token");
+
+        if(!guestUserID.equals(mUserID)){
+            followingbut.setVisibility(View.GONE);
+        }else {
+            followingbut.setVisibility(View.VISIBLE);
+        }
 
         followers = new ArrayList<>();
         following = new ArrayList<>();
