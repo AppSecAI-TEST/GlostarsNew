@@ -27,7 +27,7 @@ public class Timestamp {
 
         } else if(period.getYears() == 1){
 
-            return "year ago";
+            return "1 year ago";
 
         } else if(period.getYears() < 1){
 
@@ -38,7 +38,7 @@ public class Timestamp {
 
             } else if(period.getMonths() == 1){
 
-                return "month ago";
+                return "1 month ago";
 
             } else if(period.getMonths() < 1){
 
@@ -49,7 +49,7 @@ public class Timestamp {
 
                 } else if(period.getWeeks() == 1){
 
-                    return "a week ago";
+                    return "1 week ago";
 
                 } else if(period.getWeeks() < 1){
 
@@ -71,7 +71,7 @@ public class Timestamp {
 
                         } else if(period.getHours() == 1){
 
-                            return "hour ago";
+                            return "1 hour ago";
 
                         } else if(period.getHours() < 1){
 
@@ -82,7 +82,7 @@ public class Timestamp {
 
                             } else if(period.getMinutes() == 1){
 
-                                return " a minute ago";
+                                return "1 minute ago";
 
                             } else if (period.getMinutes() < 0){
 
