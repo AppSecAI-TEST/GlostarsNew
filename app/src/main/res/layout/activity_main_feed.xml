@@ -36,7 +36,7 @@
                     android:orientation="horizontal"
                     android:gravity="bottom"
                     android:layout_marginBottom="4dp"
-                    android:layout_marginTop="16dp">
+                    android:layout_marginTop="24dp">
 
                     <ImageView
                         android:id="@+id/glostarslogo"
@@ -47,25 +47,19 @@
                         android:visibility="visible"
                         android:src="@drawable/lotext"/>
 
-                    <EditText
-                        android:id="@+id/searchedit"
-                        android:layout_width="45dp"
-                        android:layout_height="match_parent"
-                        android:hint="Search"
-                        android:textColorHint="@color/darkGrey"
-                        android:paddingLeft="16dp"
-                        android:background="@drawable/roundededittext1"
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:animateLayoutChanges="true"
                         android:visibility="invisible"/>
 
                     <ImageView
                         android:id="@+id/searchlogo"
                         android:layout_marginTop="0dp"
-                        android:layout_width="40dp"
+                        android:layout_width="30dp"
                         android:layout_marginRight="8dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_height="40dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/search"
                         android:padding="1dp"/>
 

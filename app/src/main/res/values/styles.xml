@@ -27,7 +27,7 @@
     <style name="RatingBarSmall" parent="android:Widget.DeviceDefault.Light.RatingBar.Indicator">
         <item name="android:progressDrawable">@drawable/rating_bar</item>
         <item name="android:minHeight">30dp</item>
-        <item name="android:maxHeight">30dp</item>
+        <item name="android:maxHeight">31dp</item>
     </style>
 
     <style name="RatingBarSmallGrey" parent="android:Widget.DeviceDefault.Light.RatingBar.Indicator">

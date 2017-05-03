@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.golstars.www.glostars.adapters.NotificationAdapter;
 import com.golstars.www.glostars.interfaces.OnItemClickListener;
@@ -63,6 +64,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
     com.github.clans.fab.FloatingActionButton competitionFAB;
     com.github.clans.fab.FloatingActionButton profileFAB;
     com.github.clans.fab.FloatingActionButton notificationFAB;
+    com.github.clans.fab.FloatingActionButton homeFAB;
 
     FloatingActionMenu menuDown;
 
@@ -145,6 +147,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
         competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
         profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
         notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
+        homeFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.homeFAB);
 
         //=============Notification Badges===============================================
 //        homebadge = (TextView)findViewById(R.id.homebadge);
@@ -190,6 +193,13 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             }
         });
 
+
+        homeFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(notification.this,MainFeed.class));
+            }
+        });
 
         cameraFAB.setOnClickListener(new View.OnClickListener() {
             @Override

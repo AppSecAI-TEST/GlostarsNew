@@ -76,9 +76,6 @@ public class upload extends AppCompatActivity {
     RadioButton competition;
     RadioButton followerspost;
     EditText description;
-    ImageView fbshare;
-    ImageView vkshare;
-    ImageView twshare;
     Button cancel;
     Button submit;
     File file;
@@ -110,9 +107,6 @@ public class upload extends AppCompatActivity {
         competition = (RadioButton)findViewById(R.id.radiocompetition);
         followerspost = (RadioButton)findViewById(R.id.radiofollowers);
         description = (EditText)findViewById(R.id.description);
-        fbshare = (ImageView)findViewById(R.id.fbshare);
-        vkshare = (ImageView)findViewById(R.id.vkshare);
-        twshare = (ImageView)findViewById(R.id.twshare);
         cancel = (Button)findViewById(R.id.cancelbutton);
         submit = (Button)findViewById(R.id.submitbutton);
 

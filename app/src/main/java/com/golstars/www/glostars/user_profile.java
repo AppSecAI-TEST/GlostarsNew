@@ -659,6 +659,13 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             }
         });
 
+        homeFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(user_profile.this,MainFeed.class));
+            }
+        });
+
 
         cameraFAB.setOnClickListener(new View.OnClickListener() {
             @Override
