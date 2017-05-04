@@ -182,7 +182,7 @@ public class upload extends AppCompatActivity {
 
 
         //file = null;
-        image.setVisibility(View.INVISIBLE);
+        image.setVisibility(View.VISIBLE);
         selectImage();
 
         /*
@@ -234,6 +234,9 @@ public class upload extends AppCompatActivity {
             }
         });
 
+
+        cancel.setTransformationMethod(null);
+        submit.setTransformationMethod(null);
 
 
     }

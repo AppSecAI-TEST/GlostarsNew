@@ -109,9 +109,9 @@
                 android:layout_height="50dp"
                 android:textAllCaps="true"
                 android:textSize="20dp"
+                android:layout_marginTop="20dp"
                 android:textColor="#E1BEE7"
                 android:background="@drawable/roundedbutton"
-                android:layout_marginTop="1dp"
                 android:id="@+id/createAccountButton"
                 android:layout_below="@+id/termsLin"
                 android:layout_centerHorizontal="true" />
@@ -191,6 +191,7 @@
                     android:text="I Agree with the "
                     android:textSize="15sp"
                     android:textColor="#E1C8FF"
+                    android:buttonTint="@color/lightViolate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
