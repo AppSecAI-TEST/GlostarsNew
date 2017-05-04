@@ -303,7 +303,14 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
 
                 ImageView emoji_btn= (ImageView) dialog.findViewById(R.id.emoji_btn);
 
+                ImageView dialogClose= (ImageView) dialog.findViewById(R.id.imageView4);
 
+                dialogClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
 
                 EmojIconActions emojIcon = new EmojIconActions(context, root, commentbox, emoji_btn);
 
