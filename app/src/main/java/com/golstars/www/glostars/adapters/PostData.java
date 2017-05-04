@@ -28,6 +28,7 @@ import com.golstars.www.glostars.MyUser;
 import com.golstars.www.glostars.R;
 import com.golstars.www.glostars.ServerInfo;
 import com.golstars.www.glostars.SingleItemDialogFragment;
+import com.golstars.www.glostars.competitionAll;
 import com.golstars.www.glostars.hashtagResults;
 import com.golstars.www.glostars.user_profile;
 import com.loopj.android.http.AsyncHttpClient;
@@ -143,7 +144,15 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
 
 
         onBind = false;
+        holder.seeAllcomp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, competitionAll.class);
+               // intent.putExtra("USER_ID",post.getPoster().getUserId());
 
+                context.startActivity(intent);
+            }
+        });
         holder.propic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
