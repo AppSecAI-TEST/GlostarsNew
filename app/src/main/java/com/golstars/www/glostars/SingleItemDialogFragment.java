@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -317,7 +318,29 @@ public class SingleItemDialogFragment extends DialogFragment {
         ratingfullscreen = (RatingBar)dialog.findViewById(R.id.ratingBarfullscreen);
         commentfullscreen = (ImageView)dialog.findViewById(R.id.commenticonfullscreen);
 
+        ratingfullscreen.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    float touchPositionX = event.getX();
+                    float width = ratingfullscreen.getWidth();
+                    float starsf = (touchPositionX / width) * 5.0f;
+                    int stars = (int)starsf + 1;
+                    ratingfullscreen.setRating(stars);
+                    System.out.println("Call rating touching...");
+                    //needChange=true;
+                    v.setPressed(false);
+                    changeRating(ratingfullscreen,selectedPosition);
+                }
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.setPressed(true);
+                }
 
+                if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    v.setPressed(false);
+                }
+                return true;
+            }});
 
 
 
