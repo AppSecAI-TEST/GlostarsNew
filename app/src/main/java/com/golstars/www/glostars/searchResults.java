@@ -522,9 +522,10 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
             JSONArray comments = pic.getJSONArray("comments");
 
             String uploaded = pic.getString("uploaded");
-            String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-            LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));
-            String interval = Timestamp.getInterval(localDateTime);
+           /* String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));*/
+           // String interval = Timestamp.getInterval(localDateTime);
+            String interval = Timestamp.getInterval(Timestamp.getOwnZoneDateTime(uploaded));
 
             setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, starsCount, comments.length(), ratings, comments, interval);
 
