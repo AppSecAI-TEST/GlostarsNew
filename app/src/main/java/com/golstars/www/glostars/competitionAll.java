@@ -489,7 +489,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
                     pg++;
                     System.out.println("Loading complete");
 
-                    if(pg<5){
+                    if(pg<=5){
                         load2();
                     }
 
@@ -533,6 +533,9 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
                     compAdapt.notifyDataSetChanged();
                     loading=false;
                     pg++;
+                    if(pg<=5){
+                        load2();
+                    }
                     System.out.println("Loading complete");
 
                 } catch (Exception e) {
