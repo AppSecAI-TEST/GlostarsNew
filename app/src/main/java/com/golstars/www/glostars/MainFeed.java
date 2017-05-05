@@ -164,6 +164,11 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         mUser = MyUser.getmUser();
         //getUserData("");
         mUser.setContext(this);
+        if(mUser.getProfilePicURL().equals("/Content/Profile/Thumbs/male.jpg")){
+            profileFAB.setImageResource(R.drawable.nopicmale);
+        } else if(mUser.getProfilePicURL().equals("/Content/Profile/Thumbs/female.jpg")){
+            profileFAB.setImageResource(R.drawable.nopicfemale);
+        }
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);

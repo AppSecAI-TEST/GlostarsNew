@@ -400,6 +400,12 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
 
         //new getUserData().execute("");
         mUser = MyUser.getmUser();
+        mUser.setContext(this);
+        if(mUser.getProfilePicURL().equals("/Content/Profile/Thumbs/male.jpg")){
+            profileFAB.setImageResource(R.drawable.nopicmale);
+        } else if(mUser.getProfilePicURL().equals("/Content/Profile/Thumbs/female.jpg")){
+            profileFAB.setImageResource(R.drawable.nopicfemale);
+        }
         gallery.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

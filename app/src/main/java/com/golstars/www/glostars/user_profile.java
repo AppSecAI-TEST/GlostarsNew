@@ -39,6 +39,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.MySSLSocketFactory;
 import com.loopj.android.http.RequestParams;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -768,8 +769,17 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
 
 
 
+                        String pic = jsonObject.getString("profilePicURL");
+                        if(pic.equals("/Content/Profile/Thumbs/male.jpg")){
+                            userPicProfile.setImageResource(R.drawable.nopicmale);
+                            profileFAB.setImageResource(R.drawable.nopicmale);
+                        } else if(pic.equals("/Content/Profile/Thumbs/female.jpg")){
+                            userPicProfile.setImageResource(R.drawable.nopicfemale);
+                            profileFAB.setImageResource(R.drawable.nopicfemale);
+                        }else{
+                            Glide.with(getApplicationContext()).load(pic).into(userPicProfile);
+                        }
 
-                        Glide.with(getApplicationContext()).load(jsonObject.getString("profilePicURL")).into(userPicProfile);
 
 
 

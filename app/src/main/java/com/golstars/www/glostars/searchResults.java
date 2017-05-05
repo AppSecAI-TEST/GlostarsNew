@@ -361,6 +361,12 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
                 e.printStackTrace();
             }
 
+            if(mUser.getProfilePicURL().equals("/Content/Profile/Thumbs/male.jpg")){
+                profileFAB.setImageResource(R.drawable.nopicmale);
+            } else if(mUser.getProfilePicURL().equals("/Content/Profile/Thumbs/female.jpg")){
+                profileFAB.setImageResource(R.drawable.nopicfemale);
+            }
+
             homeIntent = new Intent();
             homeIntent.putExtra("USER_ID",mUser.getUserId());
             homeIntent.setClass(getApplicationContext(),user_profile.class);

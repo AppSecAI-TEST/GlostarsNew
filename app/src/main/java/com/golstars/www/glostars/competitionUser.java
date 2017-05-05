@@ -165,6 +165,11 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         //======================== DATA HANDLING =====================================
         MyUser mUser = MyUser.getmUser();
         mUser.setContext(this);
+        if(mUser.getProfilePicURL().equals("/Content/Profile/Thumbs/male.jpg")){
+            profileFAB.setImageResource(R.drawable.nopicmale);
+        } else if(mUser.getProfilePicURL().equals("/Content/Profile/Thumbs/female.jpg")){
+            profileFAB.setImageResource(R.drawable.nopicfemale);
+        }
 //        Picasso.with(this).load(mUser.getProfilePicURL()).into(profileFAB);
 
         targetList = new ArrayList<>();
