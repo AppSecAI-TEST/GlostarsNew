@@ -7,10 +7,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -28,6 +32,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.golstars.www.glostars.adapters.RecyclerGridAdapter;
 import com.golstars.www.glostars.interfaces.OnSinglePicClick;
 import com.golstars.www.glostars.interfaces.PopulatePage;
+import com.golstars.www.glostars.models.Comment;
 import com.golstars.www.glostars.models.Post;
 import com.golstars.www.glostars.network.NotificationService;
 import com.golstars.www.glostars.network.PictureService;
@@ -40,8 +45,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
+import java.util.List;
 
+import cz.msebera.android.httpclient.ContentTooLongException;
 import cz.msebera.android.httpclient.Header;
 
 
@@ -79,6 +87,10 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
     SearchUser searchUser;
     ArrayAdapter<String> usrsAdapter;
     ArrayList<String> usrsNames;
+
+
+    ArrayList<SearchItemUsr> usrs;
+    SearchAdapter searchAdapter;
 
     RecyclerGridAdapter recentsAdapter;
     //recents is a string array that'll receive the pic urls from the recents
@@ -210,10 +222,25 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         searchgrid.setAdapter(recentsAdapter);
 
 
+        /*
         usrsNames = new ArrayList<>();
         usrsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, usrsNames);
         searchlist.setAdapter(usrsAdapter);
+        */
 
+        /***************** user-search specific adapters ****************/
+        usrs = new ArrayList<>();
+        searchAdapter = new SearchAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, usrs, new BtnClick() {
+            @Override
+            public void onItemClick(SearchItemUsr com) {
+                Intent intent = new Intent();
+                intent.putExtra("USER_ID", com.UsrId);
+                intent.setClass(getApplicationContext(), user_profile.class);
+                startActivity(intent);
+            }
+        });
+        searchlist.setAdapter(searchAdapter);
+        /***************************************************************/
 
 
         new getUserData().execute("");
@@ -366,14 +393,21 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
                     while(data == null){
                         data = searchUser.getDataArray();
                     }
-                    usrsNames.clear();
+                    //usrsNames.clear();
+                    usrs.clear();
                     for(int i = 0; i < data.length(); i++){
-                        usrsNames.add(data.getJSONObject(i).getString("name") + " " + data.getJSONObject(i).getString("lastName"));
+                        //usrsNames.add(data.getJSONObject(i).getString("name") + " " + data.getJSONObject(i).getString("lastName"));
+                        String name = data.getJSONObject(i).getString("name") + " " + data.getJSONObject(i).getString("lastName");
+                        String usrPicUrl = data.getJSONObject(i).getString("profilemediumPath");
+                        String usrId = data.getJSONObject(i).getString("id");
+
+                        SearchItemUsr item = new SearchItemUsr(name, usrPicUrl,usrId);
+                        usrs.add(item);
 
 
-
-                        usrsAdapter.notifyDataSetChanged();
-                        System.out.println(usrsNames);
+                        searchAdapter.notifyDataSetChanged();
+                        //usrsAdapter.notifyDataSetChanged();
+                        //System.out.println(usrsNames);
                     }
 
 
@@ -547,5 +581,84 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
     }
 
 
+    public class SearchItemUsr{
+        String Username;
+        String UserPicUrl;
+        String UsrId;
+
+        public SearchItemUsr(String usrname, String userPicUrl, String usrId){
+            this.Username = usrname;
+            this.UserPicUrl = userPicUrl;
+            this.UsrId = usrId;
+        }
+
+    }
+
+    public class SearchAdapter extends ArrayAdapter<SearchItemUsr>{
+
+        private  BtnClick mClickListener = null;
+
+        public SearchAdapter(Context context, int resource, List<SearchItemUsr> items, BtnClick listener){
+            super(context, resource, items);
+            mClickListener = listener;
+        }
+
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View v = convertView;
+
+            if (v == null) {
+                LayoutInflater vi;
+                vi = LayoutInflater.from(getContext());
+                v = vi.inflate(R.layout.searchmodel, null);
+            }
+
+            final SearchItemUsr item = getItem(position);
+            Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+
+            if(item != null){
+                TextView usrName = (TextView) v.findViewById(R.id.usernameSearchModel);
+                ImageView profilePic = (ImageView) v.findViewById(R.id.propicSearchModel);
+                usrName.setTypeface(type);
+
+                if(item.UserPicUrl.equals(null)){
+                    profilePic.setVisibility(View.GONE);
+                } else{
+                    if(item.UserPicUrl.equals("/Content/Profile/Thumbs/male.jpg")){
+                        profilePic.setImageResource(R.drawable.nopicmale);
+                    } else if(item.UserPicUrl.equals("/Content/Profile/Thumbs/female.jpg")){
+                        profilePic.setImageResource(R.drawable.nopicfemale);
+                    }else{
+                        Picasso.with(getApplicationContext()).load(item.UserPicUrl).into(profilePic);
+                    }
+
+                }
+
+                usrName.setText(item.Username);
+
+                v.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mClickListener.onItemClick(item);
+                    }
+                });
+
+
+            }
+
+            return v;
+
+        }
+    }
+
+
+    public interface BtnClick{
+        void onItemClick(SearchItemUsr com);
+    }
+
+
 
 }
+
+
