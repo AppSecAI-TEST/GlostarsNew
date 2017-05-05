@@ -239,6 +239,14 @@ public class upload extends AppCompatActivity {
         submit.setTransformationMethod(null);
 
 
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
+
+
     }
     private void requestDevicePermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

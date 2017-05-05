@@ -483,6 +483,10 @@ public class SingleItemDialogFragment extends DialogFragment {
         RequestParams params=new RequestParams();
         params.add("NumOfStars",(int)ratingBar.getRating()+"");
         params.add("PhotoId",postData.get(position).getId()+"");
+
+        final HashMap<Integer,Integer> hashMap=new HashMap<Integer, Integer>(); //use for hold selected position
+        hashMap.put(postData.get(position).getId(),position);
+
         client.post(context, url,params,new JsonHttpResponseHandler(){
 
 
@@ -491,9 +495,17 @@ public class SingleItemDialogFragment extends DialogFragment {
                 try {
                     System.out.println("1. "+response.toString());
                     try {
-                        postData.get(position).setStarsCount(response.getJSONObject("resultPayload").getInt("totalRating"));
-                        postData.get(position).setMyStarCount((int)ratingBar.getRating());
-                        ratingcountfullscreen.setText(response.getJSONObject("resultPayload").getInt("totalRating")+"");
+                        int picId=response.getJSONObject("resultPayload").getInt("picId");
+                        postData.get(hashMap.get(picId)).setStarsCount(response.getJSONObject("resultPayload").getInt("totalRating"));
+                        postData.get(hashMap.get(picId)).setMyStarCount(response.getJSONObject("resultPayload").getInt("userRating"));
+
+                        if (hashMap.get(picId)==selectedPosition) {
+                            ratingcountfullscreen.setText(response.getJSONObject("resultPayload").getInt("totalRating")+"");
+                            ratingcountfullscreen.setText(postData.get(hashMap.get(picId)).getStarsCount()+"");
+                            ratingfullscreen.setRating(response.getJSONObject("resultPayload").getInt("userRating"));
+                        }
+
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -504,7 +516,6 @@ public class SingleItemDialogFragment extends DialogFragment {
                 }
 
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 System.out.println("2 "+responseString);
@@ -520,6 +531,7 @@ public class SingleItemDialogFragment extends DialogFragment {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 System.out.println("4 "+errorResponse.toString());
             }
+
         });
     }
 
