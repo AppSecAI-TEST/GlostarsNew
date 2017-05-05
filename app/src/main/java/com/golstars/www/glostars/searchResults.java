@@ -212,7 +212,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         gridImages = new ArrayList<>();
 
 
-        //recentPostObjs = new ArrayList<>();
+        ///recentPostObjs = new ArrayList<>();
         recentsPics = new ArrayList<>();
         recentsAdapter = new RecyclerGridAdapter(this, recentsPics, this);
 
