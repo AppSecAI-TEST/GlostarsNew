@@ -66,6 +66,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
     com.github.clans.fab.FloatingActionButton competitionFAB;
     com.github.clans.fab.FloatingActionButton profileFAB;
     com.github.clans.fab.FloatingActionButton notificationFAB;
+    com.github.clans.fab.FloatingActionButton homeFAB;
 
     FloatingActionMenu menuDown;
 
@@ -198,6 +199,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
         competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
         profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
         notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
+        homeFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.homeFAB);
 
         //=============Notification Badges===============================================
 //        homebadge = (TextView)findViewById(R.id.homebadge);
@@ -368,6 +370,13 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
             public void onClick(View view) {
                 startActivity(new Intent(competitionAll.this, upload.class));
                 menuDown.close(true);
+            }
+        });
+
+        homeFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(competitionAll.this,MainFeed.class));
             }
         });
 

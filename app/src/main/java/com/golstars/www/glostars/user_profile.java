@@ -659,6 +659,13 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             }
         });
 
+        homeFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(user_profile.this,MainFeed.class));
+            }
+        });
+
 
         cameraFAB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1149,9 +1156,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             ViewGroup.LayoutParams mutual = mutualgrid.getLayoutParams();
             mutual.height = 330;
             mutualgrid.setLayoutParams(mutual);
+            seeAllMutualProfile.setVisibility(View.GONE);
         }else if (totalmutualFollowerPics > 3 && totalmutualFollowerPics <=6) {
             ViewGroup.LayoutParams mutual1 = mutualgrid.getLayoutParams();
-            mutual1.height = 690;
+            mutual1.height = 687;
             mutualgrid.setLayoutParams(mutual1);
         }else{
             mutualgrid.setVisibility(View.VISIBLE);
@@ -1166,9 +1174,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             ViewGroup.LayoutParams comp = competitiongrid.getLayoutParams();
             comp.height = 330;
             competitiongrid.setLayoutParams(comp);
+            seeAllCompetitionProfile.setVisibility(View.GONE);
         }else if (totalCompetitionPic > 3 && totalCompetitionPic <=6) {
             ViewGroup.LayoutParams comp1 = mutualgrid.getLayoutParams();
-            comp1.height = 690;
+            comp1.height = 687;
             competitiongrid.setLayoutParams(comp1);
         } else{
             compBanner.setVisibility(View.VISIBLE);
@@ -1184,9 +1193,11 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             ViewGroup.LayoutParams pub = publicgrid.getLayoutParams();
             pub.height = 330;
             publicgrid.setLayoutParams(pub);
+            seeAllPublicProfile.setVisibility(View.GONE);
+
         }else if (totalCompetitionPic > 3 && totalCompetitionPic <=6) {
             ViewGroup.LayoutParams pub1 = publicgrid.getLayoutParams();
-            pub1.height = 690;
+            pub1.height = 687;
             publicgrid.setLayoutParams(pub1);
         } else{
             publicBanner.setVisibility(View.VISIBLE);

@@ -9,11 +9,14 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,7 +24,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.golstars.www.glostars.ModelData.Comment;
 import com.golstars.www.glostars.ModelData.Hashtag;
+import com.golstars.www.glostars.adapters.CommentData;
 import com.golstars.www.glostars.adapters.ImagePagerAdapter;
 import com.golstars.www.glostars.adapters.PostData;
 import com.loopj.android.http.AsyncHttpClient;
@@ -36,8 +41,13 @@ import org.json.JSONObject;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
+import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -197,7 +207,102 @@ public class SingleItemDialogFragment extends DialogFragment {
         commentContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Comment section click", Toast.LENGTH_SHORT).show();
+                final RelativeLayout root = new RelativeLayout(context);
+                root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                final Dialog dialog = new Dialog(context);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(root);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                dialog.getWindow().setContentView(R.layout.commentdialog);
+                final ListView commentrecycler = (ListView) dialog.findViewById(R.id.commentrecycler);
+                final EmojiconEditText commentbox = (EmojiconEditText) dialog.findViewById(R.id.commentBox);
+                final TextView sendcomment = (TextView) dialog.findViewById(R.id.sendcomment);
+                final List<Comment> listAllComment=postData.get(selectedPosition).getComments();
+                final CommentData commentData=new CommentData(context,listAllComment);
+                commentrecycler.setAdapter(commentData);
+                commentData.notifyDataSetChanged();
+
+                ImageView emoji_btn= (ImageView) dialog.findViewById(R.id.emoji_btn);
+
+                ImageView dialogClose= (ImageView) dialog.findViewById(R.id.imageView4);
+
+                dialogClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                EmojIconActions emojIcon = new EmojIconActions(context, root, commentbox, emoji_btn);
+
+                emojIcon.setUseSystemEmoji(true);
+                commentbox.setUseSystemDefault(true);
+
+                emojIcon.ShowEmojIcon();
+//
+
+                emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
+                    @Override
+                    public void onKeyboardOpen() {
+                        Log.e(TAG, "Keyboard opened!");
+                    }
+
+                    @Override
+                    public void onKeyboardClose() {
+                        Log.e(TAG, "Keyboard closed");
+                    }
+                });
+
+                sendcomment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final String comment = String.valueOf(commentbox.getText());
+
+                        try {
+                            String url = ServerInfo.BASE_URL + "api/images/comment";
+                            AsyncHttpClient client=new AsyncHttpClient();
+                            try {
+                                KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                                trustStore.load(null, null);
+                                MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+                                sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                                client.setSSLSocketFactory(sf);
+                            }
+                            catch (Exception e) {}
+                            RequestParams msg=new RequestParams();
+                            client.addHeader("Authorization", "Bearer " + mUser.getToken());
+                            msg.add("CommentText", comment);
+                            msg.add("PhotoId", postData.get(selectedPosition).getId()+"");
+
+                            client.post(context, url,msg,new JsonHttpResponseHandler(){
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                    try {
+                                        JSONObject comment=response.getJSONObject("resultPayload");
+                                        Comment c=new Comment(comment.getInt("commentId"),comment.getString("commentMessage"),comment.getString("commenterUserName"),comment.getString("commentUserNameId"),comment.getString("commentTime"),comment.getString("profilePicUrl"),comment.getString("firstName"),comment.getString("lastName"));
+                                        listAllComment.add(c);
+                                        commentData.notifyDataSetChanged();
+                                        postData.get(selectedPosition).setComments(listAllComment);
+                                        postDataAdapter.notifyDataSetChanged();
+                                        commentrecycler.setSelection(listAllComment.size()-1);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        commentbox.setText("");
+                    }
+                });
+
+               /* mBuilder.setView(mView);
+                AlertDialog dialog = mBuilder.create();
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));*/
+                dialog.show();
             }
         });
 
@@ -213,7 +318,29 @@ public class SingleItemDialogFragment extends DialogFragment {
         ratingfullscreen = (RatingBar)dialog.findViewById(R.id.ratingBarfullscreen);
         commentfullscreen = (ImageView)dialog.findViewById(R.id.commenticonfullscreen);
 
+        ratingfullscreen.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    float touchPositionX = event.getX();
+                    float width = ratingfullscreen.getWidth();
+                    float starsf = (touchPositionX / width) * 5.0f;
+                    int stars = (int)starsf + 1;
+                    ratingfullscreen.setRating(stars);
+                    System.out.println("Call rating touching...");
+                    //needChange=true;
+                    v.setPressed(false);
+                    changeRating(ratingfullscreen,selectedPosition);
+                }
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.setPressed(true);
+                }
 
+                if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    v.setPressed(false);
+                }
+                return true;
+            }});
 
 
 

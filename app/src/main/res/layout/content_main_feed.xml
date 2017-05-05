@@ -120,7 +120,7 @@
                 <RatingBar
                     android:id="@+id/ratingBar"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:numStars="5"
                     style="@style/RatingBarSmall"
                     android:layout_marginTop="2dp"
@@ -187,7 +187,7 @@
                 android:id="@+id/privacy"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="-2dp"
                 android:src="@drawable/privacy_competition_photo"
                 android:layout_marginRight="0dp"
                 android:layout_alignTop="@+id/uploadTIME"
