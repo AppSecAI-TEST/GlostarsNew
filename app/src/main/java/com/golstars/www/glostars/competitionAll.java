@@ -435,11 +435,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
 
 
         });
-        //load();
-        //getUnseen();
-        load2(1);
-        load2(2);
-        //load2(3);
+        load();
 
         if(!isConnected()){
             startActivity(new Intent(this, noInternet.class));
@@ -493,6 +489,10 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
                     pg++;
                     System.out.println("Loading complete");
 
+                    if(pg<=5){
+                        load2();
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -500,9 +500,9 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
 
         });
     }
-    public void load2(int x){
+    public void load2(){
         loading=true;
-        String url = ServerInfo.BASE_URL_API+"/images/competition/" + x;
+        String url = ServerInfo.BASE_URL_API+"/images/competition/" +pg;
 
         System.out.println(url);
 
@@ -533,6 +533,9 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
                     compAdapt.notifyDataSetChanged();
                     loading=false;
                     pg++;
+                    if(pg<=5){
+                        load2();
+                    }
                     System.out.println("Loading complete");
 
                 } catch (Exception e) {
