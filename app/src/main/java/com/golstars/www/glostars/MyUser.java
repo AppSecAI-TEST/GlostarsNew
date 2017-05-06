@@ -2,11 +2,19 @@ package com.golstars.www.glostars;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.Message;
+
+import com.golstars.www.glostars.network.SearchUser;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.MySSLSocketFactory;
+import com.loopj.android.http.SyncHttpClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.security.KeyStore;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by edson on 08/02/17.
@@ -21,7 +29,7 @@ public class MyUser {
     private String email;
     private String profilePicURL;
     private String userId;
-
+    private String sex;
     private String token;
 
     private static final String MyPREFERENCES = "com.golstars.www.glostars.PREFERENCE_FILE_KEY";
@@ -107,6 +115,38 @@ public class MyUser {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        /*
+        String url = ServerInfo.BASE_URL_API+"account/GetUserDetails?userId="+mUser.getUserId();
+        SyncHttpClient client=new SyncHttpClient();
+        client.addHeader("Authorization", "Bearer " + mUser.getToken());
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
+        client.get(context, url, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    JSONObject jsonObject = response.getJSONObject("resultPayload");
+                    mUser.setSex(jsonObject.getString("gender"));
+
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                System.out.println(errorResponse);
+            }
+        }); */
+
+
 
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -129,4 +169,13 @@ public class MyUser {
     public void setToken(String token) {
         this.token = token;
     }
+
+    /*
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    } */
 }
