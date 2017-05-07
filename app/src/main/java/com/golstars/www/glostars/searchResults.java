@@ -375,6 +375,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         inflater.inflate(R.menu.menu_main_feed,menu);
         MenuItem search = menu.findItem(R.id.searchmenu);
         final SearchView searchView = (SearchView)search.getActionView();
+        searchView.setIconified(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

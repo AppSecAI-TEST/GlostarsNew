@@ -8,5 +8,6 @@
         android:icon="@drawable/search"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always"
+        android:iconifiedByDefault="false"
         />
 </menu>

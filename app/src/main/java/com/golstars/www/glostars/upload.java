@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -145,6 +146,7 @@ public class upload extends AppCompatActivity {
         publicpost.setTypeface(type);
         followerspost.setTypeface(type);
 
+        description.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override

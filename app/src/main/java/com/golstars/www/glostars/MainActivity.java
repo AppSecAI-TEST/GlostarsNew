@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import java.util.logging.Handler;
 
+import static com.golstars.www.glostars.R.id.container;
+
 public class MainActivity extends AppCompatActivity {
 
     /**
@@ -46,8 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
+
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(container);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabDots);
         tabLayout.setupWithViewPager(mViewPager, true);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -55,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
 
     @Override

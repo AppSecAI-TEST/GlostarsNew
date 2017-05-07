@@ -2,6 +2,7 @@ package com.golstars.www.glostars;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Looper;
 import android.os.Message;
@@ -151,6 +152,7 @@ public class SignUp extends Fragment{
         });
 
 
+        terms.setPaintFlags(terms.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
