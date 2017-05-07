@@ -352,13 +352,22 @@ public class SingleItemDialogFragment extends DialogFragment {
 
         ratingfullscreen.setRating((float)(postData.get(selectedPosition).getMyStarCount()));
 
+        postDataAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                pagerAdapter.notifyDataSetChanged();
+            }
+        });
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
+
             public void onPageSelected(int position) {
                 //which item currently view
+
                 lblTitle.setText(postData.get(position).getPoster().getName());
                 lblDate.setText(postData.get(position).getUploaded());
                 captionfullscreen.setText(postData.get(position).getDescription());
@@ -373,6 +382,7 @@ public class SingleItemDialogFragment extends DialogFragment {
                 selectedPosition=position;
             }
         });
+
 
 
         clearRating.setOnClickListener(new View.OnClickListener() {

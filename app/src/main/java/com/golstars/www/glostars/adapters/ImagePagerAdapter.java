@@ -54,6 +54,7 @@ public class ImagePagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
+
         return data.size();
     }
 

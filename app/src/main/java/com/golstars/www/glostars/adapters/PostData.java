@@ -283,6 +283,8 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                 FragmentTransaction ft = fm.beginTransaction();
                 SingleItemDialogFragment newFragment = SingleItemDialogFragment.newInstance();
                 newFragment.setArguments(bundle);
+                notifyDataSetChanged();
+
                 newFragment.show(ft, "slideshow");
 
             }
