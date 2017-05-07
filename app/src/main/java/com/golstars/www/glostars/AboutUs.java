@@ -2,6 +2,7 @@ package com.golstars.www.glostars;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,12 +13,15 @@ import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
 
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 public class AboutUs extends AppCompatActivity {
 
 
     TextView aboutus, aboutustext,offer , offertext, differ , differtext, ach, achtext;
+    MyUser mUser;
+    Intent homeIntent;
 
     com.github.clans.fab.FloatingActionButton cameraFAB;
     com.github.clans.fab.FloatingActionButton competitionFAB;
@@ -34,6 +38,8 @@ public class AboutUs extends AppCompatActivity {
         setContentView(R.layout.activity_about_us);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
 
         aboutus = (TextView)findViewById(R.id.aboutusBanner);
@@ -57,6 +63,7 @@ public class AboutUs extends AppCompatActivity {
 
 
 
+
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +83,7 @@ public class AboutUs extends AppCompatActivity {
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(AboutUs.this,user_profile.class));
+                startActivity(homeIntent);
                 menuDown.close(true);
             }
         });
@@ -97,6 +104,8 @@ public class AboutUs extends AppCompatActivity {
             }
         });
 
+        new getUserData().execute("");
+
 
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
         aboutustext.setTypeface(type);
@@ -112,4 +121,32 @@ public class AboutUs extends AppCompatActivity {
 
 
     }
+
+    private class getUserData extends AsyncTask<String, Integer, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            mUser = MyUser.getmUser();
+            mUser.setContext(getApplicationContext());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject object) {
+//            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
+            //setting user default pic on FAB MENU
+            if(mUser.getSex().equals("male")){
+                profileFAB.setImageResource(R.drawable.nopicmale);
+            } else if(mUser.getSex().equals("female")){
+                profileFAB.setImageResource(R.drawable.nopicfemale);
+            }
+
+            homeIntent = new Intent();
+            homeIntent.putExtra("USER_ID",mUser.getUserId());
+            homeIntent.setClass(getApplicationContext(),user_profile.class);
+
+        }
+    }
+
+
 }

@@ -802,6 +802,13 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                             //
                         }
 
+                        //setting user default pic on FAB MENU
+                        if(mUser.getSex().equals("male")){
+                            profileFAB.setImageResource(R.drawable.nopicmale);
+                        } else if(mUser.getSex().equals("female")){
+                            profileFAB.setImageResource(R.drawable.nopicfemale);
+                        }
+
 
 
 
@@ -884,12 +891,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                             }
                         });
 
-                        //setting user default pic on FAB MENU
-                        if(mUser.getSex().equals("male")){
-                            profileFAB.setImageResource(R.drawable.nopicmale);
-                        } else if(mUser.getSex().equals("female")){
-                            profileFAB.setImageResource(R.drawable.nopicfemale);
-                        }
+
                         //calling populateGallery() method using data from user
                         populateGallery(jsonObject.getString("id"), 1, mUser.getToken());
                     } catch (Exception e) {

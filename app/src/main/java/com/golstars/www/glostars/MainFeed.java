@@ -317,6 +317,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
             profileFAB.setImageResource(R.drawable.nopicfemale);
         }
 
+        getUnseen();
 
 
 

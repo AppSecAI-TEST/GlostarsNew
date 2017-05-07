@@ -48,6 +48,7 @@ public class MyUser {
         mUser.setProfilePicURL(sharedPreferences.getString("PROFILEPIC", null));
         mUser.setUserId(sharedPreferences.getString("USER_ID", null));
         mUser.setToken(sharedPreferences.getString("TOKEN", null));
+        mUser.setSex(sharedPreferences.getString("SEX", null));
         return mUser;
     }
 
