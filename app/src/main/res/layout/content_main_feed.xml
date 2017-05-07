@@ -121,6 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:numStars="5"
+                    android:layout_marginBottom="4dp"
                     style="@style/RatingBarSmall"
                     android:layout_marginTop="2dp"
                     android:layout_gravity="center_vertical"
@@ -216,7 +217,7 @@
                     android:layout_height="32dp">
 
                     <TextView
-                        android:id="@+id/seall"
+                        android:id="@+id/seeall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="See All Competition Pictures >"

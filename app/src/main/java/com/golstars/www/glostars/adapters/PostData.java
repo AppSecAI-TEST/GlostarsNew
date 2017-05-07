@@ -312,6 +312,8 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                 commentrecycler.setAdapter(commentData);
                 commentData.notifyDataSetChanged();
 
+
+
                 ImageView emoji_btn= (ImageView) dialog.findViewById(R.id.emoji_btn);
 
                 ImageView dialogClose= (ImageView) dialog.findViewById(R.id.imageView4);
@@ -342,6 +344,8 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                         Log.e(TAG, "Keyboard closed");
                     }
                 });
+
+
 
                 sendcomment.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -279,6 +279,8 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                 startActivity(intent);
             }
         });
+
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         noti.setLayoutManager(layoutManager);
         noti.setItemAnimator(new DefaultItemAnimator());
@@ -298,6 +300,8 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                 startActivity(intent);
             }
         });
+
+
         RecyclerView.LayoutManager layoutM = new LinearLayoutManager(getApplicationContext());
         foll.setLayoutManager(layoutM);
         foll.setItemAnimator(new DefaultItemAnimator());
