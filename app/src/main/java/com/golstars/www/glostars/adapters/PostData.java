@@ -443,6 +443,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
             comptext.setTypeface(type);
         }
     }
+
     public void changeRating(final RatingBar ratingBar, final int position){
         System.out.println("Change Call "+position);
 

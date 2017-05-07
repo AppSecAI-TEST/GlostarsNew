@@ -6,8 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.golstars.www.glostars.MainActivity">
 
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -23,7 +21,6 @@
                 android:id="@+id/imageView"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
-
 
             <EditText
                 android:layout_width="match_parent"

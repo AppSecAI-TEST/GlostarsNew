@@ -70,11 +70,11 @@ public class LoginActivity extends Fragment {
     Auth auth;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.login_activity, container, false);
+        final View rootView = inflater.inflate(R.layout.login_activity, container, false);
 
-        Context context = getActivity();
+        final Context context = getActivity();
         sharedPreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         auth = new Auth(context);
@@ -114,7 +114,6 @@ public class LoginActivity extends Fragment {
             }
         });
 
-
         login.setTransformationMethod(null);
 
 
@@ -137,10 +136,6 @@ public class LoginActivity extends Fragment {
                     }
 
                 }
-
-
-
-
             }
         });
 
@@ -154,9 +149,11 @@ public class LoginActivity extends Fragment {
         }
     }
 
+
+
     public void newlogin(String password, String username){
         final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
-                "Login. Please wait...", true);
+                "Logging In. Please wait...", true);
         dialog.show();
         AsyncHttpClient client = new AsyncHttpClient();
         try {

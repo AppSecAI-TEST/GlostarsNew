@@ -11,11 +11,13 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -247,7 +249,6 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         search = (EditText)findViewById(R.id.searchedit);
 
 
-
         fab_show = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_show);
         fab_hide = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_hide);
         rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
@@ -401,10 +402,8 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
                     }
 
                     if(unseenNotifs > 0){
-//                        mainbadge.setVisibility(View.VISIBLE);
-//                        notificationbadge.setVisibility(View.VISIBLE);
-//                        mainbadge.setText(unseenNotifs.toString());
-//                        notificationbadge.setText(unseenNotifs.toString());
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(MainFeed.this,R.color.lightViolate));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(MainFeed.this,R.color.lightViolate));
 
                     }
 

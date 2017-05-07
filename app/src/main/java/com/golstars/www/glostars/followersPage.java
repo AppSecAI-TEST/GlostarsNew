@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -421,13 +423,33 @@ public class followersPage extends AppCompatActivity {
                 if(fStatus.equals("")){
                     follow.setVisibility(View.INVISIBLE);
                 } else if(fStatus.equals("follower")){
-                    follow.setBackground(getResources().getDrawable(R.drawable.followbackbutton));
+                    follow.setText("Follower");
+                    follow.setTextColor(ContextCompat.getColor(context,R.color.white));
+                    follow.setBackground(ContextCompat.getDrawable(context,R.drawable.followbackbutton));
+                    follow.setTransformationMethod(null);
+                    Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+                    follow.setTypeface(type);
                 } else if(fStatus.equals("following")){
-                    follow.setBackground(getResources().getDrawable(R.drawable.followingbutton));
+                    follow.setText("Following");
+                    follow.setTextColor(ContextCompat.getColor(context,R.color.white));
+                    follow.setBackground(ContextCompat.getDrawable(context,R.drawable.followingbutton));
+                    follow.setTransformationMethod(null);
+                    Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+                    follow.setTypeface(type);
                 } else if(fStatus.equals("mutual")){
-                    follow.setBackground(getResources().getDrawable(R.drawable.mutualfollowerbutton));
+                    follow.setText("Mutual");
+                    follow.setTextColor(ContextCompat.getColor(context,R.color.white));
+                    follow.setBackground(ContextCompat.getDrawable(context,R.drawable.mutualfollowerbutton));
+                    follow.setTransformationMethod(null);
+                    Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+                    follow.setTypeface(type);
                 }else if(fStatus.equals("follow")){
+                    follow.setText("Follow");
+                    follow.setTextColor(ContextCompat.getColor(context,R.color.white));
                     follow.setBackgroundResource(R.drawable.followbutton);
+                    follow.setTransformationMethod(null);
+                    Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+                    follow.setTypeface(type);
                 }
 
                 follow.setOnClickListener(new View.OnClickListener() {

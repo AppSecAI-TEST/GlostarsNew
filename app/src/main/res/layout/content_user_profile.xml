@@ -31,7 +31,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/profileuserPIC"
                         android:layout_width="60dp"
@@ -251,7 +250,7 @@
                         android:paddingStart="8dp"
                         android:textColor="@color/darkGrey"
                         android:layout_gravity="center_vertical"
-                        android:text=" 24"
+                        android:text=" 0"
                         android:layout_weight="0.5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -273,11 +272,10 @@
                         android:background="@color/black"
                         />
 
-
                     <TextView
                         android:id="@+id/numberoffollowingCount"
                         android:layout_gravity="center_vertical"
-                        android:text=" 10"
+                        android:text=" 0"
                         android:layout_marginLeft="4dp"
                         android:layout_weight="0.5"
                         android:textColor="@color/darkGrey"
@@ -295,9 +293,6 @@
                         android:textColor="@color/darkGrey"
                         android:layout_weight="1"/>
 
-
-
-
                     <View
                         android:layout_gravity="center_vertical"
                         android:layout_width="0.5dp"
@@ -308,7 +303,7 @@
                     <TextView
                         android:id="@+id/numberoffollowersCount"
                         android:layout_gravity="center_vertical"
-                        android:text=" 12"
+                        android:text=" 0"
                         android:layout_weight="0.5"
                         android:layout_marginLeft="4dp"
                         android:textColor="@color/darkGrey"
@@ -346,7 +341,6 @@
                         android:textColor="@color/darkGrey"
                         android:textSize="14sp" />
 
-
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/competitionPosts"
                         android:layout_width="match_parent"
@@ -382,7 +376,6 @@
                         android:text="See All"
                         android:textSize="14sp"
                         android:paddingTop="4dp"/>
-
 
                     <TextView
                         android:id="@+id/publicBanner"

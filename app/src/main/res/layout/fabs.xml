@@ -11,6 +11,8 @@
     fab:menu_showShadow="false"
     fab:menu_icon="@drawable/ic_action_name"
     fab:menu_colorNormal="@color/colorAccent"
+    fab:menu_colorPressed="@color/white"
+    fab:menu_colorRipple="@color/darkGrey"
     fab:menu_fab_size="normal"
     fab:menu_openDirection="up"
     xmlns:android="http://schemas.android.com/apk/res/android"

@@ -7,8 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -32,24 +30,20 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.golstars.www.glostars.adapters.RecyclerGridAdapter;
 import com.golstars.www.glostars.interfaces.OnSinglePicClick;
 import com.golstars.www.glostars.interfaces.PopulatePage;
-import com.golstars.www.glostars.models.Comment;
 import com.golstars.www.glostars.models.Post;
 import com.golstars.www.glostars.network.NotificationService;
 import com.golstars.www.glostars.network.PictureService;
+import com.golstars.www.glostars.network.SearchUser;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
-import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.msebera.android.httpclient.ContentTooLongException;
 import cz.msebera.android.httpclient.Header;
 
 
@@ -381,6 +375,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         inflater.inflate(R.menu.menu_main_feed,menu);
         MenuItem search = menu.findItem(R.id.searchmenu);
         final SearchView searchView = (SearchView)search.getActionView();
+        searchView.setIconified(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

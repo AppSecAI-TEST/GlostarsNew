@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -35,11 +36,11 @@ import com.golstars.www.glostars.models.GuestUser;
 import com.golstars.www.glostars.network.FollowerService;
 import com.golstars.www.glostars.network.NotificationService;
 import com.golstars.www.glostars.network.PictureService;
+import com.golstars.www.glostars.network.SearchUser;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.MySSLSocketFactory;
 import com.loopj.android.http.RequestParams;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -266,7 +267,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             }
         });
         //===================================================================================================
-        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+        final Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
         usernameProfile.setTypeface(type);
         userLocationProfile.setTypeface(type);
         aboutMeBannerProfile.setTypeface(type);
@@ -353,17 +354,29 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
                                 if(response.getJSONObject("resultPayload").getBoolean("result")){
                                     if(response.getJSONObject("resultPayload").getBoolean("is_mutual")){
                                         follow.setText("Mutual");
-                                        follow.setBackgroundColor(Color.parseColor("#640064"));
+                                        follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.mutualfollowerbutton));
+                                        follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                                        follow.setTransformationMethod(null);
+                                        follow.setTypeface(type);
                                     }
                                     else if(response.getJSONObject("resultPayload").getBoolean("me_follow")){
                                         follow.setText("Following");
-                                        follow.setBackgroundColor(Color.parseColor("#E1C8FF"));
+                                        follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followingbutton));
+                                        follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                                        follow.setTransformationMethod(null);
+                                        follow.setTypeface(type);
                                     }else if(response.getJSONObject("resultPayload").getBoolean("he_follow")){
                                         follow.setText("follower");
-                                        follow.setBackgroundColor(Color.parseColor("#007FFF"));
+                                        follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
+                                        follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                                        follow.setTransformationMethod(null);
+                                        follow.setTypeface(type);
                                     }else{
                                         follow.setText("follow");
-                                        follow.setBackgroundResource(R.drawable.followbutton);
+                                        follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
+                                        follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                                        follow.setTransformationMethod(null);
+                                        follow.setTypeface(type);
                                     }
                                 }else{
                                     Toast.makeText(user_profile.this, response.getJSONObject("resultPayload").getString("msg"), Toast.LENGTH_SHORT).show();
@@ -772,12 +785,12 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
                         String pic = jsonObject.getString("profilePicURL");
                         if(pic.equals("/Content/Profile/Thumbs/male.jpg")){
                             userPicProfile.setImageResource(R.drawable.nopicmale);
-                            profileFAB.setImageResource(R.drawable.nopicmale);
+
                         } else if(pic.equals("/Content/Profile/Thumbs/female.jpg")){
                             userPicProfile.setImageResource(R.drawable.nopicfemale);
-                            profileFAB.setImageResource(R.drawable.nopicfemale);
                         }else{
                             Glide.with(getApplicationContext()).load(pic).into(userPicProfile);
+                            //
                         }
 
 
@@ -827,19 +840,32 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
                                         follow.setVisibility(View.GONE);
                                     } else if (isFollower && !isFollowing) {
                                         follow.setVisibility(View.VISIBLE);
-                                        follow.setBackgroundColor(Color.parseColor("#007FFF"));
                                         follow.setText("Follower");
+                                        follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
+                                        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+                                        follow.setTypeface(type);
+                                        follow.setTransformationMethod(null);
                                     } else if (!isFollower && isFollowing) {
                                         follow.setVisibility(View.VISIBLE);
-                                        follow.setBackgroundColor(Color.parseColor("#E1C8FF"));
                                         follow.setText("Following");
+                                        follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followingbutton));
+                                        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+                                        follow.setTypeface(type);
+                                        follow.setTransformationMethod(null);
                                     } else if (isFollower && isFollowing) {
                                         follow.setVisibility(View.VISIBLE);
-                                        follow.setBackgroundColor(Color.parseColor("#640064"));
                                         follow.setText("Mutual");
+                                        follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.mutualfollowerbutton));
+                                        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+                                        follow.setTypeface(type);
+                                        follow.setTransformationMethod(null);
                                     } else {
                                         follow.setVisibility(View.VISIBLE);
                                         follow.setText("Follow");
+                                        follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
+                                        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+                                        follow.setTypeface(type);
+                                        follow.setTransformationMethod(null);
                                     }
 
                                 } catch (Exception e) {
@@ -858,6 +884,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
                 }
             }
         });
+
+
     }
 
 
@@ -891,10 +919,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
                     }
 
                     if(unseenNotifs > 0){
-                        mainbadge.setVisibility(View.VISIBLE);
-                        notificationbadge.setVisibility(View.VISIBLE);
-                        mainbadge.setText(unseenNotifs.toString());
-                        notificationbadge.setText(unseenNotifs.toString());
+//                        mainbadge.setVisibility(View.VISIBLE);
+//                        notificationbadge.setVisibility(View.VISIBLE);
+//                        mainbadge.setText(unseenNotifs.toString());
+//                        notificationbadge.setText(unseenNotifs.toString());
 
                     }
 
@@ -1169,7 +1197,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             seeAllMutualProfile.setVisibility(View.GONE);
         }else if (totalmutualFollowerPics > 3 && totalmutualFollowerPics <=6) {
             ViewGroup.LayoutParams mutual1 = mutualgrid.getLayoutParams();
-            mutual1.height = 687;
+            mutual1.height = 680;
             mutualgrid.setLayoutParams(mutual1);
         }else{
             mutualgrid.setVisibility(View.VISIBLE);
@@ -1187,7 +1215,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             seeAllCompetitionProfile.setVisibility(View.GONE);
         }else if (totalCompetitionPic > 3 && totalCompetitionPic <=6) {
             ViewGroup.LayoutParams comp1 = mutualgrid.getLayoutParams();
-            comp1.height = 687;
+            comp1.height = 680;
             competitiongrid.setLayoutParams(comp1);
         } else{
             compBanner.setVisibility(View.VISIBLE);
@@ -1207,7 +1235,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
 
         }else if (totalCompetitionPic > 3 && totalCompetitionPic <=6) {
             ViewGroup.LayoutParams pub1 = publicgrid.getLayoutParams();
-            pub1.height = 687;
+            pub1.height = 680;
             publicgrid.setLayoutParams(pub1);
         } else{
             publicBanner.setVisibility(View.VISIBLE);

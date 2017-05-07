@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_upload"
@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -75,11 +75,12 @@
                 android:layout_marginTop="8dp"
                 android:paddingStart="12dp"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:hint="   Description "
+                android:layout_height="50dp"
+                android:hint="Description"
+                android:inputType="textCapWords"
                 android:background="@drawable/edit"
-                android:maxLines="1"
-                android:lines="3"
+                android:maxLines="3"
+                android:lines="1"
                 android:textColorHint="@color/lightViolate"
                 android:textColor="@color/darkGrey"/>
 
@@ -117,12 +118,9 @@
                     android:layout_marginBottom="16dp"
                     android:layout_weight="1"/>
             </LinearLayout>
-
-
         </LinearLayout>
-
-    </ScrollView>
-
+    </RelativeLayout>
 
 
-</RelativeLayout>
+
+</ScrollView>
