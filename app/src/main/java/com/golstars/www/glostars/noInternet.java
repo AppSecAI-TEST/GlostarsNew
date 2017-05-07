@@ -32,8 +32,11 @@ public class noInternet extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isConnected()){
-                    startActivity(new Intent(getApplicationContext(), MainFeed.class));
+                    //startActivity(new Intent(getApplicationContext(), MainFeed.class));
+                    finish();
                 } else{
+                    Intent intent = new Intent();
+                    System.out.println("NOINTERNET " + intent.getStringExtra("prev"));
                     Toast.makeText(getApplicationContext(), "You are disconnected", Toast.LENGTH_LONG).show();
                 }
             }

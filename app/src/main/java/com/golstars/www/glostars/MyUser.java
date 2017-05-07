@@ -107,45 +107,16 @@ public class MyUser {
             mUser.setName(usrData.getString("name"));
             mUser.setUserId(usrData.getString("userId"));
             mUser.setProfilePicURL(usrData.getString("profilePicURL"));
+            mUser.setSex(usrData.getString("gender"));
             System.out.println("user data is - name: " + mUser.getName() +
                                             " email: " + mUser.getEmail()+
                                             " profilePic: " + mUser.getProfilePicURL() +
-                                            " userId: " + mUser.getUserId());
+                                            " userId: " + mUser.getUserId() +
+                                            " sex: " + mUser.getSex());
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        /*
-        String url = ServerInfo.BASE_URL_API+"account/GetUserDetails?userId="+mUser.getUserId();
-        SyncHttpClient client=new SyncHttpClient();
-        client.addHeader("Authorization", "Bearer " + mUser.getToken());
-        try {
-            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-            trustStore.load(null, null);
-            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
-            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-            client.setSSLSocketFactory(sf);
-        }
-        catch (Exception e) {}
-        client.get(context, url, new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    JSONObject jsonObject = response.getJSONObject("resultPayload");
-                    mUser.setSex(jsonObject.getString("gender"));
-
-                } catch (JSONException e){
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                System.out.println(errorResponse);
-            }
-        }); */
-
 
 
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -155,6 +126,7 @@ public class MyUser {
         editor.putString("USER_ID", mUser.getUserId());
         editor.putString("PROFILE_PIC", mUser.getProfilePicURL());
         editor.putString("TOKEN", mUser.getToken());
+        editor.putString("SEX", mUser.getSex());
 
 
 
@@ -170,12 +142,12 @@ public class MyUser {
         this.token = token;
     }
 
-    /*
+
     public String getSex() {
         return sex;
     }
 
     public void setSex(String sex) {
         this.sex = sex;
-    } */
+    }
 }

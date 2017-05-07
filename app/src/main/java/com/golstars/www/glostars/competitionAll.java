@@ -401,9 +401,10 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
         //new getUserData().execute("");
         mUser = MyUser.getmUser();
         mUser.setContext(this);
-        if(mUser.getProfilePicURL().equals("/Content/Profile/Thumbs/male.jpg")){
+        //setting user default pic on FAB MENU
+        if(mUser.getSex().equals("male")){
             profileFAB.setImageResource(R.drawable.nopicmale);
-        } else if(mUser.getProfilePicURL().equals("/Content/Profile/Thumbs/female.jpg")){
+        } else if(mUser.getSex().equals("female")){
             profileFAB.setImageResource(R.drawable.nopicfemale);
         }
         gallery.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -441,6 +442,13 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
             startActivity(new Intent(this, noInternet.class));
         }
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
     }
 
     public boolean isConnected(){

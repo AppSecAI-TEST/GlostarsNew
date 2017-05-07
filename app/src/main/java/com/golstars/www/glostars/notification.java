@@ -315,6 +315,13 @@ public class notification extends AppCompatActivity implements OnItemClickListen
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
+    }
+
     public boolean isConnected(){
         boolean hasConnection;
         ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -348,6 +355,13 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             homeIntent = new Intent();
             homeIntent.putExtra("USER_ID",mUser.getUserId());
             homeIntent.setClass(getApplicationContext(),user_profile.class);
+
+            //setting user default pic on FAB MENU
+            if(mUser.getSex().equals("male")){
+                profileFAB.setImageResource(R.drawable.nopicmale);
+            } else if(mUser.getSex().equals("female")){
+                profileFAB.setImageResource(R.drawable.nopicfemale);
+            }
 
         }
     }

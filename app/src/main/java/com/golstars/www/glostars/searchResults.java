@@ -289,6 +289,13 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         return hasConnection;
 
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
+    }
     public void getUnseen(){
 
 
@@ -368,9 +375,10 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
                 e.printStackTrace();
             }
 
-            if(mUser.getProfilePicURL().equals("/Content/Profile/Thumbs/male.jpg")){
+            //setting user default pic on FAB MENU
+            if(mUser.getSex().equals("male")){
                 profileFAB.setImageResource(R.drawable.nopicmale);
-            } else if(mUser.getProfilePicURL().equals("/Content/Profile/Thumbs/female.jpg")){
+            } else if(mUser.getSex().equals("female")){
                 profileFAB.setImageResource(R.drawable.nopicfemale);
             }
 

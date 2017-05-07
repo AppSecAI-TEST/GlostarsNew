@@ -163,14 +163,14 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 
         final Context context = MainFeed.this;
 
+
+
         mUser = MyUser.getmUser();
         //getUserData("");
         mUser.setContext(this);
-        if(mUser.getProfilePicURL().equals("/Content/Profile/Thumbs/male.jpg")){
-            profileFAB.setImageResource(R.drawable.nopicmale);
-        } else if(mUser.getProfilePicURL().equals("/Content/Profile/Thumbs/female.jpg")){
-            profileFAB.setImageResource(R.drawable.nopicfemale);
-        }
+
+
+
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -306,12 +306,28 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
             }
         });
 
+        //CHECK IS THE PHONE CONNECTED TO THE INTERNET
         if(!isConnected()){
             startActivity(new Intent(this, noInternet.class));
         }
 
+        if(mUser.getSex().equals("male")){
+            profileFAB.setImageResource(R.drawable.nopicmale);
+        } else if(mUser.getSex().equals("female")){
+            profileFAB.setImageResource(R.drawable.nopicfemale);
+        }
 
 
+
+
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
     }
 
     public boolean isConnected(){
