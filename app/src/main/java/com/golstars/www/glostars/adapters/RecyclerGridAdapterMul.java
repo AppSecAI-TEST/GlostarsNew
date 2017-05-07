@@ -12,9 +12,9 @@ import android.widget.ImageView;
 
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.MyUser;
-import com.golstars.www.glostars.SingleItemDialogFragment;
-import com.golstars.www.glostars.interfaces.OnSinglePicClick;
 import com.golstars.www.glostars.R;
+import com.golstars.www.glostars.SingleItemDialogFragment;
+import com.golstars.www.glostars.user_profile;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * Created by edson on 13/03/17.
  */
 
-public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapter.MyViewHolder> {
+public class RecyclerGridAdapterMul extends RecyclerView.Adapter<RecyclerGridAdapterMul.MyViewHolder> {
 
     private Context mContext;
     private ArrayList<Hashtag> ImgUrls;
@@ -31,7 +31,7 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
     MyUser mUser = MyUser.getmUser();
     FragmentManager fm;
 
-    public RecyclerGridAdapter(Context mContext, ArrayList<Hashtag> imgUrls,FragmentManager fm) {
+    public RecyclerGridAdapterMul(Context mContext, ArrayList<Hashtag> imgUrls, FragmentManager fm) {
         this.mContext = mContext;
         this.ImgUrls = imgUrls;
         this.layoutInflater = LayoutInflater.from(mContext);
@@ -39,14 +39,14 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
     }
 
     @Override
-    public RecyclerGridAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerGridAdapterMul.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.postimages, parent, false);
-        return new RecyclerGridAdapter.MyViewHolder(view); //listener);
+        return new RecyclerGridAdapterMul.MyViewHolder(view); //listener);
         //return null;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerGridAdapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerGridAdapterMul.MyViewHolder holder, final int position) {
         Picasso.with(mContext).load(ImgUrls.get(position).getPicUrl()).into(holder.img);
 
         holder.img.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +57,10 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
                 bundle.putInt("position",position);
                 bundle.putString("token", mUser.getToken());
                 bundle.putString("usrID", mUser.getUserId());
+
+                ((user_profile)mContext).setList(ImgUrls);
+                ((user_profile)mContext).setAdapter(RecyclerGridAdapterMul.this);
+
 
 
                 FragmentTransaction ft = fm.beginTransaction();

@@ -18,13 +18,24 @@ import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.adapters.RecyclerGridAdapter;
 import com.golstars.www.glostars.interfaces.OnSinglePicClick;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.MySSLSocketFactory;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
+import java.security.KeyStore;
 import java.util.ArrayList;
 
-public class competitionUser extends AppCompatActivity implements OnSinglePicClick {
+import cz.msebera.android.httpclient.Header;
+
+public class competitionUser extends AppCompatActivity implements OnSinglePicClick,AdapterInfomation {
 
     //===========================FABS=========================================
 
@@ -58,12 +69,24 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
     boolean showingFirst = true;
 
 
+    private ArrayList<Hashtag> compPicsUrls=new ArrayList<Hashtag>();
+
 
     RecyclerView competitionusergrid;
 
     private ArrayList<String> targetList;
     private RecyclerGridAdapter targetAdapter;
+    private boolean loading=false;
+    MyUser mUser;
+    String guestUserId="";
+    String target = "";
 
+
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+
+
+    int pg = 1;
+    private GridLayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +100,9 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
         menuDown.setClosedOnTouchOutside(true);
 
-         gl = (ImageView)findViewById(R.id.glostarslogo);
+        gl = (ImageView)findViewById(R.id.glostarslogo);
         slogo = (ImageView)findViewById(R.id.searchlogo);
-         search = (EditText)findViewById(R.id.searchedit);
+        search = (EditText)findViewById(R.id.searchedit);
 
         cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
@@ -103,7 +126,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
-
+        mUser = MyUser.getmUser();
 
 
         slogo.setOnClickListener(new View.OnClickListener() {
@@ -175,64 +198,187 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         targetList = new ArrayList<>();
 
         //targetAdapter = new GridAdapter(getApplicationContext(), targetList);
-        targetAdapter = new RecyclerGridAdapter(this, targetList, this);
+        targetAdapter = new RecyclerGridAdapter(this, compPicsUrls, getSupportFragmentManager());
         int numOfColumns = 3;
-        competitionusergrid.setLayoutManager(new GridLayoutManager(this, numOfColumns));
+
+        layoutManager=new GridLayoutManager(this, numOfColumns);
+
+        competitionusergrid.setLayoutManager(layoutManager);
         competitionusergrid.setAdapter(targetAdapter);
 
-        String target = "";
+
         target = this.getIntent().getStringExtra("LOAD_TARGET");
+        guestUserId = this.getIntent().getStringExtra("user_id");
+        load(target);
         System.out.println(target);
 
-        if(target == null) {
+
+
+
+        /*if(target == null) {
             System.out.println("something else happened here");
         }
 
         else if(target.equals("COMPETITION")){
-            //if we have competition pics
-            if(targetList.isEmpty()){
-                ArrayList<String> aux = this.getIntent().getStringArrayListExtra("COMPETITION_PICS");
-                System.out.println("target list - " + aux);
-                for(int i = 0; i < aux.size(); i++){
-                    targetList.add(aux.get(i));
-                    targetAdapter.notifyDataSetChanged();
-                }
 
-            }
 
         }else if(target.equals("PUBLIC")){
-            //if we have public
-            if(targetList.isEmpty()){
-                //targetList.clear();
-                ArrayList<String> aux = this.getIntent().getStringArrayListExtra("PUBLIC_PICS");
-                System.out.println("target list - " + aux);
-                for(int i = 0; i < aux.size(); i++){
-                    targetList.add(aux.get(i));
-                    targetAdapter.notifyDataSetChanged();
-                }
-            }
+
 
         }else if(target.equals("MUTUAL")){
-            //if we have mutual
-            if(targetList.isEmpty()){
-                //targetList.clear();
-                ArrayList<String> aux = this.getIntent().getStringArrayListExtra("MUTUAL_PICS");
-                System.out.println("target list - " + aux);
-                for(int i = 0; i < aux.size(); i++){
-                    targetList.add(aux.get(i));
-                    targetAdapter.notifyDataSetChanged();
-                }
-            }
+
 
         }else if(target == null) {
             System.out.println("something else happened here");
-        }
+        }*/
+
+        competitionusergrid.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                //super.onScrolled(recyclerView, dx, dy);
+                System.out.println("Scrolling "+dx+" "+dy);
+                if(dy > 0){ //check for scroll down
+                    visibleItemCount = layoutManager.getChildCount();
+                    totalItemCount = layoutManager.getItemCount();
+                    pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+                    System.out.println("Total Item "+totalItemCount+" Loading "+loading);
+                    if(!loading){
+                        if((visibleItemCount + pastVisiblesItems) >= totalItemCount-2){
+                            loading = true;
+                            //pg++;
+                            try {
+                                //callAsyncPopulate(pg);
+                                load(target);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            //populateFeed(mUser.getUserId(), pg, mUser.getToken());
+                        }
+                    }
+                }
+            }
+
+
+        });
 
         if(!isConnected()){
             startActivity(new Intent(this, noInternet.class));
         }
 
 
+    }
+    public void load(final String type){
+        loading=true;
+        String url = ServerInfo.BASE_URL_API+"/images/user/"+guestUserId+"/"+pg;
+
+        System.out.println(url);
+
+        AsyncHttpClient client=new AsyncHttpClient();
+        client.addHeader("Authorization", "Bearer " + mUser.getToken());
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
+
+
+        client.get(getApplicationContext(), url,new JsonHttpResponseHandler(){
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                try {
+                    System.out.println("1. "+response.toString());
+                    Gson gson=new Gson();
+                    String txt="";
+                    if(type.equals("COMPETITION")){
+                        txt="competitionPictures";
+                    }else if(type.equals("PUBLIC")){
+                        txt="publicPictures";
+                    }else if(type.equals("MUTUAL")){
+                        txt="mutualFollowerPictures";
+
+                    }
+                    ArrayList<Hashtag> getAllPost=gson.fromJson(response.getJSONObject("resultPayload").getJSONObject("model").getJSONArray(txt).toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
+                    compPicsUrls.addAll(getAllPost);
+                    System.out.println("Total Post "+getAllPost.size());
+                    targetAdapter.notifyDataSetChanged();
+                    loading=false;
+                    pg++;
+                    System.out.println("Loading complete");
+
+                    if(pg<=5){
+                        load2(type);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+    }
+
+
+    public void load2(final String type){
+        loading=true;
+        String url = ServerInfo.BASE_URL_API+"/images/user/"+guestUserId+"/"+pg;
+
+        System.out.println(url);
+
+        AsyncHttpClient client=new AsyncHttpClient();
+        client.addHeader("Authorization", "Bearer " + mUser.getToken());
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
+
+
+        client.get(getApplicationContext(), url,new JsonHttpResponseHandler(){
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                try {
+                    System.out.println("1. "+response.toString());
+                    Gson gson=new Gson();
+                    String txt="";
+                    if(type.equals("COMPETITION")){
+                        txt="competitionPictures";
+                    }else if(type.equals("PUBLIC")){
+                        txt="publicPictures";
+                    }else if(type.equals("MUTUAL")){
+                        txt="mutualFollowerPictures";
+
+                    }
+                    ArrayList<Hashtag> getAllPost=gson.fromJson(response.getJSONObject("resultPayload").getJSONObject("model").getJSONArray(txt).toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
+                    compPicsUrls.addAll(getAllPost);
+                    System.out.println("Total Post "+getAllPost.size());
+                    targetAdapter.notifyDataSetChanged();
+                    loading=false;
+                    pg++;
+                    System.out.println("Loading complete");
+
+                    if(pg<=5){
+                        load2(type);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
     }
 
     public boolean isConnected(){
@@ -250,6 +396,16 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
     @Override
     public void onItemClick(String url, Integer pos) {
 
+    }
+
+    @Override
+    public ArrayList<Hashtag> getAllData() {
+        return compPicsUrls;
+    }
+
+    @Override
+    public RecyclerView.Adapter getAdapter() {
+        return targetAdapter;
     }
 }
 

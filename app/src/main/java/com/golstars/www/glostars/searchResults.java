@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.adapters.RecyclerGridAdapter;
 import com.golstars.www.glostars.interfaces.OnSinglePicClick;
 import com.golstars.www.glostars.interfaces.PopulatePage;
@@ -34,6 +35,8 @@ import com.golstars.www.glostars.models.Post;
 import com.golstars.www.glostars.network.NotificationService;
 import com.golstars.www.glostars.network.PictureService;
 import com.golstars.www.glostars.network.SearchUser;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
@@ -47,7 +50,7 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 
-public class searchResults extends AppCompatActivity implements PopulatePage, OnSinglePicClick {
+public class searchResults extends AppCompatActivity implements PopulatePage, OnSinglePicClick,AdapterInfomation {
 
     RecyclerView searchgrid;
     ListView searchlist;
@@ -88,7 +91,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 
     RecyclerGridAdapter recentsAdapter;
     //recents is a string array that'll receive the pic urls from the recents
-    ArrayList<String> recentsPics;
+    ArrayList<Hashtag> recentsPics;
     //ArrayList<JSONObject> recentPostObjs;
 
 
@@ -208,7 +211,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 
         ///recentPostObjs = new ArrayList<>();
         recentsPics = new ArrayList<>();
-        recentsAdapter = new RecyclerGridAdapter(this, recentsPics, this);
+        recentsAdapter = new RecyclerGridAdapter(this, recentsPics, getSupportFragmentManager()); //********************
 
         int numOfColumns = 3;
         layoutManager = new GridLayoutManager(this, numOfColumns);
@@ -335,6 +338,16 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 
 
 
+    }
+
+    @Override
+    public ArrayList<Hashtag> getAllData() {
+        return recentsPics;
+    }
+
+    @Override
+    public RecyclerView.Adapter getAdapter() {
+        return recentsAdapter;
     }
 
     private class getUserData extends AsyncTask<String, Integer, JSONObject>{
@@ -510,9 +523,17 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
     @Override
     public void bindDatatoUI(JSONObject object) throws Exception{
         JSONArray data = object.getJSONArray("picsToReturn");
-        for(int i = 0; i < data.length(); i++){
+        Gson gson=new Gson();
+        ArrayList<Hashtag> getAllPost=gson.fromJson(data.toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
+        recentsPics.addAll(getAllPost);
+        System.out.println("Total Post "+getAllPost.size());
+        recentsAdapter.notifyDataSetChanged();
 
-            /*
+
+
+        /*for(int i = 0; i < data.length(); i++){
+
+            *//*
             JSONObject poster = data.getJSONObject(i).getJSONObject("poster");
 
             GridImages gridImage = new GridImages();
@@ -527,16 +548,16 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 
             Date date = null;
             String str = null;
-            */
+            *//*
 
-            /*
+            *//*
             * here we fetch the data and store in post object from gridImages array
             * therefore we add the picUrls into recentsPics string array to be viewed
             * as grid images in setAdapter method
             *
             * PS: this is a hack due to changes in structure
             *
-            * */
+            * *//*
 
 
             JSONObject poster = data.getJSONObject(i).getJSONObject("poster");
@@ -557,18 +578,18 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
             JSONArray comments = pic.getJSONArray("comments");
 
             String uploaded = pic.getString("uploaded");
-           /* String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-            LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));*/
+           *//* String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));*//*
            // String interval = Timestamp.getInterval(localDateTime);
             String interval = Timestamp.getInterval(Timestamp.getOwnZoneDateTime(uploaded));
 
             setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, starsCount, comments.length(), ratings, comments, interval);
 
-        }
+        }*/
 
     }
 
-    private void setmAdapter(String author, String usr, String photoID, String description, String picURL, String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount,
+    /*private void setmAdapter(String author, String usr, String photoID, String description, String picURL, String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount,
                              Integer commentCount, JSONArray ratings, JSONArray comments, String uploaded){
         if(description == "null"){
             description = "";
@@ -580,7 +601,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         gridImages.add(post);
         recentsPics.add(post.getPicURL());
         recentsAdapter.notifyDataSetChanged();
-    }
+    }*/
 
 
     public class SearchItemUsr{

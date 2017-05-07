@@ -30,13 +30,16 @@ import android.widget.Toast;
 import com.baoyz.widget.PullRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionMenu;
-import com.golstars.www.glostars.adapters.RecyclerGridAdapter;
+import com.golstars.www.glostars.ModelData.Hashtag;
+import com.golstars.www.glostars.adapters.RecyclerGridAdapterMul;
 import com.golstars.www.glostars.interfaces.OnSinglePicClick;
 import com.golstars.www.glostars.models.GuestUser;
 import com.golstars.www.glostars.network.FollowerService;
 import com.golstars.www.glostars.network.NotificationService;
 import com.golstars.www.glostars.network.PictureService;
 import com.golstars.www.glostars.network.SearchUser;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.MySSLSocketFactory;
@@ -51,7 +54,7 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class user_profile extends AppCompatActivity implements OnSinglePicClick {
+public class user_profile extends AppCompatActivity implements OnSinglePicClick,AdapterInfomation {
 
 
     //===========================FABS=========================================
@@ -137,17 +140,17 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
     RecyclerView mutualgrid;
 
 
-    private ArrayList<String> compImgsUrls;
+    private ArrayList<Hashtag> compImgsUrls;
     //private GridAdapter compAdapter;
-    private RecyclerGridAdapter comAdapter;
+    private RecyclerGridAdapterMul comAdapter;
 
-    private ArrayList<String> publicImgsUrls;
+    private ArrayList<Hashtag> publicImgsUrls;
     //private GridAdapter publicAdapter;
-    private RecyclerGridAdapter publicAdapter;
+    private RecyclerGridAdapterMul publicAdapter;
 
-    private ArrayList<String> mutualImgsUrls;
+    private ArrayList<Hashtag> mutualImgsUrls;
     //private GridAdapter mutualAdapter;
-    private RecyclerGridAdapter mutualAdapter;
+    private RecyclerGridAdapterMul mutualAdapter;
 
     private GuestUser guestUser;
 
@@ -466,10 +469,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
         //compGridView = (GridView) findViewById(R.id.competitionPosts);
         //compAdapter = new GridAdapter(this, compImgsUrls);
 
-        comAdapter = new RecyclerGridAdapter(this, compImgsUrls, this); // the last "this" means the onItemClick method is
+        comAdapter = new RecyclerGridAdapterMul(this, compImgsUrls, getSupportFragmentManager()); // the last "this" means the onItemClick method is
         // implemented somewhere in this class
-        publicAdapter = new RecyclerGridAdapter(this, publicImgsUrls, this);
-        mutualAdapter = new RecyclerGridAdapter(this, mutualImgsUrls, this);
+        publicAdapter = new RecyclerGridAdapterMul(this, publicImgsUrls, getSupportFragmentManager());
+        mutualAdapter = new RecyclerGridAdapterMul(this, mutualImgsUrls, getSupportFragmentManager());
 
         int numOfColumns = 3;
         CustomGridLayout publicLayout = new CustomGridLayout(this, numOfColumns);
@@ -578,10 +581,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             public void onClick(View view) {
                 if(!compImgsUrls.isEmpty()){
                     Intent intent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putStringArrayList("COMPETITION_PICS", compImgsUrls);
                     intent.putExtra("LOAD_TARGET", "COMPETITION");
-                    intent.putExtras(bundle);
+                    intent.putExtra("user_id",finalTarget);
                     intent.setClass(getApplicationContext(), competitionUser.class);
                     startActivity(intent);
                 } else {
@@ -599,10 +600,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             public void onClick(View view) {
                 if(!publicImgsUrls.isEmpty()){
                     Intent intent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putStringArrayList("PUBLIC_PICS", publicImgsUrls);
                     intent.putExtra("LOAD_TARGET", "PUBLIC");
-                    intent.putExtras(bundle);
+                    intent.putExtra("user_id",finalTarget);
                     intent.setClass(getApplicationContext(), competitionUser.class);
                     startActivity(intent);
                 } else {
@@ -619,10 +618,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
             public void onClick(View view) {
                 if(!mutualImgsUrls.isEmpty()){
                     Intent intent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putStringArrayList("MUTUAL_PICS", mutualImgsUrls);
                     intent.putExtra("LOAD_TARGET", "MUTUAL");
-                    intent.putExtras(bundle);
+                    intent.putExtra("user_id",finalTarget);
                     intent.setClass(getApplicationContext(), competitionUser.class);
                     startActivity(intent);
 
@@ -955,6 +952,25 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
 
     }
 
+    ArrayList<Hashtag> hashtags=new ArrayList<Hashtag>();
+    RecyclerView.Adapter adapter;
+    public void setList(ArrayList<Hashtag> list){
+        this.hashtags=list;
+    }
+    public void setAdapter(RecyclerView.Adapter adapter){
+        this.adapter=adapter;
+    }
+    
+    @Override
+    public ArrayList<Hashtag> getAllData() {
+        return hashtags;
+    }
+
+    @Override
+    public RecyclerView.Adapter getAdapter() {
+        return adapter;
+    }
+
 
     private class downloadData extends AsyncTask<JSONObject, Integer, JSONObject>{
 
@@ -1245,7 +1261,22 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
         numPhotosCount.setText(totalPics.toString());
 
 
-        if(competitionPictures != null){
+
+
+        Gson gson=new Gson();
+        ArrayList<Hashtag> getAllCom=gson.fromJson(jsonObject.getJSONObject("model").getJSONArray("competitionPictures").toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
+        compImgsUrls.addAll(getAllCom);
+        comAdapter.notifyDataSetChanged();
+
+        ArrayList<Hashtag> getAllMutual=gson.fromJson(jsonObject.getJSONObject("model").getJSONArray("mutualFollowerPictures").toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
+        mutualImgsUrls.addAll(getAllMutual);
+        mutualAdapter.notifyDataSetChanged();
+
+        ArrayList<Hashtag> getAllPub=gson.fromJson(jsonObject.getJSONObject("model").getJSONArray("publicPictures").toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
+        publicImgsUrls.addAll(getAllPub);
+        publicAdapter.notifyDataSetChanged();
+
+        /*if(competitionPictures != null){
             for(int i = 0; i < competitionPictures.length(); i++){
                 JSONObject pic = competitionPictures.getJSONObject(i);
                 setCompAdapter(pic.getString("picUrl"));
@@ -1266,14 +1297,14 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
 
                 setMutualAdapter(pic.getString("picUrl"));
             }
-        }
+        }*/
 
     }
 
 
 
 
-    private void setMutualAdapter(String picUrl) {
+    /*private void setMutualAdapter(String picUrl) {
         mutualImgsUrls.add(picUrl);
         mutualAdapter.notifyDataSetChanged();
     }
@@ -1287,7 +1318,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick 
         compImgsUrls.add(profilePicURL);
         comAdapter.notifyDataSetChanged();
         //
-    }
+    }*/
 
 
 
