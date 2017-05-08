@@ -64,6 +64,7 @@ public class settingsPage extends AppCompatActivity {
         profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
         notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
         homeFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.homeFAB);
+        menuDown = (com.github.clans.fab.FloatingActionMenu)findViewById(R.id.menu_down);
 
 
 
