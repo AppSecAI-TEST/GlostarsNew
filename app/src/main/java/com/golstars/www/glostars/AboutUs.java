@@ -40,7 +40,7 @@ public class AboutUs extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        new getUserData().execute("");
+
 
         aboutus = (TextView)findViewById(R.id.aboutusBanner);
         aboutustext = (TextView)findViewById(R.id.aboutustext);
@@ -117,7 +117,7 @@ public class AboutUs extends AppCompatActivity {
         ach.setTypeface(type);
         achtext.setTypeface(type);
 
-
+        new getUserData().execute("");
 
 
     }

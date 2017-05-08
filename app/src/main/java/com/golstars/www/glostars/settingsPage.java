@@ -47,7 +47,7 @@ public class settingsPage extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        new getUserData().execute("");
+
 
         aboutus = (TextView)findViewById(R.id.aboutus);
         faq = (TextView)findViewById(R.id.FAQ);
@@ -156,7 +156,7 @@ public class settingsPage extends AppCompatActivity {
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(homeIntent);
+                finish();
                 menuDown.close(true);
             }
         });
@@ -177,6 +177,8 @@ public class settingsPage extends AppCompatActivity {
 
             }
         });
+
+        new getUserData().execute("");
 
         if(!isConnected()){
             startActivity(new Intent(this, noInternet.class));
@@ -206,7 +208,7 @@ public class settingsPage extends AppCompatActivity {
 
             homeIntent = new Intent();
             homeIntent.putExtra("USER_ID",mUser.getUserId());
-            homeIntent.setClass(getApplicationContext(),user_profile.class);
+            homeIntent.setClass(settingsPage.this ,user_profile.class);
 
         }
     }
