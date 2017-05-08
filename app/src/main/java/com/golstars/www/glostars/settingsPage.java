@@ -133,7 +133,7 @@ public class settingsPage extends AppCompatActivity {
                 finish();
             }
         });
-
+//
 
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
