@@ -113,7 +113,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.logoandtext);
+        getSupportActionBar().setIcon(R.drawable.logoandtext); // MEMORY OVERFLOW HAPPENING RIGHT HERE
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
 
@@ -656,9 +656,9 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
                 if(item.UserPicUrl.equals(null)){
                     profilePic.setVisibility(View.GONE);
                 } else{
-                    if(item.UserPicUrl.equals("/Content/Profile/Thumbs/male.jpg")){
+                    if(item.UserPicUrl.equals("/Content/Profile/Thumbs/male.jpg") || item.UserPicUrl.equals("/Content/Profile/Thumbs/Male.jpg")){
                         profilePic.setImageResource(R.drawable.nopicmale);
-                    } else if(item.UserPicUrl.equals("/Content/Profile/Thumbs/female.jpg")){
+                    } else if(item.UserPicUrl.equals("/Content/Profile/Thumbs/female.jpg") || item.UserPicUrl.equals("/Content/Profile/Thumbs/Female.jpg")){
                         profilePic.setImageResource(R.drawable.nopicfemale);
                     }else{
                         Picasso.with(getApplicationContext()).load(item.UserPicUrl).into(profilePic);

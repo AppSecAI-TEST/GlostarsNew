@@ -792,10 +792,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
 
                         String pic = jsonObject.getString("profilePicURL");
-                        if(pic.equals("/Content/Profile/Thumbs/male.jpg")){
+                        if(pic.equals("/Content/Profile/Thumbs/male.jpg") || pic.equals("/Content/Profile/Thumbs/Male.jpg")){
                             userPicProfile.setImageResource(R.drawable.nopicmale);
 
-                        } else if(pic.equals("/Content/Profile/Thumbs/female.jpg")){
+                        } else if(pic.equals("/Content/Profile/Thumbs/female.jpg") || pic.equals("/Content/Profile/Thumbs/Female.jpg")){
                             userPicProfile.setImageResource(R.drawable.nopicfemale);
                         }else{
                             Glide.with(getApplicationContext()).load(pic).into(userPicProfile);
