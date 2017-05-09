@@ -811,8 +811,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
 
                         if(!target.equals(mUser.getUserId())){
-                            numFollowersCountProfile.setVisibility(View.GONE);
-                            numFollowersProfile.setVisibility(View.GONE);
+                            numFollowingCountProfile.setVisibility(View.GONE);
+                            numFollowingProfile.setVisibility(View.GONE);
                         }
 
 
