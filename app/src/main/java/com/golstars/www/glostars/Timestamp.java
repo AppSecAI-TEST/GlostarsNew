@@ -84,8 +84,7 @@ public class Timestamp {
 
                                 return "1 minute ago";
 
-                            } else if (period.getMinutes() < 0){
-
+                            } else{
                                 return "just now";
 
                             }
