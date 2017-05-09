@@ -44,6 +44,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/searchlist"
+                android:layout_marginTop="16dp"
+                android:layout_margin="4dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
                 />

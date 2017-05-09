@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -442,6 +443,8 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
             startActivity(new Intent(this, noInternet.class));
         }
 
+        getUnseen();
+
     }
 
     @Override
@@ -584,10 +587,10 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
                     }
 
                     if(unseenNotifs > 0){
-                        mainbadge.setVisibility(View.VISIBLE);
-                        notificationbadge.setVisibility(View.VISIBLE);
-                        mainbadge.setText(unseenNotifs.toString());
-                        notificationbadge.setText(unseenNotifs.toString());
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(competitionAll.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(competitionAll.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
 
                     }
 

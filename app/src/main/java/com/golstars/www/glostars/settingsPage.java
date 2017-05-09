@@ -22,6 +22,7 @@ import org.w3c.dom.Text;
 
 public class settingsPage extends AppCompatActivity {
 
+
     TextView logout;
     TextView aboutus;
     TextView faq;

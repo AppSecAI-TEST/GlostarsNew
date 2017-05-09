@@ -413,8 +413,10 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
                     }
 
                     if(unseenNotifs > 0){
-                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(MainFeed.this,R.color.lightViolate));
-                        notificationFAB.setColorNormal(ContextCompat.getColor(MainFeed.this,R.color.lightViolate));
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(MainFeed.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(MainFeed.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
 
                     }
 

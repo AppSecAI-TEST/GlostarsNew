@@ -707,7 +707,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
 
 
-        //getUnseen();
+        getUnseen();
 
 
 
@@ -943,10 +943,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                     }
 
                     if(unseenNotifs > 0){
-//                        mainbadge.setVisibility(View.VISIBLE);
-//                        notificationbadge.setVisibility(View.VISIBLE);
-//                        mainbadge.setText(unseenNotifs.toString());
-//                        notificationbadge.setText(unseenNotifs.toString());
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(user_profile.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(user_profile.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
 
                     }
 

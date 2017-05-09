@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -270,7 +271,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 
         });
 
-      //getUnseen();
+      getUnseen();
 
         if(!isConnected()){
             startActivity(new Intent(this, noInternet.class));
@@ -326,10 +327,10 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
                     }
 
                     if(unseenNotifs > 0){
-                        mainbadge.setVisibility(View.VISIBLE);
-                        notificationbadge.setVisibility(View.VISIBLE);
-                        mainbadge.setText(unseenNotifs.toString());
-                        notificationbadge.setText(unseenNotifs.toString());
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(searchResults.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(searchResults.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
 
                     }
 

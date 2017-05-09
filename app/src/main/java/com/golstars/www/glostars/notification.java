@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -317,6 +318,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             startActivity(new Intent(this, noInternet.class));
         }
 
+
     }
 
     @Override
@@ -471,10 +473,10 @@ public class notification extends AppCompatActivity implements OnItemClickListen
 
                         }
                         if(unseenNotifs > 0){
-//                            mainbadge.setVisibility(View.VISIBLE);
-//                            notificationbadge.setVisibility(View.VISIBLE);
-//                            mainbadge.setText(unseenNotifs.toString());
-//                            notificationbadge.setText(unseenNotifs.toString());
+                            menuDown.setMenuButtonColorNormal(ContextCompat.getColor(notification.this,R.color.colorPrimary));
+                            notificationFAB.setColorNormal(ContextCompat.getColor(notification.this,R.color.colorPrimary));
+                            menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                            notificationFAB.setImageResource(R.drawable.notinoti);
 
                         }
                     } catch (JSONException e){
