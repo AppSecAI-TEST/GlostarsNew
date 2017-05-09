@@ -698,8 +698,12 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         });
 
         if(!isConnected()){
+            //Intent intent = new Intent(this, noInternet.class);
+            //intent.putExtra("prev", "user_profile.class");
             startActivity(new Intent(this, noInternet.class));
         }
+
+        //onResume();
 
 
 
@@ -708,6 +712,14 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
 
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
+    }
+
 
     public boolean isConnected(){
         boolean hasConnection;
@@ -788,6 +800,13 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                         }else{
                             Glide.with(getApplicationContext()).load(pic).into(userPicProfile);
                             //
+                        }
+
+                        //setting user default pic on FAB MENU
+                        if(mUser.getSex().equals("male")){
+                            profileFAB.setImageResource(R.drawable.nopicmale);
+                        } else if(mUser.getSex().equals("female")){
+                            profileFAB.setImageResource(R.drawable.nopicfemale);
                         }
 
 
@@ -871,6 +890,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
                             }
                         });
+
+
                         //calling populateGallery() method using data from user
                         populateGallery(jsonObject.getString("id"), 1, mUser.getToken());
                     } catch (Exception e) {

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
 
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 public class settingsPage extends AppCompatActivity {
@@ -35,12 +37,17 @@ public class settingsPage extends AppCompatActivity {
 
     FloatingActionMenu menuDown;
 
+    MyUser mUser;
+    Intent homeIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         aboutus = (TextView)findViewById(R.id.aboutus);
         faq = (TextView)findViewById(R.id.FAQ);
@@ -57,6 +64,7 @@ public class settingsPage extends AppCompatActivity {
         profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
         notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
         homeFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.homeFAB);
+        menuDown = (com.github.clans.fab.FloatingActionMenu)findViewById(R.id.menu_down);
 
 
 
@@ -126,7 +134,7 @@ public class settingsPage extends AppCompatActivity {
                 finish();
             }
         });
-
+//
 
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +156,7 @@ public class settingsPage extends AppCompatActivity {
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(settingsPage.this,user_profile.class));
+                finish();
                 menuDown.close(true);
             }
         });
@@ -170,11 +178,39 @@ public class settingsPage extends AppCompatActivity {
             }
         });
 
+        new getUserData().execute("");
+
         if(!isConnected()){
             startActivity(new Intent(this, noInternet.class));
         }
 
 
+    }
+
+    private class getUserData extends AsyncTask<String, Integer, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            mUser = MyUser.getmUser();
+            mUser.setContext(getApplicationContext());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject object) {
+//            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
+            //setting user default pic on FAB MENU
+            if(mUser.getSex().equals("male")){
+                profileFAB.setImageResource(R.drawable.nopicmale);
+            } else if(mUser.getSex().equals("female")){
+                profileFAB.setImageResource(R.drawable.nopicfemale);
+            }
+
+            homeIntent = new Intent();
+            homeIntent.putExtra("USER_ID",mUser.getUserId());
+            homeIntent.setClass(settingsPage.this ,user_profile.class);
+
+        }
     }
 
     public boolean isConnected(){

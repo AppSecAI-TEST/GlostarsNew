@@ -142,7 +142,7 @@
                     android:clickable="true"
                     android:text="Settings"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <View

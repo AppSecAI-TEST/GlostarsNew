@@ -279,6 +279,8 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                 startActivity(intent);
             }
         });
+
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         noti.setLayoutManager(layoutManager);
         noti.setItemAnimator(new DefaultItemAnimator());
@@ -298,6 +300,8 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                 startActivity(intent);
             }
         });
+
+
         RecyclerView.LayoutManager layoutM = new LinearLayoutManager(getApplicationContext());
         foll.setLayoutManager(layoutM);
         foll.setItemAnimator(new DefaultItemAnimator());
@@ -313,6 +317,13 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             startActivity(new Intent(this, noInternet.class));
         }
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
     }
 
     public boolean isConnected(){
@@ -348,6 +359,13 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             homeIntent = new Intent();
             homeIntent.putExtra("USER_ID",mUser.getUserId());
             homeIntent.setClass(getApplicationContext(),user_profile.class);
+
+            //setting user default pic on FAB MENU
+            if(mUser.getSex().equals("male")){
+                profileFAB.setImageResource(R.drawable.nopicmale);
+            } else if(mUser.getSex().equals("female")){
+                profileFAB.setImageResource(R.drawable.nopicfemale);
+            }
 
         }
     }

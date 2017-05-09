@@ -188,9 +188,10 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         //======================== DATA HANDLING =====================================
         MyUser mUser = MyUser.getmUser();
         mUser.setContext(this);
-        if(mUser.getProfilePicURL().equals("/Content/Profile/Thumbs/male.jpg")){
+        //setting user default pic on FAB MENU
+        if(mUser.getSex().equals("male")){
             profileFAB.setImageResource(R.drawable.nopicmale);
-        } else if(mUser.getProfilePicURL().equals("/Content/Profile/Thumbs/female.jpg")){
+        } else if(mUser.getSex().equals("female")){
             profileFAB.setImageResource(R.drawable.nopicfemale);
         }
 //        Picasso.with(this).load(mUser.getProfilePicURL()).into(profileFAB);
@@ -268,6 +269,25 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 
 
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
+    }
+
+    public boolean isConnected(){
+        boolean hasConnection;
+        ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        hasConnection = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+        return hasConnection;
+
+    }
+
     public void load(final String type){
         loading=true;
         String url = ServerInfo.BASE_URL_API+"/images/user/"+guestUserId+"/"+pg;
@@ -381,16 +401,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         });
     }
 
-    public boolean isConnected(){
-        boolean hasConnection;
-        ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        hasConnection = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-
-        return hasConnection;
-
-    }
 
 
     @Override

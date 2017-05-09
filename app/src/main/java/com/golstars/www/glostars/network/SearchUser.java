@@ -69,8 +69,9 @@ public class SearchUser {
             @Override public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-                setData(response.body().string());
-                System.out.println(getData());
+                String data = response.body().string() ;
+                setData(data);
+                System.out.println("DATA IS: " + data);
 
                 /*
                 try{

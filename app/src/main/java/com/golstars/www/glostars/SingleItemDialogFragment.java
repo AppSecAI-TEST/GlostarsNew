@@ -3,10 +3,12 @@ package com.golstars.www.glostars;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -198,10 +200,16 @@ public class SingleItemDialogFragment extends DialogFragment {
         //lblCount = (TextView) v.findViewById(R.id.lbl_count);
         lblTitle = (TextView) dialog.findViewById(R.id.title);
         lblTitle.setText(postData.get(selectedPosition).getPoster().getName());
+        lblTitle.setTextColor(ContextCompat.getColor(context,R.color.lightViolate));
         lblDate = (TextView) dialog.findViewById(R.id.date);
         lblDate.setText(postData.get(selectedPosition).getUploaded());
         captionfullscreen = (TextView)dialog.findViewById(R.id.captionFullscreen);
         captionfullscreen.setText(postData.get(selectedPosition).getDescription());
+
+        Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-Light.ttf");
+        lblTitle.setTypeface(type);
+        lblDate.setTypeface(type);
+        captionfullscreen.setTypeface(type);
 
         LinearLayout commentContainer= (LinearLayout) dialog.findViewById(R.id.commentContainer);
         commentContainer.setOnClickListener(new View.OnClickListener() {
