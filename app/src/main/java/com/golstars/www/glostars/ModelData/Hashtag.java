@@ -76,7 +76,12 @@ public class Hashtag {
     }
 
     public String getUploaded() {
-        return Timestamp.getInterval(Timestamp.getOwnZoneDateTime(uploaded));
+        try {
+            return Timestamp.getInterval(Timestamp.getOwnZoneDateTime(uploaded));
+        } catch (Exception e) {
+            System.out.println("Time Error photo id is "+id);
+            return "";
+        }
     }
 
     public void setUploaded(String uploaded) {
