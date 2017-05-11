@@ -14,7 +14,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
 
             <ImageView
                 android:id="@+id/imageUpload"
@@ -69,19 +71,21 @@
 
             <EditText
                 android:id="@+id/description"
-                android:layout_weight="1"
                 android:layout_marginEnd="2dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="8dp"
                 android:paddingStart="12dp"
+                android:gravity="start"
+                android:scrollbars="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="Description"
-                android:inputType="textCapWords"
+                android:maxLength="160"
+                android:layout_height="70dp"
+                android:hint="Write something about the photo"
+                android:inputType="textCapSentences|textMultiLine"
                 android:background="@drawable/edit"
-                android:maxLines="3"
-                android:lines="1"
-                android:textColorHint="@color/lightViolate"
+                android:maxLines="1"
+                android:lines="3"
+                android:textColorHint="@color/darkGrey"
                 android:textColor="@color/darkGrey"/>
 
             <LinearLayout

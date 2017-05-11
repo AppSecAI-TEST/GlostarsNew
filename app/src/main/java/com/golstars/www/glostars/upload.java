@@ -72,7 +72,7 @@ public class upload extends AppCompatActivity {
     TextView competitionbadge;
     //===================================================================
 
-    ImageView image;
+    ImageView image,slogo;
     RadioButton publicpost;
     RadioButton competition;
     RadioButton followerspost;
@@ -110,6 +110,7 @@ public class upload extends AppCompatActivity {
         description = (EditText)findViewById(R.id.description);
         cancel = (Button)findViewById(R.id.cancelbutton);
         submit = (Button)findViewById(R.id.submitbutton);
+        slogo = (ImageView)findViewById(R.id.searchlogo);
 
 
         submit.setTransformationMethod(null);
@@ -175,6 +176,16 @@ public class upload extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(upload.this, competitionAll.class));
+            }
+        });
+
+
+
+
+        slogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(upload.this,searchResults.class));
             }
         });
 
