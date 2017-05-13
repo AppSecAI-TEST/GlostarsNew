@@ -402,6 +402,10 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
         //new getUserData().execute("");
         mUser = MyUser.getmUser();
         mUser.setContext(this);
+        homeIntent = new Intent();
+        homeIntent.putExtra("USER_ID",mUser.getUserId());
+        homeIntent.setClass(getApplicationContext(),user_profile.class);
+
         //setting user default pic on FAB MENU
         if(mUser.getSex().equals("male")){
             profileFAB.setImageResource(R.drawable.nopicmale);
@@ -446,13 +450,13 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
         getUnseen();
 
     }
-
+    /*
     @Override
     protected void onRestart() {
         super.onRestart();
         finish();
         startActivity(getIntent());
-    }
+    } */
 
     public boolean isConnected(){
         boolean hasConnection;

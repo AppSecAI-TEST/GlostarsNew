@@ -80,6 +80,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
     MyUser mUser;
     String guestUserId="";
     String target = "";
+    private Intent homeIntent;
 
 
     int pastVisiblesItems, visibleItemCount, totalItemCount;
@@ -161,8 +162,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                startActivity(new Intent(competitionUser.this, user_profile.class));
+                startActivity(homeIntent);
             }
         });
 
@@ -186,8 +186,12 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 
 
         //======================== DATA HANDLING =====================================
-        MyUser mUser = MyUser.getmUser();
-        mUser.setContext(this);
+        mUser = MyUser.getmUser(this);
+
+        //setting an intent to user profile with user data
+        homeIntent = new Intent();
+        homeIntent.putExtra("USER_ID", mUser.getUserId());
+        homeIntent.setClass(getApplicationContext(), user_profile.class);
         //setting user default pic on FAB MENU
         if(mUser.getSex().equals("male")){
             profileFAB.setImageResource(R.drawable.nopicmale);
@@ -269,13 +273,13 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 
 
     }
-
+    /*
     @Override
     protected void onRestart() {
         super.onRestart();
         finish();
         startActivity(getIntent());
-    }
+    }*/
 
     public boolean isConnected(){
         boolean hasConnection;

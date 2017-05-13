@@ -290,13 +290,13 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         return hasConnection;
 
     }
-
+    /*
     @Override
     protected void onRestart() {
         super.onRestart();
         finish();
         startActivity(getIntent());
-    }
+    }*/
     public void getUnseen(){
 
 

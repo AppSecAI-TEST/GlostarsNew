@@ -665,7 +665,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(homeIntent);
                 menuDown.close(true);
             }
         });
@@ -712,13 +712,13 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
 
     }
-
+/*
     @Override
     protected void onRestart() {
         super.onRestart();
         finish();
         startActivity(getIntent());
-    }
+    }*/
 
 
     public boolean isConnected(){
@@ -1067,6 +1067,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                 data.put("ocupation", dat.getString("ocupation"));
                 data.put("ocupationOther", dat.getString("ocupationOther"));
 
+                //setting an intent to user profile with user data
+                homeIntent = new Intent();
+                homeIntent.putExtra("USER_ID", mUser.getUserId());
+                homeIntent.setClass(getApplicationContext(), user_profile.class);
 
 
 
