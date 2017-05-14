@@ -186,13 +186,16 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 
 
         //======================== DATA HANDLING =====================================
-        mUser = MyUser.getmUser(this);
+        mUser = MyUser.getmUser();
+        //getUserData("");
+        mUser.setContext(this);
 
         //setting an intent to user profile with user data
         homeIntent = new Intent();
         homeIntent.putExtra("USER_ID", mUser.getUserId());
         homeIntent.setClass(getApplicationContext(), user_profile.class);
         //setting user default pic on FAB MENU
+
         if(mUser.getSex().equals("male")){
             profileFAB.setImageResource(R.drawable.nopicmale);
         } else if(mUser.getSex().equals("female")){
@@ -293,6 +296,12 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
     }
 
     public void load(final String type){
+
+        mUser = MyUser.getmUser();
+        mUser.setContext(getApplicationContext());
+
+
+
         loading=true;
         String url = ServerInfo.BASE_URL_API+"/images/user/"+guestUserId+"/"+pg;
 

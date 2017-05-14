@@ -43,10 +43,10 @@ public class MyUser {
 
     public static MyUser getmUser(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES,Context.MODE_PRIVATE);
-        mUser.setName(sharedPreferences.getString("NAME", null));
-        mUser.setEmail(sharedPreferences.getString("EMAIL", null));
-        mUser.setProfilePicURL(sharedPreferences.getString("PROFILEPIC", null));
-        mUser.setUserId(sharedPreferences.getString("USER_ID", null));
+        mUser.setName(sharedPreferences.getString("EMAIL", null));
+        mUser.setEmail(sharedPreferences.getString("NAME", null));
+        mUser.setProfilePicURL(sharedPreferences.getString("USER_ID", null));
+        mUser.setUserId(sharedPreferences.getString("PROFILE_PIC", null));
         mUser.setToken(sharedPreferences.getString("TOKEN", null));
         mUser.setSex(sharedPreferences.getString("SEX", null));
         return mUser;
