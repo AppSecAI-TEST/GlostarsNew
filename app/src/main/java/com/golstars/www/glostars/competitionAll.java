@@ -446,6 +446,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
         if(mUser == null){
             new getUserData().execute("");
         } else{
+            getUnseen();
             load();
         }
 
@@ -453,7 +454,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
             startActivity(new Intent(this, noInternet.class));
         }
 
-        getUnseen();
+
 
     }
     /*
@@ -631,6 +632,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
         @Override
         protected void onPostExecute(JSONObject object) {
 
+            System.out.println("MY USER IS: " + mUser.getUserId());
             //setting user default pic on FAB MENU
             if(mUser.getSex().equals("male")){
                 profileFAB.setImageResource(R.drawable.nopicmale);
@@ -641,7 +643,9 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
             homeIntent = new Intent();
             homeIntent.putExtra("USER_ID",mUser.getUserId());
             homeIntent.setClass(getApplicationContext(),user_profile.class);
+            getUnseen();
             load();
+
 
        }
     }
