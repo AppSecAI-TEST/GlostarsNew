@@ -480,6 +480,12 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
             //userProfileIntent = new Intent();
             userProfileIntent.putExtra("USER_ID",mUser.getUserId());
             userProfileIntent.setClass(getApplicationContext(),user_profile.class);
+            //setting user default pic on FAB MENU
+            if(mUser.getSex().equals("male")){
+                profileFAB.setImageResource(R.drawable.nopicmale);
+            } else if(mUser.getSex().equals("female")){
+                profileFAB.setImageResource(R.drawable.nopicfemale);
+            }
             //setting up alarm to service
             scheduleAlarm();
             try {

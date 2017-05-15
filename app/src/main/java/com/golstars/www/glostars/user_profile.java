@@ -1075,6 +1075,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
 
 
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1084,7 +1086,12 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
-
+            //setting user default pic on FAB MENU
+            if(mUser.getSex().equals("male")){
+                profileFAB.setImageResource(R.drawable.nopicmale);
+            } else if(mUser.getSex().equals("female")){
+                profileFAB.setImageResource(R.drawable.nopicfemale);
+            }
             /*
             try {
 

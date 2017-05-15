@@ -360,7 +360,10 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(homeIntent);
+                if(homeIntent != null){
+                    startActivity(homeIntent);
+                }
+
                 menuDown.close(true);
             }
         });
@@ -400,7 +403,6 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
         gallery.setAdapter(compAdapt);
 
         //new getUserData().execute("");
-        mUser = MyUser.getmUser();
         /*mUser.setContext(this);
         homeIntent = new Intent();
         homeIntent.putExtra("USER_ID",mUser.getUserId());

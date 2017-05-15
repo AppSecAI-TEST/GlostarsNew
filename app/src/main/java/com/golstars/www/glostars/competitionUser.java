@@ -128,7 +128,6 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
-        mUser = MyUser.getmUser();
 
 
         slogo.setOnClickListener(new View.OnClickListener() {
@@ -293,6 +292,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 
         @Override
         protected void onPostExecute(JSONObject object) {
+            System.out.println("MY USER IS " + mUser.getUserId() );
 
             //setting user default pic on FAB MENU
             if(mUser.getSex().equals("male")){
