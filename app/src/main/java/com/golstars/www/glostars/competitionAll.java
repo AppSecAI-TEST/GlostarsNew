@@ -632,11 +632,13 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
         @Override
         protected void onPostExecute(JSONObject object) {
 
-            System.out.println("MY USER IS: " + mUser.getUserId());
+
             //setting user default pic on FAB MENU
             if(mUser.getSex().equals("male")){
+                System.out.println("MY USER'S GENDER IS : " + mUser.getSex());
                 profileFAB.setImageResource(R.drawable.nopicmale);
             } else if(mUser.getSex().equals("female")){
+                System.out.println("MY USER'S GENDER IS : " + mUser.getSex());
                 profileFAB.setImageResource(R.drawable.nopicfemale);
             }
 
