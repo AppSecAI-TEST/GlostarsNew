@@ -400,8 +400,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
         gallery.setAdapter(compAdapt);
 
         //new getUserData().execute("");
-        mUser = MyUser.getmUser(getApplicationContext());
-        new getUserData().execute("");
+        mUser = MyUser.getmUser();
         /*mUser.setContext(this);
         homeIntent = new Intent();
         homeIntent.putExtra("USER_ID",mUser.getUserId());
@@ -426,7 +425,11 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
                             //pg++;
                             try {
                                 //callAsyncPopulate(pg);
-                                load();
+                                if(mUser == null){
+                                    new getUserData().execute("");
+                                } else{
+                                    load();
+                                }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -438,7 +441,11 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
 
 
         });
-        load();
+        if(mUser == null){
+            new getUserData().execute("");
+        } else{
+            load();
+        }
 
         if(!isConnected()){
             startActivity(new Intent(this, noInternet.class));
@@ -632,6 +639,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
             homeIntent = new Intent();
             homeIntent.putExtra("USER_ID",mUser.getUserId());
             homeIntent.setClass(getApplicationContext(),user_profile.class);
+            load();
 
        }
     }
