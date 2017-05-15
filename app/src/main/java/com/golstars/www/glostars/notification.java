@@ -321,12 +321,6 @@ public class notification extends AppCompatActivity implements OnItemClickListen
 
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        finish();
-        startActivity(getIntent());
-    }
 
     public boolean isConnected(){
         boolean hasConnection;
