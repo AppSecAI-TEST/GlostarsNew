@@ -481,9 +481,9 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
             userProfileIntent.putExtra("USER_ID",mUser.getUserId());
             userProfileIntent.setClass(getApplicationContext(),user_profile.class);
             //setting user default pic on FAB MENU
-            if(mUser.getSex().equals("male")){
+            if(mUser.getSex().equals("Male")){
                 profileFAB.setImageResource(R.drawable.nopicmale);
-            } else if(mUser.getSex().equals("female")){
+            } else if(mUser.getSex().equals("Female")){
                 profileFAB.setImageResource(R.drawable.nopicfemale);
             }
             //setting up alarm to service

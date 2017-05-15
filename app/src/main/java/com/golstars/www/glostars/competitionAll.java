@@ -634,10 +634,10 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
 
 
             //setting user default pic on FAB MENU
-            if(mUser.getSex().equals("male")){
+            if(mUser.getSex().equals("Male")){
                 System.out.println("MY USER'S GENDER IS : " + mUser.getSex());
                 profileFAB.setImageResource(R.drawable.nopicmale);
-            } else if(mUser.getSex().equals("female")){
+            } else if(mUser.getSex().equals("Female")){
                 System.out.println("MY USER'S GENDER IS : " + mUser.getSex());
                 profileFAB.setImageResource(R.drawable.nopicfemale);
             }

@@ -295,9 +295,9 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
             System.out.println("MY USER IS " + mUser.getUserId() );
 
             //setting user default pic on FAB MENU
-            if(mUser.getSex().equals("male")){
+            if(mUser.getSex().equals("Male")){
                 profileFAB.setImageResource(R.drawable.nopicmale);
-            } else if(mUser.getSex().equals("female")){
+            } else if(mUser.getSex().equals("Female")){
                 profileFAB.setImageResource(R.drawable.nopicfemale);
             }
 

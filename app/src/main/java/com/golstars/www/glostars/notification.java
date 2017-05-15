@@ -357,9 +357,9 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             homeIntent.setClass(getApplicationContext(),user_profile.class);
 
             //setting user default pic on FAB MENU
-            if(mUser.getSex().equals("male")){
+            if(mUser.getSex().equals("Male")){
                 profileFAB.setImageResource(R.drawable.nopicmale);
-            } else if(mUser.getSex().equals("female")){
+            } else if(mUser.getSex().equals("Female")){
                 profileFAB.setImageResource(R.drawable.nopicfemale);
             }
 
