@@ -132,13 +132,13 @@
                     android:text="Use the Right Light"
                     android:textColor="@color/darkGrey"
                     android:textStyle="bold"
-                    android:textSize="14dp"/>
+                    android:textSize="@dimen/textHEADER"/>
 
                 <TextView
                     android:id="@+id/b"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12dp"
+                    android:textSize="@dimen/textCAPTION"
                     android:textColor="@color/darkGrey"
                     android:layout_marginBottom="32dp"
                     android:text="@string/light"/>
@@ -150,13 +150,13 @@
                     android:text="Don't Use Zoom"
                     android:textColor="@color/darkGrey"
                     android:textStyle="bold"
-                    android:textSize="14dp"/>
+                    android:textSize="@dimen/textHEADER"/>
 
                 <TextView
                     android:id="@+id/d"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12dp"
+                    android:textSize="@dimen/textCAPTION"
                     android:textColor="@color/darkGrey"
                     android:layout_marginBottom="32dp"
                     android:text="@string/zoom"/>
@@ -168,14 +168,14 @@
                     android:text="Watch Your Background"
                     android:textStyle="bold"
                     android:textColor="@color/darkGrey"
-                    android:textSize="14dp"/>
+                    android:textSize="@dimen/textHEADER"/>
 
                 <TextView
                     android:id="@+id/f"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/darkGrey"
-                    android:textSize="12dp"
+                    android:textSize="@dimen/textCAPTION"
                     android:layout_marginBottom="32dp"
                     android:text="@string/backgroundtips"/>
 
@@ -186,13 +186,13 @@
                     android:text="Use Frame For Your Shots"
                     android:textColor="@color/darkGrey"
                     android:textStyle="bold"
-                    android:textSize="14dp"/>
+                    android:textSize="@dimen/textHEADER"/>
 
                 <TextView
                     android:id="@+id/h"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12dp"
+                    android:textSize="@dimen/textCAPTION"
                     android:layout_marginBottom="32dp"
                     android:textColor="@color/darkGrey"
                     android:text="@string/frame"/>
@@ -203,13 +203,13 @@
                     android:text="Change Perspective"
                     android:textStyle="bold"
                     android:textColor="@color/darkGrey"
-                    android:textSize="14dp"/>
+                    android:textSize="@dimen/textHEADER"/>
 
                 <TextView
                     android:id="@+id/j"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12dp"
+                    android:textSize="@dimen/textCAPTION"
                     android:textColor="@color/darkGrey"
                     android:layout_marginBottom="32dp"
                     android:text="@string/perspective"/>
@@ -221,13 +221,13 @@
                     android:text="Crop Your Pictures"
                     android:textStyle="bold"
                     android:textColor="@color/darkGrey"
-                    android:textSize="14dp"/>
+                    android:textSize="@dimen/textHEADER"/>
 
                 <TextView
                     android:id="@+id/ll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12dp"
+                    android:textSize="@dimen/textCAPTION"
                     android:textColor="@color/darkGrey"
                     android:layout_marginBottom="32dp"
                     android:text="@string/crop"/>
@@ -239,13 +239,13 @@
                     android:text="Choose The Right Apps"
                     android:textColor="@color/darkGrey"
                     android:textStyle="bold"
-                    android:textSize="14dp"/>
+                    android:textSize="@dimen/textHEADER"/>
 
                 <TextView
                     android:id="@+id/n"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12dp"
+                    android:textSize="@dimen/textCAPTION"
                     android:textColor="@color/darkGrey"
                     android:layout_marginBottom="32dp"
                     android:text="@string/apps"/>
@@ -257,13 +257,13 @@
                     android:text="Phone Features"
                     android:textColor="@color/darkGrey"
                     android:textStyle="bold"
-                    android:textSize="14dp"/>
+                    android:textSize="@dimen/textHEADER"/>
 
                 <TextView
                     android:id="@+id/p"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12dp"
+                    android:textSize="@dimen/textCAPTION"
                     android:textColor="@color/darkGrey"
                     android:layout_marginBottom="32dp"
                     android:text="@string/phnfeatures"/>
@@ -291,7 +291,6 @@
                         android:text="Please read the terms and conditions carefully. By participating in the competition you agree to be bound by these terms:"
                         android:textSize="18dp"
                         android:layout_marginTop="32dp"
-                        android:layout_marginLeft="0dp"
                         android:layout_marginRight="8dp"
                         android:textColor="@color/colorPrimary"
                         android:textStyle="bold"
@@ -303,7 +302,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/darkGrey"
-                        android:textSize="12sp"
+                        android:textSize="@dimen/textCAPTION"
                         android:text="@string/Terms"/>
 
                 </LinearLayout>

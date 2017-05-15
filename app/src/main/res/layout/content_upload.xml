@@ -81,11 +81,11 @@
                 android:maxLength="160"
                 android:layout_height="70dp"
                 android:hint="Write something about the photo"
-                android:inputType="textCapSentences|textMultiLine"
+                android:inputType="textMultiLine"
                 android:background="@drawable/edit"
                 android:maxLines="1"
                 android:lines="3"
-                android:textColorHint="@color/darkGrey"
+                android:textColorHint="@color/hashtag"
                 android:textColor="@color/darkGrey"/>
 
             <LinearLayout

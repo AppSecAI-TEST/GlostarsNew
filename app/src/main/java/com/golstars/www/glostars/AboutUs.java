@@ -75,7 +75,7 @@ public class AboutUs extends AppCompatActivity {
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(AboutUs.this,competitionAll.class));
                 menuDown.close(true);
             }
         });

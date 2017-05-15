@@ -53,7 +53,6 @@ public class followersPage extends AppCompatActivity {
     ListView followersList;
     ListView followingList;
 
-
     ImageView followpropic;
     TextView surname;
     TextView lastname;
@@ -69,7 +68,6 @@ public class followersPage extends AppCompatActivity {
 
     boolean isOpen = false;
 
-
     com.github.clans.fab.FloatingActionButton cameraFAB;
     com.github.clans.fab.FloatingActionButton competitionFAB;
     com.github.clans.fab.FloatingActionButton profileFAB;
@@ -84,7 +82,6 @@ public class followersPage extends AppCompatActivity {
     TextView mainbadge;
     TextView competitionbadge;
     ImageView slogo;
-
 
     ArrayList<Follower> followers;
     ArrayList<Follower> following;
