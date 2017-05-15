@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -186,21 +187,9 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 
 
         //======================== DATA HANDLING =====================================
-        mUser = MyUser.getmUser();
-        //getUserData("");
-        mUser.setContext(this);
+        //mUser = MyUser.getmUser(getApplicationContext());
+        //new getUserDataComp().execute("");
 
-        //setting an intent to user profile with user data
-        homeIntent = new Intent();
-        homeIntent.putExtra("USER_ID", mUser.getUserId());
-        homeIntent.setClass(getApplicationContext(), user_profile.class);
-        //setting user default pic on FAB MENU
-
-        if(mUser.getSex().equals("male")){
-            profileFAB.setImageResource(R.drawable.nopicmale);
-        } else if(mUser.getSex().equals("female")){
-            profileFAB.setImageResource(R.drawable.nopicfemale);
-        }
 //        Picasso.with(this).load(mUser.getProfilePicURL()).into(profileFAB);
 
         targetList = new ArrayList<>();
@@ -217,7 +206,12 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 
         target = this.getIntent().getStringExtra("LOAD_TARGET");
         guestUserId = this.getIntent().getStringExtra("user_id");
-        load(target);
+        if(mUser == null){
+            new getUserDataComp().execute("");
+        } else{
+            load(target);
+        }
+
         System.out.println(target);
 
 
@@ -257,7 +251,11 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
                             //pg++;
                             try {
                                 //callAsyncPopulate(pg);
-                                load(target);
+                                if(mUser.getUserId().equals(null)){
+                                    new getUserDataComp().execute("");
+                                } else{
+                                    load(target);
+                                }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -284,6 +282,33 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         startActivity(getIntent());
     }*/
 
+    private class getUserDataComp extends AsyncTask<String, Integer, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            mUser = MyUser.getmUser();
+            mUser.setContext(getApplicationContext());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject object) {
+
+            //setting user default pic on FAB MENU
+            if(mUser.getSex().equals("male")){
+                profileFAB.setImageResource(R.drawable.nopicmale);
+            } else if(mUser.getSex().equals("female")){
+                profileFAB.setImageResource(R.drawable.nopicfemale);
+            }
+
+            homeIntent = new Intent();
+            homeIntent.putExtra("USER_ID",mUser.getUserId());
+            homeIntent.setClass(getApplicationContext(),user_profile.class);
+            load(target);
+
+        }
+    }
+
     public boolean isConnected(){
         boolean hasConnection;
         ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -297,8 +322,8 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 
     public void load(final String type){
 
-        mUser = MyUser.getmUser();
-        mUser.setContext(getApplicationContext());
+        //mUser = MyUser.getmUser();
+        //mUser.setContext(getApplicationContext());
 
 
 

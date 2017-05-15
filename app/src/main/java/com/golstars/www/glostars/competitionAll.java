@@ -400,18 +400,15 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
         gallery.setAdapter(compAdapt);
 
         //new getUserData().execute("");
-        mUser = MyUser.getmUser();
-        mUser.setContext(this);
+        mUser = MyUser.getmUser(getApplicationContext());
+        new getUserData().execute("");
+        /*mUser.setContext(this);
         homeIntent = new Intent();
         homeIntent.putExtra("USER_ID",mUser.getUserId());
-        homeIntent.setClass(getApplicationContext(),user_profile.class);
+        homeIntent.setClass(getApplicationContext(),user_profile.class);*/
 
-        //setting user default pic on FAB MENU
-        if(mUser.getSex().equals("male")){
-            profileFAB.setImageResource(R.drawable.nopicmale);
-        } else if(mUser.getSex().equals("female")){
-            profileFAB.setImageResource(R.drawable.nopicfemale);
-        }
+
+
         gallery.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -613,30 +610,31 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
     }
 
 
-//    private class getUserData extends AsyncTask<String, Integer, JSONObject> {
-//
-//        @Override
-//        protected JSONObject doInBackground(String... strings) {
-//            mUser = MyUser.getmUser();
-//            mUser.setContext(getApplicationContext());
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(JSONObject object) {
-///*//            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
-//            try {
-//                callAsyncPopulate(pg, mUser.getToken());
-//            } catch (Exception e1) {
-//                e1.printStackTrace();
-//            }*/
-//
-//            homeIntent = new Intent();
-//            homeIntent.putExtra("USER_ID",mUser.getUserId());
-//            homeIntent.setClass(getApplicationContext(),user_profile.class);
-//
-//        }
-//    }
+    private class getUserData extends AsyncTask<String, Integer, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            mUser = MyUser.getmUser();
+            mUser.setContext(getApplicationContext());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject object) {
+
+            //setting user default pic on FAB MENU
+            if(mUser.getSex().equals("male")){
+                profileFAB.setImageResource(R.drawable.nopicmale);
+            } else if(mUser.getSex().equals("female")){
+                profileFAB.setImageResource(R.drawable.nopicfemale);
+            }
+
+            homeIntent = new Intent();
+            homeIntent.putExtra("USER_ID",mUser.getUserId());
+            homeIntent.setClass(getApplicationContext(),user_profile.class);
+
+       }
+    }
 
    /* public void callAsyncPopulate(Integer pg, String token) throws Exception{
         JSONObject data = new JSONObject();
