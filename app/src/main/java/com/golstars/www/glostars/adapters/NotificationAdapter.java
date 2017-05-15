@@ -106,7 +106,19 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         NotificationObj notifcation = notfications.get(position);
-        Glide.with(context).load(notifcation.getProfilePicURL()).into(holder.propic);
+
+        if(notifcation.getProfilePicURL().equals("/Content/Profile/Thumbs/male.jpg") || notifcation.getProfilePicURL().equals("/Content/Profile/Thumbs/Male.jpg")){
+            holder.propic.setImageResource(R.drawable.nopicmale);
+
+        } else if(notifcation.getProfilePicURL().equals("/Content/Profile/Thumbs/female.jpg") || notifcation.getProfilePicURL().equals("/Content/Profile/Thumbs/Female.jpg")){
+            holder.propic.setImageResource(R.drawable.nopicfemale);
+        }else{
+            Glide.with(context).load(notifcation.getProfilePicURL()).into(holder.propic);
+            //
+        }
+
+
+
         Glide.with(context).load(notifcation.getPicURL()).into(holder.postpreview);
         holder.name.setText(notifcation.getName());
         holder.notiBanner.setText(notifcation.getDescription());

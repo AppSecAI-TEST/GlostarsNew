@@ -577,9 +577,17 @@ public class followersPage extends AppCompatActivity {
                 });
 
 
+                if(p.getProfilePicture().equals("/Content/Profile/Thumbs/male.jpg") || p.getProfilePicture().equals("/Content/Profile/Thumbs/Male.jpg")){
+                    usrPic.setImageResource(R.drawable.nopicmale);
+
+                } else if(p.getProfilePicture().equals("/Content/Profile/Thumbs/female.jpg") || p.getProfilePicture().equals("/Content/Profile/Thumbs/Female.jpg")){
+                    usrPic.setImageResource(R.drawable.nopicfemale);
+                }else{
+                    Picasso.with(getApplicationContext()).load(p.getProfilePicture()).into(usrPic);
+                    //
+                }
 
 
-                Picasso.with(getApplicationContext()).load(p.getProfilePicture()).into(usrPic);
             }
 
             return v;

@@ -113,13 +113,26 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         holder.totalStars.setText(String.valueOf(post.getStarsCount()));
         holder.totalComments.setText(post.getComments().size()+"");
 
-        Picasso.with(context)
-                .load(post.getPicUrl())
-                .placeholder(R.drawable.loading)
-                .resize(screenWidth,1000)
-                .centerInside()
-                .into(holder.postImg);
-        Picasso.with(context).load(post.getPoster().getProfilePicURL()).into(holder.propic);
+
+        if(post.getPoster().getProfilePicURL().equals("/Content/Profile/Thumbs/male.jpg") || post.getPoster().getProfilePicURL().equals("/Content/Profile/Thumbs/Male.jpg")){
+            holder.propic.setImageResource(R.drawable.nopicmale);
+
+        } else if(post.getPoster().getProfilePicURL().equals("/Content/Profile/Thumbs/female.jpg") || post.getPoster().getProfilePicURL().equals("/Content/Profile/Thumbs/Female.jpg")){
+            holder.propic.setImageResource(R.drawable.nopicfemale);
+        }else{
+
+            Picasso.with(context)
+                    .load(post.getPicUrl())
+                    .placeholder(R.drawable.loading)
+                    .resize(screenWidth,1000)
+                    .centerInside()
+                    .into(holder.postImg);
+            Picasso.with(context).load(post.getPoster().getProfilePicURL()).into(holder.propic);
+
+        }
+
+
+
 
         if(post.isIsfeatured()){
             holder.featuredFlag.setVisibility(View.VISIBLE);
