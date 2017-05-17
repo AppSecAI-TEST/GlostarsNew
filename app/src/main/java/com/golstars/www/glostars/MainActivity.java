@@ -117,6 +117,11 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    }
 
+
+    public void setCurrentItem (int item, boolean smoothScroll) {
+        mViewPager.setCurrentItem(item, smoothScroll);
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.

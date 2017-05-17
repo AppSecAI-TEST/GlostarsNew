@@ -117,6 +117,15 @@ public class LoginActivity extends Fragment {
         login.setTransformationMethod(null);
 
 
+
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).setCurrentItem (1, true);
+            }
+        });
+
+
         tryFastLogin();
         login.setOnClickListener(new View.OnClickListener() {
             @Override
