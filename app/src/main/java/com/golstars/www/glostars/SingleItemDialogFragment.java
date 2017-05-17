@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -63,6 +64,7 @@ public class SingleItemDialogFragment extends DialogFragment {
     private TextView lblCount, lblTitle, lblDate,captionfullscreen,ratingcountfullscreen,commentcountfullscreen;
     private RatingBar ratingfullscreen;
     private ImageView commentfullscreen,sharefullscreen,clearRating;
+    private Button followfullscreen;
     private int selectedPosition = 0;
     private boolean onBind = false;
     private String token;
@@ -205,11 +207,14 @@ public class SingleItemDialogFragment extends DialogFragment {
         lblDate.setText(postData.get(selectedPosition).getUploaded());
         captionfullscreen = (TextView)dialog.findViewById(R.id.captionFullscreen);
         captionfullscreen.setText(postData.get(selectedPosition).getDescription());
+        followfullscreen = (Button)dialog.findViewById(R.id.followfullscreen);
 
         Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-Light.ttf");
         lblTitle.setTypeface(type);
         lblDate.setTypeface(type);
         captionfullscreen.setTypeface(type);
+        followfullscreen.setTypeface(type);
+        followfullscreen.setTransformationMethod(null);
 
         LinearLayout commentContainer= (LinearLayout) dialog.findViewById(R.id.commentContainer);
         commentContainer.setOnClickListener(new View.OnClickListener() {

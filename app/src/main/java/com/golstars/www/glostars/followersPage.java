@@ -434,7 +434,7 @@ public class followersPage extends AppCompatActivity {
                     Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
                     follow.setTypeface(type);
                 } else if(fStatus.equals("mutual")){
-                    follow.setText("Mutual");
+                    follow.setText("Mutual Followers");
                     follow.setTextColor(ContextCompat.getColor(context,R.color.white));
                     follow.setBackground(ContextCompat.getDrawable(context,R.drawable.mutualfollowerbutton));
                     follow.setTransformationMethod(null);

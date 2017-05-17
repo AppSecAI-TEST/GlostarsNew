@@ -83,6 +83,9 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
     TextView competitionbadge;
 
     TextView compno,publicno,mutualno;
+
+
+    View divider;
     //===================================================================
 
 
@@ -185,7 +188,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             }
         });
 
-        System.out.println("Loading................");
+        System.out.println("Loading.........");
 
         final String TAG = user_profile.class.getName();
 
@@ -217,6 +220,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         rotate_clockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_clockwise);
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
+
+        divider = (View)findViewById(R.id.divider);
 
         // competitiongrid.setNestedScrollingEnabled(false);
 
@@ -297,6 +302,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         publicno.setTypeface(type);
         compno.setTypeface(type);
         mutualno.setTypeface(type);
+        numFollowersCountProfile.setTypeface(type);
+
 //        follow.setTypeface(type);
 
 
@@ -813,6 +820,12 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                         if(!target.equals(mUser.getUserId())){
                             numFollowingCountProfile.setVisibility(View.GONE);
                             numFollowingProfile.setVisibility(View.GONE);
+                            divider.setVisibility(View.GONE);
+
+
+
+
+
                         }
 
 
@@ -1253,6 +1266,9 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             ViewGroup.LayoutParams mutual1 = mutualgrid.getLayoutParams();
             mutual1.height = 680;
             mutualgrid.setLayoutParams(mutual1);
+            seeAllMutualProfile.setVisibility(View.GONE);
+        }else if (totalmutualFollowerPics > 6 && totalmutualFollowerPics <=9) {
+           seeAllMutualProfile.setVisibility(View.GONE);
         }else{
             mutualgrid.setVisibility(View.VISIBLE);
             mutualnopost.setVisibility(View.GONE);
@@ -1269,8 +1285,11 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             seeAllCompetitionProfile.setVisibility(View.GONE);
         }else if (totalCompetitionPic > 3 && totalCompetitionPic <=6) {
             ViewGroup.LayoutParams comp1 = mutualgrid.getLayoutParams();
-            comp1.height = 680;
+            comp1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             competitiongrid.setLayoutParams(comp1);
+            seeAllCompetitionProfile.setVisibility(View.GONE);
+        }else if (totalCompetitionPic > 6 && totalCompetitionPic <=9) {
+           seeAllCompetitionProfile.setVisibility(View.GONE);
         } else{
             compBanner.setVisibility(View.VISIBLE);
             seeAllCompetitionProfile.setVisibility(View.VISIBLE);
@@ -1291,6 +1310,11 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             ViewGroup.LayoutParams pub1 = publicgrid.getLayoutParams();
             pub1.height = 680;
             publicgrid.setLayoutParams(pub1);
+            seeAllPublicProfile.setVisibility(View.GONE);
+            seeAllCompetitionProfile.setVisibility(View.GONE);
+        }else if (totalCompetitionPic > 6 && totalCompetitionPic <=9) {
+            seeAllCompetitionProfile.setVisibility(View.GONE);
+
         } else{
             publicBanner.setVisibility(View.VISIBLE);
             seeAllPublicProfile.setVisibility(View.VISIBLE);

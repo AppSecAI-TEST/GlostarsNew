@@ -251,7 +251,6 @@
                         android:textColor="@color/darkGrey"
                         android:layout_gravity="center_vertical"
                         android:text=" 0"
-                        android:layout_weight="0.5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         />
@@ -263,11 +262,16 @@
                         android:textColor="@color/darkGrey"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:layout_marginEnd="16dp"
+                        />
 
                     <View
+                        android:id="@+id/divider"
                         android:layout_gravity="center_vertical"
                         android:layout_width="0.5dp"
+                        android:visibility="visible"
+                        android:layout_marginLeft="16dp"
                         android:layout_height="match_parent"
                         android:background="@color/black"
                         />
@@ -277,7 +281,6 @@
                         android:layout_gravity="center_vertical"
                         android:text=" 0"
                         android:layout_marginLeft="4dp"
-                        android:layout_weight="0.5"
                         android:textColor="@color/darkGrey"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -290,8 +293,10 @@
                         android:layout_gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:layout_weight="1"
                         android:textColor="@color/darkGrey"
-                        android:layout_weight="1"/>
+                        />
 
                     <View
                         android:layout_gravity="center_vertical"
@@ -304,7 +309,6 @@
                         android:id="@+id/numberoffollowersCount"
                         android:layout_gravity="center_vertical"
                         android:text=" 0"
-                        android:layout_weight="0.5"
                         android:layout_marginLeft="4dp"
                         android:textColor="@color/darkGrey"
                         android:layout_width="wrap_content"
@@ -317,9 +321,11 @@
                         android:textColor="@color/darkGrey"
                         android:layout_gravity="center_vertical"
                         android:text="Followers"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        />
 
                 </LinearLayout>
 
@@ -344,9 +350,10 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/competitionPosts"
                         android:layout_width="match_parent"
-                        android:layout_height="341dp"
+                        android:layout_height="339dp"
                         android:layout_gravity="center"
                         android:numColumns="3"
+                        android:layout_marginBottom="4dp"
                         android:stretchMode="columnWidth" />
 
                     <RelativeLayout
@@ -388,11 +395,12 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="341dp"
+                        android:layout_height="339dp"
                         android:id="@+id/publicPosts"
                         android:columnWidth="150dp"
                         android:numColumns="auto_fit"
                         android:verticalSpacing="4dp"
+                        android:layout_marginBottom="4dp"
                         android:stretchMode="columnWidth"
                         android:layout_gravity="center"
                         />
@@ -437,7 +445,7 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="341dp"
+                        android:layout_height="339dp"
                         android:id="@+id/mutualPosts"
                         android:columnWidth="150dp"
                         android:numColumns="auto_fit"
@@ -445,6 +453,7 @@
                         android:stretchMode="columnWidth"
                         android:layout_gravity="center"
                         android:visibility="visible"
+                        android:layout_marginBottom="4dp"
                         />
 
                     <RelativeLayout

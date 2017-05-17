@@ -61,7 +61,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView username, caption, postTime, totalStars, totalComments, uselessTextView,comptext;
+        public TextView username, caption, postTime, totalStars, totalComments, uselessTextView,comptext,seeall;
         public ImageView postImg;
         public ImageView propic;
         public RatingBar ratingBar;
@@ -89,6 +89,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             deleteIcon = (ImageView)view.findViewById(R.id.clearRating);
             seeAllcomp = (RelativeLayout)view.findViewById(R.id.seeAllcomppost);
             privacyIcon = (ImageView)view.findViewById(R.id.privacy);
+            seeall = (TextView)view.findViewById(R.id.seeall);
 
             username.setTypeface(type);
             caption.setTypeface(type);
@@ -96,6 +97,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             totalStars.setTypeface(type);
             totalComments.setTypeface(type);
             comptext.setTypeface(type);
+            seeall.setTypeface(type);
 
 
             /*ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {

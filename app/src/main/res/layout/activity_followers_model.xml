@@ -40,8 +40,9 @@
 
             <Button
                 android:id="@+id/followBUT"
-                android:layout_width="70dp"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
+                android:padding="4dp"
                 android:layout_marginEnd="15dp"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/followbutton"

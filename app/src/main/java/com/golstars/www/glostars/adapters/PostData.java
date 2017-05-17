@@ -425,7 +425,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView username, caption, postTime, totalStars, totalComments, uselessTextView,comptext;
+        public TextView username, caption, postTime, totalStars, totalComments, uselessTextView,comptext,seeall;
         public ImageView postImg;
         public ImageView propic;
         public RatingBar ratingBar;
@@ -451,6 +451,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
             deleteIcon = (ImageView)view.findViewById(R.id.clearRating);
             seeAllcomp = (RelativeLayout)view.findViewById(R.id.seeAllcomppost);
             privacyIcon = (ImageView)view.findViewById(R.id.privacyCOMP);
+            seeall = (TextView)view.findViewById(R.id.seeall);
 
             username.setTypeface(type);
             caption.setTypeface(type);
@@ -458,6 +459,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
             totalStars.setTypeface(type);
             totalComments.setTypeface(type);
             comptext.setTypeface(type);
+           // seeall.setTypeface(type);
         }
     }
 
