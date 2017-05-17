@@ -1259,12 +1259,12 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             mutualnopost.setVisibility(View.VISIBLE);
         } else if (totalmutualFollowerPics >0 && totalmutualFollowerPics <=3) {
             ViewGroup.LayoutParams mutual = mutualgrid.getLayoutParams();
-            mutual.height = 330;
+            mutual.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             mutualgrid.setLayoutParams(mutual);
             seeAllMutualProfile.setVisibility(View.GONE);
         }else if (totalmutualFollowerPics > 3 && totalmutualFollowerPics <=6) {
             ViewGroup.LayoutParams mutual1 = mutualgrid.getLayoutParams();
-            mutual1.height = 680;
+            mutual1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             mutualgrid.setLayoutParams(mutual1);
             seeAllMutualProfile.setVisibility(View.GONE);
         }else if (totalmutualFollowerPics > 6 && totalmutualFollowerPics <=9) {
@@ -1280,7 +1280,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             seeAllCompetitionProfile.setVisibility(View.GONE);
         }else if (totalCompetitionPic >0 && totalCompetitionPic <=3) {
             ViewGroup.LayoutParams comp = competitiongrid.getLayoutParams();
-            comp.height = 330;
+            comp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             competitiongrid.setLayoutParams(comp);
             seeAllCompetitionProfile.setVisibility(View.GONE);
         }else if (totalCompetitionPic > 3 && totalCompetitionPic <=6) {
@@ -1302,13 +1302,13 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             seeAllPublicProfile.setVisibility(View.GONE);
         }else if (totalpublicPictures >0 && totalpublicPictures <=3) {
             ViewGroup.LayoutParams pub = publicgrid.getLayoutParams();
-            pub.height = 330;
+            pub.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             publicgrid.setLayoutParams(pub);
             seeAllPublicProfile.setVisibility(View.GONE);
 
         }else if (totalCompetitionPic > 3 && totalCompetitionPic <=6) {
             ViewGroup.LayoutParams pub1 = publicgrid.getLayoutParams();
-            pub1.height = 680;
+            pub1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             publicgrid.setLayoutParams(pub1);
             seeAllPublicProfile.setVisibility(View.GONE);
             seeAllCompetitionProfile.setVisibility(View.GONE);
