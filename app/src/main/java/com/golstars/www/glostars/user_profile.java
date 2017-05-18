@@ -793,7 +793,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                                 userLocationProfile.setText(jsonObject.getString("location"));
                             } else userLocationProfile.setText("");
                         } else userLocationProfile.setText("");
-
+//
                         String aboutMe = jsonObject.getString("aboutMe");
                         if (aboutMe != "null") aboutMeTextProfile.setText(aboutMe);
                         else aboutMeTextProfile.setText("");
