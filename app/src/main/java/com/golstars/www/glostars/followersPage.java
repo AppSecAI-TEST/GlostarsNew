@@ -94,6 +94,8 @@ public class followersPage extends AppCompatActivity {
 
     String mUserID;
 
+    private Intent homeIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -191,7 +193,7 @@ public class followersPage extends AppCompatActivity {
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(followersPage.this, user_profile.class));
+                if(homeIntent != null) startActivity(homeIntent);
             }
         });
 
@@ -215,6 +217,11 @@ public class followersPage extends AppCompatActivity {
         String guestUserID  = this.getIntent().getStringExtra("guestUserId");
         mUserID = this.getIntent().getStringExtra("myUserId");
         String token =  this.getIntent().getStringExtra("token");
+
+        homeIntent = new Intent();
+        homeIntent.putExtra("USER_ID", mUserID);
+        homeIntent.setClass(getApplicationContext(),user_profile.class);
+
 
         if(!guestUserID.equals(mUserID)){
             followingbut.setVisibility(View.GONE);
