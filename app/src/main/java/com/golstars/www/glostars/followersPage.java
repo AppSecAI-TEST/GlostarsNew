@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -93,6 +94,8 @@ public class followersPage extends AppCompatActivity {
     JSONArray myFollowing;
 
     String mUserID;
+
+    private MyUser mUser;
 
     private Intent homeIntent;
 
@@ -222,6 +225,8 @@ public class followersPage extends AppCompatActivity {
         homeIntent.putExtra("USER_ID", mUserID);
         homeIntent.setClass(getApplicationContext(),user_profile.class);
 
+        new getUserData().execute("");
+
 
         if(!guestUserID.equals(mUserID)){
             followingbut.setVisibility(View.GONE);
@@ -247,6 +252,30 @@ public class followersPage extends AppCompatActivity {
 
 
 
+    }
+
+    private class getUserData extends AsyncTask<String, Integer, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            mUser = MyUser.getmUser();
+            mUser.setContext(getApplicationContext());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject object) {
+//            Picasso.with(getApplicationContext()).load(mUser.getProfilePicURL()).into(profileFAB);
+
+            //setting user default pic on FAB MENU
+            if(mUser.getSex().equals("Male")){
+                profileFAB.setImageResource(R.drawable.nopicmale);
+            } else if(mUser.getSex().equals("Female")){
+                profileFAB.setImageResource(R.drawable.nopicfemale);
+            }
+
+
+        }
     }
 
     public void LoadFollowers(String usr, String token, final String myID){

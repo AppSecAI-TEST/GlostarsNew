@@ -784,8 +784,14 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                         usernameProfile.setText(jsonObject.getString("name") + " " + jsonObject.getString("lastName"));
 
                         String location = jsonObject.getString("location");
-                        if (location != "null") {
-                            userLocationProfile.setText(jsonObject.getString("location"));
+                        System.out.println("LOCATION: " + location);
+                        System.out.println("LOCATION: " + location);
+                        System.out.println("LOCATION: " + location);
+                        System.out.println("LOCATION: " + location);
+                        if (location.equals("null")) {
+                            if(location.equals(null)){
+                                userLocationProfile.setText(jsonObject.getString("location"));
+                            } else userLocationProfile.setText("");
                         } else userLocationProfile.setText("");
 
                         String aboutMe = jsonObject.getString("aboutMe");
