@@ -158,7 +158,7 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
 
 
         searchTag=getIntent().getStringExtra("data");
-        if(mUser.equals(null)){
+        if(mUser == null){
             new getUserData().execute("");
         } else {
             getPostData(searchTag);
@@ -188,7 +188,7 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
                             //pg++;
                             try {
                                 //callAsyncPopulate(pg);
-                                if(mUser.equals(null)){
+                                if(mUser == null){
                                     new getUserData().execute("");
                                 } else {
                                     getPostData(searchTag);
