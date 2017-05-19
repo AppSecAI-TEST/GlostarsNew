@@ -450,9 +450,9 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
             load();
         }
 
-        if(!isConnected()){
-            startActivity(new Intent(this, noInternet.class));
-        }
+//        if(!isConnected()){
+//            startActivity(new Intent(this, noInternet.class));
+//        }
 
 
 

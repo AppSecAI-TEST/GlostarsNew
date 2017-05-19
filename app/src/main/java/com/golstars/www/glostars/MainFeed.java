@@ -311,9 +311,9 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         });
 
         //CHECK IS THE PHONE CONNECTED TO THE INTERNET
-        if(!isConnected()){
-            startActivity(new Intent(this, noInternet.class));
-        }
+//        if(!isConnected()){
+//            startActivity(new Intent(this, noInternet.class));
+//        }
 
         if(mUser.getSex().equals("male")){
             profileFAB.setImageResource(R.drawable.nopicmale);

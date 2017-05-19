@@ -181,9 +181,9 @@ public class settingsPage extends AppCompatActivity {
 
         new getUserData().execute("");
 
-        if(!isConnected()){
-            startActivity(new Intent(this, noInternet.class));
-        }
+//        if(!isConnected()){
+//            startActivity(new Intent(this, noInternet.class));
+//        }
 
 
     }

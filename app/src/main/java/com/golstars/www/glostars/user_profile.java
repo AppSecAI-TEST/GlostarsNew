@@ -704,11 +704,11 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             }
         });
 
-        if(!isConnected()){
-            //Intent intent = new Intent(this, noInternet.class);
-            //intent.putExtra("prev", "user_profile.class");
-            startActivity(new Intent(this, noInternet.class));
-        }
+//        if(!isConnected()){
+//            //Intent intent = new Intent(this, noInternet.class);
+//            //intent.putExtra("prev", "user_profile.class");
+//            startActivity(new Intent(this, noInternet.class));
+//        }
 
         //onResume();
 

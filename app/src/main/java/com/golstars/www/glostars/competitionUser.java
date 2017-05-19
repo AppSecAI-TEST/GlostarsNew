@@ -267,9 +267,9 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 
         });
 
-        if(!isConnected()){
-            startActivity(new Intent(this, noInternet.class));
-        }
+//        if(!isConnected()){
+//            startActivity(new Intent(this, noInternet.class));
+//        }
 
 
     }

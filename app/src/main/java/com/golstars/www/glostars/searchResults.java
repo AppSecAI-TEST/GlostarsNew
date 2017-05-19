@@ -273,9 +273,9 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 
       getUnseen();
 
-        if(!isConnected()){
-            startActivity(new Intent(this, noInternet.class));
-        }
+//        if(!isConnected()){
+//            startActivity(new Intent(this, noInternet.class));
+//        }
 
 
     }

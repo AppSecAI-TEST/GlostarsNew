@@ -313,10 +313,10 @@ public class notification extends AppCompatActivity implements OnItemClickListen
 //        RecyclerView noti;
 //        RecyclerView foll;
         new getUserData().execute("");
-
-        if(!isConnected()){
-            startActivity(new Intent(this, noInternet.class));
-        }
+//
+//        if(!isConnected()){
+//            startActivity(new Intent(this, noInternet.class));
+//        }
 
 
     }
