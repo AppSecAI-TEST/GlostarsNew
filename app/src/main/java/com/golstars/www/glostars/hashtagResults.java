@@ -195,6 +195,8 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
 
         setTitle("#"+searchTag);
 
+        getUnseen();
+
     }
 
     public void getUnseen(){
