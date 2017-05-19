@@ -45,7 +45,9 @@ import org.json.JSONObject;
 
 import java.security.KeyStore;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -430,7 +432,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
                                 if(mUser == null){
                                     new getUserData().execute("");
                                 } else{
-                                    load();
+                                    load(false);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -447,7 +449,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
             new getUserData().execute("");
         } else{
             getUnseen();
-            load();
+            load(false);
         }
 
 //        if(!isConnected()){
@@ -476,7 +478,10 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
 
     }
 
-    public void load(){
+
+    public void load(boolean fromRecursive){
+        if(fromRecursive && !(pg<5))
+            return;
         loading=true;
         String url = ServerInfo.BASE_URL_API+"/images/competition/" + pg;
 
@@ -504,6 +509,10 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
                     System.out.println("1. "+response.toString());
                     Gson gson=new Gson();
                     ArrayList<Hashtag> getAllPost=gson.fromJson(response.getJSONArray("resultPayload").toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
+
+
+
+
                     compPicsUrls.addAll(getAllPost);
                     System.out.println("Total Post "+postList.size());
                     compAdapt.notifyDataSetChanged();
@@ -512,7 +521,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
                     System.out.println("Loading complete");
 
                     if(pg<=5){
-                        load2();
+                        load(true);
                     }
 
                 } catch (Exception e) {
@@ -522,51 +531,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
 
         });
     }
-    public void load2(){
-        loading=true;
-        String url = ServerInfo.BASE_URL_API+"/images/competition/" +pg;
 
-        System.out.println(url);
-
-        AsyncHttpClient client=new AsyncHttpClient();
-        client.addHeader("Authorization", "Bearer " + mUser.getToken());
-        try {
-            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-            trustStore.load(null, null);
-            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
-            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-            client.setSSLSocketFactory(sf);
-        }
-        catch (Exception e) {}
-
-
-        client.get(getApplicationContext(), url,new JsonHttpResponseHandler(){
-
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
-                try {
-                    System.out.println("1. "+response.toString());
-                    Gson gson=new Gson();
-                    ArrayList<Hashtag> getAllPost=gson.fromJson(response.getJSONArray("resultPayload").toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
-                    compPicsUrls.addAll(getAllPost);
-                    System.out.println("Total Post "+postList.size());
-                    compAdapt.notifyDataSetChanged();
-                    loading=false;
-                    pg++;
-                    if(pg<=5){
-                        load2();
-                    }
-                    System.out.println("Loading complete");
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-        });
-    }
 
     public void getUnseen(){
 
@@ -646,7 +611,7 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
             homeIntent.putExtra("USER_ID",mUser.getUserId());
             homeIntent.setClass(getApplicationContext(),user_profile.class);
             getUnseen();
-            load();
+            load(false);
 
 
        }

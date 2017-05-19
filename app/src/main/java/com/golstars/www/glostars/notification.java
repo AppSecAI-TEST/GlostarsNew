@@ -431,9 +431,10 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                             String picURL = singleNotif.getString("picUrl");
 
                             String date = singleNotif.getString("date");
-                            String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                            /*String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                             LocalDateTime localDateTime = LocalDateTime.parse(date, DateTimeFormat.forPattern(pattern));
-                            String interval = Timestamp.getInterval(localDateTime);
+                            String interval = Timestamp.getInterval(localDateTime);*/
+                            String interval = Timestamp.getInterval(Timestamp.getOwnZoneDateTime(date));
 
                             if (Seen.equals("false")){
                                unseenNotifs ++;
@@ -454,9 +455,9 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                             String Seen = singleNotif.getString("seen");
 
                             String date = singleNotif.getString("date");
-                            String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                            LocalDateTime localDateTime = LocalDateTime.parse(date, DateTimeFormat.forPattern(pattern));
-                            String interval = Timestamp.getInterval(localDateTime);
+                            /*String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                            LocalDateTime localDateTime = LocalDateTime.parse(date, DateTimeFormat.forPattern(pattern));*/
+                            String interval = Timestamp.getInterval(Timestamp.getOwnZoneDateTime(date));
 
                             if (Seen.equals("false")){
                                 unseenNotifs ++;

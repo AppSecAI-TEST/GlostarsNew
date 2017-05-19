@@ -425,17 +425,29 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                                             if(response.getJSONObject("resultPayload").getBoolean("result")){
                                                 if(response.getJSONObject("resultPayload").getBoolean("is_mutual")){
                                                     follow.setText("Mutual");
-                                                    follow.setBackgroundColor(Color.parseColor("#640064"));
+                                                    follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.mutualfollowerbutton));
+                                                    follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                                                    follow.setTransformationMethod(null);
+                                                    follow.setTypeface(type);
                                                 }
                                                 else if(response.getJSONObject("resultPayload").getBoolean("me_follow")){
                                                     follow.setText("Following");
-                                                    follow.setBackgroundColor(Color.parseColor("#E1C8FF"));
+                                                    follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followingbutton));
+                                                    follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                                                    follow.setTransformationMethod(null);
+                                                    follow.setTypeface(type);
                                                 }else if(response.getJSONObject("resultPayload").getBoolean("he_follow")){
                                                     follow.setText("follower");
-                                                    follow.setBackgroundColor(Color.parseColor("#007FFF"));
+                                                    follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
+                                                    follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                                                    follow.setTransformationMethod(null);
+                                                    follow.setTypeface(type);
                                                 }else{
                                                     follow.setText("follow");
-                                                    follow.setBackgroundResource(R.drawable.followbutton);
+                                                    follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
+                                                    follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                                                    follow.setTransformationMethod(null);
+                                                    follow.setTypeface(type);
                                                 }
                                             }else{
                                                 Toast.makeText(user_profile.this, response.getJSONObject("resultPayload").getString("msg"), Toast.LENGTH_SHORT).show();

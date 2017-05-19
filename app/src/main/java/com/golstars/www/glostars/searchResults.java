@@ -46,7 +46,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -529,11 +531,16 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         }
     }
 
+
     @Override
     public void bindDatatoUI(JSONObject object) throws Exception{
         JSONArray data = object.getJSONArray("picsToReturn");
         Gson gson=new Gson();
         ArrayList<Hashtag> getAllPost=gson.fromJson(data.toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
+
+
+
+
         recentsPics.addAll(getAllPost);
         System.out.println("Total Post "+getAllPost.size());
         recentsAdapter.notifyDataSetChanged();
