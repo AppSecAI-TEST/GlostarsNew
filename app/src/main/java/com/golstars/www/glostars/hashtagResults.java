@@ -54,7 +54,7 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
 
     private Intent homeIntent;
     int pg=1;
-    MyUser mUser = MyUser.getmUser();
+    MyUser mUser;
     private boolean loading=false;
     PullRefreshLayout layout;
     String searchTag="";
@@ -257,6 +257,7 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
 
         @Override
         protected JSONObject doInBackground(String... strings) {
+            mUser = MyUser.getmUser();
             mUser.setContext(getApplicationContext());
             return null;
         }
