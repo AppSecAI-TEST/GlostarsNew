@@ -30,6 +30,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,6 +76,8 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
     Animation rotate_clockwise;
     Animation rotate_anticlockwise;
 
+
+    RelativeLayout postRelative;
 
     TextView username;
     TextView caption;
@@ -248,6 +251,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         slogo = (ImageView)findViewById(R.id.searchlogo);
         search = (EditText)findViewById(R.id.searchedit);
 
+        postRelative =(RelativeLayout)findViewById(R.id.postRelative);
 
         fab_show = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_show);
         fab_hide = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_hide);
