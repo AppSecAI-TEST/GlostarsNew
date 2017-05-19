@@ -158,12 +158,17 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
 
 
         searchTag=getIntent().getStringExtra("data");
-        getPostData(searchTag);
+        if(mUser.equals(null)){
+            new getUserData().execute("");
+        } else {
+            getPostData(searchTag);
+        }
+
         horizontalLayoutManagaer= new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         hashtags.setLayoutManager(horizontalLayoutManagaer);
         hashtags.setAdapter(postDataAdapter);
 
-        new getUserData().execute("");
+
 
 
 
@@ -274,6 +279,7 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
             } else if(mUser.getSex().equals("Female")){
                 profileFAB.setImageResource(R.drawable.nopicfemale);
             }
+            getPostData(searchTag);
 
 
         }
