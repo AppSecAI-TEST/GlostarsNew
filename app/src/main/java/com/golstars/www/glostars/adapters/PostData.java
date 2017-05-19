@@ -90,6 +90,8 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         //holder.postRelative.setBackgroundColor(context.getResources().getColor(R.color.verylightviolet));
         if(position % 2 != 0){
             holder.postRelative.setBackgroundColor(context.getResources().getColor(R.color.verylightviolet));
+        } else{
+            holder.postRelative.setBackgroundColor(context.getResources().getColor(R.color.white));
         }
 
         //Use for hash tag
