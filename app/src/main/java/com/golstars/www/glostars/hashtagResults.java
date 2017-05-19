@@ -127,6 +127,7 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startActivity(homeIntent);
                 menuDown.close(true);
             }
         });
