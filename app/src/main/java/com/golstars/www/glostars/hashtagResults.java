@@ -1,12 +1,15 @@
 package com.golstars.www.glostars;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.View;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.github.clans.fab.FloatingActionMenu;
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.ModelData.Poster;
 import com.golstars.www.glostars.adapters.PostData;
@@ -33,6 +36,15 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
 
     RecyclerView hashtags;
 
+
+    com.github.clans.fab.FloatingActionButton homeFAB;
+    com.github.clans.fab.FloatingActionButton cameraFAB;
+    com.github.clans.fab.FloatingActionButton competitionFAB;
+    com.github.clans.fab.FloatingActionButton profileFAB;
+    com.github.clans.fab.FloatingActionButton notificationFAB;
+
+    FloatingActionMenu menuDown;
+
     ArrayList<Hashtag> posts=new ArrayList<Hashtag>();
     PostData postDataAdapter;
     int pg=1;
@@ -41,6 +53,9 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
     PullRefreshLayout layout;
     String searchTag="";
     LinearLayoutManager horizontalLayoutManagaer;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +85,63 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int Height = displayMetrics.heightPixels;
         int Width = displayMetrics.widthPixels;
+
+
+        cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
+        competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
+        profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
+        notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
+        homeFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.homeFAB);
+        menuDown = (com.github.clans.fab.FloatingActionMenu)findViewById(R.id.menu_down);
+
+
+
+
+
+
+        homeFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(hashtagResults.this,MainFeed.class));
+                menuDown.close(true);
+            }
+        });
+
+        cameraFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(hashtagResults.this, upload.class));
+                menuDown.close(true);
+            }
+        });
+
+
+        profileFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menuDown.close(true);
+            }
+        });
+
+        notificationFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(hashtagResults.this, notification.class));
+                menuDown.close(true);
+            }
+        });
+
+        competitionFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(hashtagResults.this, competitionAll.class));
+                menuDown.close(true);
+
+            }
+        });
+
+
+
 
 
         hashtags = (RecyclerView)findViewById(R.id.hashtagrecycler);
@@ -114,6 +186,8 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
         setTitle("#"+searchTag);
 
     }
+
+
 
 
 

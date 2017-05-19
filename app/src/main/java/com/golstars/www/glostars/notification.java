@@ -383,6 +383,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
         } );
     }
 
+
     private void setUserNotifSeen(){
         StringEntity entity = null;
         try {
