@@ -87,6 +87,11 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         final Hashtag post = data.get(position);
         holder.username.setText(post.getPoster().getName());
 
+        //holder.postRelative.setBackgroundColor(context.getResources().getColor(R.color.verylightviolet));
+        if(position % 2 != 0){
+            holder.postRelative.setBackgroundColor(context.getResources().getColor(R.color.verylightviolet));
+        }
+
         //Use for hash tag
         HashTagHelper mTextHashTagHelper;
         mTextHashTagHelper = HashTagHelper.Creator.create(context.getResources().getColor(R.color.hashtag), new HashTagHelper.OnHashTagClickListener() {
@@ -432,6 +437,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         public ImageView commentsBtn, privacyIcon;
         public RelativeLayout featuredFlag,seeAllcomp;
         public ImageView deleteIcon;
+        public RelativeLayout postRelative;
         public MyViewHolder(View view) {
             super(view);
             Typeface type = Typeface.createFromAsset(itemView.getContext().getAssets(),"fonts/Ubuntu-Light.ttf");
@@ -452,6 +458,9 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
             seeAllcomp = (RelativeLayout)view.findViewById(R.id.seeAllcomppost);
             privacyIcon = (ImageView)view.findViewById(R.id.privacyCOMP);
             seeall = (TextView)view.findViewById(R.id.seeall);
+            postRelative = (RelativeLayout)view.findViewById(R.id.postHashtag);
+
+
 
             username.setTypeface(type);
             caption.setTypeface(type);
