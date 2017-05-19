@@ -188,7 +188,11 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
                             //pg++;
                             try {
                                 //callAsyncPopulate(pg);
-                                getPostData(searchTag);
+                                if(mUser.equals(null)){
+                                    new getUserData().execute("");
+                                } else {
+                                    getPostData(searchTag);
+                                }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
