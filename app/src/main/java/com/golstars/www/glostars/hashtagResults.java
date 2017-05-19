@@ -1,7 +1,10 @@
 package com.golstars.www.glostars;
 
 import android.content.Intent;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +16,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.ModelData.Poster;
 import com.golstars.www.glostars.adapters.PostData;
+import com.golstars.www.glostars.network.NotificationService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
@@ -47,12 +51,16 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
 
     ArrayList<Hashtag> posts=new ArrayList<Hashtag>();
     PostData postDataAdapter;
+
+    private Intent homeIntent;
     int pg=1;
     MyUser mUser = MyUser.getmUser();
     private boolean loading=false;
     PullRefreshLayout layout;
     String searchTag="";
     LinearLayoutManager horizontalLayoutManagaer;
+    Integer unseenNotifs = 0;
+
 
 
 
@@ -154,6 +162,8 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
         hashtags.setLayoutManager(horizontalLayoutManagaer);
         hashtags.setAdapter(postDataAdapter);
 
+        new getUserData().execute("");
+
 
 
         hashtags.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -186,6 +196,85 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
         setTitle("#"+searchTag);
 
     }
+
+    public void getUnseen(){
+
+
+        NotificationService.getNotifications(getApplicationContext(), mUser.getUserId(), mUser.getToken(), new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                try {
+                    JSONObject data = response.getJSONObject("resultPayload");
+                    System.out.println(response);
+                    JSONArray activityNotifications = data.getJSONArray("activityNotifications");
+                    JSONArray followerNotifications = data.getJSONArray("followerNotifications");
+                    System.out.println(activityNotifications);
+                    System.out.println(followerNotifications);
+
+
+                    for(int i = 0; i < activityNotifications.length(); ++i){
+                        if(activityNotifications.getJSONObject(i).getString("seen").equals("false")){
+                            unseenNotifs++;
+                        }
+                    }
+
+                    for(int i = 0; i < followerNotifications.length(); ++i){
+                        if(followerNotifications.getJSONObject(i).getString("seen").equals("false")){
+                            unseenNotifs++;
+                        }
+
+                    }
+
+                    if(unseenNotifs > 0){
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+            }
+        });
+
+
+
+
+    }
+
+
+
+    private class getUserData extends AsyncTask<String, Integer, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            mUser.setContext(getApplicationContext());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject object) {
+            //userProfileIntent = new Intent();
+            homeIntent.putExtra("USER_ID",mUser.getUserId());
+            homeIntent.setClass(getApplicationContext(),user_profile.class);
+            //setting user default pic on FAB MENU
+
+            if(mUser.getSex().equals("Male")){
+                profileFAB.setImageResource(R.drawable.nopicmale);
+            } else if(mUser.getSex().equals("Female")){
+                profileFAB.setImageResource(R.drawable.nopicfemale);
+            }
+
+
+        }
+    }
+
 
 
 
