@@ -42,7 +42,6 @@ public class AboutUs extends AppCompatActivity {
 
 
 
-        aboutus = (TextView)findViewById(R.id.aboutusBanner);
         aboutustext = (TextView)findViewById(R.id.aboutustext);
         offer = (TextView)findViewById(R.id.offerBanner);
         offertext = (TextView)findViewById(R.id.offertext);
@@ -109,7 +108,6 @@ public class AboutUs extends AppCompatActivity {
 
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
         aboutustext.setTypeface(type);
-        aboutus.setTypeface(type);
         offer.setTypeface(type);
         offertext.setTypeface(type);
         differ.setTypeface(type);

@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.golstars.www.glostars.models.Follower;
 import com.golstars.www.glostars.network.FollowerService;
@@ -73,6 +74,7 @@ public class followersPage extends AppCompatActivity {
     com.github.clans.fab.FloatingActionButton competitionFAB;
     com.github.clans.fab.FloatingActionButton profileFAB;
     com.github.clans.fab.FloatingActionButton notificationFAB;
+    com.github.clans.fab.FloatingActionButton homeFAB;
 
     FloatingActionMenu menuDown;
 
@@ -132,7 +134,7 @@ public class followersPage extends AppCompatActivity {
         slogo = (ImageView)findViewById(R.id.searchlogo);
 
 
-
+        homeFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.homeFAB);
         cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
         profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
@@ -190,6 +192,13 @@ public class followersPage extends AppCompatActivity {
                 followingList.setVisibility(View.GONE);
                 followersList.setVisibility(View.VISIBLE);
 
+            }
+        });
+
+        homeFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(followersPage.this,MainFeed.class));
             }
         });
 

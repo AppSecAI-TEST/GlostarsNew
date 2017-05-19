@@ -64,43 +64,44 @@
 
     <TextView
         android:text="mins ago "
-        android:textSize="@dimen/textCAPTION"
+        android:textSize="12sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/nameNOTI"
+        android:layout_below="@+id/notiBanner"
         android:layout_toRightOf="@+id/timeNOTI"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="4dp"
-        android:layout_marginTop="7dp"
         android:id="@+id/minbannerNOTI" />
 
 
     <TextView
         android:text="hour ago "
-        android:textSize="@dimen/textCAPTION"
+        android:textSize="12sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/nameNOTI"
-        android:layout_toRightOf="@+id/timeNOTI"
+        android:layout_below="@+id/notiBanner"
         android:layout_marginLeft="4dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/timeNOTI"
         android:visibility="invisible"
         android:id="@+id/hourbannerNOTI" />
 
     <TextView
-        android:text=" 2 "
-        android:textSize="@dimen/textCAPTION"
+        android:text="2"
+        android:textSize="12sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/timeNOTI"
-        android:layout_marginLeft="4dp"
-        android:layout_alignBaseline="@+id/notiBanner"
-        android:layout_alignBottom="@+id/notiBanner"
-        android:layout_toEndOf="@+id/notiBanner" />
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/notiBanner"
+        android:layout_alignStart="@+id/notiBanner"
+         />
 
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
+        android:layout_marginTop="4dp"
         android:layout_below="@+id/postpreviewNOTI"
         android:background="@color/darkGrey"/>
 
