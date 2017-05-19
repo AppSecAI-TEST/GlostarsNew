@@ -127,7 +127,9 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(homeIntent);
+                if(homeIntent != null){
+                    startActivity(homeIntent);
+                }
                 menuDown.close(true);
             }
         });
@@ -162,6 +164,7 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
             new getUserData().execute("");
         } else {
             getPostData(searchTag);
+            getUnseen();
         }
 
         horizontalLayoutManagaer= new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -205,7 +208,7 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
 
         setTitle("#"+searchTag);
 
-        getUnseen();
+
 
     }
 
@@ -274,6 +277,7 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
         @Override
         protected void onPostExecute(JSONObject object) {
             //userProfileIntent = new Intent();
+            homeIntent = new Intent();
             homeIntent.putExtra("USER_ID",mUser.getUserId());
             homeIntent.setClass(getApplicationContext(),user_profile.class);
             //setting user default pic on FAB MENU
@@ -283,7 +287,9 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
             } else if(mUser.getSex().equals("Female")){
                 profileFAB.setImageResource(R.drawable.nopicfemale);
             }
+            getUnseen();
             getPostData(searchTag);
+
 
 
         }
