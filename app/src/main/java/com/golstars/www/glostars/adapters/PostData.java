@@ -155,7 +155,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         } else {
             if(post.getPrivacy().equals("public")) {
                 holder.privacyIcon.setImageResource(R.drawable.privacy_public_photo);
-            } else if (post.getPrivacy().equals("mutual")) {
+            } else if (post.getPrivacy().equals("followers") | post.getPrivacy().equals("friends")) {
                 holder.privacyIcon.setImageResource(R.drawable.privacy_mutual_follower_photo);
             }
         }

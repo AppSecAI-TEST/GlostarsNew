@@ -789,10 +789,12 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                         System.out.println("LOCATION: " + location);
                         System.out.println("LOCATION: " + location);
                         if (location.equals("null")) {
-                            if(location.equals(null)){
-                                userLocationProfile.setText(jsonObject.getString("location"));
-                            } else userLocationProfile.setText("");
-                        } else userLocationProfile.setText("");
+                            userLocationProfile.setText("");
+                        } else if(location == null){
+                            userLocationProfile.setText("");
+                        } else {
+                            userLocationProfile.setText(jsonObject.getString("location"));
+                        }
 //
                         String aboutMe = jsonObject.getString("aboutMe");
                         if (aboutMe != "null") aboutMeTextProfile.setText(aboutMe);
@@ -1060,9 +1062,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         @Override
         protected JSONObject doInBackground(String... strings) {
             mUser.setContext(getApplicationContext());
-            SearchUser searchUser = new SearchUser();
+            //SearchUser searchUser = new SearchUser();
 
             JSONObject data = new JSONObject();
+            /*
             try {
                 guestUser = searchUser.getGuestUser(strings[0], mUser.getToken());
 
@@ -1087,9 +1090,6 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                 data.put("ocupationOther", dat.getString("ocupationOther"));
 
                 //setting an intent to user profile with user data
-                homeIntent = new Intent();
-                homeIntent.putExtra("USER_ID", mUser.getUserId());
-                homeIntent.setClass(getApplicationContext(), user_profile.class);
 
 
 
@@ -1098,14 +1098,20 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            } */
 
             return data;
+
         }
 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             //setting user default pic on FAB MENU
+            homeIntent = new Intent();
+            homeIntent.putExtra("USER_ID", mUser.getUserId());
+            homeIntent.setClass(getApplicationContext(), user_profile.class);
+
+
             if(mUser.getSex().equals("male")){
                 profileFAB.setImageResource(R.drawable.nopicmale);
             } else if(mUser.getSex().equals("female")){
