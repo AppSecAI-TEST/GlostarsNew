@@ -310,7 +310,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
             }
         });
         /*************************************************************************/
-
+        //
 
         holder.commentsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
