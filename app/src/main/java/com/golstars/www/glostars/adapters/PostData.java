@@ -122,10 +122,10 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
 
 
         if(post.getPoster().getProfilePicURL().equals("/Content/Profile/Thumbs/male.jpg") || post.getPoster().getProfilePicURL().equals("/Content/Profile/Thumbs/Male.jpg")){
-            holder.propic.setImageResource(R.drawable.nopicmale);
+            holder.propic.setImageResource(R.drawable.nopicmalegrey);
 
         } else if(post.getPoster().getProfilePicURL().equals("/Content/Profile/Thumbs/female.jpg") || post.getPoster().getProfilePicURL().equals("/Content/Profile/Thumbs/Female.jpg")){
-            holder.propic.setImageResource(R.drawable.nopicfemale);
+            holder.propic.setImageResource(R.drawable.nopicfemalegrey);
         }else{
 
             Picasso.with(context)

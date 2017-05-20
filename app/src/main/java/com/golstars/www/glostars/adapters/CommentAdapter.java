@@ -24,6 +24,7 @@ import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
  * Created by edson on 12/04/17.
  */
 
+
 public class CommentAdapter extends ArrayAdapter<Comment> {
 
     //private List<Comment>;
