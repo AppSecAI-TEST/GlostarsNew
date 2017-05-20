@@ -348,6 +348,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             tempToken = mUser.getToken();
             try {
                 populateNotificationsList(mUser.getUserId(), mUser.getToken());
+                setActivityNotifSeen();
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -463,7 +464,7 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                                 unseenNotifs ++;
                             }
 
-                            setActivityNotifSeen();
+                            //setActivityNotifSeen();
 
                             setFollowerNotifsAdapter(description, profilePicURL, name, "", usrId, originatedById, null, seen, interval, checked);
 
