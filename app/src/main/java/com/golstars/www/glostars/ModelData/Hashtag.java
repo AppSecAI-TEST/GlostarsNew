@@ -19,6 +19,35 @@ public class Hashtag {
     private List<Comment> comments = null;
     private List<Rating> ratings = null;
 
+
+    private boolean is_mutual;
+    private boolean me_follow;
+    private boolean he_follow;
+
+    public boolean is_mutual() {
+        return is_mutual;
+    }
+
+    public void setIs_mutual(boolean is_mutual) {
+        this.is_mutual = is_mutual;
+    }
+
+    public boolean isMe_follow() {
+        return me_follow;
+    }
+
+    public void setMe_follow(boolean me_follow) {
+        this.me_follow = me_follow;
+    }
+
+    public boolean isHe_follow() {
+        return he_follow;
+    }
+
+    public void setHe_follow(boolean he_follow) {
+        this.he_follow = he_follow;
+    }
+
     public Poster getPoster() {
         return poster;
     }

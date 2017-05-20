@@ -2,6 +2,8 @@ package com.golstars.www.glostars;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -10,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -45,6 +48,7 @@ import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import cz.msebera.android.httpclient.Header;
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
@@ -209,12 +213,55 @@ public class SingleItemDialogFragment extends DialogFragment {
         captionfullscreen.setText(postData.get(selectedPosition).getDescription());
         followfullscreen = (Button)dialog.findViewById(R.id.followfullscreen);
 
-        Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-Light.ttf");
+        final Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-Light.ttf");
         lblTitle.setTypeface(type);
         lblDate.setTypeface(type);
         captionfullscreen.setTypeface(type);
         followfullscreen.setTypeface(type);
         followfullscreen.setTransformationMethod(null);
+
+
+
+        lblTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, user_profile.class);
+                intent.putExtra("USER_ID",postData.get(selectedPosition).getPoster().getUserId());
+
+                context.startActivity(intent);
+            }
+        });
+
+
+
+        if(postData.get(selectedPosition).is_mutual()){
+            followfullscreen.setText("Mutual");
+            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.mutualfollowerbutton));
+            followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+            followfullscreen.setTransformationMethod(null);
+            followfullscreen.setTypeface(type);
+        }else if(postData.get(selectedPosition).isMe_follow()){
+            followfullscreen.setText("Following");
+            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followingbutton));
+            followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+            followfullscreen.setTransformationMethod(null);
+            followfullscreen.setTypeface(type);
+        }else if(postData.get(selectedPosition).isHe_follow()){
+            followfullscreen.setText("follower");
+            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followbackbutton));
+            followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+            followfullscreen.setTransformationMethod(null);
+            followfullscreen.setTypeface(type);
+        }else{
+            followfullscreen.setText("follow");
+            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followbutton));
+            followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+            followfullscreen.setTransformationMethod(null);
+            followfullscreen.setTypeface(type);
+        }
+
+
+
 
         LinearLayout commentContainer= (LinearLayout) dialog.findViewById(R.id.commentContainer);
         commentContainer.setOnClickListener(new View.OnClickListener() {
@@ -267,6 +314,11 @@ public class SingleItemDialogFragment extends DialogFragment {
                     }
                 });
 
+
+
+
+
+
                 sendcomment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -293,7 +345,7 @@ public class SingleItemDialogFragment extends DialogFragment {
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                     try {
                                         JSONObject comment=response.getJSONObject("resultPayload");
-                                        Comment c=new Comment(comment.getInt("commentId"),comment.getString("commentMessage"),comment.getString("commenterUserName"),comment.getString("commentUserNameId"),comment.getString("commentTime"),comment.getString("profilePicUrl"),comment.getString("firstName"),comment.getString("lastName"));
+                                        Comment c=new Comment(comment.getInt("commentId"),comment.getString("commentMessage"),comment.getString("commenterUserName"),comment.getString("commentUserNameId"), Timestamp.getInterval(Timestamp.getOwnZoneDateTime(comment.getString("commentTime"))),comment.getString("profilePicUrl"),comment.getString("firstName"),comment.getString("lastName"));
                                         listAllComment.add(c);
                                         commentData.notifyDataSetChanged();
                                         postData.get(selectedPosition).setComments(listAllComment);
@@ -393,8 +445,220 @@ public class SingleItemDialogFragment extends DialogFragment {
 
                 ratingfullscreen.setRating((float)(postData.get(position).getMyStarCount()));
                 selectedPosition=position;
+
+
+
+                if(postData.get(position).is_mutual()){
+                    followfullscreen.setText("Mutual");
+                    followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.mutualfollowerbutton));
+                    followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                    followfullscreen.setTransformationMethod(null);
+                    followfullscreen.setTypeface(type);
+                }else if(postData.get(position).isMe_follow()){
+                    followfullscreen.setText("Following");
+                    followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followingbutton));
+                    followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                    followfullscreen.setTransformationMethod(null);
+                    followfullscreen.setTypeface(type);
+                }else if(postData.get(position).isHe_follow()){
+                    followfullscreen.setText("follower");
+                    followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followbackbutton));
+                    followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                    followfullscreen.setTransformationMethod(null);
+                    followfullscreen.setTypeface(type);
+                }else{
+                    followfullscreen.setText("follow");
+                    followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followbutton));
+                    followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                    followfullscreen.setTransformationMethod(null);
+                    followfullscreen.setTypeface(type);
+                }
+
+
+
             }
         });
+
+
+
+
+
+        followfullscreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final Integer selected=new Integer(selectedPosition);
+
+
+                if(followfullscreen.getText().toString().equalsIgnoreCase("follower") || followfullscreen.getText().toString().equalsIgnoreCase("follow")){
+                    String url = ServerInfo.BASE_URL_FOLLOWER_API+"Following/"+postData.get(selectedPosition).getPoster().getUserId();
+                    AsyncHttpClient client=new AsyncHttpClient();
+                    try {
+                        KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                        trustStore.load(null, null);
+                        MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+                        sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                        client.setSSLSocketFactory(sf);
+                    }
+                    catch (Exception e) {}
+                    MyUser myUser=MyUser.getmUser();
+                    client.addHeader("Authorization", "Bearer " + myUser.getToken());
+                    RequestParams requestParams=new RequestParams();
+
+                    client.post(context, url,requestParams,new JsonHttpResponseHandler(){
+
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            try {
+                                System.out.println("1. "+response.toString());
+                                if(response.getJSONObject("resultPayload").getBoolean("result")){
+                                    if(response.getJSONObject("resultPayload").getBoolean("is_mutual")){
+                                        followfullscreen.setText("Mutual");
+                                        followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.mutualfollowerbutton));
+                                        followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                                        followfullscreen.setTransformationMethod(null);
+                                        followfullscreen.setTypeface(type);
+
+                                        postData.get(selected).setIs_mutual(true);
+                                        postData.get(selected).setHe_follow(true);
+                                        postData.get(selected).setMe_follow(true);
+
+                                    }
+                                    else if(response.getJSONObject("resultPayload").getBoolean("me_follow")){
+                                        followfullscreen.setText("Following");
+                                        followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followingbutton));
+                                        followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                                        followfullscreen.setTransformationMethod(null);
+                                        followfullscreen.setTypeface(type);
+
+                                        postData.get(selected).setIs_mutual(false);
+                                        postData.get(selected).setHe_follow(false);
+                                        postData.get(selected).setMe_follow(true);
+
+                                    }else if(response.getJSONObject("resultPayload").getBoolean("he_follow")){
+                                        followfullscreen.setText("follower");
+                                        followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followbackbutton));
+                                        followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                                        followfullscreen.setTransformationMethod(null);
+                                        followfullscreen.setTypeface(type);
+
+                                        postData.get(selected).setIs_mutual(false);
+                                        postData.get(selected).setHe_follow(true);
+                                        postData.get(selected).setMe_follow(false);
+                                    }else{
+                                        followfullscreen.setText("follow");
+                                        followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followbutton));
+                                        followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                                        followfullscreen.setTransformationMethod(null);
+                                        followfullscreen.setTypeface(type);
+
+                                        postData.get(selected).setIs_mutual(false);
+                                        postData.get(selected).setHe_follow(false);
+                                        postData.get(selected).setMe_follow(false);
+                                    }
+                                }else{
+                                    Toast.makeText(context, response.getJSONObject("resultPayload").getString("msg"), Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }else{
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(DialogInterface.BUTTON_POSITIVE==which){
+                                String url = ServerInfo.BASE_URL_FOLLOWER_API+"Unfollowing/"+postData.get(selectedPosition).getPoster().getUserId();
+                                AsyncHttpClient client=new AsyncHttpClient();
+                                try {
+                                    KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                                    trustStore.load(null, null);
+                                    MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+                                    sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                                    client.setSSLSocketFactory(sf);
+                                }
+                                catch (Exception e) {}
+                                MyUser myUser=MyUser.getmUser();
+                                client.addHeader("Authorization", "Bearer " + myUser.getToken());
+                                RequestParams requestParams=new RequestParams();
+
+                                client.post(context, url,requestParams,new JsonHttpResponseHandler(){
+
+
+                                    @Override
+                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                        try {
+                                            System.out.println("1. "+response.toString());
+                                            if(response.getJSONObject("resultPayload").getBoolean("result")) {
+                                                if (response.getJSONObject("resultPayload").getBoolean("is_mutual")) {
+                                                    followfullscreen.setText("Mutual");
+                                                    followfullscreen.setBackground(ContextCompat.getDrawable(context, R.drawable.mutualfollowerbutton));
+                                                    followfullscreen.setTextColor(ContextCompat.getColor(context, R.color.white));
+                                                    followfullscreen.setTransformationMethod(null);
+                                                    followfullscreen.setTypeface(type);
+
+                                                    postData.get(selected).setIs_mutual(true);
+                                                    postData.get(selected).setHe_follow(true);
+                                                    postData.get(selected).setMe_follow(true);
+
+                                                } else if (response.getJSONObject("resultPayload").getBoolean("me_follow")) {
+                                                    followfullscreen.setText("Following");
+                                                    followfullscreen.setBackground(ContextCompat.getDrawable(context, R.drawable.followingbutton));
+                                                    followfullscreen.setTextColor(ContextCompat.getColor(context, R.color.white));
+                                                    followfullscreen.setTransformationMethod(null);
+                                                    followfullscreen.setTypeface(type);
+
+                                                    postData.get(selected).setIs_mutual(false);
+                                                    postData.get(selected).setHe_follow(false);
+                                                    postData.get(selected).setMe_follow(true);
+
+                                                } else if (response.getJSONObject("resultPayload").getBoolean("he_follow")) {
+                                                    followfullscreen.setText("follower");
+                                                    followfullscreen.setBackground(ContextCompat.getDrawable(context, R.drawable.followbackbutton));
+                                                    followfullscreen.setTextColor(ContextCompat.getColor(context, R.color.white));
+                                                    followfullscreen.setTransformationMethod(null);
+                                                    followfullscreen.setTypeface(type);
+
+                                                    postData.get(selected).setIs_mutual(false);
+                                                    postData.get(selected).setHe_follow(true);
+                                                    postData.get(selected).setMe_follow(false);
+                                                } else {
+                                                    followfullscreen.setText("follow");
+                                                    followfullscreen.setBackground(ContextCompat.getDrawable(context, R.drawable.followbutton));
+                                                    followfullscreen.setTextColor(ContextCompat.getColor(context, R.color.white));
+                                                    followfullscreen.setTransformationMethod(null);
+                                                    followfullscreen.setTypeface(type);
+
+                                                    postData.get(selected).setIs_mutual(false);
+                                                    postData.get(selected).setHe_follow(false);
+                                                    postData.get(selected).setMe_follow(false);
+                                                }
+                                            }else{
+                                                Toast.makeText(context, response.getJSONObject("resultPayload").getString("msg"), Toast.LENGTH_SHORT).show();
+                                            }
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            }else{
+                                dialog.dismiss();
+                            }
+
+                        }
+                    };
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("Are you sure?").setPositiveButton("Unfollow", dialogClickListener)
+                            .setNegativeButton("Cancel", dialogClickListener).show();
+
+                }
+            }
+
+        });
+        
 
 
 

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.golstars.www.glostars.ModelData.Comment;
 import com.golstars.www.glostars.R;
+import com.golstars.www.glostars.Timestamp;
 import com.golstars.www.glostars.user_profile;
 import com.squareup.picasso.Picasso;
 
@@ -56,6 +57,9 @@ public class CommentData extends ArrayAdapter<Comment> {
             namecomment.setTypeface(type);
             comment.setTypeface(type);
             hours.setTypeface(type);
+
+
+            hours.setText(Timestamp.getInterval(Timestamp.getOwnZoneDateTime(comm.getCommentTime())));
 
             Picasso.with(getContext()).load(comm.getProfilePicUrl()).into(commentPic);
             comment.setText(comm.getCommentMessage());

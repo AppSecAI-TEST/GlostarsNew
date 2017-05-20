@@ -222,9 +222,9 @@ public class upload extends AppCompatActivity {
                 if(publicpost.isChecked()){
                     privacy = "public";
                 } else if(competition.isChecked()){
-                    privacy = "competition";
+                    privacy = "public";
                 } else if(followerspost.isChecked()){
-                    privacy = "followers";
+                    privacy = "friends";
                 }
 
                 if((file != null) && (privacy != "")){
