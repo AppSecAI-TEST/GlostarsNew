@@ -127,7 +127,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.min.setText("");
         holder.hour.setText("");
         if (notifcation.getSeen().equals(false)){
-            holder.itemView.setBackgroundColor(Color.parseColor("#D0D0D0"));
+            holder.itemView.setBackgroundColor(Color.parseColor("#F6EDFE"));
         }
 
 

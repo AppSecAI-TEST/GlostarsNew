@@ -260,6 +260,8 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             }
         });
 
+
+
         //============================== NETWORK SERVICE HANDLING ========================================
         notifs = new ArrayList<>();
         follNotifs = new ArrayList<>();
@@ -467,15 +469,15 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                             //setActivityNotifSeen();
 
                             setFollowerNotifsAdapter(description, profilePicURL, name, "", usrId, originatedById, null, seen, interval, checked);
-
                         }
+
                         if(unseenNotifs > 0){
                             menuDown.setMenuButtonColorNormal(ContextCompat.getColor(notification.this,R.color.colorPrimary));
                             notificationFAB.setColorNormal(ContextCompat.getColor(notification.this,R.color.colorPrimary));
                             menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
                             notificationFAB.setImageResource(R.drawable.notinoti);
-
                         }
+
                     } catch (JSONException e){
                         e.printStackTrace();
                     }
