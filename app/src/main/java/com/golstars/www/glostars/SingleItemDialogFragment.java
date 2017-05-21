@@ -67,8 +67,9 @@ public class SingleItemDialogFragment extends DialogFragment {
     private ArrayList<Hashtag> postData;
     private TextView lblCount, lblTitle, lblDate,captionfullscreen,ratingcountfullscreen,commentcountfullscreen;
     private RatingBar ratingfullscreen;
-    private ImageView commentfullscreen,sharefullscreen,clearRating;
+    private ImageView commentfullscreen,sharefullscreen,clearRating,deletepic;
     private Button followfullscreen;
+    private View viewFull;
     private int selectedPosition = 0;
     private boolean onBind = false;
     private String token;
@@ -213,6 +214,11 @@ public class SingleItemDialogFragment extends DialogFragment {
         captionfullscreen.setText(postData.get(selectedPosition).getDescription());
         followfullscreen = (Button)dialog.findViewById(R.id.followfullscreen);
 
+
+        if(mUser.getUserId().equalsIgnoreCase(postData.get(selectedPosition).getPoster().getUserId())){
+            followfullscreen.setVisibility(View.GONE);
+        }
+
         final Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-Light.ttf");
         lblTitle.setTypeface(type);
         lblDate.setTypeface(type);
@@ -220,6 +226,9 @@ public class SingleItemDialogFragment extends DialogFragment {
         followfullscreen.setTypeface(type);
         followfullscreen.setTransformationMethod(null);
 
+
+        deletepic = (ImageView)dialog.findViewById(R.id.deletepic);
+        viewFull = (View)dialog.findViewById(R.id.viewfullscreen);
 
 
         lblTitle.setOnClickListener(new View.OnClickListener() {
@@ -236,25 +245,25 @@ public class SingleItemDialogFragment extends DialogFragment {
 
         if(postData.get(selectedPosition).is_mutual()){
             followfullscreen.setText("Mutual");
-            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.mutualfollowerbutton));
+            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
             followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
             followfullscreen.setTransformationMethod(null);
             followfullscreen.setTypeface(type);
         }else if(postData.get(selectedPosition).isMe_follow()){
             followfullscreen.setText("Following");
-            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followingbutton));
+            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
             followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
             followfullscreen.setTransformationMethod(null);
             followfullscreen.setTypeface(type);
         }else if(postData.get(selectedPosition).isHe_follow()){
             followfullscreen.setText("follower");
-            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followbackbutton));
+            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
             followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
             followfullscreen.setTransformationMethod(null);
             followfullscreen.setTypeface(type);
         }else{
             followfullscreen.setText("follow");
-            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followbutton));
+            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
             followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
             followfullscreen.setTransformationMethod(null);
             followfullscreen.setTypeface(type);
@@ -345,7 +354,7 @@ public class SingleItemDialogFragment extends DialogFragment {
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                     try {
                                         JSONObject comment=response.getJSONObject("resultPayload");
-                                        Comment c=new Comment(comment.getInt("commentId"),comment.getString("commentMessage"),comment.getString("commenterUserName"),comment.getString("commentUserNameId"), Timestamp.getInterval(Timestamp.getOwnZoneDateTime(comment.getString("commentTime"))),comment.getString("profilePicUrl"),comment.getString("firstName"),comment.getString("lastName"));
+                                        Comment c=new Comment(comment.getInt("commentId"),comment.getString("commentMessage"),comment.getString("commenterUserName"),comment.getString("commentUserNameId"), comment.getString("commentTime"),comment.getString("profilePicUrl"),comment.getString("firstName"),comment.getString("lastName"));
                                         listAllComment.add(c);
                                         commentData.notifyDataSetChanged();
                                         postData.get(selectedPosition).setComments(listAllComment);
@@ -450,25 +459,25 @@ public class SingleItemDialogFragment extends DialogFragment {
 
                 if(postData.get(position).is_mutual()){
                     followfullscreen.setText("Mutual");
-                    followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.mutualfollowerbutton));
+                    followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
                     followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
                     followfullscreen.setTransformationMethod(null);
                     followfullscreen.setTypeface(type);
                 }else if(postData.get(position).isMe_follow()){
                     followfullscreen.setText("Following");
-                    followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followingbutton));
+                    followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
                     followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
                     followfullscreen.setTransformationMethod(null);
                     followfullscreen.setTypeface(type);
                 }else if(postData.get(position).isHe_follow()){
                     followfullscreen.setText("follower");
-                    followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followbackbutton));
+                    followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
                     followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
                     followfullscreen.setTransformationMethod(null);
                     followfullscreen.setTypeface(type);
                 }else{
                     followfullscreen.setText("follow");
-                    followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followbutton));
+                    followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
                     followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
                     followfullscreen.setTransformationMethod(null);
                     followfullscreen.setTypeface(type);
@@ -515,7 +524,7 @@ public class SingleItemDialogFragment extends DialogFragment {
                                 if(response.getJSONObject("resultPayload").getBoolean("result")){
                                     if(response.getJSONObject("resultPayload").getBoolean("is_mutual")){
                                         followfullscreen.setText("Mutual");
-                                        followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.mutualfollowerbutton));
+                                        followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
                                         followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
                                         followfullscreen.setTransformationMethod(null);
                                         followfullscreen.setTypeface(type);
@@ -527,7 +536,7 @@ public class SingleItemDialogFragment extends DialogFragment {
                                     }
                                     else if(response.getJSONObject("resultPayload").getBoolean("me_follow")){
                                         followfullscreen.setText("Following");
-                                        followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followingbutton));
+                                        followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
                                         followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
                                         followfullscreen.setTransformationMethod(null);
                                         followfullscreen.setTypeface(type);
@@ -538,7 +547,7 @@ public class SingleItemDialogFragment extends DialogFragment {
 
                                     }else if(response.getJSONObject("resultPayload").getBoolean("he_follow")){
                                         followfullscreen.setText("follower");
-                                        followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followbackbutton));
+                                        followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
                                         followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
                                         followfullscreen.setTransformationMethod(null);
                                         followfullscreen.setTypeface(type);
@@ -548,7 +557,7 @@ public class SingleItemDialogFragment extends DialogFragment {
                                         postData.get(selected).setMe_follow(false);
                                     }else{
                                         followfullscreen.setText("follow");
-                                        followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.followbutton));
+                                        followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
                                         followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
                                         followfullscreen.setTransformationMethod(null);
                                         followfullscreen.setTypeface(type);
@@ -594,7 +603,7 @@ public class SingleItemDialogFragment extends DialogFragment {
                                             if(response.getJSONObject("resultPayload").getBoolean("result")) {
                                                 if (response.getJSONObject("resultPayload").getBoolean("is_mutual")) {
                                                     followfullscreen.setText("Mutual");
-                                                    followfullscreen.setBackground(ContextCompat.getDrawable(context, R.drawable.mutualfollowerbutton));
+                                                    followfullscreen.setBackground(ContextCompat.getDrawable(context, R.drawable.roundedbuttongrey));
                                                     followfullscreen.setTextColor(ContextCompat.getColor(context, R.color.white));
                                                     followfullscreen.setTransformationMethod(null);
                                                     followfullscreen.setTypeface(type);
@@ -605,7 +614,7 @@ public class SingleItemDialogFragment extends DialogFragment {
 
                                                 } else if (response.getJSONObject("resultPayload").getBoolean("me_follow")) {
                                                     followfullscreen.setText("Following");
-                                                    followfullscreen.setBackground(ContextCompat.getDrawable(context, R.drawable.followingbutton));
+                                                    followfullscreen.setBackground(ContextCompat.getDrawable(context, R.drawable.roundedbuttongrey));
                                                     followfullscreen.setTextColor(ContextCompat.getColor(context, R.color.white));
                                                     followfullscreen.setTransformationMethod(null);
                                                     followfullscreen.setTypeface(type);
@@ -616,7 +625,7 @@ public class SingleItemDialogFragment extends DialogFragment {
 
                                                 } else if (response.getJSONObject("resultPayload").getBoolean("he_follow")) {
                                                     followfullscreen.setText("follower");
-                                                    followfullscreen.setBackground(ContextCompat.getDrawable(context, R.drawable.followbackbutton));
+                                                    followfullscreen.setBackground(ContextCompat.getDrawable(context, R.drawable.roundedbuttongrey));
                                                     followfullscreen.setTextColor(ContextCompat.getColor(context, R.color.white));
                                                     followfullscreen.setTransformationMethod(null);
                                                     followfullscreen.setTypeface(type);
@@ -626,7 +635,7 @@ public class SingleItemDialogFragment extends DialogFragment {
                                                     postData.get(selected).setMe_follow(false);
                                                 } else {
                                                     followfullscreen.setText("follow");
-                                                    followfullscreen.setBackground(ContextCompat.getDrawable(context, R.drawable.followbutton));
+                                                    followfullscreen.setBackground(ContextCompat.getDrawable(context, R.drawable.roundedbuttongrey));
                                                     followfullscreen.setTextColor(ContextCompat.getColor(context, R.color.white));
                                                     followfullscreen.setTransformationMethod(null);
                                                     followfullscreen.setTypeface(type);

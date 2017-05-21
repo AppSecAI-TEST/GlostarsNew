@@ -108,10 +108,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         NotificationObj notifcation = notfications.get(position);
 
         if(notifcation.getProfilePicURL().equals("/Content/Profile/Thumbs/male.jpg") || notifcation.getProfilePicURL().equals("/Content/Profile/Thumbs/Male.jpg")){
-            holder.propic.setImageResource(R.drawable.nopicmale);
+            holder.propic.setImageResource(R.drawable.nopicmalegrey);
 
         } else if(notifcation.getProfilePicURL().equals("/Content/Profile/Thumbs/female.jpg") || notifcation.getProfilePicURL().equals("/Content/Profile/Thumbs/Female.jpg")){
-            holder.propic.setImageResource(R.drawable.nopicfemale);
+            holder.propic.setImageResource(R.drawable.nopicfemalegrey);
         }else{
             Glide.with(context).load(notifcation.getProfilePicURL()).into(holder.propic);
             //
@@ -127,7 +127,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.min.setText("");
         holder.hour.setText("");
         if (notifcation.getSeen().equals(false)){
-            holder.itemView.setBackgroundColor(Color.parseColor("#D0D0D0"));
+            holder.itemView.setBackgroundColor(Color.parseColor("#F6EDFE"));
         }
 
 

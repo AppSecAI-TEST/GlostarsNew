@@ -23,6 +23,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,6 +67,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
     boolean isOpen = false;
 
+
+    LinearLayout followinglin;
 
     com.github.clans.fab.FloatingActionButton cameraFAB;
     com.github.clans.fab.FloatingActionButton competitionFAB;
@@ -256,6 +259,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         publicno = (TextView)findViewById(R.id.publicno);
         mutualno = (TextView)findViewById(R.id.mutualno);
 
+        followinglin = (LinearLayout)findViewById(R.id.followinglin);
+
         editprofile = (ImageView)findViewById(R.id.editprofile);
 
 
@@ -336,11 +341,16 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         editprofile.setVisibility(View.GONE);
         follow.setVisibility(View.GONE);
 
+
+
+        final String  target = this.getIntent().getStringExtra("USER_ID");
+        
+
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(follow.getText().toString().equalsIgnoreCase("follower") || follow.getText().toString().equalsIgnoreCase("follow")){
-                    String url = ServerInfo.BASE_URL_FOLLOWER_API+"Following/"+guestUser.getUserId();
+                    String url = ServerInfo.BASE_URL_FOLLOWER_API+"Following/"+target;
                     AsyncHttpClient client=new AsyncHttpClient();
                     try {
                         KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -401,7 +411,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if(DialogInterface.BUTTON_POSITIVE==which){
-                                String url = ServerInfo.BASE_URL_FOLLOWER_API+"Unfollowing/"+guestUser.getUserId();
+                                String url = ServerInfo.BASE_URL_FOLLOWER_API+"Unfollowing/"+target;
                                 AsyncHttpClient client=new AsyncHttpClient();
                                 try {
                                     KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -528,8 +538,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
 
 
-        String target = null;
-        target = this.getIntent().getStringExtra("USER_ID");
+        
 
         fService = new FollowerService();
 
@@ -560,7 +569,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
         //usernameProfile.setText(mUser.getName());
         /*try {
-            populateGallery(guestUser.getUserId(), 1, mUser.getToken());
+            populateGallery(target, 1, mUser.getToken());
         } catch (JSONException e) {
             e.printStackTrace();
         }*/
@@ -820,10 +829,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
                         String pic = jsonObject.getString("profilePicURL");
                         if(pic.equals("/Content/Profile/Thumbs/male.jpg") || pic.equals("/Content/Profile/Thumbs/Male.jpg")){
-                            userPicProfile.setImageResource(R.drawable.nopicmale);
+                            userPicProfile.setImageResource(R.drawable.nopicmalegrey);
 
                         } else if(pic.equals("/Content/Profile/Thumbs/female.jpg") || pic.equals("/Content/Profile/Thumbs/Female.jpg")){
-                            userPicProfile.setImageResource(R.drawable.nopicfemale);
+                            userPicProfile.setImageResource(R.drawable.nopicfemalegrey);
                         }else{
                             Glide.with(getApplicationContext()).load(pic).into(userPicProfile);
                             //
@@ -838,8 +847,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
 
                         if(!target.equals(mUser.getUserId())){
-                            numFollowingCountProfile.setVisibility(View.GONE);
-                            numFollowingProfile.setVisibility(View.GONE);
+                            followinglin.setVisibility(View.GONE);
                             divider.setVisibility(View.GONE);
 
 
@@ -1171,7 +1179,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                 //calling populateGallery() method using data from user
                 populateGallery(jsonObject.getString("guestUsrId"), 1, jsonObject.getString("token"));
 
-                FollowerService.LoadFollowers(getApplicationContext(), guestUser.getUserId(), mUser.getToken(), new JsonHttpResponseHandler(){
+                FollowerService.LoadFollowers(getApplicationContext(), target, mUser.getToken(), new JsonHttpResponseHandler(){
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         // If the response is JSONObject instead of expected JSONArray

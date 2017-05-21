@@ -14,6 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -26,12 +27,15 @@ import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.adapters.NotificationAdapter;
+import com.golstars.www.glostars.adapters.PostData;
 import com.golstars.www.glostars.interfaces.OnItemClickListener;
 import com.golstars.www.glostars.models.NotificationObj;
 import com.golstars.www.glostars.models.Post;
 import com.golstars.www.glostars.network.NotificationService;
 import com.golstars.www.glostars.network.PictureService;
+import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
@@ -48,7 +52,7 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
-public class notification extends AppCompatActivity implements OnItemClickListener {
+public class notification extends AppCompatActivity implements OnItemClickListener,AdapterInfomation {
 
 
     //===========================FABS=========================================
@@ -260,6 +264,8 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             }
         });
 
+
+
         //============================== NETWORK SERVICE HANDLING ========================================
         notifs = new ArrayList<>();
         follNotifs = new ArrayList<>();
@@ -333,6 +339,20 @@ public class notification extends AppCompatActivity implements OnItemClickListen
 
     }
 
+    ArrayList<Hashtag> hashtags=new ArrayList<Hashtag>();
+    DisplayMetrics displayMetrics = new DisplayMetrics();
+    int Width = displayMetrics.widthPixels;
+    private PostData postDataAdapter=new PostData(hashtags, notification.this,Width,getSupportFragmentManager());
+    @Override
+    public ArrayList<Hashtag> getAllData() {
+        return this.hashtags;
+    }
+
+    @Override
+    public RecyclerView.Adapter getAdapter() {
+        return this.postDataAdapter;
+    }
+
     private class getUserData extends AsyncTask<String, Integer, JSONObject> {
 
         @Override
@@ -363,7 +383,6 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             } else if(mUser.getSex().equals("Female")){
                 profileFAB.setImageResource(R.drawable.nopicfemale);
             }
-
         }
     }
 
@@ -467,15 +486,15 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                             //setActivityNotifSeen();
 
                             setFollowerNotifsAdapter(description, profilePicURL, name, "", usrId, originatedById, null, seen, interval, checked);
-
                         }
+
                         if(unseenNotifs > 0){
                             menuDown.setMenuButtonColorNormal(ContextCompat.getColor(notification.this,R.color.colorPrimary));
                             notificationFAB.setColorNormal(ContextCompat.getColor(notification.this,R.color.colorPrimary));
                             menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
                             notificationFAB.setImageResource(R.drawable.notinoti);
-
                         }
+
                     } catch (JSONException e){
                         e.printStackTrace();
                     }
@@ -541,8 +560,14 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                     ArrayList<Post> gridImages = new ArrayList();
 
                     JSONObject pic = null;
+                    Hashtag hashtag = null;
                     try {
                         pic = response.getJSONObject("resultPayload");
+
+                        Gson gson=new Gson();
+                        hashtag=gson.fromJson(pic.toString(),Hashtag.class);
+
+
                         JSONObject poster = pic.getJSONObject("poster");
                         String name = poster.getString("name");
                         String usrId = poster.getString("userId");
@@ -580,15 +605,24 @@ public class notification extends AppCompatActivity implements OnItemClickListen
                         e.printStackTrace();
                     }
 
+
+
+
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("images", gridImages);
-                    bundle.putInt("position", 0);
+                    bundle.putInt("position",0);
                     bundle.putString("token", mUser.getToken());
                     bundle.putString("usrID", mUser.getUserId());
+
 
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     SingleItemDialogFragment newFragment = SingleItemDialogFragment.newInstance();
                     newFragment.setArguments(bundle);
+
+                    hashtags.clear();
+
+                    hashtags.add(hashtag);
+                    postDataAdapter.notifyDataSetChanged();
+
                     newFragment.show(ft, "slideshow");
 
                 }

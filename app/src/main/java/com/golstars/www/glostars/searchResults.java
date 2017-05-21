@@ -665,9 +665,9 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
                     profilePic.setVisibility(View.GONE);
                 } else{
                     if(item.UserPicUrl.equals("/Content/Profile/Thumbs/male.jpg") || item.UserPicUrl.equals("/Content/Profile/Thumbs/Male.jpg")){
-                        profilePic.setImageResource(R.drawable.nopicmale);
+                        profilePic.setImageResource(R.drawable.nopicmalegrey);
                     } else if(item.UserPicUrl.equals("/Content/Profile/Thumbs/female.jpg") || item.UserPicUrl.equals("/Content/Profile/Thumbs/Female.jpg")){
-                        profilePic.setImageResource(R.drawable.nopicfemale);
+                        profilePic.setImageResource(R.drawable.nopicfemalegrey);
                     }else{
                         Picasso.with(getApplicationContext()).load(item.UserPicUrl).into(profilePic);
                     }
