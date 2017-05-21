@@ -225,6 +225,7 @@ public class SingleItemDialogFragment extends DialogFragment {
         }else{
             followfullscreen.setVisibility(View.VISIBLE);
             deletepic.setVisibility(View.GONE);
+            viewFull.setVisibility(View.GONE);
         }
 
 
@@ -294,6 +295,7 @@ public class SingleItemDialogFragment extends DialogFragment {
                                         }else{
                                             followfullscreen.setVisibility(View.VISIBLE);
                                             deletepic.setVisibility(View.GONE);
+                                            viewFull.setVisibility(View.GONE);
                                         }
                                         //which item currently view
 
@@ -524,6 +526,8 @@ public class SingleItemDialogFragment extends DialogFragment {
                                                 }else{
                                                     followfullscreen.setVisibility(View.VISIBLE);
                                                     deletepic.setVisibility(View.GONE);
+                                                    viewFull.setVisibility(View.GONE);
+
                                                 }
                                                 //which item currently view
 
@@ -697,6 +701,7 @@ public class SingleItemDialogFragment extends DialogFragment {
                                         }else{
                                             followfullscreen.setVisibility(View.VISIBLE);
                                             deletepic.setVisibility(View.GONE);
+                                            viewFull.setVisibility(View.GONE);
                                         }
                                         //which item currently view
 
@@ -830,6 +835,7 @@ public class SingleItemDialogFragment extends DialogFragment {
                 }else{
                     followfullscreen.setVisibility(View.VISIBLE);
                     deletepic.setVisibility(View.GONE);
+                    viewFull.setVisibility(View.GONE);
                 }
                 //which item currently view
 

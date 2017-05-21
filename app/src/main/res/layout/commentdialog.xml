@@ -49,6 +49,7 @@
             android:layout_alignParentLeft="true"
             android:layout_gravity="center_vertical"
             android:padding="4dp"
+            android:visibility="gone"
             android:src="@drawable/smiley" />
 
         <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
@@ -58,6 +59,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
+            android:layout_marginStart="8dp"
             android:background="@drawable/edit"
             android:hint="Write your comment"
             android:inputType="textCapSentences|textMultiLine"
@@ -75,6 +77,7 @@
             android:layout_marginEnd="4dp"
             android:elevation="32dp"
             android:text="Send"
+            android:layout_marginStart="8dp"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold" />
 

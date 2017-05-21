@@ -202,7 +202,7 @@
             android:id="@+id/privacyCOMP"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_marginTop="-2dp"
+            android:layout_marginTop="-1dp"
             android:src="@drawable/privacy_competition_photo"
             android:layout_marginRight="0dp"
             android:layout_alignTop="@+id/uploadTIME"
