@@ -257,7 +257,19 @@ public class commentModel extends AppCompatActivity {
                 comment.setTypeface(type);
                 hours.setTypeface(type);
 
-                Picasso.with(getApplicationContext()).load(comm.getProfilePicUrl()).into(commentPic);
+                if(comm.getProfilePicUrl().equals("/Content/Profile/Thumbs/male.jpg") || comm.getProfilePicUrl().equals("/Content/Profile/Thumbs/Male.jpg")){
+                    commentPic.setImageResource(R.drawable.nopicmale);
+
+                } else if(comm.getProfilePicUrl().equals("/Content/Profile/Thumbs/female.jpg") || comm.getProfilePicUrl().equals("/Content/Profile/Thumbs/Female.jpg")){
+                    commentPic.setImageResource(R.drawable.nopicfemale);
+                }else{
+
+                    Picasso.with(getApplicationContext()).load(comm.getProfilePicUrl()).into(commentPic);
+
+                }
+
+
+                //Picasso.with(getApplicationContext()).load(comm.getProfilePicUrl()).into(commentPic);
                 comment.setText(comm.getCommentMessage());
                 //hours.setText("2");
                 namecomment.setText(comm.getFirstName() + " " + comm.getLastName());
