@@ -67,8 +67,9 @@ public class SingleItemDialogFragment extends DialogFragment {
     private ArrayList<Hashtag> postData;
     private TextView lblCount, lblTitle, lblDate,captionfullscreen,ratingcountfullscreen,commentcountfullscreen;
     private RatingBar ratingfullscreen;
-    private ImageView commentfullscreen,sharefullscreen,clearRating;
+    private ImageView commentfullscreen,sharefullscreen,clearRating,deletepic;
     private Button followfullscreen;
+    private View viewFull;
     private int selectedPosition = 0;
     private boolean onBind = false;
     private String token;
@@ -225,6 +226,9 @@ public class SingleItemDialogFragment extends DialogFragment {
         followfullscreen.setTypeface(type);
         followfullscreen.setTransformationMethod(null);
 
+
+        deletepic = (ImageView)dialog.findViewById(R.id.deletepic);
+        viewFull = (View)dialog.findViewById(R.id.viewfullscreen);
 
 
         lblTitle.setOnClickListener(new View.OnClickListener() {
