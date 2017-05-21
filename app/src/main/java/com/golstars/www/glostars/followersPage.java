@@ -337,6 +337,12 @@ public class followersPage extends AppCompatActivity {
                         if(follower.getUserId().equals(mUserID)){
                             follower.setRigStatus("");
                         }
+                        boolean isMutual=followerList.getJSONObject(i).getBoolean("is_mutual");
+                        if(isMutual){
+                            follower.setRigStatus("mutual");
+                        }else{
+                            follower.setRigStatus("follower");
+                        }
                         followers.add(follower);
                     }
 
@@ -356,6 +362,12 @@ public class followersPage extends AppCompatActivity {
                         if(follower.getUserId().equals(mUserID)){
                             follower.setRigStatus("");
                         }
+                        boolean isMutual=followingList.getJSONObject(i).getBoolean("is_mutual");
+                        if(isMutual){
+                            follower.setRigStatus("mutual");
+                        }else{
+                            follower.setRigStatus("following");
+                        }
 
                         following.add(follower);
 
@@ -364,7 +376,7 @@ public class followersPage extends AppCompatActivity {
 
 
 
-                    for ( Follower f  :followers
+                    /*for ( Follower f  :followers
                          ) {
 
                         if(followerListSet.contains(f.getUserId()) && followingListSet.contains(f.getUserId())){
@@ -390,7 +402,7 @@ public class followersPage extends AppCompatActivity {
                         }else{
                             f.setRigStatus("follow");
                         }
-                    }
+                    }*/
                     followersAdapter.notifyDataSetChanged();
                     followingAdaper.notifyDataSetChanged();
 

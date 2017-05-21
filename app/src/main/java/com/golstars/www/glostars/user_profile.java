@@ -336,11 +336,16 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         editprofile.setVisibility(View.GONE);
         follow.setVisibility(View.GONE);
 
+
+
+        final String  target = this.getIntent().getStringExtra("USER_ID");
+        
+
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(follow.getText().toString().equalsIgnoreCase("follower") || follow.getText().toString().equalsIgnoreCase("follow")){
-                    String url = ServerInfo.BASE_URL_FOLLOWER_API+"Following/"+guestUser.getUserId();
+                    String url = ServerInfo.BASE_URL_FOLLOWER_API+"Following/"+target;
                     AsyncHttpClient client=new AsyncHttpClient();
                     try {
                         KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -401,7 +406,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if(DialogInterface.BUTTON_POSITIVE==which){
-                                String url = ServerInfo.BASE_URL_FOLLOWER_API+"Unfollowing/"+guestUser.getUserId();
+                                String url = ServerInfo.BASE_URL_FOLLOWER_API+"Unfollowing/"+target;
                                 AsyncHttpClient client=new AsyncHttpClient();
                                 try {
                                     KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -528,8 +533,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
 
 
-        String target = null;
-        target = this.getIntent().getStringExtra("USER_ID");
+        
 
         fService = new FollowerService();
 
@@ -560,7 +564,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
         //usernameProfile.setText(mUser.getName());
         /*try {
-            populateGallery(guestUser.getUserId(), 1, mUser.getToken());
+            populateGallery(target, 1, mUser.getToken());
         } catch (JSONException e) {
             e.printStackTrace();
         }*/
@@ -1171,7 +1175,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                 //calling populateGallery() method using data from user
                 populateGallery(jsonObject.getString("guestUsrId"), 1, jsonObject.getString("token"));
 
-                FollowerService.LoadFollowers(getApplicationContext(), guestUser.getUserId(), mUser.getToken(), new JsonHttpResponseHandler(){
+                FollowerService.LoadFollowers(getApplicationContext(), target, mUser.getToken(), new JsonHttpResponseHandler(){
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         // If the response is JSONObject instead of expected JSONArray

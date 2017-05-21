@@ -345,7 +345,7 @@ public class SingleItemDialogFragment extends DialogFragment {
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                     try {
                                         JSONObject comment=response.getJSONObject("resultPayload");
-                                        Comment c=new Comment(comment.getInt("commentId"),comment.getString("commentMessage"),comment.getString("commenterUserName"),comment.getString("commentUserNameId"), Timestamp.getInterval(Timestamp.getOwnZoneDateTime(comment.getString("commentTime"))),comment.getString("profilePicUrl"),comment.getString("firstName"),comment.getString("lastName"));
+                                        Comment c=new Comment(comment.getInt("commentId"),comment.getString("commentMessage"),comment.getString("commenterUserName"),comment.getString("commentUserNameId"), comment.getString("commentTime"),comment.getString("profilePicUrl"),comment.getString("firstName"),comment.getString("lastName"));
                                         listAllComment.add(c);
                                         commentData.notifyDataSetChanged();
                                         postData.get(selectedPosition).setComments(listAllComment);
