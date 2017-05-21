@@ -1,6 +1,8 @@
 package com.golstars.www.glostars;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +21,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -148,6 +151,7 @@ public class SingleItemDialogFragment extends DialogFragment {
 
         mUser = MyUser.getmUser();
 
+        final Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-Light.ttf");
 
         final RelativeLayout root = new RelativeLayout(getActivity());
         //View v = LayoutInflater.from(context).inflate(R.layout.fragment_image_slider,null);
@@ -213,13 +217,176 @@ public class SingleItemDialogFragment extends DialogFragment {
         captionfullscreen = (TextView)dialog.findViewById(R.id.captionFullscreen);
         captionfullscreen.setText(postData.get(selectedPosition).getDescription());
         followfullscreen = (Button)dialog.findViewById(R.id.followfullscreen);
-
+        deletepic = (ImageView)dialog.findViewById(R.id.deletepic);
 
         if(mUser.getUserId().equalsIgnoreCase(postData.get(selectedPosition).getPoster().getUserId())){
             followfullscreen.setVisibility(View.GONE);
+            deletepic.setVisibility(View.VISIBLE);
+        }else{
+            followfullscreen.setVisibility(View.VISIBLE);
+            deletepic.setVisibility(View.GONE);
         }
 
-        final Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-Light.ttf");
+
+        deletepic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                builder.setTitle("Delete Picture");
+                builder.setMessage("Are you sure want to delete this picture?");
+
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        dialogInterface.dismiss();
+
+
+
+                        final ProgressDialog progressDialog = ProgressDialog.show(context, "",
+                                "Image deleting. Please wait...", true);
+                        progressDialog.setCanceledOnTouchOutside(true);
+                        progressDialog.show();
+
+                        String url = ServerInfo.BASE_URL + "api/images/delete/"+postData.get(selectedPosition).getId();
+                        AsyncHttpClient client=new AsyncHttpClient();
+                        try {
+                            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                            trustStore.load(null, null);
+                            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+                            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                            client.setSSLSocketFactory(sf);
+                        }
+                        catch (Exception e) {}
+                        RequestParams msg=new RequestParams();
+                        client.addHeader("Authorization", "Bearer " + mUser.getToken());
+                        final Integer integer=new Integer(selectedPosition);
+
+
+                        client.post(context, url,msg,new JsonHttpResponseHandler(){
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                try {
+                                    if(response.getJSONObject("resultPayload").getBoolean("result")){
+                                        Toast.makeText(context, "Successfully delete picture", Toast.LENGTH_SHORT).show();
+
+                                        postData.remove(integer.intValue());
+                                        pagerAdapter.notifyDataSetChanged();
+                                        postDataAdapter.notifyDataSetChanged();
+
+
+                                        int position=integer.intValue();
+
+
+                                        if(postData.size()==0){
+                                            dialog.dismiss();
+                                            progressDialog.dismiss();
+                                            ((Activity) context).finish();
+                                            context.startActivity(new Intent(context,context.getClass()));
+
+                                        }
+
+                                        if(mUser.getUserId().equalsIgnoreCase(postData.get(position).getPoster().getUserId())){
+                                            followfullscreen.setVisibility(View.GONE);
+                                            deletepic.setVisibility(View.VISIBLE);
+                                        }else{
+                                            followfullscreen.setVisibility(View.VISIBLE);
+                                            deletepic.setVisibility(View.GONE);
+                                        }
+                                        //which item currently view
+
+                                        lblTitle.setText(postData.get(position).getPoster().getName());
+                                        lblDate.setText(postData.get(position).getUploaded());
+                                        captionfullscreen.setText(postData.get(position).getDescription());
+                                        commentcountfullscreen.setText(postData.get(position).getComments().size()+"");
+                                        ratingcountfullscreen.setText(postData.get(position).getStarsCount()+"");
+                                        if(!postData.get(position).isIsCompeting()){
+                                            ratingfullscreen.setNumStars(1);
+                                        }
+                                        else ratingfullscreen.setNumStars(5);
+
+                                        ratingfullscreen.setRating((float)(postData.get(position).getMyStarCount()));
+                                        selectedPosition=position;
+
+
+
+                                        if(postData.get(position).is_mutual()){
+                                            followfullscreen.setText("Mutual");
+                                            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
+                                            followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                                            followfullscreen.setTransformationMethod(null);
+                                            followfullscreen.setTypeface(type);
+                                        }else if(postData.get(position).isMe_follow()){
+                                            followfullscreen.setText("Following");
+                                            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
+                                            followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                                            followfullscreen.setTransformationMethod(null);
+                                            followfullscreen.setTypeface(type);
+                                        }else if(postData.get(position).isHe_follow()){
+                                            followfullscreen.setText("follower");
+                                            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
+                                            followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                                            followfullscreen.setTransformationMethod(null);
+                                            followfullscreen.setTypeface(type);
+                                        }else{
+                                            followfullscreen.setText("follow");
+                                            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
+                                            followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                                            followfullscreen.setTransformationMethod(null);
+                                            followfullscreen.setTypeface(type);
+                                        }
+
+
+                                    }
+                                    progressDialog.dismiss();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                super.onFailure(statusCode, headers, responseString, throwable);
+                                progressDialog.dismiss();
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                super.onFailure(statusCode, headers, throwable, errorResponse);
+                                progressDialog.dismiss();
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                                super.onFailure(statusCode, headers, throwable, errorResponse);
+                                progressDialog.dismiss();
+                            }
+
+                        });
+                    }
+
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // I do not need any action here you might
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
+
+
+
+            }
+        });
+
+
         lblTitle.setTypeface(type);
         lblDate.setTypeface(type);
         captionfullscreen.setTypeface(type);
@@ -227,7 +394,7 @@ public class SingleItemDialogFragment extends DialogFragment {
         followfullscreen.setTransformationMethod(null);
 
 
-        deletepic = (ImageView)dialog.findViewById(R.id.deletepic);
+
         viewFull = (View)dialog.findViewById(R.id.viewfullscreen);
 
 
@@ -289,6 +456,166 @@ public class SingleItemDialogFragment extends DialogFragment {
                 final TextView sendcomment = (TextView) dialog.findViewById(R.id.sendcomment);
                 final List<Comment> listAllComment=postData.get(selectedPosition).getComments();
                 final CommentData commentData=new CommentData(context,listAllComment);
+
+                commentrecycler.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                        if(!mUser.getUserId().equalsIgnoreCase(postData.get(selectedPosition).getPoster().getUserId())){
+                            return false;
+                        }
+
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                        builder.setTitle("Delete Comment");
+                        builder.setMessage("Are you sure want to delete this comment?");
+
+                        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.dismiss();
+
+
+
+                                final ProgressDialog progressDialog = ProgressDialog.show(context, "",
+                                        "Comment deleting. Please wait...", true);
+                                progressDialog.setCanceledOnTouchOutside(true);
+                                progressDialog.show();
+
+                                String url = ServerInfo.BASE_URL + "api/images/DeleteComment?commentId="+listAllComment.get(position).getCommentId();
+                                AsyncHttpClient client=new AsyncHttpClient();
+                                try {
+                                    KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                                    trustStore.load(null, null);
+                                    MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+                                    sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                                    client.setSSLSocketFactory(sf);
+                                }
+                                catch (Exception e) {}
+                                RequestParams msg=new RequestParams();
+                                client.addHeader("Authorization", "Bearer " + mUser.getToken());
+                                final Integer integer=new Integer(position);
+
+
+                                client.get(context, url,new JsonHttpResponseHandler(){
+                                    @Override
+                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                        try {
+                                            if(response.getJSONObject("resultPayload").getBoolean("res")){
+                                                Toast.makeText(context, "Successfully delete comment", Toast.LENGTH_SHORT).show();
+
+                                                listAllComment.remove(integer.intValue());
+
+
+
+                                                postData.get(selectedPosition).setComments(listAllComment);
+                                                commentData.notifyDataSetChanged();
+                                                pagerAdapter.notifyDataSetChanged();
+                                                postDataAdapter.notifyDataSetChanged();
+
+
+
+
+
+                                                if(mUser.getUserId().equalsIgnoreCase(postData.get(selectedPosition).getPoster().getUserId())){
+                                                    followfullscreen.setVisibility(View.GONE);
+                                                    deletepic.setVisibility(View.VISIBLE);
+                                                }else{
+                                                    followfullscreen.setVisibility(View.VISIBLE);
+                                                    deletepic.setVisibility(View.GONE);
+                                                }
+                                                //which item currently view
+
+                                                lblTitle.setText(postData.get(selectedPosition).getPoster().getName());
+                                                lblDate.setText(postData.get(selectedPosition).getUploaded());
+                                                captionfullscreen.setText(postData.get(selectedPosition).getDescription());
+                                                commentcountfullscreen.setText(postData.get(selectedPosition).getComments().size()+"");
+                                                ratingcountfullscreen.setText(postData.get(selectedPosition).getStarsCount()+"");
+                                                if(!postData.get(selectedPosition).isIsCompeting()){
+                                                    ratingfullscreen.setNumStars(1);
+                                                }
+                                                else ratingfullscreen.setNumStars(5);
+
+                                                ratingfullscreen.setRating((float)(postData.get(selectedPosition).getMyStarCount()));
+
+
+
+                                                if(postData.get(selectedPosition).is_mutual()){
+                                                    followfullscreen.setText("Mutual");
+                                                    followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
+                                                    followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                                                    followfullscreen.setTransformationMethod(null);
+                                                    followfullscreen.setTypeface(type);
+                                                }else if(postData.get(selectedPosition).isMe_follow()){
+                                                    followfullscreen.setText("Following");
+                                                    followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
+                                                    followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                                                    followfullscreen.setTransformationMethod(null);
+                                                    followfullscreen.setTypeface(type);
+                                                }else if(postData.get(selectedPosition).isHe_follow()){
+                                                    followfullscreen.setText("follower");
+                                                    followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
+                                                    followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                                                    followfullscreen.setTransformationMethod(null);
+                                                    followfullscreen.setTypeface(type);
+                                                }else{
+                                                    followfullscreen.setText("follow");
+                                                    followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
+                                                    followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                                                    followfullscreen.setTransformationMethod(null);
+                                                    followfullscreen.setTypeface(type);
+                                                }
+
+
+                                            }
+                                            progressDialog.dismiss();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                        super.onFailure(statusCode, headers, responseString, throwable);
+                                        progressDialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                                        progressDialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                                        progressDialog.dismiss();
+                                    }
+
+                                });
+                            }
+
+                        });
+
+                        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // I do not need any action here you might
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog alert = builder.create();
+                        alert.show();
+
+
+
+                        return true;
+                    }
+                });
+
                 commentrecycler.setAdapter(commentData);
                 commentData.notifyDataSetChanged();
 
@@ -360,6 +687,61 @@ public class SingleItemDialogFragment extends DialogFragment {
                                         postData.get(selectedPosition).setComments(listAllComment);
                                         postDataAdapter.notifyDataSetChanged();
                                         commentrecycler.setSelection(listAllComment.size()-1);
+
+
+
+
+                                        if(mUser.getUserId().equalsIgnoreCase(postData.get(selectedPosition).getPoster().getUserId())){
+                                            followfullscreen.setVisibility(View.GONE);
+                                            deletepic.setVisibility(View.VISIBLE);
+                                        }else{
+                                            followfullscreen.setVisibility(View.VISIBLE);
+                                            deletepic.setVisibility(View.GONE);
+                                        }
+                                        //which item currently view
+
+                                        lblTitle.setText(postData.get(selectedPosition).getPoster().getName());
+                                        lblDate.setText(postData.get(selectedPosition).getUploaded());
+                                        captionfullscreen.setText(postData.get(selectedPosition).getDescription());
+                                        commentcountfullscreen.setText(postData.get(selectedPosition).getComments().size()+"");
+                                        ratingcountfullscreen.setText(postData.get(selectedPosition).getStarsCount()+"");
+                                        if(!postData.get(selectedPosition).isIsCompeting()){
+                                            ratingfullscreen.setNumStars(1);
+                                        }
+                                        else ratingfullscreen.setNumStars(5);
+
+                                        ratingfullscreen.setRating((float)(postData.get(selectedPosition).getMyStarCount()));
+
+
+
+                                        if(postData.get(selectedPosition).is_mutual()){
+                                            followfullscreen.setText("Mutual");
+                                            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
+                                            followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                                            followfullscreen.setTransformationMethod(null);
+                                            followfullscreen.setTypeface(type);
+                                        }else if(postData.get(selectedPosition).isMe_follow()){
+                                            followfullscreen.setText("Following");
+                                            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
+                                            followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                                            followfullscreen.setTransformationMethod(null);
+                                            followfullscreen.setTypeface(type);
+                                        }else if(postData.get(selectedPosition).isHe_follow()){
+                                            followfullscreen.setText("follower");
+                                            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
+                                            followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                                            followfullscreen.setTransformationMethod(null);
+                                            followfullscreen.setTypeface(type);
+                                        }else{
+                                            followfullscreen.setText("follow");
+                                            followfullscreen.setBackground(ContextCompat.getDrawable(context,R.drawable.roundedbuttongrey));
+                                            followfullscreen.setTextColor(ContextCompat.getColor(context,R.color.white));
+                                            followfullscreen.setTransformationMethod(null);
+                                            followfullscreen.setTypeface(type);
+                                        }
+
+
+
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -440,6 +822,15 @@ public class SingleItemDialogFragment extends DialogFragment {
 
 
             public void onPageSelected(int position) {
+
+
+                if(mUser.getUserId().equalsIgnoreCase(postData.get(position).getPoster().getUserId())){
+                    followfullscreen.setVisibility(View.GONE);
+                    deletepic.setVisibility(View.VISIBLE);
+                }else{
+                    followfullscreen.setVisibility(View.VISIBLE);
+                    deletepic.setVisibility(View.GONE);
+                }
                 //which item currently view
 
                 lblTitle.setText(postData.get(position).getPoster().getName());
@@ -667,7 +1058,7 @@ public class SingleItemDialogFragment extends DialogFragment {
             }
 
         });
-        
+
 
 
 
