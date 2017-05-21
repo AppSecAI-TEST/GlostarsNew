@@ -62,5 +62,8 @@ public class ImagePagerAdapter extends PagerAdapter {
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
     }
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
 
 }

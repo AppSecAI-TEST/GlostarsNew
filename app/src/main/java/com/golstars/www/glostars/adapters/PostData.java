@@ -1,7 +1,9 @@
 package com.golstars.www.glostars.adapters;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -9,6 +11,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,11 +20,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.golstars.www.glostars.ModelData.Comment;
 import com.golstars.www.glostars.ModelData.Hashtag;
@@ -331,6 +337,127 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                 final CommentData commentData=new CommentData(context,listAllComment);
                 commentrecycler.setAdapter(commentData);
                 commentData.notifyDataSetChanged();
+
+
+
+
+
+
+                commentrecycler.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent, View view, final int p, long id) {
+
+                        if(!mUser.getUserId().equalsIgnoreCase(data.get(pos).getPoster().getUserId())){
+                            return false;
+                        }
+
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                        builder.setTitle("Delete Comment");
+                        builder.setMessage("Are you sure want to delete this comment?");
+
+                        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.dismiss();
+
+
+
+                                final ProgressDialog progressDialog = ProgressDialog.show(context, "",
+                                        "Comment deleting. Please wait...", true);
+                                progressDialog.setCanceledOnTouchOutside(true);
+                                progressDialog.show();
+
+                                String url = ServerInfo.BASE_URL + "api/images/DeleteComment?commentId="+listAllComment.get(p).getCommentId();
+                                AsyncHttpClient client=new AsyncHttpClient();
+                                try {
+                                    KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                                    trustStore.load(null, null);
+                                    MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+                                    sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                                    client.setSSLSocketFactory(sf);
+                                }
+                                catch (Exception e) {}
+                                RequestParams msg=new RequestParams();
+                                client.addHeader("Authorization", "Bearer " + mUser.getToken());
+                                final Integer integer=new Integer(p);
+
+
+                                client.get(context, url,new JsonHttpResponseHandler(){
+                                    @Override
+                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                        try {
+                                            if(response.getJSONObject("resultPayload").getBoolean("res")){
+                                                Toast.makeText(context, "Successfully delete comment", Toast.LENGTH_SHORT).show();
+
+                                                listAllComment.remove(integer.intValue());
+
+
+
+                                                data.get(position).setComments(listAllComment);
+                                                commentData.notifyDataSetChanged();
+                                                notifyDataSetChanged();
+
+
+                                            }
+                                            progressDialog.dismiss();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                        super.onFailure(statusCode, headers, responseString, throwable);
+                                        progressDialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                                        progressDialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                                        progressDialog.dismiss();
+                                    }
+
+                                });
+                            }
+
+                        });
+
+                        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // I do not need any action here you might
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog alert = builder.create();
+                        alert.show();
+
+
+
+                        return true;
+                    }
+                });
+
+
+
+
+
+
+
+
+
+
+
 
 
 
