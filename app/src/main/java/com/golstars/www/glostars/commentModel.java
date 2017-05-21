@@ -258,10 +258,10 @@ public class commentModel extends AppCompatActivity {
                 hours.setTypeface(type);
 
                 if(comm.getProfilePicUrl().equals("/Content/Profile/Thumbs/male.jpg") || comm.getProfilePicUrl().equals("/Content/Profile/Thumbs/Male.jpg")){
-                    commentPic.setImageResource(R.drawable.nopicmale);
+                    commentPic.setImageResource(R.drawable.nopicmalegrey);
 
                 } else if(comm.getProfilePicUrl().equals("/Content/Profile/Thumbs/female.jpg") || comm.getProfilePicUrl().equals("/Content/Profile/Thumbs/Female.jpg")){
-                    commentPic.setImageResource(R.drawable.nopicfemale);
+                    commentPic.setImageResource(R.drawable.nopicfemalegrey);
                 }else{
 
                     Picasso.with(getApplicationContext()).load(comm.getProfilePicUrl()).into(commentPic);

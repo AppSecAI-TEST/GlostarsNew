@@ -59,23 +59,12 @@
                 android:textColor="#E1BEE7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/upwrong"
                 android:layout_marginTop="32dp"
+                android:layout_below="@+id/logInButton"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/signUp"
                 />
 
-            <TextView
-                android:text="Forgot Password?"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#E1BEE7"
-                android:layout_below="@+id/signUp"
-                android:layout_marginTop="32dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="9dp"
-                android:id="@+id/forgotPass"
-                />
 
             <Button
                 android:text="Log In"
@@ -93,16 +82,17 @@
                  />
 
             <TextView
-                android:text="Invalid Username/Password!"
+                android:text="Forgot Password?"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#E1BEE7"
-                android:textSize="15sp"
-                android:visibility="invisible"
-                android:layout_below="@+id/logInButton"
+                android:layout_below="@+id/signUp"
+                android:layout_marginTop="32dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
-                android:id="@+id/upwrong" />
+                android:layout_marginBottom="9dp"
+                android:id="@+id/forgotPass"
+                />
+
 
 
         </RelativeLayout>

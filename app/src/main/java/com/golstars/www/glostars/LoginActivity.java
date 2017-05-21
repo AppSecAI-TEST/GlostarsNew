@@ -54,7 +54,6 @@ public class LoginActivity extends Fragment {
     private Button login;
     private TextView signup;
     private TextView forgotpass;
-    private TextView upwrong;
 
 
     private SharedPreferences sharedPreferences;
