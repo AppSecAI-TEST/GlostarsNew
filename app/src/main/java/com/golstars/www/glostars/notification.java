@@ -365,7 +365,6 @@ public class notification extends AppCompatActivity implements OnItemClickListen
             } else if(mUser.getSex().equals("Female")){
                 profileFAB.setImageResource(R.drawable.nopicfemale);
             }
-
         }
     }
 

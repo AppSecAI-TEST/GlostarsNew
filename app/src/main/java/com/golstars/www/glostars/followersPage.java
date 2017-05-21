@@ -635,10 +635,10 @@ public class followersPage extends AppCompatActivity {
 
 
                 if(p.getProfilePicture().equals("/Content/Profile/Thumbs/male.jpg") || p.getProfilePicture().equals("/Content/Profile/Thumbs/Male.jpg")){
-                    usrPic.setImageResource(R.drawable.nopicmale);
+                    usrPic.setImageResource(R.drawable.nopicmalegrey);
 
                 } else if(p.getProfilePicture().equals("/Content/Profile/Thumbs/female.jpg") || p.getProfilePicture().equals("/Content/Profile/Thumbs/Female.jpg")){
-                    usrPic.setImageResource(R.drawable.nopicfemale);
+                    usrPic.setImageResource(R.drawable.nopicfemalegrey);
                 }else{
                     Picasso.with(getApplicationContext()).load(p.getProfilePicture()).into(usrPic);
                     //
