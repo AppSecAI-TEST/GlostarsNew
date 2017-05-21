@@ -213,6 +213,11 @@ public class SingleItemDialogFragment extends DialogFragment {
         captionfullscreen.setText(postData.get(selectedPosition).getDescription());
         followfullscreen = (Button)dialog.findViewById(R.id.followfullscreen);
 
+
+        if(mUser.getUserId().equalsIgnoreCase(postData.get(selectedPosition).getPoster().getUserId())){
+            followfullscreen.setVisibility(View.GONE);
+        }
+
         final Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-Light.ttf");
         lblTitle.setTypeface(type);
         lblDate.setTypeface(type);
