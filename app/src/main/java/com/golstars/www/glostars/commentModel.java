@@ -269,7 +269,7 @@ public class commentModel extends AppCompatActivity {
                 }
 
 
-                //Picasso.with(getApplicationContext()).load(comm.getProfilePicUrl()).into(commentPic);
+                //Picasso.with(getApplicationContext()).load(comm.getProfilePicUrl()).into(commentPic);//
                 comment.setText(comm.getCommentMessage());
                 //hours.setText("2");
                 namecomment.setText(comm.getFirstName() + " " + comm.getLastName());
