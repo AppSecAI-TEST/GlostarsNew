@@ -68,7 +68,7 @@ public class CommentData extends ArrayAdapter<Comment> {
                 commentPic.setImageResource(R.drawable.nopicfemale);
             }else{
 
-                Picasso.with(getContext()).load(comm.getProfilePicUrl()).into(commentPic);
+                Picasso.with(getContext()).load(comm.getProfilePicUrl()).into(commentPic);//
 
             }
 
