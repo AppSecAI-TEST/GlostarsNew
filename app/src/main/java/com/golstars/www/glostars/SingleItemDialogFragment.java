@@ -461,6 +461,8 @@ public class SingleItemDialogFragment extends DialogFragment {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
+                        System.out.println(mUser.getUserId());
+                        System.out.println(postData.get(selectedPosition).getPoster().getUserId());
                         if(!mUser.getUserId().equalsIgnoreCase(postData.get(selectedPosition).getPoster().getUserId())){
                             return false;
                         }

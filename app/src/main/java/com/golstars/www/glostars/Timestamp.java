@@ -114,7 +114,8 @@ public class Timestamp {
     }
 
     public static LocalDateTime getOwnZoneDateTime(String s){
-        DateTime dt = ISODateTimeFormat.dateTime().parseDateTime(s);
+        //DateTime dt = ISODateTimeFormat.dateTime().parseDateTime(s);
+        DateTime dt = DateTime.parse(s, ISODateTimeFormat.dateTimeParser());
         return dt.toLocalDateTime();
     }
 
