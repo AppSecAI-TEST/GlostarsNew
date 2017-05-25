@@ -147,7 +147,11 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
                     //callAsyncPopulate(pg);
                     pg = 1;
                     loading=false;
-                    loadFeed();
+                    if(mUser == null){
+                        new getUserData().execute("");
+                    }else{
+                        loadFeed();
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -164,13 +168,11 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         //---------------NETOWORK AND RECYCLER VIEW --------------------------------
         recyclerView = (RecyclerView) findViewById(R.id.mainfeedrecycler);
 
-        final Context context = MainFeed.this;
 
 
 
-        mUser = MyUser.getmUser();
         //getUserData("");
-        mUser.setContext(this);
+        //mUser.setContext(this);
 
 
 
@@ -186,8 +188,13 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
-        loadFeed();
-        new getUserData().execute("");
+        if(mUser == null){
+            new getUserData().execute("");
+        }else{
+            loadFeed();
+        }
+
+
         //populateFeed(mUser.getUserId(), pg, mUser.getToken());
 
         /* checks whether the user has reached the end of the view
@@ -209,7 +216,12 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
                             //pg++;
                             try {
                                 //callAsyncPopulate(pg);
-                                loadFeed();
+                                if(mUser == null){
+                                    new getUserData().execute("");
+                                }else{
+                                    loadFeed();
+                                }
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -309,13 +321,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 //            startActivity(new Intent(this, noInternet.class));
 //        }
 
-        if(mUser.getSex().equals("male")){
-            profileFAB.setImageResource(R.drawable.nopicmale);
-        } else if(mUser.getSex().equals("female")){
-            profileFAB.setImageResource(R.drawable.nopicfemale);
-        }
 
-        getUnseen();
 
 
 
@@ -469,6 +475,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 
         @Override
         protected JSONObject doInBackground(String... strings) {
+            mUser = MyUser.getmUser();
             mUser.setContext(getApplicationContext());
             return null;
         }
@@ -484,13 +491,10 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
             } else if(mUser.getSex().equals("Female")){
                 profileFAB.setImageResource(R.drawable.nopicfemale);
             }
+            getUnseen();
             //setting up alarm to service
             scheduleAlarm();
-            try {
-                // callAsyncPopulate(pg);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            loadFeed();
 
         }
     }
