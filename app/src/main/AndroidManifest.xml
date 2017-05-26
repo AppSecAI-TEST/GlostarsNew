@@ -5,8 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name="android.support.multidex.MultiDexApplication"
@@ -18,150 +18,126 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainFeed"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".user_profile"
             android:label="@string/title_activity_user_profile"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Fabs"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".testfeed"
             android:label="@string/title_activity_test"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".notification"
             android:label="@string/title_activity_notification"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".upload"
             android:label="@string/title_activity_upload"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar"
-             />
-
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".edit_profile"
             android:label="@string/title_activity_edit_profile"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name=".competitionUser"
             android:label="@string/title_activity_competition_user"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".competitionAll"
             android:label="@string/title_activity_competition_all"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".competitionFeed"
             android:label="@string/title_activity_competition_feed"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".imagefullscreen"
             android:label="@string/title_activity_image_full_screen"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".commentModel"
             android:label="@string/title_activity_comment_model"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name=".searchResults"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".recentsFeed"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".competition_page"
             android:label="@string/title_activity_competition_page"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".termsOfUse"
             android:label="Terms"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".settingsPage"
             android:label="@string/title_activity_settings_page"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".followersPage"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".TermsMain"
             android:label="@string/title_activity_terms_main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".AboutUs"
             android:label="About Us"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".dataPrivacy"
             android:label="Data Privacy"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".FAQs"
             android:label="FAQ"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".ContactUs"
             android:label="Contact Us"
@@ -176,29 +152,21 @@
             android:name=".MyAlarmReceiver"
             android:process=":remote" />
 
-        <activity
-            android:name=".fragmentImageSlider"
-            />
-
+        <activity android:name=".fragmentImageSlider" />
         <activity
             android:name=".imagefullscreenpreview"
             android:label="@string/title_activity_image_full_screen"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".newFeed"
             android:label="@string/title_activity_new_feed"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity android:name=".hashtagResults" />
-
         <activity
             android:name=".signupForward"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".noInternet">
-
-        </activity>
+        <activity android:name=".noInternet"></activity>
+        <activity android:name=".inputCode"></activity>
     </application>
 
 </manifest>
