@@ -158,51 +158,53 @@ public class SignUp extends Fragment{
             @Override
             public void onClick(View view) {
 
-                String usrname = email.getText().toString();
-                String email = usrname;
-                String name = firstName.getText().toString();
-                String bdayY = YYYY.getText().toString() ;
-                String bdayM = MM.getText().toString();
-                String bdayD = DD.getText().toString();
-                String genderSelected = gender.getSelectedItem().toString();
-                String lastname = lastName.getText().toString();
-                String pwd = password.getText().toString();
-                pWd = pwd;
+                startActivity(new Intent(getActivity(),inputCode.class));
 
-                if(termscheck.isChecked()){
-                    if(name.isEmpty()){
-
-                        Toast.makeText(getContext(), "'First Name' field is obligatory", Toast.LENGTH_LONG).show();
-                    }else if(email.isEmpty()){
-
-                        Toast.makeText(getContext(), "'Email' field is obligatory", Toast.LENGTH_LONG).show();
-                    }else if(pwd.isEmpty()){
-
-                        Toast.makeText(getContext(), "'Password' field is obligatory", Toast.LENGTH_LONG).show();
-                    }else{
-
-                        try {
-                            createAccount(usrname, email, name, bdayY, bdayM, bdayD, genderSelected, lastname, pwd);
-                            JSONObject c = null;
-                            while (c == null){
-                                c = getData();
-                            }
-                            if(c.getInt("responseCode") == 1){
-                                Toast.makeText(getContext(), c.getString("message"), Toast.LENGTH_LONG).show();
-                                //login("password", password.getText().toString(), c.getJSONObject("resultPayload").getString("email"));
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
-
-
-                } else {
-                    Toast.makeText(getActivity(), "You have to accept the terms and conditions to create an account", Toast.LENGTH_LONG).show();
-                }
+//                String usrname = email.getText().toString();
+//                String email = usrname;
+//                String name = firstName.getText().toString();
+//                String bdayY = YYYY.getText().toString() ;
+//                String bdayM = MM.getText().toString();
+//                String bdayD = DD.getText().toString();
+//                String genderSelected = gender.getSelectedItem().toString();
+//                String lastname = lastName.getText().toString();
+//                String pwd = password.getText().toString();
+//                pWd = pwd;
+//
+//                if(termscheck.isChecked()){
+//                    if(name.isEmpty()){
+//
+//                        Toast.makeText(getContext(), "'First Name' field is obligatory", Toast.LENGTH_LONG).show();
+//                    }else if(email.isEmpty()){
+//
+//                        Toast.makeText(getContext(), "'Email' field is obligatory", Toast.LENGTH_LONG).show();
+//                    }else if(pwd.isEmpty()){
+//
+//                        Toast.makeText(getContext(), "'Password' field is obligatory", Toast.LENGTH_LONG).show();
+//                    }else{
+//
+//                        try {
+//                            createAccount(usrname, email, name, bdayY, bdayM, bdayD, genderSelected, lastname, pwd);
+//                            JSONObject c = null;
+//                            while (c == null){
+//                                c = getData();
+//                            }
+//                            if(c.getInt("responseCode") == 1){
+//                                Toast.makeText(getContext(), c.getString("message"), Toast.LENGTH_LONG).show();
+//                                //login("password", password.getText().toString(), c.getJSONObject("resultPayload").getString("email"));
+//                            }
+//
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                    }
+//
+//
+//
+//                } else {
+//                    Toast.makeText(getActivity(), "You have to accept the terms and conditions to create an account", Toast.LENGTH_LONG).show();
+//                }
 
 
             }

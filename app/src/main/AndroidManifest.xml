@@ -165,8 +165,13 @@
         <activity
             android:name=".signupForward"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".noInternet"></activity>
-        <activity android:name=".inputCode"></activity>
+
+        <activity android:name=".noInternet">
+        </activity>
+
+        <activity android:name=".inputCode"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

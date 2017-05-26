@@ -1,6 +1,7 @@
 package com.golstars.www.glostars;
 
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -30,5 +31,12 @@ public class inputCode extends AppCompatActivity {
 
         submit.setTransformationMethod(null);
         resend.setPaintFlags(resend.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+
+        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+        banner.setTypeface(type);
+        resend.setTypeface(type);
+        codeinput.setTypeface(type);
+        submit.setTypeface(type);
     }
 }
