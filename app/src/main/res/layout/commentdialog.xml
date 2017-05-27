@@ -49,7 +49,7 @@
             android:layout_alignParentLeft="true"
             android:layout_gravity="center_vertical"
             android:padding="4dp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:src="@drawable/smiley" />
 
         <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText

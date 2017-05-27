@@ -317,7 +317,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainFeed.this, competitionAll.class));
+                startActivity(new Intent(MainFeed.this, competition_page.class));
                 menuDown.close(true);
 
             }

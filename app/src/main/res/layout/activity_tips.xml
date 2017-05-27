@@ -9,146 +9,163 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bannerLin"
+        android:layout_alignParentStart="true">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tipslin"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:visibility="visible"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/a"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Use the Right Light"
-                android:textStyle="bold"
-                android:textSize="26dp"/>
+                android:id="@+id/tipslin"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:visibility="visible"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/a"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Use the Right Light"
+                    android:textColor="@color/darkGrey"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/textHEADER"/>
 
-            <TextView
-                android:id="@+id/b"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:layout_marginBottom="32dp"
-                android:text="@string/light"/>
+                <TextView
+                    android:id="@+id/b"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textCAPTION"
+                    android:textColor="@color/darkGrey"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/light"/>
 
-            <TextView
-                android:id="@+id/c"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Don't Use Zoom"
-                android:textStyle="bold"
-                android:textSize="26dp"/>
+                <TextView
+                    android:id="@+id/c"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Don't Use Zoom"
+                    android:textColor="@color/darkGrey"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/textHEADER"/>
 
-            <TextView
-                android:id="@+id/d"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:layout_marginBottom="32dp"
-                android:text="@string/zoom"/>
+                <TextView
+                    android:id="@+id/d"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textCAPTION"
+                    android:textColor="@color/darkGrey"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/zoom"/>
 
-            <TextView
-                android:id="@+id/e"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Watch Your Background"
-                android:textStyle="bold"
-                android:textSize="26dp"/>
+                <TextView
+                    android:id="@+id/e"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Watch Your Background"
+                    android:textStyle="bold"
+                    android:textColor="@color/darkGrey"
+                    android:textSize="@dimen/textHEADER"/>
 
-            <TextView
-                android:id="@+id/f"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:layout_marginBottom="32dp"
-                android:text="@string/backgroundtips"/>
+                <TextView
+                    android:id="@+id/f"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/darkGrey"
+                    android:textSize="@dimen/textCAPTION"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/backgroundtips"/>
 
-            <TextView
-                android:id="@+id/g"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Use Frame For Your Shots"
-                android:textStyle="bold"
-                android:textSize="26dp"/>
+                <TextView
+                    android:id="@+id/g"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Use Frame For Your Shots"
+                    android:textColor="@color/darkGrey"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/textHEADER"/>
 
-            <TextView
-                android:id="@+id/h"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:layout_marginBottom="32dp"
-                android:text="@string/frame"/>
-            <TextView
-                android:id="@+id/i"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Change Perspective"
-                android:textStyle="bold"
-                android:textSize="26dp"/>
+                <TextView
+                    android:id="@+id/h"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textCAPTION"
+                    android:layout_marginBottom="32dp"
+                    android:textColor="@color/darkGrey"
+                    android:text="@string/frame"/>
+                <TextView
+                    android:id="@+id/i"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Change Perspective"
+                    android:textStyle="bold"
+                    android:textColor="@color/darkGrey"
+                    android:textSize="@dimen/textHEADER"/>
 
-            <TextView
-                android:id="@+id/j"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:layout_marginBottom="32dp"
-                android:text="@string/perspective"/>
+                <TextView
+                    android:id="@+id/j"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textCAPTION"
+                    android:textColor="@color/darkGrey"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/perspective"/>
 
-            <TextView
-                android:id="@+id/k"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Crop Your Pictures"
-                android:textStyle="bold"
-                android:textSize="26dp"/>
+                <TextView
+                    android:id="@+id/k"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Crop Your Pictures"
+                    android:textStyle="bold"
+                    android:textColor="@color/darkGrey"
+                    android:textSize="@dimen/textHEADER"/>
 
-            <TextView
-                android:id="@+id/ll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:layout_marginBottom="32dp"
-                android:text="@string/crop"/>
+                <TextView
+                    android:id="@+id/ll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textCAPTION"
+                    android:textColor="@color/darkGrey"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/crop"/>
 
-            <TextView
-                android:id="@+id/m"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Choose The Right Apps"
-                android:textStyle="bold"
-                android:textSize="26dp"/>
+                <TextView
+                    android:id="@+id/m"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Choose The Right Apps"
+                    android:textColor="@color/darkGrey"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/textHEADER"/>
 
-            <TextView
-                android:id="@+id/n"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:layout_marginBottom="32dp"
-                android:text="@string/apps"/>
+                <TextView
+                    android:id="@+id/n"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textCAPTION"
+                    android:textColor="@color/darkGrey"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/apps"/>
 
-            <TextView
-                android:id="@+id/o"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Phone Features"
-                android:textStyle="bold"
-                android:textSize="26dp"/>
+                <TextView
+                    android:id="@+id/o"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone Features"
+                    android:textColor="@color/darkGrey"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/textHEADER"/>
 
-            <TextView
-                android:id="@+id/p"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:layout_marginBottom="32dp"
-                android:text="@string/phnfeatures"/>
+                <TextView
+                    android:id="@+id/p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textCAPTION"
+                    android:textColor="@color/darkGrey"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/phnfeatures"/>
 
-        </LinearLayout>
+            </LinearLayout>
 
-
-    </ScrollView>
+           </ScrollView>
 
 </RelativeLayout>
