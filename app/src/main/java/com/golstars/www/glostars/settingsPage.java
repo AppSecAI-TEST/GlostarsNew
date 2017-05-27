@@ -13,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
@@ -29,6 +30,7 @@ public class settingsPage extends AppCompatActivity {
     TextView dataprivacy;
     TextView contactus;
     TextView Terms;
+    ImageView slogo,gl;
 
     com.github.clans.fab.FloatingActionButton homeFAB;
     com.github.clans.fab.FloatingActionButton cameraFAB;
@@ -57,7 +59,8 @@ public class settingsPage extends AppCompatActivity {
         Terms = (TextView)findViewById(R.id.termsset);
         logout = (TextView)findViewById(R.id.logoutset);
 
-
+        slogo = (ImageView)findViewById(R.id.searchlogo);
+        gl = (ImageView)findViewById(R.id.glostarslogo);
 
 
         cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
@@ -78,6 +81,19 @@ public class settingsPage extends AppCompatActivity {
         Terms.setTypeface(type);
         logout.setTypeface(type);
 
+        slogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(settingsPage.this,searchResults.class));
+            }
+        });
+
+        gl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(settingsPage.this,MainFeed.class));
+            }
+        });
 
 
 //        logout.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +102,9 @@ public class settingsPage extends AppCompatActivity {
 //                //Do your thing .
 //            }
 //        });
+
+
+
 
         aboutus.setOnClickListener(new View.OnClickListener() {
             @Override

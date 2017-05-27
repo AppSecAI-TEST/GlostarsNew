@@ -129,6 +129,12 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
 
+        gl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(competitionUser.this,MainFeed.class));
+            }
+        });
 
         slogo.setOnClickListener(new View.OnClickListener() {
             @Override

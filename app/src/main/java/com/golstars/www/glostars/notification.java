@@ -174,6 +174,13 @@ public class notification extends AppCompatActivity implements OnItemClickListen
           followers.setTypeface(type);
 
 
+        gl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(notification.this,MainFeed.class));
+            }
+        });
+
         slogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

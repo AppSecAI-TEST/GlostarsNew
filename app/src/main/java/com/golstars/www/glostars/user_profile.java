@@ -270,6 +270,13 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         search = (EditText)findViewById(R.id.searchedit);
 
 
+        gl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(user_profile.this,MainFeed.class));
+            }
+        });
+
 
         slogo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,6 +286,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
             }
         });
+
+
         //===================================================================================================
         final Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
         usernameProfile.setTypeface(type);

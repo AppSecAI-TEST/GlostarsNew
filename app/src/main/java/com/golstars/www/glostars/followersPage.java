@@ -84,7 +84,7 @@ public class followersPage extends AppCompatActivity {
     TextView camerabadge;
     TextView mainbadge;
     TextView competitionbadge;
-    ImageView slogo;
+    ImageView slogo,gl;
 
     ArrayList<Follower> followers;
     ArrayList<Follower> following;
@@ -132,6 +132,7 @@ public class followersPage extends AppCompatActivity {
 
 
         slogo = (ImageView)findViewById(R.id.searchlogo);
+        gl = (ImageView)findViewById(R.id.glostarslogo);
 
 
         homeFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.homeFAB);
@@ -169,6 +170,13 @@ public class followersPage extends AppCompatActivity {
                     followersList.setVisibility(View.GONE);
 
 
+            }
+        });
+
+        gl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(followersPage.this,MainFeed.class));
             }
         });
 

@@ -273,6 +273,13 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
             }
         });
 
+//        gl.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+
 
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override

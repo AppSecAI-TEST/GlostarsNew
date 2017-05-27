@@ -227,6 +227,8 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
         recogbut.setTransformationMethod(null);
 
 
+
+
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
         gallerybut.setTypeface(type);
         tipsbut.setTypeface(type);
@@ -253,6 +255,12 @@ public class competitionAll extends AppCompatActivity implements AdapterInfomati
 
 
 
+        gl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(competitionAll.this,MainFeed.class));
+            }
+        });
 
 
 

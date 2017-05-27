@@ -72,7 +72,7 @@ public class upload extends AppCompatActivity {
     TextView competitionbadge;
     //===================================================================
 
-    ImageView image,slogo;
+    ImageView image,slogo,gl;
     RadioButton publicpost;
     RadioButton competition;
     RadioButton followerspost;
@@ -111,7 +111,7 @@ public class upload extends AppCompatActivity {
         cancel = (Button)findViewById(R.id.cancelbutton);
         submit = (Button)findViewById(R.id.submitbutton);
         slogo = (ImageView)findViewById(R.id.searchlogo);
-
+        gl = (ImageView)findViewById(R.id.glostarslogo);
 
         submit.setTransformationMethod(null);
         cancel.setTransformationMethod(null);
@@ -181,6 +181,12 @@ public class upload extends AppCompatActivity {
 
 
 
+        gl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(upload.this,MainFeed.class));
+            }
+        });
 
         slogo.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -75,16 +75,17 @@
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="8dp"
                 android:paddingStart="12dp"
-                android:gravity="start"
-                android:scrollbars="vertical"
-                android:layout_width="match_parent"
-                android:maxLength="160"
+                android:paddingEnd="8dp"
+                android:layout_width="fill_parent"
                 android:layout_height="70dp"
-                android:hint="Write something about the photo"
-                android:inputType="textMultiLine"
+                android:ems="18"
+                android:minLines="1"
+                android:maxLines="4"
+                android:inputType="textMultiLine|textCapSentences"
+                android:gravity="start"
+                android:paddingTop="8dp"
                 android:background="@drawable/edit"
-                android:maxLines="1"
-                android:lines="3"
+                android:hint="Write something about the photo"
                 android:textColorHint="@color/hashtag"
                 android:textColor="@color/darkGrey"/>
 
@@ -98,7 +99,7 @@
 
                 <Button
                     android:id="@+id/cancelbutton"
-                    android:text="CANCEL"
+                    android:text="Cancel"
                     android:textColor="@color/colorPrimary"
                     android:background="@drawable/roundededittext"
                     android:layout_width="wrap_content"
@@ -114,7 +115,7 @@
 
                 <Button
                     android:id="@+id/submitbutton"
-                    android:text="SUBMIT"
+                    android:text="Submit"
                     android:textColor="@color/lightViolate"
                     android:background="@drawable/uploadbutton"
                     android:layout_width="wrap_content"
