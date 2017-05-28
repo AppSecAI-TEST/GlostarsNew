@@ -13,7 +13,7 @@
         android:id="@+id/happy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="We are happy to changes from you !"
+        android:text="We are happy to hear from you !"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
         android:layout_marginBottom="16dp"/>
