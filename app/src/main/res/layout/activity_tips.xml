@@ -19,7 +19,6 @@
                 android:id="@+id/tipslin"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:visibility="visible"
                 android:orientation="vertical">
                 <TextView
                     android:id="@+id/a"
@@ -30,14 +29,22 @@
                     android:textStyle="bold"
                     android:textSize="@dimen/textHEADER"/>
 
+
                 <TextView
                     android:id="@+id/b"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textCAPTION"
                     android:textColor="@color/darkGrey"
-                    android:layout_marginBottom="32dp"
+                    android:layout_marginBottom="8dp"
                     android:text="@string/light"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/rlight"
+                    android:layout_marginBottom="16dp"/>
+
 
                 <TextView
                     android:id="@+id/c"
@@ -56,6 +63,14 @@
                     android:textColor="@color/darkGrey"
                     android:layout_marginBottom="32dp"
                     android:text="@string/zoom"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/zoom"
+                    android:layout_marginBottom="16dp"/>
+
+
 
                 <TextView
                     android:id="@+id/e"
@@ -92,6 +107,13 @@
                     android:layout_marginBottom="32dp"
                     android:textColor="@color/darkGrey"
                     android:text="@string/frame"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/frame"
+                    android:layout_marginBottom="16dp"/>
+
                 <TextView
                     android:id="@+id/i"
                     android:layout_width="wrap_content"
@@ -110,6 +132,13 @@
                     android:layout_marginBottom="32dp"
                     android:text="@string/perspective"/>
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/perspective"
+                    android:layout_marginBottom="16dp"/>
+
+
                 <TextView
                     android:id="@+id/k"
                     android:layout_width="wrap_content"
@@ -127,6 +156,13 @@
                     android:textColor="@color/darkGrey"
                     android:layout_marginBottom="32dp"
                     android:text="@string/crop"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/crop"
+                    android:layout_marginBottom="16dp"/>
+
 
                 <TextView
                     android:id="@+id/m"
