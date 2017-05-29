@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionMenu;
+
 public class competition_page extends AppCompatActivity {
 
     /**
@@ -40,6 +42,9 @@ public class competition_page extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_competition_page);
+
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
