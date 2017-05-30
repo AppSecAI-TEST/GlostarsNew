@@ -165,13 +165,16 @@
         <activity
             android:name=".signupForward"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".noInternet">
-        </activity>
-
-        <activity android:name=".inputCode"
+        <activity android:name=".noInternet" />
+        <activity
+            android:name=".inputCode"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".notificationNew"
+            android:label="@string/title_activity_notification_new"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".notificationFollowersNew" />
+        <activity android:name=".notificationNotificationNew"></activity>
     </application>
 
 </manifest>

@@ -309,7 +309,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainFeed.this, notification.class));
+                startActivity(new Intent(MainFeed.this, notificationNew.class));
                 menuDown.close(true);
             }
         });

@@ -1,6 +1,5 @@
 package com.golstars.www.glostars;
 
-import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,12 +17,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
 
-public class competition_page extends AppCompatActivity {
+public class notificationNew extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -40,63 +38,31 @@ public class competition_page extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
-    ImageView slogo;
 
+    com.github.clans.fab.FloatingActionButton homeFAB;
     com.github.clans.fab.FloatingActionButton cameraFAB;
     com.github.clans.fab.FloatingActionButton competitionFAB;
     com.github.clans.fab.FloatingActionButton profileFAB;
     com.github.clans.fab.FloatingActionButton notificationFAB;
-    com.github.clans.fab.FloatingActionButton homeFAB;
 
     FloatingActionMenu menuDown;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_competition_page);
+        setContentView(R.layout.activity_notification_new);
 
 
-        slogo =(ImageView)findViewById(R.id.searchlogo);
 
         cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
-        profileFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.profileFAB);
+        profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
         notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
         homeFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.homeFAB);
 
-        menuDown = (FloatingActionMenu)findViewById(R.id.menu_down);
-        menuDown.setClosedOnTouchOutside(true);
-
-
-        homeFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(competition_page.this,MainFeed.class));
-            }
-        });
-
-
-        notificationFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(competition_page.this,notification.class));
-            }
-        });
-
-        cameraFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(competition_page.this,upload.class));
-            }
-        });
-
-
-        slogo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(competition_page.this,searchResults.class));
-            }
-        });
+        menuDown = (com.github.clans.fab.FloatingActionMenu)findViewById(R.id.menu_down);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -111,6 +77,7 @@ public class competition_page extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
 
     }
 
@@ -186,38 +153,30 @@ public class competition_page extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    compGallery cG = new compGallery();
-                    return cG;
+                    notificationFollowersNew nfN = new notificationFollowersNew();
+                    return nfN;
                 case 1:
-                    recognition rcg = new recognition();
-                    return rcg;
-                case 2:
-                    tips tp = new tips();
-                    return tp;
-                case 3:
-                    termscomp tc = new termscomp();
-                    return tc;
+                    notificationNotificationNew nnN = new notificationNotificationNew();
+                    return nnN;
+
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 4;
+            // Show 2 total pages.
+            return 1;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Gallery";
+                    return "Notifications";
                 case 1:
-                    return "Recognition";
-                case 2:
-                    return "Tips";
-                case 3:
-                    return "Terms";
+                    return "Followers";
+
             }
             return null;
         }

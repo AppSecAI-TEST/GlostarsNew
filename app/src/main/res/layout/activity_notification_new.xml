@@ -46,10 +46,16 @@
                         android:visibility="visible"
                         android:src="@drawable/lotext"/>
 
-                    <View
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <EditText
+                        android:id="@+id/searchedit"
+                        android:layout_width="45dp"
+                        android:layout_height="match_parent"
+                        android:hint="Search"
+                        android:textColorHint="@color/darkGrey"
+                        android:paddingLeft="16dp"
+                        android:background="@drawable/roundededittext1"
                         android:layout_weight="1"
+                        android:animateLayoutChanges="true"
                         android:visibility="invisible"/>
 
                     <ImageView
@@ -85,7 +91,6 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <include layout="@layout/fabs"/>
-
 
 
 </android.support.design.widget.CoordinatorLayout>
