@@ -70,8 +70,6 @@
                     android:src="@drawable/zoom"
                     android:layout_marginBottom="16dp"/>
 
-
-
                 <TextView
                     android:id="@+id/e"
                     android:layout_width="wrap_content"
