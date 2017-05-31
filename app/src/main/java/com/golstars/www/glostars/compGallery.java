@@ -111,7 +111,7 @@ public class compGallery extends Fragment {
 
 
 
-            compAdapt = new CompetitionData(this, compPicsUrls,getSupportFragmentManager());
+            compAdapt = new CompetitionData(getActivity(), compPicsUrls,getFragmentManager());
             //compAdapt = new RecyclerGridAdapter(this, gridImages, this);
 
             int numOfColumns = 3;
@@ -145,7 +145,7 @@ public class compGallery extends Fragment {
                                 try {
                                     //callAsyncPopulate(pg);
                                     if(mUser == null){
-                                        new competition_page().getUserData().execute("");
+                                        new getUserData().execute("");
                                     } else{
                                         load(false);
                                     }
@@ -161,9 +161,8 @@ public class compGallery extends Fragment {
 
             });
             if(mUser == null){
-                new competition_page().getUserData().execute("");
+                new getUserData().execute("");
             } else{
-                getUnseen();
                 load(false);
             }
 
@@ -171,6 +170,7 @@ public class compGallery extends Fragment {
 //            startActivity(new Intent(this, noInternet.class));
 //        }
 
+        return rootView;
 
 
         }
@@ -184,7 +184,7 @@ public class compGallery extends Fragment {
 
     public boolean isConnected(){
         boolean hasConnection;
-        ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         hasConnection = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
@@ -214,7 +214,7 @@ public class compGallery extends Fragment {
         catch (Exception e) {}
 
 
-        client.get(getApplicationContext(), url,new JsonHttpResponseHandler(){
+        client.get(getActivity(), url,new JsonHttpResponseHandler(){
 
 
             @Override
@@ -248,56 +248,7 @@ public class compGallery extends Fragment {
     }
 
 
-    public void getUnseen(){
 
-
-        NotificationService.getNotifications(getApplicationContext(), mUser.getUserId(), mUser.getToken(), new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
-                try {
-                    JSONObject data = response.getJSONObject("resultPayload");
-                    System.out.println(response);
-                    JSONArray activityNotifications = data.getJSONArray("activityNotifications");
-                    JSONArray followerNotifications = data.getJSONArray("followerNotifications");
-                    System.out.println(activityNotifications);
-                    System.out.println(followerNotifications);
-
-
-                    for(int i = 0; i < activityNotifications.length(); ++i){
-                        if(activityNotifications.getJSONObject(i).getString("seen").equals("false")){
-                            unseenNotifs++;
-                        }
-                    }
-
-                    for(int i = 0; i < followerNotifications.length(); ++i){
-                        if(followerNotifications.getJSONObject(i).getString("seen").equals("false")){
-                            unseenNotifs++;
-                        }
-
-                    }
-
-                    if(unseenNotifs > 0){
-                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(competitionAll.this,R.color.colorPrimary));
-                        notificationFAB.setColorNormal(ContextCompat.getColor(competitionAll.this,R.color.colorPrimary));
-                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
-                        notificationFAB.setImageResource(R.drawable.notinoti);
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-
-            }
-        });
-
-
-
-
-    }
 
 
     private class getUserData extends AsyncTask<String, Integer, JSONObject> {
@@ -316,7 +267,7 @@ public class compGallery extends Fragment {
             homeIntent = new Intent();
             homeIntent.putExtra("USER_ID",mUser.getUserId());
             homeIntent.setClass(getActivity().getApplicationContext(),user_profile.class);
-            getUnseen();
+            //getUnseen();
             load(false);
 
 
@@ -424,20 +375,16 @@ public class compGallery extends Fragment {
 
 
 
-    @Override
     public ArrayList<Hashtag> getAllData() {
         return compPicsUrls;
     }
 
-    @Override
+
     public RecyclerView.Adapter getAdapter() {
         return compAdapt;
 
 
 
-        return rootView;
-
-
-
     }
+
 }
