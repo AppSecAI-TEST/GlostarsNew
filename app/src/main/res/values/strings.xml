@@ -329,4 +329,5 @@ In compliance with Section 26 of the Personal Data Act, everyone is entitled to 
     <string name="title_activity_new_feed">newFeed</string>
     <string name="signupemail">A confirmation mail has been sent to your email address. Please check your email to successfully open an account</string>
     <string name="title_activity_notification_new">notificationNew</string>
+    <string name="title_activity_new_followers_page">newFollowersPage</string>
 </resources>
