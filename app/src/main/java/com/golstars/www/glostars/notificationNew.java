@@ -1,5 +1,6 @@
 package com.golstars.www.glostars;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
@@ -48,6 +50,8 @@ public class notificationNew extends AppCompatActivity {
     FloatingActionMenu menuDown;
 
 
+    ImageView slogo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,46 @@ public class notificationNew extends AppCompatActivity {
         homeFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.homeFAB);
 
         menuDown = (com.github.clans.fab.FloatingActionMenu)findViewById(R.id.menu_down);
+
+        slogo = (ImageView)findViewById(R.id.searchlogo);
+
+
+
+        homeFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(notificationNew.this,MainFeed.class));
+            }
+        });
+
+        competitionFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(notificationNew.this,competition_page.class));
+            }
+        });
+
+        profileFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        cameraFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(notificationNew.this,upload.class));
+            }
+        });
+
+
+        slogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(notificationNew.this,searchResults.class));
+            }
+        });
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
