@@ -1,9 +1,11 @@
 package com.golstars.www.glostars;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -22,6 +24,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.network.NotificationService;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 public class notificationNew extends AppCompatActivity {
 
@@ -49,8 +59,10 @@ public class notificationNew extends AppCompatActivity {
 
     FloatingActionMenu menuDown;
 
-
+    MyUser mUser;
+    Intent homeIntent;
     ImageView slogo;
+    Integer unseenNotifs = 0;
 
 
     @Override
@@ -121,6 +133,10 @@ public class notificationNew extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        if(mUser == null){
+            new getUserData().execute("");
+        }
 
 
     }
@@ -225,4 +241,85 @@ public class notificationNew extends AppCompatActivity {
             return null;
         }
     }
+
+    private class getUserData extends AsyncTask<String, Integer, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            mUser = MyUser.getmUser();
+            mUser.setContext(getApplicationContext());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject object) {
+
+
+            //setting user default pic on FAB MENU
+            if(mUser.getSex().equals("Male")){
+                System.out.println("MY USER'S GENDER IS : " + mUser.getSex());
+                profileFAB.setImageResource(R.drawable.nopicmale);
+            } else if(mUser.getSex().equals("Female")){
+                System.out.println("MY USER'S GENDER IS : " + mUser.getSex());
+                profileFAB.setImageResource(R.drawable.nopicfemale);
+            }
+
+            homeIntent = new Intent();
+            homeIntent.putExtra("USER_ID",mUser.getUserId());
+            homeIntent.setClass(getApplicationContext(),user_profile.class);
+            getUnseen();
+            //load(false);
+
+
+        }
+    }
+
+    public void getUnseen() {
+
+
+        NotificationService.getNotifications(getApplicationContext(), mUser.getUserId(), mUser.getToken(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                try {
+                    JSONObject data = response.getJSONObject("resultPayload");
+                    System.out.println(response);
+                    JSONArray activityNotifications = data.getJSONArray("activityNotifications");
+                    JSONArray followerNotifications = data.getJSONArray("followerNotifications");
+                    System.out.println(activityNotifications);
+                    System.out.println(followerNotifications);
+
+
+                    for (int i = 0; i < activityNotifications.length(); ++i) {
+                        if (activityNotifications.getJSONObject(i).getString("seen").equals("false")) {
+                            unseenNotifs++;
+                        }
+                    }
+
+                    for (int i = 0; i < followerNotifications.length(); ++i) {
+                        if (followerNotifications.getJSONObject(i).getString("seen").equals("false")) {
+                            unseenNotifs++;
+                        }
+
+                    }
+
+                    if (unseenNotifs > 0) {
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+
+    }
+
+
 }
