@@ -82,13 +82,20 @@ public class competition_page extends AppCompatActivity {
         menuDown.setClosedOnTouchOutside(true);
 
 
-        homeFAB.setOnClickListener(new View.OnClickListener() {
+        profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(homeIntent != null){
                     startActivity(homeIntent);
                 }
 
+            }
+        });
+
+        homeFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(competition_page.this,MainFeed.class));
             }
         });
 

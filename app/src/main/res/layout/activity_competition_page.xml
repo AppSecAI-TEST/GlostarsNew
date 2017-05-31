@@ -71,6 +71,7 @@
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_marginTop="70dp"
+                app:layout_scrollFlags="scroll|enterAlways"
                 android:layout_height="wrap_content" />
 
 
