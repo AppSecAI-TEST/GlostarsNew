@@ -297,13 +297,13 @@ public class competition_page extends AppCompatActivity {
 
                     }
 
-                    if(unseenNotifs > 0){
-                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary));
-                        notificationFAB.setColorNormal(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary));
-                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
-                        notificationFAB.setImageResource(R.drawable.notinoti);
-
-                    }
+//                    if(unseenNotifs > 0){
+//                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary));
+//                        notificationFAB.setColorNormal(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary));
+//                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+//                        notificationFAB.setImageResource(R.drawable.notinoti);
+//
+//                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
