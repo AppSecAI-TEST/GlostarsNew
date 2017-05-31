@@ -40,9 +40,10 @@
                     android:text="@string/light"/>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
                     android:src="@drawable/rlight"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="16dp"/>
 
 
@@ -65,9 +66,10 @@
                     android:text="@string/zoom"/>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
                     android:src="@drawable/zoom"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="16dp"/>
 
                 <TextView
@@ -107,8 +109,9 @@
                     android:text="@string/frame"/>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/frame"
                     android:layout_marginBottom="16dp"/>
 
@@ -131,8 +134,9 @@
                     android:text="@string/perspective"/>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/perspective"
                     android:layout_marginBottom="16dp"/>
 
@@ -156,9 +160,10 @@
                     android:text="@string/crop"/>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
                     android:src="@drawable/crop"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="16dp"/>
 
 
