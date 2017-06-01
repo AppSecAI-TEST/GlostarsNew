@@ -186,7 +186,8 @@
             android:label="@string/title_activity_introductory"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".introOne" />
-        <activity android:name=".introTwo"></activity>
+        <activity android:name=".introTwo" />
+        <activity android:name=".introThree"></activity>
     </application>
 
 </manifest>
