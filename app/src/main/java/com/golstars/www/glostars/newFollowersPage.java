@@ -244,8 +244,13 @@ public class newFollowersPage extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 2 total pages.
-            return 2;
+            if(!guestUserID.equals(mUserID)){
+                return 1;
+            }else{
+                // Show 2 total pages.
+                return 2;
+            }
+
         }
 
         @Override
