@@ -180,7 +180,13 @@
             android:label="@string/title_activity_new_followers_page"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".newFollowers" />
-        <activity android:name=".newFollowing"></activity>
+        <activity android:name=".newFollowing" />
+        <activity
+            android:name=".introductory"
+            android:label="@string/title_activity_introductory"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".introOne" />
+        <activity android:name=".introTwo"></activity>
     </application>
 
 </manifest>
