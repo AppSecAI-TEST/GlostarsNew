@@ -64,6 +64,10 @@ public class newFollowersPage extends AppCompatActivity {
     MyUser mUser;
     Integer unseenNotifs;
 
+    String guestUserID;
+    String mUserID;
+    String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +127,10 @@ public class newFollowersPage extends AppCompatActivity {
         });
 
 
+        guestUserID  = this.getIntent().getStringExtra("guestUserId");
+        mUserID = this.getIntent().getStringExtra("myUserId");
+        token =  this.getIntent().getStringExtra("token");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -135,6 +143,8 @@ public class newFollowersPage extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+
 
         if(mUser == null){
             new getUserData().execute("");
@@ -212,12 +222,20 @@ public class newFollowersPage extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+
+            Bundle bundle = new Bundle();
+            bundle.putString("guestUserId", guestUserID);
+            bundle.putString("myUserId", mUserID);
+            bundle.putString("token", token);
+
             switch (position) {
                 case 0:
                     newFollowers nFollowers = new newFollowers();
+                    nFollowers.setArguments(bundle);
                     return nFollowers;
                 case 1:
                     newFollowing nFollowing = new newFollowing();
+                    nFollowing.setArguments(bundle);
                     return nFollowing;
 
             }
@@ -259,6 +277,17 @@ public class newFollowersPage extends AppCompatActivity {
             homeIntent = new Intent();
             homeIntent.putExtra("USER_ID",mUser.getUserId());
             homeIntent.setClass(getApplicationContext(),user_profile.class);
+
+            //setting user default pic on FAB MENU
+            if(mUser.getSex().equals("Male")){
+                System.out.println("MY USER'S GENDER IS : " + mUser.getSex());
+                profileFAB.setImageResource(R.drawable.nopicmale);
+            } else if(mUser.getSex().equals("Female")){
+                System.out.println("MY USER'S GENDER IS : " + mUser.getSex());
+                profileFAB.setImageResource(R.drawable.nopicfemale);
+            }
+
+
             getUnseen();
             //load(false);
 

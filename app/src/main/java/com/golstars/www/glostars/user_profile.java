@@ -592,7 +592,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                 intent.putExtra("myUserId", mUser.getUserId());
                 intent.putExtra("myUserPic", mUser.getProfilePicURL());
                 intent.putExtra("token", mUser.getToken());
-                intent.setClass(user_profile.this,followersPage.class);
+                intent.setClass(user_profile.this,newFollowersPage.class);
                 startActivity(intent);
                 System.out.println("Calling");
 
@@ -607,7 +607,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                 intent.putExtra("myUserId", mUser.getUserId());
                 intent.putExtra("myUserPic", mUser.getProfilePicURL());
                 intent.putExtra("token", mUser.getToken());
-                intent.setClass(user_profile.this,followersPage.class);
+                intent.setClass(user_profile.this,newFollowersPage.class);
                 startActivity(intent);
                 System.out.println("Calling");
             }
