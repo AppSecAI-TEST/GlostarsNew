@@ -119,6 +119,9 @@ public class compGallery extends Fragment {
             gallery.setLayoutManager(layoutManager);
             gallery.setAdapter(compAdapt);
 
+
+        gallery.setNestedScrollingEnabled(false);
+
             //new getUserData().execute("");
         /*mUser.setContext(this);
         homeIntent = new Intent();

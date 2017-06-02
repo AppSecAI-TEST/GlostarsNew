@@ -36,7 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="bottom"
+                    android:gravity="top"
                     android:layout_marginTop="0dp">
 
                     <ImageView
@@ -67,14 +67,13 @@
 
             </android.support.v7.widget.Toolbar>
 
+
             <android.support.design.widget.TabLayout
                 style="@style/MyTabLayout"
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
-                android:layout_marginTop="70dp"
-                app:layout_scrollFlags="scroll|enterAlways"
+                app:layout_scrollFlags="enterAlways"
                 android:layout_height="wrap_content" />
-
 
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -86,7 +85,6 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <include layout="@layout/fabs"/>
 
 
 
