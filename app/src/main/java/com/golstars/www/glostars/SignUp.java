@@ -78,7 +78,7 @@ public class SignUp extends Fragment{
 
     Button signUp;
 
-    Spinner gender;
+    public Spinner gender;
     String pWd = "";
 
     private static final MediaType JSONType = MediaType.parse("application/json; charset=utf-8");
@@ -104,7 +104,7 @@ public class SignUp extends Fragment{
         };
 
         ArrayAdapter<String> genderItems = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,genderEntries);
-        gender.setAdapter(genderItems);
+        //gender.setAdapter(genderItems);
 
         auth = new Auth(getActivity().getApplicationContext());
 
