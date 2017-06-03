@@ -38,14 +38,15 @@
                     android:layout_marginBottom="4dp"
                     android:layout_marginTop="24dp">
 
-                    <ImageView
+                    <TextView
                         android:id="@+id/glostarslogo"
-                        android:layout_width="150dp"
-                        android:layout_height="50dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:paddingLeft="0dp"
-                        android:animateLayoutChanges="true"
                         android:visibility="visible"
-                        android:src="@drawable/lotext"/>
+                        android:text="Competition Posts"
+                        android:textColor="@color/lightViolate"
+                        android:textSize="20sp"/>
 
                     <View
                         android:layout_width="wrap_content"

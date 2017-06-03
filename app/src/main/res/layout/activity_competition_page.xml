@@ -27,7 +27,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|enterAlways"
+                app:layout_scrollFlags="exitUntilCollapsed|scroll"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
 
@@ -44,6 +44,9 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="2dp"
                         android:visibility="visible"
+                        android:textSize="20sp"
+                        android:textColor="@color/lightViolate"
+                        android:text="Competition Posts"
                         />
 
                     <View

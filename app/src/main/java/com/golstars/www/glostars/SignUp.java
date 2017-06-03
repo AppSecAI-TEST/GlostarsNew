@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -90,10 +91,20 @@ public class SignUp extends Fragment{
     private static final String MyPREFERENCES = "glostarsPrefs";
     Auth auth;
 
+    private String[] genderEntries;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.sign_up_activity, container, false);
+
+        this.genderEntries = new String[] {
+                "Male","Female"
+        };
+
+        ArrayAdapter<String> genderItems = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,genderEntries);
+        gender.setAdapter(genderItems);
 
         auth = new Auth(getActivity().getApplicationContext());
 
