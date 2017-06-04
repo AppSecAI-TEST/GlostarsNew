@@ -1,9 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context="com.golstars.www.glostars.introThree">
 
-</android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/introThreeBanner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Earn Badges"
+        android:textSize="25sp"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/introThreeBanner1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/introThreeBanner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:text="by participating in Photo Competition" />
+
+    <ImageView
+        android:id="@+id/introWeekly"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignStart="@+id/introThreeBanner1"
+        android:layout_below="@+id/introThreeBanner1"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="-20dp"
+        app:srcCompat="@drawable/intro_weekly" />
+
+    <ImageView
+        android:id="@+id/introMonthly"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignStart="@+id/introThreeBanner1"
+        android:layout_below="@+id/introWeekly"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="-20dp"
+        app:srcCompat="@drawable/intro_monthly" />
+
+    <ImageView
+        android:id="@+id/introGrand"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignStart="@+id/introThreeBanner1"
+        android:layout_below="@+id/introMonthly"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="-20dp"
+        app:srcCompat="@drawable/intro_grand" />
+
+    <ImageView
+        android:id="@+id/introExhibit"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignStart="@+id/introThreeBanner1"
+        android:layout_below="@+id/introGrand"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="-20dp"
+        app:srcCompat="@drawable/intro_exhibition" />
+
+    <TextView
+        android:id="@+id/weekly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/introWeekly"
+        android:layout_marginStart="-4dp"
+        android:layout_alignTop="@id/introWeekly"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:text="eekly" />
+
+    <TextView
+        android:id="@+id/monthly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/introMonthly"
+        android:layout_marginStart="-4dp"
+        android:layout_alignTop="@id/introMonthly"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:text="onthly" />
+
+
+</RelativeLayout>
