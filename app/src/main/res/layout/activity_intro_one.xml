@@ -29,6 +29,18 @@
         app:srcCompat="@drawable/intro_menu" />
 
     <TextView
+        android:id="@+id/introHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Home"
+        android:textSize="16sp"
+        android:textColor="@color/lightViolate"
+        android:layout_toLeftOf="@+id/imageView7"
+        android:layout_alignTop="@+id/imageView7"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,10 +56,10 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="32dp"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/textView2"
         android:layout_marginRight="32dp"
-        app:srcCompat="@drawable/intro_homefab" />
+        app:srcCompat="@drawable/intro_homefab"
+        android:layout_below="@+id/textView2"
+        android:layout_alignStart="@+id/imageView8" />
 
     <ImageView
         android:id="@+id/imageView8"
@@ -58,6 +70,18 @@
         android:layout_below="@+id/imageView7"
         android:layout_marginRight="32dp"
         app:srcCompat="@drawable/intro_profilefab" />
+
+    <TextView
+        android:id="@+id/introProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        android:textSize="16sp"
+        android:textColor="@color/lightViolate"
+        android:layout_toLeftOf="@+id/imageView8"
+        android:layout_alignTop="@+id/imageView8"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"/>
 
 
     <ImageView
@@ -70,6 +94,18 @@
         android:layout_marginRight="32dp"
         app:srcCompat="@drawable/intro_competition" />
 
+    <TextView
+        android:id="@+id/introCompetition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Competition"
+        android:textSize="16sp"
+        android:textColor="@color/lightViolate"
+        android:layout_toLeftOf="@+id/imageView9"
+        android:layout_alignTop="@+id/imageView9"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"/>
+
     <ImageView
         android:id="@+id/imageView10"
         android:layout_width="40dp"
@@ -80,6 +116,18 @@
         android:layout_marginRight="32dp"
         app:srcCompat="@drawable/intro_upload" />
 
+    <TextView
+        android:id="@+id/introUpload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload"
+        android:textSize="16sp"
+        android:textColor="@color/lightViolate"
+        android:layout_toLeftOf="@+id/imageView10"
+        android:layout_alignTop="@+id/imageView10"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"/>
+
     <ImageView
         android:id="@+id/imageView11"
         android:layout_width="40dp"
@@ -89,5 +137,40 @@
         android:layout_below="@+id/imageView10"
         android:layout_marginRight="32dp"
         app:srcCompat="@drawable/intro_notification" />
+
+    <TextView
+        android:id="@+id/introNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notificatio"
+        android:textSize="16sp"
+        android:textColor="@color/lightViolate"
+        android:layout_toLeftOf="@+id/imageView11"
+        android:layout_alignTop="@+id/imageView11"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"/>
+
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/imageView11"
+        android:layout_marginRight="32dp"
+        app:srcCompat="@drawable/intro_menu_close" />
+
+    <TextView
+        android:id="@+id/introMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Menu"
+        android:textSize="16sp"
+        android:textColor="@color/lightViolate"
+        android:layout_toLeftOf="@+id/imageView12"
+        android:layout_alignTop="@+id/imageView12"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"/>
 
 </RelativeLayout>
