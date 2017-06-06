@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/notimodelRL"
-    android:layout_marginBottom="8dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
@@ -43,7 +42,7 @@
     <TextView
         android:text="has starred your picture"
         android:textSize="@dimen/textCAPTION"
-        android:layout_width="250dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/nameNOTI"
         android:layout_alignStart="@+id/nameNOTI"
@@ -51,9 +50,9 @@
         android:id="@+id/notiBanner" />
 
     <ImageView
-        android:layout_width="70dp"
+        android:layout_width="100dp"
         android:layout_height="70dp"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         app:srcCompat="@drawable/post2"
         android:layout_marginEnd="8dp"
         android:id="@+id/postpreviewNOTI"
