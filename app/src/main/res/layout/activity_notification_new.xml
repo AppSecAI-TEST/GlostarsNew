@@ -6,17 +6,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.golstars.www.glostars.competition_page">
+    tools:context="com.golstars.www.glostars.notificationNew">
 
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_collapseMode="pin"
-                android:background="@color/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:popupTheme="@style/AppTheme.PopupOverlay">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+    <android.support.design.widget.CollapsingToolbarLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        app:contentScrim="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="exitUntilCollapsed|scroll"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -61,14 +74,15 @@
 
             </android.support.v7.widget.Toolbar>
 
-            <android.support.design.widget.TabLayout
-                style="@style/MyTabLayout"
-                android:id="@+id/tabs"
-                android:background="@color/colorPrimary"
-                android:layout_width="match_parent"
-                app:layout_scrollFlags="scroll|enterAlways"
-                android:layout_height="wrap_content" />
+        <android.support.design.widget.TabLayout
+            style="@style/MyTabLayout"
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_marginTop="70dp"
+            android:layout_height="wrap_content" />
 
+    </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"

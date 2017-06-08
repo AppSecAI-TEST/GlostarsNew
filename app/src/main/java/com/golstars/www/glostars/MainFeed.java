@@ -284,6 +284,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startActivity(new Intent(MainFeed.this,newFullscreen.class));
                 menuDown.close(true);
             }
         });
