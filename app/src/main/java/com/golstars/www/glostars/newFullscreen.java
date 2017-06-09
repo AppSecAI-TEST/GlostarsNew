@@ -5,12 +5,19 @@ import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+
+import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
+import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 
 public class newFullscreen extends AppCompatActivity {
 
@@ -27,8 +34,11 @@ public class newFullscreen extends AppCompatActivity {
     ImageView newCommentIcon;
     TextView newCommentCount;
     ListView newFullscreenComments;
-    EditText newCommentArea;
+    EmojiconEditText newCommentArea;
     TextView newSendComment;
+    ImageView emojiButton;
+    EmojIconActions emojIcon;
+    View rootView;
 
 
     @Override
@@ -49,8 +59,10 @@ public class newFullscreen extends AppCompatActivity {
         newCommentIcon = (ImageView)findViewById(R.id.newFullscreenCommentIcon);
         newCommentCount = (TextView)findViewById(R.id.newFullscreenCommentCount);
         newFullscreenComments = (ListView)findViewById(R.id.newFullscreenComments);
-        newCommentArea = (EditText)findViewById(R.id.newFullscreenCommentArea);
+        newCommentArea = (EmojiconEditText) findViewById(R.id.newFullscreenCommentArea);
         newSendComment = (TextView)findViewById(R.id.newFullscreenSendComment);
+        emojiButton = (ImageView) findViewById(R.id.emojiButton);
+        rootView = (View) findViewById(R.id.rootViewFullscreen);
 
 
 
@@ -63,7 +75,24 @@ public class newFullscreen extends AppCompatActivity {
         newSendComment.setTypeface(type);
         newCommentArea.setTypeface(type);
 
+        newFullscreenFollow.setTransformationMethod(null);
 
+
+
+        emojIcon = new EmojIconActions(newFullscreen.this,rootView,newCommentArea,emojiButton);
+        emojIcon.ShowEmojIcon();
+
+        emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
+            @Override
+            public void onKeyboardOpen() {
+                Log.e("Keyboard", "open");
+            }
+
+            @Override
+            public void onKeyboardClose() {
+                Log.e("Keyboard", "close");
+            }
+        });
 
 
 
