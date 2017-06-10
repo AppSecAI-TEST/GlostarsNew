@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -36,6 +37,7 @@ import com.golstars.www.glostars.ServerInfo;
 import com.golstars.www.glostars.SingleItemDialogFragment;
 import com.golstars.www.glostars.competitionAll;
 import com.golstars.www.glostars.hashtagResults;
+import com.golstars.www.glostars.newFullscreen;
 import com.golstars.www.glostars.user_profile;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -48,6 +50,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
@@ -301,17 +304,27 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
 
 
                 Bundle bundle = new Bundle();
+                bundle.putParcelable("post", post);
                 bundle.putInt("position",position);
                 bundle.putString("token", mUser.getToken());
                 bundle.putString("usrID", mUser.getUserId());
+                bundle.putParcelable("poster", post.getPoster());
+                bundle.putString("picUrl", post.getPicUrl());
 
-
+                /*
                 FragmentTransaction ft = fm.beginTransaction();
                 SingleItemDialogFragment newFragment = SingleItemDialogFragment.newInstance();
                 newFragment.setArguments(bundle);
                 notifyDataSetChanged();
 
                 newFragment.show(ft, "slideshow");
+                */
+
+                Intent intent = new Intent(context, newFullscreen.class);
+                intent.putExtras(bundle);
+                //intent.putExtra("post", (Serializable) post);
+                context.startActivity(intent);
+
 
             }
         });

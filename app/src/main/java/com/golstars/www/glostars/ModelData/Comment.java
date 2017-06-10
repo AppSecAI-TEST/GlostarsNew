@@ -1,6 +1,9 @@
 package com.golstars.www.glostars.ModelData;
 
-public class Comment {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Comment implements Parcelable {
 
     private int commentId;
     private String commentMessage;
@@ -21,6 +24,29 @@ public class Comment {
         this.firstName = firstName;
         this.lastName = lastName;
     }
+
+    protected Comment(Parcel in) {
+        commentId = in.readInt();
+        commentMessage = in.readString();
+        commenterUserName = in.readString();
+        commenterId = in.readString();
+        commentTime = in.readString();
+        profilePicUrl = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+    }
+
+    public static final Creator<Comment> CREATOR = new Creator<Comment>() {
+        @Override
+        public Comment createFromParcel(Parcel in) {
+            return new Comment(in);
+        }
+
+        @Override
+        public Comment[] newArray(int size) {
+            return new Comment[size];
+        }
+    };
 
     public int getCommentId() {
         return commentId;
@@ -86,4 +112,20 @@ public class Comment {
         this.lastName = lastName;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(commentId);
+        dest.writeString(commentMessage);
+        dest.writeString(commenterUserName);
+        dest.writeString(commenterId);
+        dest.writeString(commentTime);
+        dest.writeString(profilePicUrl);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+    }
 }

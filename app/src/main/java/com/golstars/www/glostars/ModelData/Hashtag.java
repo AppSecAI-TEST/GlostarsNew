@@ -1,10 +1,14 @@
 package com.golstars.www.glostars.ModelData;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.golstars.www.glostars.Timestamp;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Hashtag {
+public class Hashtag implements Parcelable{
 
     private Poster poster;
     private int id;
@@ -16,13 +20,44 @@ public class Hashtag {
     private String uploaded;
     private int starsCount;
     private int myStarCount;
-    private List<Comment> comments = null;
-    private List<Rating> ratings = null;
+    private List<Comment> comments = new ArrayList<>();
+    private List<Rating> ratings = new ArrayList<>();
 
 
     private boolean is_mutual;
     private boolean me_follow;
     private boolean he_follow;
+
+    protected Hashtag(Parcel in) {
+        id = in.readInt();
+        description = in.readString();
+        picUrl = in.readString();
+        privacy = in.readString();
+        isCompeting = in.readByte() != 0;
+        isfeatured = in.readByte() != 0;
+        uploaded = in.readString();
+        starsCount = in.readInt();
+        myStarCount = in.readInt();
+        is_mutual = in.readByte() != 0;
+        me_follow = in.readByte() != 0;
+        he_follow = in.readByte() != 0;
+        in.readTypedList(ratings, Rating.CREATOR);
+        in.readTypedList(comments, Comment.CREATOR);
+
+
+    }
+
+    public static final Creator<Hashtag> CREATOR = new Creator<Hashtag>() {
+        @Override
+        public Hashtag createFromParcel(Parcel in) {
+            return new Hashtag(in);
+        }
+
+        @Override
+        public Hashtag[] newArray(int size) {
+            return new Hashtag[size];
+        }
+    };
 
     public boolean is_mutual() {
         return is_mutual;
@@ -147,5 +182,31 @@ public class Hashtag {
 
     public void setMyStarCount(int myStarCount) {
         this.myStarCount = myStarCount;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        //dest.writeParcelable(poster, flags);
+
+        dest.writeInt(id);
+        dest.writeString(description);
+        dest.writeString(picUrl);
+        dest.writeString(privacy);
+        dest.writeByte((byte) (isCompeting ? 1 : 0));
+        dest.writeByte((byte) (isfeatured ? 1 : 0));
+        dest.writeString(uploaded);
+        dest.writeInt(starsCount);
+        dest.writeInt(myStarCount);
+        dest.writeByte((byte) (is_mutual ? 1 : 0));
+        dest.writeByte((byte) (me_follow ? 1 : 0));
+        dest.writeByte((byte) (he_follow ? 1 : 0));
+        dest.writeTypedList(ratings);
+        dest.writeTypedList(comments);
     }
 }
