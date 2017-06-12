@@ -1,9 +1,13 @@
 package com.golstars.www.glostars;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
@@ -15,6 +19,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +34,7 @@ import android.widget.Toast;
 
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.ModelData.Poster;
+import com.golstars.www.glostars.adapters.CommentData;
 import com.golstars.www.glostars.models.Comment;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -35,6 +42,7 @@ import com.loopj.android.http.MySSLSocketFactory;
 import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -46,6 +54,8 @@ import cz.msebera.android.httpclient.Header;
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
 import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
+
+import static android.content.ContentValues.TAG;
 
 public class newFullscreen extends AppCompatActivity {
 
@@ -74,8 +84,10 @@ public class newFullscreen extends AppCompatActivity {
     //private ArrayList<Hashtag> postData;
     private Hashtag postData;
     private Poster poster;
+
+    public CommentData commentData;
     RecyclerView.Adapter postDataAdapter;
-    MyUser mUser;
+    MyUser myUser;
     Typeface type;
 
     List<com.golstars.www.glostars.ModelData.Comment> commentsList;
@@ -158,6 +170,8 @@ public class newFullscreen extends AppCompatActivity {
 
         //postData=((AdapterInfomation)getApplicationContext()).getAllData(;
         //postDataAdapter=((AdapterInfomation)getApplicationContext()).getAdapter();
+        new getUserData().execute("");
+
         postData =  getIntent().getExtras().getParcelable("post");
         poster = getIntent().getExtras().getParcelable("poster");
 
@@ -174,7 +188,7 @@ public class newFullscreen extends AppCompatActivity {
             }
 
         });
-        newFullscreenComments.setAdapter(commentAdapter);
+        //newFullscreenComments.setAdapter(commentAdapter);
 
 
 
@@ -419,6 +433,395 @@ public class newFullscreen extends AppCompatActivity {
 
         });
 
+        /**************** comments settings ***********************************/
+
+        final List<com.golstars.www.glostars.ModelData.Comment> listAllComment=postData.getComments();
+                /*final CommentData */ commentData=new CommentData(getApplicationContext(),listAllComment);
+        newFullscreenComments.setAdapter(commentData);
+
+//        emojIcon.setUseSystemEmoji(true);
+        newCommentArea.setUseSystemDefault(true);
+
+//        emojIcon.ShowEmojIcon();
+
+        newFullscreenComments.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int p, long id) {
+
+                if(!myUser.getUserId().equalsIgnoreCase(poster.getUserId())){
+                    return false;
+                }
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+
+                builder.setTitle("Delete Comment");
+                builder.setMessage("Are you sure want to delete this comment?");
+
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        dialogInterface.dismiss();
+
+
+
+                        final ProgressDialog progressDialog = ProgressDialog.show(getApplicationContext(), "",
+                                "Comment deleting. Please wait...", true);
+                        progressDialog.setCanceledOnTouchOutside(true);
+                        progressDialog.show();
+
+                        String url = ServerInfo.BASE_URL + "api/images/DeleteComment?commentId="+listAllComment.get(p).getCommentId();
+                        AsyncHttpClient client=new AsyncHttpClient();
+                        try {
+                            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                            trustStore.load(null, null);
+                            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+                            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                            client.setSSLSocketFactory(sf);
+                        }
+                        catch (Exception e) {}
+                        RequestParams msg=new RequestParams();
+                        client.addHeader("Authorization", "Bearer " + myUser.getToken());
+                        final Integer integer=new Integer(p);
+
+
+                        client.get(getApplicationContext(), url,new JsonHttpResponseHandler(){
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                try {
+                                    if(response.getJSONObject("resultPayload").getBoolean("res")){
+                                        Toast.makeText(getApplicationContext(), "Successfully delete comment", Toast.LENGTH_SHORT).show();
+
+                                        listAllComment.remove(integer.intValue());
+
+
+
+                                        postData.setComments(listAllComment);
+                                        commentData.notifyDataSetChanged();
+                                        //notifyDataSetChanged();
+
+
+                                    }
+                                    progressDialog.dismiss();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                super.onFailure(statusCode, headers, responseString, throwable);
+                                progressDialog.dismiss();
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                super.onFailure(statusCode, headers, throwable, errorResponse);
+                                progressDialog.dismiss();
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                                super.onFailure(statusCode, headers, throwable, errorResponse);
+                                progressDialog.dismiss();
+                            }
+
+                        });
+                    }
+
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // I do not need any action here you might
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
+
+
+
+                return true;
+            }
+        });
+
+
+        newSendComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //final RelativeLayout root = new RelativeLayout(getApplicationContext());
+                //root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                //final Dialog dialog = new Dialog(getApplicationContext());
+                //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                //dialog.setContentView(root);
+                //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                //dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                //dialog.getWindow().setContentView(R.layout.commentdialog);
+                //final ListView commentrecycler = (ListView) dialog.findViewById(R.id.commentrecycler);
+                //final EmojiconEditText commentbox = (EmojiconEditText) dialog.findViewById(R.id.commentBox);
+                //final TextView sendcomment = (TextView) dialog.findViewById(R.id.sendcomment);
+
+
+                final List<com.golstars.www.glostars.ModelData.Comment> listAllComment=postData.getComments();
+                /*final CommentData */ commentData=new CommentData(getApplicationContext(),listAllComment);
+                newFullscreenComments.setAdapter(commentData);
+
+                //commentrecycler.setAdapter(commentData);
+                commentData.notifyDataSetChanged();
+
+
+
+
+
+                /*
+                newFullscreenComments.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent, View view, final int p, long id) {
+
+                        if(!mUser.getUserId().equalsIgnoreCase(poster.getUserId())){
+                            return false;
+                        }
+
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+
+                        builder.setTitle("Delete Comment");
+                        builder.setMessage("Are you sure want to delete this comment?");
+
+                        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.dismiss();
+
+
+
+                                final ProgressDialog progressDialog = ProgressDialog.show(getApplicationContext(), "",
+                                        "Comment deleting. Please wait...", true);
+                                progressDialog.setCanceledOnTouchOutside(true);
+                                progressDialog.show();
+
+                                String url = ServerInfo.BASE_URL + "api/images/DeleteComment?commentId="+listAllComment.get(p).getCommentId();
+                                AsyncHttpClient client=new AsyncHttpClient();
+                                try {
+                                    KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                                    trustStore.load(null, null);
+                                    MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+                                    sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                                    client.setSSLSocketFactory(sf);
+                                }
+                                catch (Exception e) {}
+                                RequestParams msg=new RequestParams();
+                                client.addHeader("Authorization", "Bearer " + mUser.getToken());
+                                final Integer integer=new Integer(p);
+
+
+                                client.get(getApplicationContext(), url,new JsonHttpResponseHandler(){
+                                    @Override
+                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                        try {
+                                            if(response.getJSONObject("resultPayload").getBoolean("res")){
+                                                Toast.makeText(getApplicationContext(), "Successfully delete comment", Toast.LENGTH_SHORT).show();
+
+                                                listAllComment.remove(integer.intValue());
+
+
+
+                                                postData.setComments(listAllComment);
+                                                commentData.notifyDataSetChanged();
+                                                //notifyDataSetChanged();
+
+
+                                            }
+                                            progressDialog.dismiss();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                        super.onFailure(statusCode, headers, responseString, throwable);
+                                        progressDialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                                        progressDialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                                        progressDialog.dismiss();
+                                    }
+
+                                });
+                            }
+
+                        });
+
+                        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // I do not need any action here you might
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog alert = builder.create();
+                        alert.show();
+
+
+
+                        return true;
+                    }
+                }); */
+
+                final String comment = String.valueOf(newCommentArea.getText());
+
+                try {
+                    String url = ServerInfo.BASE_URL + "api/images/comment";
+                    AsyncHttpClient client=new AsyncHttpClient();
+                    try {
+                        KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                        trustStore.load(null, null);
+                        MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+                        sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                        client.setSSLSocketFactory(sf);
+                    }
+                    catch (Exception e) {}
+                    RequestParams msg=new RequestParams();
+                    client.addHeader("Authorization", "Bearer " + myUser.getToken());
+                    msg.add("CommentText", comment);
+                    msg.add("PhotoId", postData.getId()+"");
+
+                    client.post(getApplicationContext(), url,msg,new JsonHttpResponseHandler(){
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            try {
+                                JSONObject comment=response.getJSONObject("resultPayload");
+                                com.golstars.www.glostars.ModelData.Comment c=new com.golstars.www.glostars.ModelData.Comment(comment.getInt("commentId"),comment.getString("commentMessage"),comment.getString("commenterUserName"),comment.getString("commentUserNameId"),comment.getString("commentTime"),comment.getString("profilePicUrl"),comment.getString("firstName"),comment.getString("lastName"));
+                                listAllComment.add(c);
+                                commentData.notifyDataSetChanged();
+                                postData.setComments(listAllComment);
+                                //notifyDataSetChanged();
+                                newFullscreenComments.setSelection(listAllComment.size()-1);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                newCommentArea.setText("");
+
+
+
+
+
+
+
+
+
+
+
+
+
+                /*
+//               //imageView emoji_btn= (ImageView) dialog.findViewById(R.id.emoji_btn);
+//
+//                ImageView dialogClose= (ImageView) dialog.findViewById(R.id.imageView4);
+//
+//                dialogClose.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                EmojIconActions emojIcon = new EmojIconActions(getApplicationContext(), rootView, newCommentArea, emoji_btn);
+//
+//                emojIcon.setUseSystemEmoji(true);
+//                newCommentArea.setUseSystemDefault(true);
+//
+//                emojIcon.ShowEmojIcon();
+////
+
+//                emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
+                    @Override
+                    public void onKeyboardOpen() {
+                        Log.e(TAG, "Keyboard opened!");
+                    }
+
+                    @Override
+                    public void onKeyboardClose() {
+                        Log.e(TAG, "Keyboard closed");
+                    }
+                });*/
+
+
+//
+//                sendcomment.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        final String comment = String.valueOf(newCommentArea.getText());
+//
+//                        try {
+//                            String url = ServerInfo.BASE_URL + "api/images/comment";
+//                            AsyncHttpClient client=new AsyncHttpClient();
+//                            try {
+//                                KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+//                                trustStore.load(null, null);
+//                                MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+//                                sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+//                                client.setSSLSocketFactory(sf);
+//                            }
+//                            catch (Exception e) {}
+//                            RequestParams msg=new RequestParams();
+//                            client.addHeader("Authorization", "Bearer " + mUser.getToken());
+//                            msg.add("CommentText", comment);
+//                            msg.add("PhotoId", postData.getId()+"");
+//
+//                            client.post(getApplicationContext(), url,msg,new JsonHttpResponseHandler(){
+//                                @Override
+//                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                                    try {
+//                                        JSONObject comment=response.getJSONObject("resultPayload");
+//                                        com.golstars.www.glostars.ModelData.Comment c=new com.golstars.www.glostars.ModelData.Comment(comment.getInt("commentId"),comment.getString("commentMessage"),comment.getString("commenterUserName"),comment.getString("commentUserNameId"),comment.getString("commentTime"),comment.getString("profilePicUrl"),comment.getString("firstName"),comment.getString("lastName"));
+//                                        listAllComment.add(c);
+//                                        commentData.notifyDataSetChanged();
+//                                        postData.setComments(listAllComment);
+//                                        //notifyDataSetChanged();
+//                                        newFullscreenComments.setSelection(listAllComment.size()-1);
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            });
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        newCommentArea.setText("");
+//                    }
+//                });
+
+               /* mBuilder.setView(mView);
+                AlertDialog dialog = mBuilder.create();
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));*/
+                //dialog.show();
+            }
+        });
+
 
 
 
@@ -528,13 +931,13 @@ public class newFullscreen extends AppCompatActivity {
         void onItemClick(com.golstars.www.glostars.ModelData.Comment com);
     }
 
-    /*
+
     private class getUserData extends AsyncTask<String, Integer, JSONObject> {
 
         @Override
         protected JSONObject doInBackground(String... strings) {
-            mUser = MyUser.getmUser();
-            mUser.setContext(getApplicationContext());
+            myUser = MyUser.getmUser();
+            myUser.setContext(getApplicationContext());
             return null;
         }
 
@@ -545,5 +948,5 @@ public class newFullscreen extends AppCompatActivity {
 
 
         }
-    } */
+    }
 }
