@@ -51,7 +51,7 @@
     <style name="RatingBarSmallGrey" parent="android:Widget.DeviceDefault.Light.RatingBar.Indicator">
         <item name="android:progressDrawable">@drawable/rating_bar_grey</item>
         <item name="android:minHeight">30dp</item>
-        <item name="android:maxHeight">30dp</item>
+        <item name="android:maxHeight">37dp</item>
     </style>
 
     <style name="FullscreenTheme" parent="AppTheme">

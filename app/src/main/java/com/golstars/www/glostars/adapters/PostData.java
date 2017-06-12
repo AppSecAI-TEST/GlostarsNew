@@ -39,6 +39,7 @@ import com.golstars.www.glostars.competitionAll;
 import com.golstars.www.glostars.hashtagResults;
 import com.golstars.www.glostars.newFullscreen;
 import com.golstars.www.glostars.user_profile;
+import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.MySSLSocketFactory;
@@ -123,9 +124,9 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         holder.postTime.setText(post.getUploaded());
         holder.uselessTextView.setText("");
         if(!post.isIsCompeting()){
-            holder.ratingBar.setNumStars(1);
+            holder.ratingBar.setNumberOfStars(1);
         }
-        else holder.ratingBar.setNumStars(5);
+        else holder.ratingBar.setNumberOfStars(5);
 
         System.out.println("My Rating "+post.getMyStarCount()+" position is "+position);
         holder.ratingBar.setRating((float)post.getMyStarCount());
@@ -260,44 +261,44 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                         System.out.println("4 "+errorResponse.toString());
                     }
-
                 });
-
             }
         });
 
 
         /**************** Rating bar Change ***********************************/
-        holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(final RatingBar ratingBar, float v, boolean b) {
-                System.out.println("Rating change");
-            }
-        });
 
-        holder.ratingBar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    float touchPositionX = event.getX();
-                    float width = holder.ratingBar.getWidth();
-                    float starsf = (touchPositionX / width) * 5.0f;
-                    int stars = (int)starsf + 1;
-                    holder.ratingBar.setRating(stars);
-                    System.out.println("Call rating touching...");
-                    //needChange=true;
-                    v.setPressed(false);
-                    changeRating(holder.ratingBar,position);
-                }
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    v.setPressed(true);
-                }
+        /*changed here */
+//        holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//            @Override
+//            public void onRatingChanged(final RatingBar ratingBar, float v, boolean b) {
+//                System.out.println("Rating change");
+//            }
+//        });
 
-                if (event.getAction() == MotionEvent.ACTION_CANCEL) {
-                    v.setPressed(false);
-                }
-                return true;
-            }});
+//        holder.ratingBar.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (event.getAction() == MotionEvent.ACTION_UP) {
+//                    float touchPositionX = event.getX();
+//                    float width = holder.ratingBar.getWidth();
+//                    float starsf = (touchPositionX / width) * 5.0f;
+//                    int stars = (int)starsf + 1;
+//                    holder.ratingBar.setRating(stars);
+//                    System.out.println("Call rating touching...");
+//                    //needChange=true;
+//                    v.setPressed(false);
+//                    changeRating(holder.ratingBar,position);
+//                }
+//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                    v.setPressed(true);
+//                }
+//
+//                if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+//                    v.setPressed(false);
+//                }
+//                return true;
+//            }});
         /******************************************************************/
 
         /******************Action Listenner for all button************************/
@@ -589,7 +590,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         public TextView username, caption, postTime, totalStars, totalComments, uselessTextView,comptext,seeall;
         public ImageView postImg;
         public ImageView propic;
-        public RatingBar ratingBar;
+        public SimpleRatingBar ratingBar;
         public ImageView commentsBtn, privacyIcon;
         public RelativeLayout featuredFlag,seeAllcomp;
         public ImageView deleteIcon;
@@ -605,7 +606,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
             propic = (ImageView)view.findViewById(R.id.userPIC);
             totalStars=(TextView)view.findViewById(R.id.ratingstarcount);
             totalComments=(TextView)view.findViewById(R.id.commentcount);
-            ratingBar = (RatingBar)view.findViewById(R.id.ratingBar);
+            ratingBar = (SimpleRatingBar) view.findViewById(R.id.ratingBar);
             commentsBtn = (ImageView)view.findViewById(R.id.commenticon);
             uselessTextView = (TextView)view.findViewById(R.id.timedigit);
             comptext = (TextView)view.findViewById(R.id.comptext);
