@@ -57,7 +57,6 @@ import cz.msebera.android.httpclient.Header;
 
 public class user_profile extends AppCompatActivity implements OnSinglePicClick,AdapterInfomation {
 
-
     //===========================FABS=========================================
 
     Animation fab_hide;
@@ -66,7 +65,6 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
     Animation rotate_anticlockwise;
 
     boolean isOpen = false;
-
 
     LinearLayout followinglin;
 
@@ -90,8 +88,6 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
     View divider;
     //===================================================================
-
-
 
 
 
@@ -699,6 +695,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             }
         });
 
+
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -707,10 +704,11 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             }
         });
 
+
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(user_profile.this,newFollowersPage.class));
+                startActivity(new Intent(user_profile.this,MainFeed.class));
             }
         });
 
@@ -733,6 +731,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                 menuDown.close(true);
             }
         });
+
+
 
 //        if(!isConnected()){
 //            //Intent intent = new Intent(this, noInternet.class);

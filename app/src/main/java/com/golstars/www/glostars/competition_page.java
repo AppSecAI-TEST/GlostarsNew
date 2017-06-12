@@ -1,6 +1,7 @@
 package com.golstars.www.glostars;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
@@ -66,6 +67,7 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
     private ViewPager mViewPager;
 
     ImageView slogo;
+    TextView glogo;
 
     com.github.clans.fab.FloatingActionButton cameraFAB;
     com.github.clans.fab.FloatingActionButton competitionFAB;
@@ -88,6 +90,11 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
 
 
         slogo =(ImageView)findViewById(R.id.searchlogo);
+        glogo = (TextView)findViewById(R.id.glostarslogo);
+
+        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+        glogo.setTypeface(type);
+
 
         cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);

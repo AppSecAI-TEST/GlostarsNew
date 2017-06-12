@@ -134,9 +134,16 @@ public class LoginActivity extends Fragment {
                 String pwd = password.getText().toString();
                 String usrname = email.getText().toString();
 
-                if(pwd.isEmpty() || usrname.isEmpty()){
-                    Toast.makeText(getContext(), "Login or password missing", Toast.LENGTH_LONG).show();
-                } else {
+                if (pwd.isEmpty() && usrname.isEmpty()) {
+                    email.setError("Email cannot be empty");
+                    password.setError("Password cannot be empty");
+                }else if (pwd.isEmpty()) {
+                    password.setError("Password cannot be empty");
+                } else if (usrname.isEmpty()) {
+
+                    email.setError("Email cannot be empty");
+
+                }else{
                     try {
                         newlogin(pwd,usrname);
                     } catch (Exception e) {

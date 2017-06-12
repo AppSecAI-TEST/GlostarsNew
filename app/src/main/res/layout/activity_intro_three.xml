@@ -74,7 +74,7 @@
         android:id="@+id/weekly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/introWeekly"
+        android:layout_toEndOf="@id/introWeekly"
         android:layout_marginStart="-4dp"
         android:layout_alignTop="@id/introWeekly"
         android:layout_marginTop="30dp"
@@ -93,6 +93,31 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         android:text="onthly" />
+
+    <TextView
+        android:id="@+id/grand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/introGrand"
+        android:layout_marginStart="-4dp"
+        android:layout_alignTop="@id/introGrand"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:text="rand" />
+
+
+    <TextView
+        android:id="@+id/exhibition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/introExhibit"
+        android:layout_marginStart="-4dp"
+        android:layout_alignTop="@id/introExhibit"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:text="xhibition" />
 
 
 </RelativeLayout>

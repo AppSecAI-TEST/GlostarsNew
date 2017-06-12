@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="bottom"
-                    android:layout_marginTop="0dp">
+                    android:layout_marginTop="-4dp">
 
                     <TextView
                         android:id="@+id/glostarslogo"
@@ -45,6 +45,7 @@
                         android:paddingLeft="2dp"
                         android:visibility="visible"
                         android:textSize="20sp"
+                        android:paddingBottom="4dp"
                         android:textColor="@color/lightViolate"
                         android:text="Competition Posts"
                         />
