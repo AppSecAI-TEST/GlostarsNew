@@ -2,6 +2,7 @@ package com.golstars.www.glostars;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,14 +25,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.ModelData.Notification;
+import com.golstars.www.glostars.adapters.NotificationAdapter;
+import com.golstars.www.glostars.models.NotificationObj;
 import com.golstars.www.glostars.network.NotificationService;
+import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import cz.msebera.android.httpclient.Header;
+import microsoft.aspnet.signalr.client.Credentials;
+import microsoft.aspnet.signalr.client.Platform;
+import microsoft.aspnet.signalr.client.SignalRFuture;
+import microsoft.aspnet.signalr.client.http.Request;
+import microsoft.aspnet.signalr.client.http.android.AndroidPlatformComponent;
+import microsoft.aspnet.signalr.client.hubs.HubConnection;
+import microsoft.aspnet.signalr.client.hubs.HubProxy;
+import microsoft.aspnet.signalr.client.hubs.SubscriptionHandler1;
 
 public class notificationNew extends AppCompatActivity {
 
@@ -63,6 +80,11 @@ public class notificationNew extends AppCompatActivity {
     Intent homeIntent;
     ImageView slogo;
     Integer unseenNotifs = 0;
+    Handler handler = new Handler();
+
+
+    notificationFollowersNew nfN = new notificationFollowersNew();
+    notificationNotificationNew nnN = new notificationNotificationNew();
 
 
     @Override
@@ -137,6 +159,164 @@ public class notificationNew extends AppCompatActivity {
         if(mUser == null){
             new getUserData().execute("");
         }
+        LoadServer();
+
+    }
+    public void LoadServer(){
+        Platform.loadPlatformComponent(new AndroidPlatformComponent());
+        HubConnection connection = new HubConnection(ServerInfo.BASE_URL);
+        HubProxy hub = connection.createHubProxy("GlostarsHub");
+
+        final MyUser me=MyUser.getmUser();
+        System.out.println("server Token "+me.getToken());
+
+        Credentials credentials=new Credentials() {
+            @Override
+            public void prepareRequest(Request request) {
+                request.addHeader("Authorization", "Bearer " + me.getToken());
+                // request.addHeader("authorization","bearer rLQd1-q-5CdheRQ5l5envaEZfdTWpPX4RIzvTDelURIw6ITegpEbD1U6XZrVrYcODUGYA8pH16vc4MXA_XHONtvJDkCEQahDDksw-oxBENuZH4k0F7vm0rtgdoRm89xwqSlu119JA2BBuHTg1apVo9vv8YSN3ke7SAR8Hzz_QFJ3m4tu-PFlatsrANLdRQAWxxuMYlPUSMG_Crfd46JJVa-h9Yvgz0pPs2oYDFsOJqp54wUsFLPOhnSGD-kp2rOvm16kOx9Uz3qxBai_pYYPmbzvr_e5d-pvRxGqQFMVtXr2wl8Ar-2_eUjqwCMDNmh3AMEF5s7lUOxSn9q3c59Qaf7cSd6KWfop9pclbMqJFQITwK9bXe_5V676_r1cHwEdY-nf97gM8t0TuGCxmJlV2RvgRx1oYMHpeS1NNZcHVITu2bpyP1eoE-9lrx80-Sd8gRGYeAC0QwpNHG8BQRbSmv3D0B683f1Z_r1EkgTjwGs");
+            }
+        };
+        connection.setCredentials(credentials);
+        SignalRFuture<Void> awaitConnection = connection.start();
+        try {
+            awaitConnection.get();
+        } catch (InterruptedException e) {
+            // Handle ...
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+       /* try {
+            hub.invoke("hello");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+        /*hub.on("updatePicture",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println(o);
+
+
+
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        Hashtag hashtag=gson.fromJson(o.toString(),Hashtag.class);
+                        System.out.println("hash tag "+hashtag.toString());
+                        for (int i = 0; i < postList.size(); i++) {
+                            System.out.println(postList.get(i).getId()+"--"+hashtag.getId());
+                            if(postList.get(i).getId()==hashtag.getId()){
+                                System.out.println("Found...");
+                                postList.set(i,hashtag);
+                                mAdapter.notifyDataSetChanged();
+
+
+
+                                break;
+                            }
+                        }
+
+                    }
+                });
+
+            }
+        },String.class);*/
+
+
+        hub.on("picNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("picNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        try {
+
+                            System.out.println("Enter to thread...");
+                            Gson gson=new Gson();
+                            Notification notification=gson.fromJson(o,Notification.class);
+
+                            NotificationObj notif = new NotificationObj(notification.originatedById+"", notification.pictureId+"", notification.description,
+                                    notification.name, notification.profilePicURL, notification.picUrl, notification.seen, notification.checked);
+                            notif.setDate( Timestamp.getInterval(Timestamp.getOwnZoneDateTime(notification.date)));
+                            nnN.addNotification(notif);
+                            System.out.println("After Added notification "+notif.toString());
+
+                        } catch (Exception e) {
+                            //System.out.println("Exception in pic notification");
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("followerNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("followerNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        try {
+
+                            Gson gson=new Gson();
+                            Notification notification=gson.fromJson(o,Notification.class);
+
+                            NotificationObj notif = new NotificationObj(notification.originatedById+"", notification.pictureId+"", "started following you",
+                                    notification.name, notification.profilePicURL, notification.picUrl, notification.seen, notification.checked);
+                            notif.setDate( Timestamp.getInterval(Timestamp.getOwnZoneDateTime(notification.date)));
+                            System.out.println("After Added notification "+notif.toString());
+                            nfN.addNotification(notif);
+                        } catch (Exception e) {
+                            System.out.println("Exception in follower notification");
+                        }
+
+
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("SeenPictureNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("SeenPictureNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(notificationNew.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(notificationNew.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("SeenFollowerNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("SeenFollowerNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(notificationNew.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(notificationNew.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
 
 
     }
@@ -213,11 +393,11 @@ public class notificationNew extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    notificationFollowersNew nfN = new notificationFollowersNew();
-                    return nfN;
-                case 1:
-                    notificationNotificationNew nnN = new notificationNotificationNew();
+
                     return nnN;
+                case 1:
+
+                    return nfN;
 
             }
             return null;
@@ -284,8 +464,10 @@ public class notificationNew extends AppCompatActivity {
                 try {
                     JSONObject data = response.getJSONObject("resultPayload");
                     System.out.println(response);
+
                     JSONArray activityNotifications = data.getJSONArray("activityNotifications");
                     JSONArray followerNotifications = data.getJSONArray("followerNotifications");
+
                     System.out.println(activityNotifications);
                     System.out.println(followerNotifications);
 

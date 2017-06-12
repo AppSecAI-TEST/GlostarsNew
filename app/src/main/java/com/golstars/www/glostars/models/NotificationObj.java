@@ -100,4 +100,19 @@ public class NotificationObj {
     public void setDate(String date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "NotificationObj{" +
+                "originID='" + originID + '\'' +
+                ", picID='" + picID + '\'' +
+                ", description='" + description + '\'' +
+                ", name='" + name + '\'' +
+                ", profilePicURL='" + profilePicURL + '\'' +
+                ", picURL='" + picURL + '\'' +
+                ", seen=" + seen +
+                ", checked=" + checked +
+                ", date='" + date + '\'' +
+                '}';
+    }
 }

@@ -148,4 +148,16 @@ public class Hashtag {
     public void setMyStarCount(int myStarCount) {
         this.myStarCount = myStarCount;
     }
+
+    @Override
+    public String toString() {
+        return "Hashtag{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", picUrl='" + picUrl + '\'' +
+                ", privacy='" + privacy + '\'' +
+                ", isCompeting=" + isCompeting +
+                ", isfeatured=" + isfeatured +
+                '}';
+    }
 }

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.golstars.www.glostars.ModelData.Hashtag;
+import com.golstars.www.glostars.ModelData.Notification;
 import com.golstars.www.glostars.adapters.NotificationAdapter;
 import com.golstars.www.glostars.adapters.PostData;
 import com.golstars.www.glostars.interfaces.OnItemClickListener;
@@ -88,6 +89,10 @@ public class notificationNotificationNew extends Fragment implements OnItemClick
     }
 
 
+    public void addNotification(NotificationObj notification){
+        notifs.add(0,notification);
+        mAdapter.notifyDataSetChanged();
+    }
 
 
 
@@ -178,56 +183,32 @@ public class notificationNotificationNew extends Fragment implements OnItemClick
                     System.out.println(activityNotifications);
                     System.out.println(followerNotifications);
 
-//                    for(int i = 0; i < activityNotifications.length(); ++i){
-//                        JSONObject singleNotif = activityNotifications.getJSONObject(i);
-//                        String description = singleNotif.getString("description");
-//                        String profilePicURL = singleNotif.getString("profilePicURL");
-//                        String name = singleNotif.getString("name");
-//                        String id = singleNotif.getString("id");
-//                        String usrId = singleNotif.getString("userId");
-//                        String originatedById = singleNotif.getString("originatedById");
-//                        String pictureId = singleNotif.getString("pictureId");
-//                        Boolean seen = Boolean.valueOf(singleNotif.getString("seen"));
-//                        Boolean checked = Boolean.valueOf(singleNotif.getString("checked"));
-//                        String Seen = singleNotif.getString("seen");
-//                        String picURL = singleNotif.getString("picUrl");
-//
-//                        String date = singleNotif.getString("date");
-//                            /*String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-//                            LocalDateTime localDateTime = LocalDateTime.parse(date, DateTimeFormat.forPattern(pattern));
-//                            String interval = Timestamp.getInterval(localDateTime);*/
-//                        String interval = Timestamp.getInterval(Timestamp.getOwnZoneDateTime(date));
-//
-////                        if (Seen.equals("false")){
-////                            unseenNotifs ++;
-////                        }
-//
-//                        setActivityNotifsAdapter(description, profilePicURL, name, id, usrId, originatedById, pictureId, seen, interval, picURL, checked);
-//                    }
-
-                    for(int i = 0; i < followerNotifications.length(); ++i){
-                        JSONObject singleNotif = followerNotifications.getJSONObject(i);
-                        String description = "started following you";
+                    for(int i = 0; i < activityNotifications.length(); ++i){
+                        JSONObject singleNotif = activityNotifications.getJSONObject(i);
+                        String description = singleNotif.getString("description");
                         String profilePicURL = singleNotif.getString("profilePicURL");
                         String name = singleNotif.getString("name");
+                        //String id = singleNotif.getString("id");
                         String usrId = singleNotif.getString("userId");
                         String originatedById = singleNotif.getString("originatedById");
+                        String pictureId = singleNotif.getString("pictureId");
                         Boolean seen = Boolean.valueOf(singleNotif.getString("seen"));
                         Boolean checked = Boolean.valueOf(singleNotif.getString("checked"));
                         String Seen = singleNotif.getString("seen");
+                        String picURL = singleNotif.getString("picUrl");
 
                         String date = singleNotif.getString("date");
                             /*String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                            LocalDateTime localDateTime = LocalDateTime.parse(date, DateTimeFormat.forPattern(pattern));*/
-                        String interval = Timestamp.getInterval(Timestamp.getOwnZoneDateTime(date));
+                            LocalDateTime localDateTime = LocalDateTime.parse(date, DateTimeFormat.forPattern(pattern));
+                            String interval = Timestamp.getInterval(localDateTime);*/
 
+                        String interval = Timestamp.getInterval(Timestamp.getOwnZoneDateTime(date));
+//
 //                        if (Seen.equals("false")){
 //                            unseenNotifs ++;
 //                        }
 
-                        //setActivityNotifSeen();
-
-                        setFollowerNotifsAdapter(description, profilePicURL, name, "", usrId, originatedById, null, seen, interval, checked);
+                        setNotifsAdapter(description, profilePicURL, name, picURL, usrId, originatedById, pictureId, seen, interval, checked);
                     }
                     /*1
                     if(unseenNotifs > 0){
@@ -277,8 +258,8 @@ public class notificationNotificationNew extends Fragment implements OnItemClick
 //        mAdapter.notifyDataSetChanged();
 //    }
 
-    private void setFollowerNotifsAdapter(String description, String profilePicURL, String name, String id, String usrId, String originatedById, String pictureId, Boolean seen, String date, Boolean checked) {
-        NotificationObj notif = new NotificationObj(originatedById, pictureId, description, name, profilePicURL, null, seen, checked);
+    private void setNotifsAdapter(String description, String profilePicURL, String name, String picURL, String usrId, String originatedById, String pictureId, Boolean seen, String date, Boolean checked) {
+        NotificationObj notif = new NotificationObj(originatedById, pictureId, description, name, profilePicURL, picURL, seen, checked);
         notif.setDate(date);
         notifs.add(notif);
         mAdapter.notifyDataSetChanged();

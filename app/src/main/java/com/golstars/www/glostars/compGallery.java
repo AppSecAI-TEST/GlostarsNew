@@ -2,43 +2,28 @@ package com.golstars.www.glostars;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.baoyz.widget.PullRefreshLayout;
-import com.github.clans.fab.FloatingActionMenu;
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.adapters.CompetitionData;
 import com.golstars.www.glostars.adapters.PostAdapter;
-import com.golstars.www.glostars.network.NotificationService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.MySSLSocketFactory;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.security.KeyStore;
@@ -46,7 +31,7 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class compGallery extends Fragment {
+public class compGallery extends Fragment implements AdapterInfomation {
 
 
     // --------------- recycler view settings ---------
@@ -74,6 +59,7 @@ public class compGallery extends Fragment {
 
 
     RecyclerView gallery;
+    Handler handler = new Handler();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,42 +70,42 @@ public class compGallery extends Fragment {
         gallery = (RecyclerView)rootView.findViewById(R.id.gallerygrid);
 
 
-            layout = (PullRefreshLayout)rootView.findViewById(R.id.pullRefreshLayout);
-            layout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
+        layout = (PullRefreshLayout)rootView.findViewById(R.id.pullRefreshLayout);
+        layout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
 
-                    try {
-                        Intent intent = getActivity().getIntent();
-                        getActivity().finish();
-                        startActivity(intent);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    Intent intent = getActivity().getIntent();
+                    getActivity().finish();
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            });
+            }
+        });
 
 
 
 
-            //---------------NETWORK AND RECYCLER VIEW --------------------------------
-            //recyclerView = (RecyclerView) findViewById(R.id.mainfeedrecycler);
+        //---------------NETWORK AND RECYCLER VIEW --------------------------------
+        //recyclerView = (RecyclerView) findViewById(R.id.mainfeedrecycler);
 
-            compPicsUrls = new ArrayList<>();
+        compPicsUrls = new ArrayList<>();
 
-            gridImages = new ArrayList<>();
+        gridImages = new ArrayList<>();
 
 
 
-            compAdapt = new CompetitionData(getActivity(), compPicsUrls,getFragmentManager());
-            //compAdapt = new RecyclerGridAdapter(this, gridImages, this);
+        compAdapt = new CompetitionData(getActivity(), compPicsUrls,getFragmentManager());
+        //compAdapt = new RecyclerGridAdapter(this, gridImages, this);
 
-            int numOfColumns = 3;
-            layoutManager = new GridLayoutManager(getActivity(), numOfColumns);
-            gallery.setLayoutManager(layoutManager);
-            gallery.setAdapter(compAdapt);
+        int numOfColumns = 3;
+        layoutManager = new GridLayoutManager(getActivity(), numOfColumns);
+        gallery.setLayoutManager(layoutManager);
+        gallery.setAdapter(compAdapt);
 
-            //new getUserData().execute("");
+        //new getUserData().execute("");
         /*mUser.setContext(this);
         homeIntent = new Intent();
         homeIntent.putExtra("USER_ID",mUser.getUserId());
@@ -127,44 +113,44 @@ public class compGallery extends Fragment {
 
 
 
-            gallery.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        gallery.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
-                    //super.onScrolled(recyclerView, dx, dy);
-                    System.out.println("Scrolling "+dx+" "+dy);
-                    if(dy > 0){ //check for scroll down
-                        visibleItemCount = layoutManager.getChildCount();
-                        totalItemCount = layoutManager.getItemCount();
-                        pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
-                        System.out.println("Total Item "+totalItemCount+" Loading "+loading);
-                        if(!loading){
-                            if((visibleItemCount + pastVisiblesItems) >= totalItemCount-2){
-                                loading = true;
-                                //pg++;
-                                try {
-                                    //callAsyncPopulate(pg);
-                                    if(mUser == null){
-                                        new getUserData().execute("");
-                                    } else{
-                                        load(false);
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                //super.onScrolled(recyclerView, dx, dy);
+                System.out.println("Scrolling "+dx+" "+dy);
+                if(dy > 0){ //check for scroll down
+                    visibleItemCount = layoutManager.getChildCount();
+                    totalItemCount = layoutManager.getItemCount();
+                    pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+                    System.out.println("Total Item "+totalItemCount+" Loading "+loading);
+                    if(!loading){
+                        if((visibleItemCount + pastVisiblesItems) >= totalItemCount-2){
+                            loading = true;
+                            //pg++;
+                            try {
+                                //callAsyncPopulate(pg);
+                                if(mUser == null){
+                                    new getUserData().execute("");
+                                } else{
+                                    load(false);
                                 }
-                                //populateFeed(mUser.getUserId(), pg, mUser.getToken());
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
+                            //populateFeed(mUser.getUserId(), pg, mUser.getToken());
                         }
                     }
                 }
-
-
-            });
-            if(mUser == null){
-                new getUserData().execute("");
-            } else{
-                load(false);
             }
+
+
+        });
+        if(mUser == null){
+            new getUserData().execute("");
+        } else{
+            load(false);
+        }
 
 //        if(!isConnected()){
 //            startActivity(new Intent(this, noInternet.class));
@@ -173,14 +159,23 @@ public class compGallery extends Fragment {
         return rootView;
 
 
+    }
+
+    public void addPic(Hashtag hashtag){
+        for (int i = 0; i < compPicsUrls.size(); i++) {
+            System.out.println(compPicsUrls.get(i).getId()+"--"+hashtag.getId());
+            if(compPicsUrls.get(i).getId()==hashtag.getId()){
+                System.out.println("Found...");
+                compPicsUrls.set(i,hashtag);
+                compAdapt.notifyDataSetChanged();
+                break;
+            }
         }
-    /*
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        finish();
-        startActivity(getIntent());
-    } */
+    }
+
+
+
+
 
     public boolean isConnected(){
         boolean hasConnection;
@@ -195,6 +190,7 @@ public class compGallery extends Fragment {
 
 
     public void load(boolean fromRecursive){
+        System.out.println("I am in checked...");
         if(fromRecursive && !(pg<5))
             return;
         loading=true;
@@ -229,7 +225,7 @@ public class compGallery extends Fragment {
 
 
                     compPicsUrls.addAll(getAllPost);
-                    System.out.println("Total Post "+postList.size());
+                    System.out.println("Total Post "+compPicsUrls.size());
                     compAdapt.notifyDataSetChanged();
                     loading=false;
                     pg++;
@@ -382,9 +378,6 @@ public class compGallery extends Fragment {
 
     public RecyclerView.Adapter getAdapter() {
         return compAdapt;
-
-
-
     }
 
 }

@@ -28,8 +28,10 @@ import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
 
 public class CommentData extends ArrayAdapter<Comment> {
 
+    public List<Comment> objects;
     public CommentData(Context context, List<Comment> objects) {
         super(context, R.layout.comment_model, objects);
+        this.objects=objects;
     }
 
     @Override

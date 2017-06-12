@@ -72,6 +72,9 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
     public Integer screenWidth = 0;
     private boolean onBind;
     FragmentManager fm;
+
+    public CommentData commentData;
+
     public PostData(ArrayList<Hashtag> data,Context context,Integer screenWidth,FragmentManager fm) {
         this.data=data;
         this.context=context;
@@ -174,7 +177,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context, competitionAll.class);
-               // intent.putExtra("USER_ID",post.getPoster().getUserId());
+                // intent.putExtra("USER_ID",post.getPoster().getUserId());
 
                 context.startActivity(intent);
             }
@@ -318,6 +321,10 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         /*************************************************************************/
         //
 
+       /* final List<Comment> listAllComment=data.get(position).getComments();
+        final CommentData commentData=new CommentData(context,listAllComment);
+        commentData.notifyDataSetChanged();*/
+
         holder.commentsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -333,8 +340,10 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                 final ListView commentrecycler = (ListView) dialog.findViewById(R.id.commentrecycler);
                 final EmojiconEditText commentbox = (EmojiconEditText) dialog.findViewById(R.id.commentBox);
                 final TextView sendcomment = (TextView) dialog.findViewById(R.id.sendcomment);
+
+
                 final List<Comment> listAllComment=data.get(position).getComments();
-                final CommentData commentData=new CommentData(context,listAllComment);
+                /*final CommentData */commentData=new CommentData(context,listAllComment);
                 commentrecycler.setAdapter(commentData);
                 commentData.notifyDataSetChanged();
 
@@ -548,9 +557,14 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
 
 
     }
+
+
+
     public ArrayList<Hashtag> getListData(){
         return this.data;
     }
+
+
 
 
     @Override
@@ -597,7 +611,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
             totalStars.setTypeface(type);
             totalComments.setTypeface(type);
             comptext.setTypeface(type);
-           // seeall.setTypeface(type);
+            // seeall.setTypeface(type);
         }
     }
 
@@ -657,5 +671,6 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                 System.out.println("4 "+errorResponse.toString());
             }
         });
+
     }
 }
