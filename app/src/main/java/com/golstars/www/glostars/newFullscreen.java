@@ -36,6 +36,7 @@ import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.ModelData.Poster;
 import com.golstars.www.glostars.adapters.CommentData;
 import com.golstars.www.glostars.models.Comment;
+import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.MySSLSocketFactory;
@@ -67,7 +68,7 @@ public class newFullscreen extends AppCompatActivity {
     ImageView fullscreenProflePic;
     Button newFullscreenFollow;
     TextView newFullscreenCaption;
-    RatingBar newRating;
+    SimpleRatingBar newRating;
     TextView newRatingCount;
     ImageView newCommentIcon;
     TextView newCommentCount;
@@ -107,7 +108,7 @@ public class newFullscreen extends AppCompatActivity {
         fullscreenProflePic = (ImageView)findViewById(R.id.newFullscreenProfilePic); // profile pic
         newFullscreenFollow = (Button)findViewById(R.id.newFullscreenFollowButton); // follow button
         newFullscreenCaption = (TextView)findViewById(R.id.newFullscreenCaption);  // caption
-        newRating = (RatingBar)findViewById(R.id.newFullscreenRating);                          // rating bar
+        newRating = (SimpleRatingBar) findViewById(R.id.newFullscreenRating);                          // rating bar
         newRatingCount = (TextView)findViewById(R.id.newFullscreenRatingCount);                // rating count
         newCommentIcon = (ImageView)findViewById(R.id.newFullscreenCommentIcon);              // comment icon
         newCommentCount = (TextView)findViewById(R.id.newFullscreenCommentCount);            // comments count

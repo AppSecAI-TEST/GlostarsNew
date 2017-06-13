@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/rootViewFullscreen"
+    android:nestedScrollingEnabled="true"
     tools:context="com.golstars.www.glostars.newFullscreen"
     >
 
@@ -22,6 +23,7 @@
         android:focusableInTouchMode="true"
         android:src="@drawable/post1"
         android:scaleType="fitCenter"
+        android:layout_gravity="center_horizontal"
         android:id="@+id/newfullscreenimage"/>
 
     <android.support.v7.widget.RecyclerView
@@ -58,6 +60,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_marginStart="8dp"
                 android:src="@drawable/nopicmale"/>
 
             <TextView
@@ -155,15 +158,16 @@
                 android:orientation="horizontal">
 
 
-                <RatingBar
+                <com.iarcuschin.simpleratingbar.SimpleRatingBar
                     android:id="@+id/newFullscreenRating"
-                    style="@style/RatingBarSmaller"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:background="#00FFFFFF"
-                    android:numStars="5"
-                    android:stepSize="1" />
+                    app:srb_numberOfStars="5"
+                    app:srb_stepSize="1"
+                    app:srb_borderColor="@color/colorPrimary"
+                    app:srb_starSize="20dp"
+                    app:srb_starBorderWidth="2"/>
 
                 <TextView
                     android:id="@+id/newFullscreenRatingCount"
@@ -188,9 +192,9 @@
                     android:src="@drawable/deleteicon" />
 
                 <View
-                    android:layout_width="35dp"
+                    android:layout_width="15dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_weight="0" />
 
                 <LinearLayout
                     android:id="@+id/commentContainer"
@@ -229,7 +233,7 @@
             android:id="@+id/commentsHolder"
             android:layout_width="match_parent"
             android:layout_height="160dp"
-            android:layout_below="@+id/UserInformation"
+            android:layout_below="@+id/postInformation"
             android:background="@drawable/roundededittext"
             android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
@@ -238,7 +242,7 @@
             <ListView
                 android:id="@+id/newFullscreenComments"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="4dp">
 
             </ListView>

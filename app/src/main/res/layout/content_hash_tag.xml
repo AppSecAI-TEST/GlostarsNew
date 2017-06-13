@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -111,15 +112,17 @@
             android:layout_below="@+id/userPOST">
 
 
-            <RatingBar
+            <com.iarcuschin.simpleratingbar.SimpleRatingBar
                 android:id="@+id/ratingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:numStars="5"
-                style="@style/RatingBarSmall"
+                app:srb_numberOfStars="5"
                 android:layout_marginTop="2dp"
                 android:layout_gravity="center_vertical"
-                android:stepSize="1"
+                app:srb_stepSize="1"
+                app:srb_borderColor="@color/colorPrimary"
+                app:srb_starBorderWidth="2"
+                app:srb_starCornerRadius="5"
                 android:layout_marginStart="8dp"
                 />
 
