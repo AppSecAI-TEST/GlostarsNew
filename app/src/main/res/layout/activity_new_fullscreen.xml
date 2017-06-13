@@ -173,7 +173,7 @@
                         app:srb_numberOfStars="5"
                         app:srb_stepSize="1"
                         app:srb_borderColor="@color/colorPrimary"
-                        app:srb_starSize="20dp"
+                        app:srb_starSize="12dp"
                         app:srb_starBorderWidth="2"/>
 
                     <TextView
@@ -183,9 +183,9 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="4dp"
                         android:layout_marginStart="4dp"
-                        android:text="45"
+                        android:text=""
                         android:textColor="@color/colorPrimary"
-                        android:textSize="10sp"
+                        android:textSize="12sp"
                         android:textStyle="normal" />
 
                     <ImageView
@@ -199,9 +199,8 @@
                         android:src="@drawable/deleteicon" />
 
                     <View
-                        android:layout_width="15dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0" />
+                        android:layout_width="1dp" />
 
                     <LinearLayout
                         android:id="@+id/commentContainer"
@@ -222,11 +221,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="8dp"
-                            android:text="5"
+                            android:text=""
                             android:textColor="@color/colorPrimary"
-                            android:textSize="10sp" />
-
-
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
