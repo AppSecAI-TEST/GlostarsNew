@@ -173,7 +173,7 @@
                         app:srb_numberOfStars="5"
                         app:srb_stepSize="1"
                         app:srb_borderColor="@color/colorPrimary"
-                        app:srb_starSize="12dp"
+                        app:srb_starSize="17dp"
                         app:srb_starBorderWidth="2"/>
 
                     <TextView
@@ -209,8 +209,8 @@
 
                         <ImageView
                             android:id="@+id/newFullscreenCommentIcon"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginTop="2dp"
                             android:src="@drawable/comment_icon" />

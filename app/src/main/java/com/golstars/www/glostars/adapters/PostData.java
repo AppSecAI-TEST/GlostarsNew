@@ -268,14 +268,14 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
 
         /**************** Rating bar Change ***********************************/
 
-        /*changed here */
+//        /*changed here */
 //        holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 //            @Override
 //            public void onRatingChanged(final RatingBar ratingBar, float v, boolean b) {
 //                System.out.println("Rating change");
 //            }
 //        });
-
+//
 //        holder.ratingBar.setOnTouchListener(new View.OnTouchListener() {
 //            @Override
 //            public boolean onTouch(View v, MotionEvent event) {
