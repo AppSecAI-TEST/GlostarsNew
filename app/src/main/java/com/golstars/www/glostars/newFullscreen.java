@@ -220,6 +220,16 @@ public class newFullscreen extends AppCompatActivity {
         Picasso.with(getApplicationContext()).load(postData.getPicUrl()).into(newFullscreenPost); // image url
         newFullscreenCaption.setText(postData.getDescription());  // caption
 
+        /**************** rating bar settings *************************************/
+        if(!postData.isIsCompeting()){
+            newRating.setNumberOfStars(1);
+        }
+        else newRating.setNumberOfStars(5);
+        //newRatingCount.setText(postData.getStarsCount());
+
+
+
+
         /**************** privacy icon settings ***********************************/
         if(postData.isIsCompeting()){
             fullscreenPrivacy.setImageResource(R.drawable.privacy_competition_photo);
@@ -262,7 +272,7 @@ public class newFullscreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final Integer selected=new Integer(position);
+                //final Integer selected=new Integer(position);
 
 
                 if(newFullscreenFollow.getText().toString().equalsIgnoreCase("follower") || newFullscreenFollow.getText().toString().equalsIgnoreCase("follow")){
@@ -828,9 +838,9 @@ public class newFullscreen extends AppCompatActivity {
 
 
         //picturepreview = (RecyclerView)findViewById(R.id.previewPictures);               // miniature pics
-//
+
 //        newRating = (RatingBar)findViewById(R.id.newFullscreenRating);                          // rating bar
-//        newRatingCount = (TextView)findViewById(R.id.newFullscreenRatingCount);                // rating count
+
 //        newCommentIcon = (ImageView)findViewById(R.id.newFullscreenCommentIcon);              // comment icon
 //        newCommentCount = (TextView)findViewById(R.id.newFullscreenCommentCount);            // comments count
 //        newFullscreenComments = (ListView)findViewById(R.id.newFullscreenComments);         // comments
