@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -44,10 +45,12 @@ import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.security.KeyStore;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -173,6 +176,7 @@ public class newFullscreen extends AppCompatActivity {
         //postDataAdapter=((AdapterInfomation)getApplicationContext()).getAdapter();
         new getUserData().execute("");
 
+        if(postData == null)
         postData =  getIntent().getExtras().getParcelable("post");
         poster = getIntent().getExtras().getParcelable("poster");
 
@@ -225,8 +229,43 @@ public class newFullscreen extends AppCompatActivity {
             newRating.setNumberOfStars(1);
         }
         else newRating.setNumberOfStars(5);
+        newRating.setRating((float)postData.getMyStarCount());
         //newRatingCount.setText(postData.getStarsCount());
 
+         /*changed here */
+        newRating.setOnRatingBarChangeListener(new SimpleRatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(final SimpleRatingBar ratingBar, float v, boolean b) {
+                System.out.println("Rating change");
+            }
+        });
+
+        newRating.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    float touchPositionX = event.getX();
+                    float width = newRating.getWidth();
+                    float starsf = (touchPositionX / width) * 5.0f;
+                    int stars = (int)starsf + 1;
+                    postData.setMyStarCount(stars);
+                    newRating.setRating((float)stars);
+                    //postData.setMyStarCount(stars);
+                    System.out.println("Call rating touching... - ");
+                    //needChange=true;
+                    v.setPressed(false);
+                    changeRating(newRating);
+                }
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.setPressed(true);
+                }
+
+                if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    v.setPressed(false);
+                }
+                return true;
+            }});
+        /*************************************************************************/
 
 
 
@@ -240,6 +279,7 @@ public class newFullscreen extends AppCompatActivity {
                 fullscreenPrivacy.setImageResource(R.drawable.privacy_mutual_follower_photo);
             }
         }
+        /*************************************************************************/
 
         /**************** follow button settings ***********************************/
         if(postData.is_mutual()){
@@ -435,7 +475,7 @@ public class newFullscreen extends AppCompatActivity {
                         }
                     };
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                    AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getApplicationContext());
                     builder.setMessage("Are you sure?").setPositiveButton("Unfollow", dialogClickListener)
                             .setNegativeButton("Cancel", dialogClickListener).show();
 
@@ -443,6 +483,7 @@ public class newFullscreen extends AppCompatActivity {
             }
 
         });
+        /*************************************************************************/
 
         /**************** comments settings ***********************************/
 
@@ -832,6 +873,7 @@ public class newFullscreen extends AppCompatActivity {
                 //dialog.show();
             }
         });
+        /*************************************************************************/
 
 
 
@@ -959,5 +1001,66 @@ public class newFullscreen extends AppCompatActivity {
 
 
         }
+    }
+
+    //modified function
+    public void changeRating(final SimpleRatingBar ratingBar){
+
+        //System.out.println("Change Call "+position);
+
+        String url = ServerInfo.BASE_URL_API+"images/rating";
+
+        AsyncHttpClient client=new AsyncHttpClient();
+        client.addHeader("Authorization", "Bearer " + token);
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
+
+        RequestParams params=new RequestParams();
+        params.add("NumOfStars",(int)newRating.getRating()+"");
+        params.add("PhotoId",postData.getId()+"");
+        client.post(getApplicationContext(), url,params,new JsonHttpResponseHandler(){
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    System.out.println("1. "+response.toString());
+                    try {
+                        postData.setStarsCount(response.getJSONObject("resultPayload").getInt("totalRating"));
+                        postData.setMyStarCount((int)newRating.getRating());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    //notifyDataSetChanged();
+                    System.out.println("Loading complete");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                System.out.println("2 "+responseString);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+
+                System.out.println("3 "+errorResponse.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                System.out.println("4 "+errorResponse.toString());
+            }
+        });
+
     }
 }
