@@ -864,6 +864,7 @@ public class newFullscreen extends AppCompatActivity {
                 comment.setText(comm.getCommentMessage());
                 //hours.setText("2");
                 namecomment.setText(comm.getFirstName() + " " + comm.getLastName());
+                hours.setText(comm.getCommentTime());
 
                 commentPic.setOnClickListener(new View.OnClickListener() {
                     @Override
