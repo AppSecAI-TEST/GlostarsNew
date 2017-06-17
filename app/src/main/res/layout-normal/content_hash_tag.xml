@@ -81,9 +81,9 @@
             android:id="@+id/userCAPTION" />
 
         <ImageView
-            android:layout_width="700dp"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
+            android:layout_width="match_parent"
+            android:layout_height="380dp"
+            android:scaleType="centerCrop"
             android:layout_marginTop="12dp"
             android:layout_centerHorizontal="true"
             android:id="@+id/userPOST"
@@ -122,9 +122,9 @@
                 app:srb_starsSeparation="1dp"
                 app:srb_borderColor="@color/colorPrimary"
                 app:srb_fillColor="@color/colorPrimary"
-                app:srb_starCornerRadius="5"
+                app:srb_starCornerRadius="7"
                 android:layout_marginTop="2dp"
-                app:srb_starBorderWidth="5"
+                app:srb_starBorderWidth="3"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp"
                 />

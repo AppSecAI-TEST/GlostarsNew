@@ -13,7 +13,7 @@
 
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     >
 
@@ -24,7 +24,7 @@
         android:focusableInTouchMode="true"
         android:src="@drawable/post1"
         android:scaleType="fitCenter"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:id="@+id/newfullscreenimage"/>
 
     <android.support.v7.widget.RecyclerView
@@ -73,13 +73,13 @@
                     android:id="@+id/newFullscreenUsername"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="Sajib Saha"
+                    android:text=""
                     android:layout_alignTop="@+id/newFullscreenProfilePic"
                     android:layout_toRightOf="@+id/newFullscreenProfilePic"
                     android:layout_marginTop="4dp"
-                    android:textSize="12sp"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="4dp"/>
+                    android:textSize="14sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginStart="8dp"/>
 
 
                 <TextView
@@ -90,9 +90,9 @@
                     android:layout_below="@+id/newFullscreenUsername"
                     android:layout_toRightOf="@+id/newFullscreenProfilePic"
                     android:layout_marginTop="4dp"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textColor="@color/black"
-                    android:layout_marginStart="4dp"/>
+                    android:layout_marginStart="8dp"/>
 
 
 
@@ -130,7 +130,7 @@
                     android:layout_alignStart="@+id/newFullscreenUploadTime"
                     android:layout_below="@+id/newFullscreenUploadTime"
                     android:text="Follow"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="8dp"
                     android:textColor="@color/white"/>
 
             </RelativeLayout>
@@ -216,7 +216,6 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginTop="2dp"
                             android:src="@drawable/comment_icon" />
 
                         <TextView
