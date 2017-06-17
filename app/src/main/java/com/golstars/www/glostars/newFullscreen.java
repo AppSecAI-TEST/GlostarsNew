@@ -34,6 +34,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.ModelData.Poster;
 import com.golstars.www.glostars.adapters.CommentData;
@@ -228,14 +230,24 @@ public class newFullscreen extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = width * newFullscreenPost.getMaxHeight() / newFullscreenPost.getMaxWidth();
 
-        Picasso
+//        Picasso
+//                .with(getApplicationContext())
+//                .load(postData.getPicUrl())
+//                .placeholder(R.drawable.loading)
+//                .resize(width,1000)
+//                .centerInside()
+//                //.fit()
+//                .into(newFullscreenPost); // image url
+
+
+        Glide
                 .with(getApplicationContext())
                 .load(postData.getPicUrl())
-                .placeholder(R.drawable.loading)
-                .resize(width,1000)
-                .centerInside()
-                //.fit()
-                .into(newFullscreenPost); // image url
+                .thumbnail(0.5f)
+                //.crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(newFullscreenPost);
+        //collection.addView(layout);
 
         newFullscreenCaption.setText(postData.getDescription());  // caption
 
