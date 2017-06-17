@@ -331,7 +331,7 @@ public class notificationNotificationNew extends Fragment implements OnItemClick
 
 
 
-
+                    /*
                     Bundle bundle = new Bundle();
                     bundle.putInt("position",0);
                     bundle.putString("token", mUser.getToken());
@@ -340,14 +340,33 @@ public class notificationNotificationNew extends Fragment implements OnItemClick
 
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     SingleItemDialogFragment newFragment = SingleItemDialogFragment.newInstance();
-                    newFragment.setArguments(bundle);
+                    newFragment.setArguments(bundle); */
+
+                    /******************* New Fullscreen ***************************/
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("post", hashtag);
+                    bundle.putString("token", mUser.getToken());
+                    bundle.putString("usrID", mUser.getUserId());
+                    bundle.putParcelable("poster", hashtag.getPoster());
+
+
+
+                    Intent intent = new Intent(getActivity(), newFullscreen.class);
+                    intent.putExtras(bundle);
+                    //intent.putExtra("post", (Serializable) post);
+                    getActivity().startActivity(intent);
+                    /**************************************************************/
 
                     hashtags.clear();
 
                     hashtags.add(hashtag);
+
+
+
+
                     postDataAdapter.notifyDataSetChanged();
 
-                    newFragment.show(ft, "slideshow");
+                    //newFragment.show(ft, "slideshow");
 
                 }
 
