@@ -101,6 +101,7 @@ public class notificationNew extends AppCompatActivity {
         homeFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.homeFAB);
 
         menuDown = (com.github.clans.fab.FloatingActionMenu)findViewById(R.id.menu_down);
+        menuDown.setClosedOnTouchOutside(true);
 
         slogo = (ImageView)findViewById(R.id.searchlogo);
 

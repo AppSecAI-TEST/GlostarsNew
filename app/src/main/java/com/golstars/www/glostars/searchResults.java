@@ -178,7 +178,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(searchResults.this, notification.class));
+                startActivity(new Intent(searchResults.this, notificationNew.class));
             }
         });
 
@@ -203,7 +203,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(searchResults.this, competitionAll.class));
+                startActivity(new Intent(searchResults.this, competition_page.class));
             }
         });
 

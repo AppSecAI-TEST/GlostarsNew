@@ -115,6 +115,7 @@ public class upload extends AppCompatActivity {
 
         submit.setTransformationMethod(null);
         cancel.setTransformationMethod(null);
+        description.setSingleLine(false);
 
 
         cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
@@ -152,7 +153,7 @@ public class upload extends AppCompatActivity {
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(upload.this, notification.class));
+                startActivity(new Intent(upload.this, notificationNew.class));
             }
         });
 
@@ -175,7 +176,7 @@ public class upload extends AppCompatActivity {
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(upload.this, competitionAll.class));
+                startActivity(new Intent(upload.this, competition_page.class));
             }
         });
 

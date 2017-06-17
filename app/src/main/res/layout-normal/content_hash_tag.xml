@@ -57,7 +57,7 @@
             android:layout_marginBottom="4dp"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:id="@+id/userNAME"
             android:text="NAME"
@@ -116,9 +116,10 @@
                 android:id="@+id/ratingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srb_starSize="25dp"
+                app:srb_starSize="22dp"
                 app:srb_numberOfStars="5"
                 app:srb_stepSize="1"
+                app:srb_starsSeparation="1dp"
                 app:srb_borderColor="@color/colorPrimary"
                 app:srb_fillColor="@color/colorPrimary"
                 app:srb_starCornerRadius="5"
@@ -136,7 +137,8 @@
                 android:textStyle="normal"
                 android:textSize="16sp"
                 android:layout_gravity="center_vertical"
-                android:text="45"
+                android:text=""
+                android:layout_marginTop="2dp"
                 android:textColor="@color/colorPrimary"
                 android:layout_marginStart="4dp"
                 />
@@ -149,6 +151,7 @@
                 android:layout_marginBottom="0dp"
                 android:src="@drawable/deleteicon"
                 android:layout_marginEnd="8dp"
+                android:visibility="gone"
                 />
 
 
@@ -171,7 +174,7 @@
                 android:id="@+id/commentcount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5"
+                android:text=""
                 android:textSize="16sp"
                 android:layout_marginEnd="8dp"
                 android:layout_gravity="center_vertical"

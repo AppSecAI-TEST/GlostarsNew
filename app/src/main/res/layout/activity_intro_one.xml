@@ -21,8 +21,8 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
@@ -173,20 +173,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"/>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:text="Skip"
-        android:paddingEnd="8dp"
-        android:paddingStart="8dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:drawablePadding="4dp"
-        android:drawableRight="@drawable/skip_arrow"
-        android:background="@drawable/roundedbutton"
-        android:textColor="@color/lightViolate"/>
+
 
 </RelativeLayout>

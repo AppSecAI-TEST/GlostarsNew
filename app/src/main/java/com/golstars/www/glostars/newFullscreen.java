@@ -146,8 +146,6 @@ public class newFullscreen extends AppCompatActivity {
 
 
 
-
-
         emojIcon = new EmojIconActions(newFullscreen.this,rootView,newCommentArea,emojiButton);
         emojIcon.ShowEmojIcon();
 
@@ -193,8 +191,11 @@ public class newFullscreen extends AppCompatActivity {
             }
 
         });
+
+        String totalComments = String.valueOf(postData.getComments().size());
+
         //newFullscreenComments.setAdapter(commentAdapter);
-        newCommentCount.setText(postData.getComments().size());
+        newCommentCount.setText(totalComments);
 
 
         fullscreenUsername.setText(poster.getName());
@@ -230,7 +231,7 @@ public class newFullscreen extends AppCompatActivity {
         }
         else newRating.setNumberOfStars(5);
         newRating.setRating((float)postData.getMyStarCount());
-        newRatingCount.setText(postData.getStarsCount());
+        newRatingCount.setText(String.valueOf(postData.getStarsCount()));
 
          /*changed here */
         newRating.setOnRatingBarChangeListener(new SimpleRatingBar.OnRatingBarChangeListener() {
@@ -282,6 +283,7 @@ public class newFullscreen extends AppCompatActivity {
         /*************************************************************************/
 
         /**************** follow button settings ***********************************/
+
         if(postData.is_mutual()){
             newFullscreenFollow.setText("Mutual");
             newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.roundedbuttongrey));
@@ -475,7 +477,7 @@ public class newFullscreen extends AppCompatActivity {
                         }
                     };
 
-                    AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getApplicationContext());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
                     builder.setMessage("Are you sure?").setPositiveButton("Unfollow", dialogClickListener)
                             .setNegativeButton("Cancel", dialogClickListener).show();
 
