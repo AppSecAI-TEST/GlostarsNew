@@ -144,7 +144,8 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
             Picasso.with(context)
                     .load(post.getPicUrl())
                     .placeholder(R.drawable.loading)
-                    .resize(screenWidth,1000)
+                    //.resize(screenWidth,1000)
+                    .resize(screenWidth, screenWidth)
                     .centerInside()
                     .into(holder.postImg);
             Picasso.with(context).load(post.getPoster().getProfilePicURL()).into(holder.propic);
