@@ -1,6 +1,7 @@
 package com.golstars.www.glostars.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +16,7 @@ import com.golstars.www.glostars.MyUser;
 import com.golstars.www.glostars.R;
 import com.golstars.www.glostars.SingleItemDialogFragment;
 import com.golstars.www.glostars.interfaces.OnSinglePicClick;
+import com.golstars.www.glostars.newFullscreen;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -52,6 +54,7 @@ public class CompetitionData extends RecyclerView.Adapter<CompetitionData.MyView
             @Override
             public void onClick(View view) {
 
+                /*
                 Bundle bundle = new Bundle();
                 bundle.putInt("position",position);
                 bundle.putString("token", mUser.getToken());
@@ -61,7 +64,22 @@ public class CompetitionData extends RecyclerView.Adapter<CompetitionData.MyView
                 FragmentTransaction ft = fm.beginTransaction();
                 SingleItemDialogFragment newFragment = SingleItemDialogFragment.newInstance();
                 newFragment.setArguments(bundle);
-                newFragment.show(ft, "slideshow");
+                newFragment.show(ft, "slideshow");*/
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("post", ImgUrls.get(position));
+                bundle.putString("token", mUser.getToken());
+                bundle.putString("usrID", mUser.getUserId());
+                bundle.putParcelable("poster", ImgUrls.get(position).getPoster());
+
+
+
+                Intent intent = new Intent(mContext, newFullscreen.class);
+                intent.putExtras(bundle);
+                //intent.putExtra("post", (Serializable) post);
+                mContext.startActivity(intent);
+
+
 
             }
         });

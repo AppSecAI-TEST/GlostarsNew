@@ -82,7 +82,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 
     ImageView slogo;
     EditText search;
-    ImageView gl;
+    TextView gl;
     boolean showingFirst = true;
 
 
@@ -120,7 +120,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
         menuDown.setClosedOnTouchOutside(true);
 
-        gl = (ImageView)findViewById(R.id.glostarslogo);
+        gl = (TextView) findViewById(R.id.glostarslogo);
         slogo = (ImageView)findViewById(R.id.searchlogo);
         search = (EditText)findViewById(R.id.searchedit);
 
@@ -140,6 +140,9 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 
 
 
+        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+        gl.setTypeface(type);
+
 
         fab_show = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_show);
         fab_hide = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_hide);
@@ -147,12 +150,6 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         rotate_anticlockwise = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_anticlockwise);
 
 
-        gl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(competitionUser.this,MainFeed.class));
-            }
-        });
 
         slogo.setOnClickListener(new View.OnClickListener() {
             @Override

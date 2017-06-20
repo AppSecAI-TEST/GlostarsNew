@@ -21,8 +21,8 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
@@ -172,5 +172,7 @@
         android:layout_alignTop="@+id/imageView12"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"/>
+
+
 
 </RelativeLayout>

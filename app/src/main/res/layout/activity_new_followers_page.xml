@@ -45,7 +45,7 @@
                         android:paddingLeft="2dp"
                         android:visibility="visible"
                         android:text="Followers"
-                        android:textSize="30sp"
+                        android:textSize="25sp"
                         android:textColor="@color/lightViolate"/>
 
                     <EditText

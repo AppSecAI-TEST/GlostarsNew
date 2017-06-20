@@ -704,7 +704,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(user_profile.this, notification.class));
+                startActivity(new Intent(user_profile.this, notificationNew.class));
                 menuDown.close(true);
             }
         });
@@ -741,7 +741,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(user_profile.this, competitionAll.class));
+                startActivity(new Intent(user_profile.this, competition_page.class));
                 menuDown.close(true);
             }
         });

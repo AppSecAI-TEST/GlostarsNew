@@ -77,7 +77,7 @@
         android:layout_toEndOf="@id/introWeekly"
         android:layout_marginStart="-4dp"
         android:layout_alignTop="@id/introWeekly"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="26dp"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:text="eekly" />
@@ -89,7 +89,7 @@
         android:layout_toRightOf="@id/introMonthly"
         android:layout_marginStart="-4dp"
         android:layout_alignTop="@id/introMonthly"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="26dp"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:text="onthly" />
@@ -101,7 +101,7 @@
         android:layout_toRightOf="@id/introGrand"
         android:layout_marginStart="-4dp"
         android:layout_alignTop="@id/introGrand"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="26dp"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:text="rand" />
@@ -114,10 +114,29 @@
         android:layout_toRightOf="@id/introExhibit"
         android:layout_marginStart="-4dp"
         android:layout_alignTop="@id/introExhibit"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="26dp"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:text="xhibition" />
+
+
+
+    <Button
+        android:id="@+id/getStarted"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:text="Get Started"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:drawablePadding="4dp"
+        android:drawableEnd="@drawable/skip_arrow"
+        android:background="@drawable/roundedbutton"
+        android:textColor="@color/lightViolate"
+        android:onClick="gettingStarted"/>
 
 
 </RelativeLayout>

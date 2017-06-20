@@ -184,7 +184,7 @@ public class settingsPage extends AppCompatActivity {
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(settingsPage.this, notification.class));
+                startActivity(new Intent(settingsPage.this, notificationNew.class));
                 menuDown.close(true);
             }
         });
@@ -192,7 +192,7 @@ public class settingsPage extends AppCompatActivity {
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(settingsPage.this, competitionAll.class));
+                startActivity(new Intent(settingsPage.this, competition_page.class));
                 menuDown.close(true);
 
             }

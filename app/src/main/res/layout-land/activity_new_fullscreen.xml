@@ -13,10 +13,10 @@
 
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     >
- 
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         android:focusableInTouchMode="true"
         android:src="@drawable/post1"
         android:scaleType="fitCenter"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:id="@+id/newfullscreenimage"/>
 
     <android.support.v7.widget.RecyclerView
@@ -49,6 +49,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/roundededittext1">
 
+
         <RelativeLayout
             android:id="@+id/informations"
             android:layout_width="match_parent"
@@ -72,13 +73,14 @@
                     android:id="@+id/newFullscreenUsername"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:text="Sajib Saha"
                     android:layout_alignTop="@+id/newFullscreenProfilePic"
                     android:layout_toRightOf="@+id/newFullscreenProfilePic"
                     android:layout_marginTop="4dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_marginStart="8dp"/>
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="4dp"/>
+
 
                 <TextView
                     android:id="@+id/newFullscreenUploadTime"
@@ -88,9 +90,11 @@
                     android:layout_below="@+id/newFullscreenUsername"
                     android:layout_toRightOf="@+id/newFullscreenProfilePic"
                     android:layout_marginTop="4dp"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     android:textColor="@color/black"
-                    android:layout_marginStart="8dp"/>
+                    android:layout_marginStart="4dp"/>
+
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -105,6 +109,7 @@
                     android:layout_below="@+id/newFullscreenUsername"
                     />
 
+
                 <ImageView
                     android:id="@+id/newFullscreenPrivacy"
                     android:layout_width="15dp"
@@ -113,6 +118,7 @@
                     android:layout_toRightOf="@+id/newFullscreenUploadTime"
                     android:layout_marginStart="10dp"
                     android:src="@drawable/privacy_competition_photo"
+
                     />
 
                 <Button
@@ -124,9 +130,11 @@
                     android:layout_alignStart="@+id/newFullscreenUploadTime"
                     android:layout_below="@+id/newFullscreenUploadTime"
                     android:text="Follow"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:textColor="@color/white"/>
+
             </RelativeLayout>
+
 
             <LinearLayout
                 android:id="@+id/postInformation"
@@ -146,6 +154,7 @@
                     android:textSize="12sp"
                     android:text="A quick brown fox jumps over a lazy dog."/>
 
+
                 <LinearLayout
                     android:id="@+id/ratecomment"
                     android:layout_width="match_parent"
@@ -154,6 +163,7 @@
                     android:layout_height="wrap_content"
                     android:background="#00FFFFFF"
                     android:orientation="horizontal">
+
 
                     <com.iarcuschin.simpleratingbar.SimpleRatingBar
                         android:id="@+id/newFullscreenRating"
@@ -192,13 +202,11 @@
 
                     <View
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_width="1dp" />
+                        android:layout_width="20dp" />
 
                     <LinearLayout
                         android:id="@+id/commentContainer"
                         android:layout_width="wrap_content"
-                        android:layout_weight="1"
                         android:layout_height="match_parent">
 
                         <ImageView
@@ -206,6 +214,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginTop="2dp"
                             android:src="@drawable/comment_icon" />
 
                         <TextView
@@ -222,10 +231,12 @@
 
                 </LinearLayout>
 
+
             </LinearLayout>
 
-        </RelativeLayout>
 
+
+        </RelativeLayout>
 
 
 
@@ -280,6 +291,7 @@
                 />
 
 
+
             <TextView
                 android:id="@+id/newFullscreenSendComment"
                 android:layout_width="wrap_content"
@@ -292,6 +304,7 @@
                 />
 
         </LinearLayout>
+
 
     </RelativeLayout>
 

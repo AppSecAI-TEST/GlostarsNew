@@ -10,7 +10,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -82,6 +84,8 @@ public class upload extends AppCompatActivity {
     File file;
     private Bitmap bm;
     private MyUser mUser;
+    private boolean isReach = false;
+
 
     private static final MediaType JSONType = MediaType.parse("application/json; charset=utf-8");
     private final OkHttpClient client = new OkHttpClient();
@@ -116,7 +120,6 @@ public class upload extends AppCompatActivity {
         submit.setTransformationMethod(null);
         cancel.setTransformationMethod(null);
 
-
         cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
         profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
@@ -147,12 +150,15 @@ public class upload extends AppCompatActivity {
         publicpost.setTypeface(type);
         followerspost.setTypeface(type);
 
-        description.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+       description.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+
+
+
 
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(upload.this, notification.class));
+                startActivity(new Intent(upload.this, notificationNew.class));
             }
         });
 
@@ -175,7 +181,7 @@ public class upload extends AppCompatActivity {
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(upload.this, competitionAll.class));
+                startActivity(new Intent(upload.this, competition_page.class));
             }
         });
 

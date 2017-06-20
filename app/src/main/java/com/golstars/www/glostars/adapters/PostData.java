@@ -144,7 +144,8 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
             Picasso.with(context)
                     .load(post.getPicUrl())
                     .placeholder(R.drawable.loading)
-                    .resize(screenWidth,1000)
+                    //.resize(screenWidth,1000)
+                    .resize(screenWidth, screenWidth)
                     .centerInside()
                     .into(holder.postImg);
             Picasso.with(context).load(post.getPoster().getProfilePicURL()).into(holder.propic);
@@ -306,11 +307,16 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
 
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("post", post);
-                bundle.putInt("position",position);
                 bundle.putString("token", mUser.getToken());
                 bundle.putString("usrID", mUser.getUserId());
                 bundle.putParcelable("poster", post.getPoster());
-                bundle.putString("picUrl", post.getPicUrl());
+
+
+
+                Intent intent = new Intent(context, newFullscreen.class);
+                intent.putExtras(bundle);
+                //intent.putExtra("post", (Serializable) post);
+                context.startActivity(intent);
 
                 /*
                 FragmentTransaction ft = fm.beginTransaction();
@@ -320,11 +326,6 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
 
                 newFragment.show(ft, "slideshow");
                 */
-
-                Intent intent = new Intent(context, newFullscreen.class);
-                intent.putExtras(bundle);
-                //intent.putExtra("post", (Serializable) post);
-                context.startActivity(intent);
 
 
             }
