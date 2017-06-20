@@ -169,7 +169,26 @@ public class SignUp extends Fragment{
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(getActivity(),inputCode.class));
+                String log_email = email.getText().toString();
+                if(log_email.indexOf('@') < 0){
+                    Toast.makeText(getContext(), "Enter a valid email", Toast.LENGTH_LONG).show();
+
+                } else if(log_email.length() <= 1){
+                    Toast.makeText(getContext(), "Enter a valid email", Toast.LENGTH_LONG).show();
+                } else if(log_email.indexOf('.') < 0) {
+                    Toast.makeText(getContext(), "Enter a valid email", Toast.LENGTH_LONG).show();
+                } else if(log_email.charAt(log_email.indexOf('@') + 1) == '.'){
+                    Toast.makeText(getContext(), "Enter a valid email", Toast.LENGTH_LONG).show();
+                } else if(log_email.indexOf('@') == 0){
+                    Toast.makeText(getContext(), "Enter a valid email", Toast.LENGTH_LONG).show();
+                } else if(log_email.indexOf('.') == log_email.length() -1){
+                    Toast.makeText(getContext(), "Enter a valid email", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    startActivity(new Intent(getActivity(),inputCode.class));
+                }
+
+
 
 //                String usrname = email.getText().toString();
 //                String email = usrname;
