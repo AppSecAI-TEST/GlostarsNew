@@ -214,7 +214,7 @@ public class SignUp extends Fragment{
                 }
                 else{
 
-                    /************ checking birthday date ******************/
+                    /************ checking birthday date *******************/
 
                     if((year_obirth < 1900) && (year_obirth >= this_year)){
                         Toast.makeText(getContext(), "Enter a valid birth date", Toast.LENGTH_LONG).show();
