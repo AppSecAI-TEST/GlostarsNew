@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +29,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.ModelData.Comment;
 import com.golstars.www.glostars.ModelData.Hashtag;
+import com.golstars.www.glostars.ModelData.Rating;
+import com.golstars.www.glostars.ModelData.UserDetails;
 import com.golstars.www.glostars.adapters.RecyclerGridAdapter;
 import com.golstars.www.glostars.interfaces.OnSinglePicClick;
 import com.golstars.www.glostars.interfaces.PopulatePage;
@@ -46,11 +50,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.Header;
+import microsoft.aspnet.signalr.client.Credentials;
+import microsoft.aspnet.signalr.client.Platform;
+import microsoft.aspnet.signalr.client.SignalRFuture;
+import microsoft.aspnet.signalr.client.http.Request;
+import microsoft.aspnet.signalr.client.http.android.AndroidPlatformComponent;
+import microsoft.aspnet.signalr.client.hubs.HubConnection;
+import microsoft.aspnet.signalr.client.hubs.HubProxy;
+import microsoft.aspnet.signalr.client.hubs.SubscriptionHandler1;
 
 
 public class searchResults extends AppCompatActivity implements PopulatePage, OnSinglePicClick,AdapterInfomation {
@@ -107,7 +118,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
     //gridImages is a Post array provides pic urls for recentsPics
     private ArrayList<Post> gridImages;
     Integer unseenNotifs = 0;
-
+    private Handler handler=new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -278,10 +289,265 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 //        if(!isConnected()){
 //            startActivity(new Intent(this, noInternet.class));
 //        }
+        LoadServer();
+
+    }
+    public void LoadServer(){
+        Platform.loadPlatformComponent(new AndroidPlatformComponent());
+        HubConnection connection = new HubConnection(ServerInfo.BASE_URL);
+        HubProxy hub = connection.createHubProxy("GlostarsHub");
+
+        final MyUser me=MyUser.getmUser();
+        System.out.println("server Token "+me.getToken());
+
+        Credentials credentials=new Credentials() {
+            @Override
+            public void prepareRequest(Request request) {
+                request.addHeader("Authorization", "Bearer " + me.getToken());
+
+            }
+        };
+        connection.setCredentials(credentials);
+        SignalRFuture<Void> awaitConnection = connection.start();
+        try {
+            awaitConnection.get();
+        } catch (InterruptedException e) {
+            // Handle ...
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+       /* try {
+            hub.invoke("hello");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+        hub.on("updatePicture",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("Update Picture "+o);
+
+
+
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        Hashtag hashtag=gson.fromJson(o.toString(),Hashtag.class);
+                        System.out.println("hash tag "+hashtag.toString());
+
+                        for (int i = 0; i < recentsPics.size(); i++) {
+                            System.out.println(recentsPics.get(i).getId()+"--"+hashtag.getId());
+                            if(recentsPics.get(i).getId()==hashtag.getId()){
+                                System.out.println("Found...");
+                                for (Rating rating:hashtag.getRatings()
+                                        ) {
+                                    if(rating.getRaterId().equalsIgnoreCase(recentsPics.get(i).getPoster().getUserId())){
+                                        hashtag.setMyStarCount(rating.getStarsCount());
+                                        break;
+                                    }
+                                }
+
+                                List<Comment> comments=recentsPics.get(i).getComments();
+                                comments.clear();
+                                for (com.golstars.www.glostars.ModelData.Comment comment:hashtag.getComments()
+                                        ) {
+                                    comments.add(comment);
+                                }
+                                hashtag.setComments(comments);
+
+                                recentsPics.set(i,hashtag);
+                                recentsAdapter.notifyDataSetChanged();
+                                break;
+                            }
+                        }
+
+
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("AddPicture",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("Add Picture "+o);
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        Hashtag hashtag=gson.fromJson(o.toString(),Hashtag.class);
+                        System.out.println("hash tag "+hashtag.toString());
+
+                        if(hashtag.getPrivacy().equalsIgnoreCase("public")){
+                            recentsPics.add(0,hashtag);
+                            recentsAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+
+            }
+        },String.class);
+
+
+        hub.on("RemovePicture",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("Remove Picture Id "+o);
+
+
+
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        int postId=Integer.parseInt(o);
+
+                        for (Hashtag hashtag:recentsPics){
+                            if(hashtag.getId()==postId){
+                                recentsPics.remove(hashtag);
+                                recentsAdapter.notifyDataSetChanged();
+                                return;
+                            }
+                        }
+                    }
+                });
+
+            }
+        },String.class);
+
+
+        hub.on("EditProfile",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("EditProfile "+o);
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        UserDetails userDetails=gson.fromJson(o,UserDetails.class);
+
+                        for (Hashtag hashtag:recentsPics){
+                            if(hashtag.getPoster().getUserId().equalsIgnoreCase(userDetails.id)){
+                                hashtag.getPoster().setName(userDetails.name+" "+userDetails.lastName);
+                                hashtag.getPoster().setProfilePicURL(userDetails.profilePicURL);
+                                Picasso.with(searchResults.this).invalidate(userDetails.profilePicURL);
+                            }
+                        }
+                        recentsAdapter.notifyDataSetChanged();
+                    }
+                });
+
+            }
+        },String.class);
+
+
+        hub.on("picNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("picNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        /*menuDown.setMenuButtonColorNormal(ContextCompat.getColor(searchResults.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(searchResults.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);*/
+
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(searchResults.this,R.color.colorAccent));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(searchResults.this,R.color.colorAccent));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
+
+
+        hub.on("FollowUpdate",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("FollowUpdate "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson=new Gson();
+
+                    }
+                });
+
+            }
+        },String.class);
+
+
+
+
+
+        hub.on("followerNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("followerNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        /*menuDown.setMenuButtonColorNormal(ContextCompat.getColor(searchResults.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(searchResults.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);*/
+
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(searchResults.this,R.color.colorAccent));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(searchResults.this,R.color.colorAccent));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("SeenPictureNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("SeenPictureNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        /*menuDown.setMenuButtonColorNormal(ContextCompat.getColor(searchResults.this,R.color.colorAccent));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(searchResults.this,R.color.colorAccent));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);*/
+
+
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(searchResults.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(searchResults.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("SeenFollowerNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("SeenFollowerNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(searchResults.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(searchResults.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
 
 
     }
-
     public boolean isConnected(){
         boolean hasConnection;
         ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);

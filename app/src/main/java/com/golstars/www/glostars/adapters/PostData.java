@@ -236,6 +236,8 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                             try {
                                 data.get(position).setStarsCount(response.getJSONObject("resultPayload").getInt("totalRating"));
                                 data.get(position).setMyStarCount(0);
+                                holder.ratingBar.setRating(0);
+                                notifyDataSetChanged();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -264,41 +266,36 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                 });
             }
         });
-
+        //holder.ratingBar.
 
         /**************** Rating bar Change ***********************************/
 
-//        /*changed here */
-//        holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-//            @Override
-//            public void onRatingChanged(final RatingBar ratingBar, float v, boolean b) {
-//                System.out.println("Rating change");
-//            }
-//        });
-//
-//        holder.ratingBar.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (event.getAction() == MotionEvent.ACTION_UP) {
-//                    float touchPositionX = event.getX();
-//                    float width = holder.ratingBar.getWidth();
-//                    float starsf = (touchPositionX / width) * 5.0f;
-//                    int stars = (int)starsf + 1;
-//                    holder.ratingBar.setRating(stars);
-//                    System.out.println("Call rating touching...");
-//                    //needChange=true;
-//                    v.setPressed(false);
-//                    changeRating(holder.ratingBar,position);
-//                }
-//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                    v.setPressed(true);
-//                }
-//
-//                if (event.getAction() == MotionEvent.ACTION_CANCEL) {
-//                    v.setPressed(false);
-//                }
-//                return true;
-//            }});
+        /*changed here */
+
+
+        holder.ratingBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    float touchPositionX = event.getX();
+                    float width = holder.ratingBar.getWidth();
+                    float starsf = (touchPositionX / width) * 5.0f;
+                    int stars = (int)starsf + 1;
+                    holder.ratingBar.setRating(stars);
+                    System.out.println("Call rating touching...");
+                    //needChange=true;
+                    v.setPressed(false);
+                    changeRating(holder.ratingBar,position);
+                }
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.setPressed(true);
+                }
+
+                if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    v.setPressed(false);
+                }
+                return true;
+            }});
         /******************************************************************/
 
         /******************Action Listenner for all button************************/
@@ -414,13 +411,13 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                                             if(response.getJSONObject("resultPayload").getBoolean("res")){
                                                 Toast.makeText(context, "Successfully delete comment", Toast.LENGTH_SHORT).show();
 
-                                                listAllComment.remove(integer.intValue());
+                                                /*listAllComment.remove(integer.intValue());
 
 
 
                                                 data.get(position).setComments(listAllComment);
                                                 commentData.notifyDataSetChanged();
-                                                notifyDataSetChanged();
+                                                notifyDataSetChanged();*/
 
 
                                             }
@@ -539,7 +536,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                             msg.add("PhotoId", data.get(position).getId()+"");
 
                             client.post(context, url,msg,new JsonHttpResponseHandler(){
-                                @Override
+                                /*@Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                     try {
                                         JSONObject comment=response.getJSONObject("resultPayload");
@@ -552,7 +549,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-                                }
+                                }*/
                             });
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -561,10 +558,6 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                         commentbox.setText("");
                     }
                 });
-
-               /* mBuilder.setView(mView);
-                AlertDialog dialog = mBuilder.create();
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));*/
                 dialog.show();
             }
         });
@@ -629,7 +622,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         }
     }
 
-    public void changeRating(final RatingBar ratingBar, final int position){
+    public void changeRating(final SimpleRatingBar ratingBar, final int position){
         System.out.println("Change Call "+position);
 
         String url = ServerInfo.BASE_URL_API+"images/rating";

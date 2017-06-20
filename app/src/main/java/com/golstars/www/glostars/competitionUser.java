@@ -2,10 +2,13 @@ package com.golstars.www.glostars;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,9 +20,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.ModelData.Comment;
+import com.golstars.www.glostars.ModelData.FollowInfo;
 import com.golstars.www.glostars.ModelData.Hashtag;
+import com.golstars.www.glostars.ModelData.Rating;
+import com.golstars.www.glostars.ModelData.UserDetails;
 import com.golstars.www.glostars.adapters.RecyclerGridAdapter;
 import com.golstars.www.glostars.interfaces.OnSinglePicClick;
 import com.google.gson.Gson;
@@ -33,8 +39,18 @@ import org.json.JSONObject;
 
 import java.security.KeyStore;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.Header;
+import microsoft.aspnet.signalr.client.Credentials;
+import microsoft.aspnet.signalr.client.Platform;
+import microsoft.aspnet.signalr.client.SignalRFuture;
+import microsoft.aspnet.signalr.client.http.Request;
+import microsoft.aspnet.signalr.client.http.android.AndroidPlatformComponent;
+import microsoft.aspnet.signalr.client.hubs.HubConnection;
+import microsoft.aspnet.signalr.client.hubs.HubProxy;
+import microsoft.aspnet.signalr.client.hubs.SubscriptionHandler1;
 
 public class competitionUser extends AppCompatActivity implements OnSinglePicClick,AdapterInfomation {
 
@@ -89,6 +105,8 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 
     int pg = 1;
     private GridLayoutManager layoutManager;
+
+    private Handler handler=new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -276,6 +294,343 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 //        if(!isConnected()){
 //            startActivity(new Intent(this, noInternet.class));
 //        }
+
+        LoadServer();
+    }
+
+    public void LoadServer(){
+        Platform.loadPlatformComponent(new AndroidPlatformComponent());
+        HubConnection connection = new HubConnection(ServerInfo.BASE_URL);
+        HubProxy hub = connection.createHubProxy("GlostarsHub");
+
+        final MyUser me=MyUser.getmUser();
+        System.out.println("server Token "+me.getToken());
+
+        Credentials credentials=new Credentials() {
+            @Override
+            public void prepareRequest(Request request) {
+                request.addHeader("Authorization", "Bearer " + me.getToken());
+
+            }
+        };
+        connection.setCredentials(credentials);
+        SignalRFuture<Void> awaitConnection = connection.start();
+        try {
+            awaitConnection.get();
+        } catch (InterruptedException e) {
+            // Handle ...
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+       /* try {
+            hub.invoke("hello");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+        hub.on("updatePicture",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("Update Picture "+o);
+
+
+
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        Hashtag hashtag=gson.fromJson(o.toString(),Hashtag.class);
+                        System.out.println("hash tag "+hashtag.toString());
+
+                        for (int i = 0; i < compPicsUrls.size(); i++) {
+                            System.out.println(compPicsUrls.get(i).getId()+"--"+hashtag.getId());
+                            if(compPicsUrls.get(i).getId()==hashtag.getId()){
+                                System.out.println("Found...");
+                                for (Rating rating:hashtag.getRatings()
+                                        ) {
+                                    if(rating.getRaterId().equalsIgnoreCase(compPicsUrls.get(i).getPoster().getUserId())){
+                                        hashtag.setMyStarCount(rating.getStarsCount());
+                                        break;
+                                    }
+                                }
+
+                                List<Comment> comments=compPicsUrls.get(i).getComments();
+                                comments.clear();
+                                for (com.golstars.www.glostars.ModelData.Comment comment:hashtag.getComments()
+                                        ) {
+                                    comments.add(comment);
+                                }
+                                hashtag.setComments(comments);
+
+                                compPicsUrls.set(i,hashtag);
+                                targetAdapter.notifyDataSetChanged();
+                                break;
+                            }
+                        }
+
+
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("AddPicture",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("Add Picture "+o);
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        Hashtag hashtag=gson.fromJson(o.toString(),Hashtag.class);
+                        System.out.println("hash tag "+hashtag.toString());
+
+                        if(hashtag.isIsCompeting()){
+                            compPicsUrls.add(0,hashtag);
+                            targetAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+
+            }
+        },String.class);
+
+
+        hub.on("RemovePicture",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println(o);
+
+
+
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        int postId=Integer.parseInt(o);
+                        
+                        for (Hashtag hashtag:compPicsUrls){
+                            if(hashtag.getId()==postId){
+                                compPicsUrls.remove(hashtag);
+                                targetAdapter.notifyDataSetChanged();
+                                return;
+                            }
+                        }
+                    }
+                });
+
+            }
+        },String.class);
+
+
+        hub.on("EditProfile",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("EditProfile "+o);
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        UserDetails userDetails=gson.fromJson(o,UserDetails.class);
+
+                        for (Hashtag hashtag:compPicsUrls){
+                            if(hashtag.getPoster().getUserId().equalsIgnoreCase(userDetails.id)){
+                                hashtag.getPoster().setName(userDetails.name+" "+userDetails.lastName);
+                                hashtag.getPoster().setProfilePicURL(userDetails.profilePicURL);
+                                Picasso.with(competitionUser.this).invalidate(userDetails.profilePicURL);
+                            }
+                        }
+                        targetAdapter.notifyDataSetChanged();
+                    }
+                });
+
+            }
+        },String.class);
+
+
+        hub.on("FollowUpdate",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("FollowUpdate "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson=new Gson();
+                        FollowInfo followInfo=gson.fromJson(o,FollowInfo.class);
+
+                        //Here data recieved originate user based
+                        if(followInfo.originatedById.equalsIgnoreCase(guestUserId)){
+                            System.out.println("In 1");
+                            Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+                            if(followInfo.isMutual){
+
+                                followStatusUpdate("Mutual");
+                            }
+                            else if(followInfo.destinationFollowOriginate){
+
+                                followStatusUpdate("follower");
+                            }else if(followInfo.originateFollowDestination){
+
+                                followStatusUpdate("Following");
+
+                            }else{
+
+                                followStatusUpdate("follow");
+                            }
+                        }else if(followInfo.destinationById.equalsIgnoreCase(guestUserId)){
+                            System.out.println("In 2");
+                            Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+                            if(followInfo.isMutual){
+
+                                followStatusUpdate("Mutual");
+                            }
+                            else if(followInfo.originateFollowDestination){
+
+                                followStatusUpdate("follower");
+                            }else if(followInfo.destinationFollowOriginate){
+
+                                followStatusUpdate("Following");
+
+                            }else{
+
+                                followStatusUpdate("follow");
+                            }
+                        }
+                    }
+
+                    public void followStatusUpdate(String followType){
+                        for (Hashtag hashtag:compPicsUrls
+                                ) {
+                            if(followType.equalsIgnoreCase("mutual")){
+                                hashtag.setMe_follow(true);
+                                hashtag.setHe_follow(true);
+                                hashtag.setIs_mutual(true);
+                            }else if(followType.equalsIgnoreCase("following")){
+                                hashtag.setMe_follow(true);
+                                hashtag.setHe_follow(false);
+                                hashtag.setIs_mutual(false);
+                            }else if(followType.equalsIgnoreCase("follower")){
+                                hashtag.setMe_follow(false);
+                                hashtag.setHe_follow(true);
+                                hashtag.setIs_mutual(false);
+                            }else{
+                                hashtag.setMe_follow(false);
+                                hashtag.setHe_follow(false);
+                                hashtag.setIs_mutual(false);
+                            }
+                        }
+                        targetAdapter.notifyDataSetChanged();
+
+
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("picNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("picNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        /*menuDown.setMenuButtonColorNormal(ContextCompat.getColor(competitionUser.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(competitionUser.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);*/
+
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(competitionUser.this,R.color.colorAccent));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(competitionUser.this,R.color.colorAccent));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
+
+
+        hub.on("FollowUpdate",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("FollowUpdate "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson=new Gson();
+
+                    }
+                });
+
+            }
+        },String.class);
+
+
+
+
+
+        hub.on("followerNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("followerNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        /*menuDown.setMenuButtonColorNormal(ContextCompat.getColor(competitionUser.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(competitionUser.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);*/
+
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(competitionUser.this,R.color.colorAccent));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(competitionUser.this,R.color.colorAccent));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("SeenPictureNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("SeenPictureNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        /*menuDown.setMenuButtonColorNormal(ContextCompat.getColor(competitionUser.this,R.color.colorAccent));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(competitionUser.this,R.color.colorAccent));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);*/
+
+
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(competitionUser.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(competitionUser.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("SeenFollowerNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("SeenFollowerNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(competitionUser.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(competitionUser.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
 
 
     }

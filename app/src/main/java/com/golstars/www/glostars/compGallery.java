@@ -15,7 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.golstars.www.glostars.ModelData.Comment;
 import com.golstars.www.glostars.ModelData.Hashtag;
+import com.golstars.www.glostars.ModelData.Rating;
+import com.golstars.www.glostars.ModelData.UserDetails;
 import com.golstars.www.glostars.adapters.CompetitionData;
 import com.golstars.www.glostars.adapters.PostAdapter;
 import com.google.gson.Gson;
@@ -23,13 +26,24 @@ import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.MySSLSocketFactory;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
 import java.security.KeyStore;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.Header;
+import microsoft.aspnet.signalr.client.Credentials;
+import microsoft.aspnet.signalr.client.Platform;
+import microsoft.aspnet.signalr.client.SignalRFuture;
+import microsoft.aspnet.signalr.client.http.Request;
+import microsoft.aspnet.signalr.client.http.android.AndroidPlatformComponent;
+import microsoft.aspnet.signalr.client.hubs.HubConnection;
+import microsoft.aspnet.signalr.client.hubs.HubProxy;
+import microsoft.aspnet.signalr.client.hubs.SubscriptionHandler1;
 
 public class compGallery extends Fragment implements AdapterInfomation {
 
@@ -155,9 +169,177 @@ public class compGallery extends Fragment implements AdapterInfomation {
 //        if(!isConnected()){
 //            startActivity(new Intent(this, noInternet.class));
 //        }
-
+        LoadServer();
         return rootView;
+    }
 
+    public void LoadServer(){
+        Platform.loadPlatformComponent(new AndroidPlatformComponent());
+        HubConnection connection = new HubConnection(ServerInfo.BASE_URL);
+        HubProxy hub = connection.createHubProxy("GlostarsHub");
+
+        final MyUser me=MyUser.getmUser();
+        System.out.println("server Token "+me.getToken());
+
+        Credentials credentials=new Credentials() {
+            @Override
+            public void prepareRequest(Request request) {
+                request.addHeader("Authorization", "Bearer " + me.getToken());
+
+            }
+        };
+        connection.setCredentials(credentials);
+        SignalRFuture<Void> awaitConnection = connection.start();
+        try {
+            awaitConnection.get();
+        } catch (InterruptedException e) {
+            // Handle ...
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+       /* try {
+            hub.invoke("hello");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+        hub.on("updatePicture",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("Update Picture "+o);
+
+
+
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        Hashtag hashtag=gson.fromJson(o.toString(),Hashtag.class);
+                        System.out.println("hash tag "+hashtag.toString());
+
+                        for (int i = 0; i < compPicsUrls.size(); i++) {
+                            System.out.println(compPicsUrls.get(i).getId()+"--"+hashtag.getId());
+                            if(compPicsUrls.get(i).getId()==hashtag.getId()){
+                                System.out.println("Found...");
+                                for (Rating rating:hashtag.getRatings()
+                                        ) {
+                                    if(rating.getRaterId().equalsIgnoreCase(compPicsUrls.get(i).getPoster().getUserId())){
+                                        hashtag.setMyStarCount(rating.getStarsCount());
+                                        break;
+                                    }
+                                }
+
+                                List<Comment> comments=compPicsUrls.get(i).getComments();
+                                comments.clear();
+                                for (com.golstars.www.glostars.ModelData.Comment comment:hashtag.getComments()
+                                        ) {
+                                    comments.add(comment);
+                                }
+                                hashtag.setComments(comments);
+
+                                compPicsUrls.set(i,hashtag);
+                                compAdapt.notifyDataSetChanged();
+                                break;
+                            }
+                        }
+
+
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("AddPicture",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("Add Picture "+o);
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        Hashtag hashtag=gson.fromJson(o.toString(),Hashtag.class);
+                        System.out.println("hash tag "+hashtag.toString());
+
+                        if(hashtag.isIsCompeting()){
+                            compPicsUrls.add(0,hashtag);
+                            compAdapt.notifyDataSetChanged();
+                        }
+                    }
+                });
+
+            }
+        },String.class);
+
+
+        hub.on("RemovePicture",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("Remove Picture Id "+o);
+
+
+
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        int postId=Integer.parseInt(o);
+
+                        for (Hashtag hashtag:compPicsUrls){
+                            if(hashtag.getId()==postId){
+                                compPicsUrls.remove(hashtag);
+                                compAdapt.notifyDataSetChanged();
+                                return;
+                            }
+                        }
+                    }
+                });
+
+            }
+        },String.class);
+
+
+        hub.on("EditProfile",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("EditProfile "+o);
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        UserDetails userDetails=gson.fromJson(o,UserDetails.class);
+
+                        for (Hashtag hashtag:compPicsUrls){
+                            if(hashtag.getPoster().getUserId().equalsIgnoreCase(userDetails.id)){
+                                hashtag.getPoster().setName(userDetails.name+" "+userDetails.lastName);
+                                hashtag.getPoster().setProfilePicURL(userDetails.profilePicURL);
+                                Picasso.with(getContext()).invalidate(userDetails.profilePicURL);
+                            }
+                        }
+                        compAdapt.notifyDataSetChanged();
+                    }
+                });
+
+            }
+        },String.class);
+
+
+
+
+
+        hub.on("FollowUpdate",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("FollowUpdate "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson=new Gson();
+
+                    }
+                });
+
+            }
+        },String.class);
 
     }
 

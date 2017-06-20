@@ -194,7 +194,7 @@ public class newFullscreen extends AppCompatActivity {
 
         });
         //newFullscreenComments.setAdapter(commentAdapter);
-        newCommentCount.setText(postData.getComments().size());
+        newCommentCount.setText(postData.getComments().size()+"");
 
 
         fullscreenUsername.setText(poster.getName());
@@ -230,7 +230,7 @@ public class newFullscreen extends AppCompatActivity {
         }
         else newRating.setNumberOfStars(5);
         newRating.setRating((float)postData.getMyStarCount());
-        newRatingCount.setText(postData.getStarsCount());
+        newRatingCount.setText(postData.getStarsCount()+"");
 
          /*changed here */
         newRating.setOnRatingBarChangeListener(new SimpleRatingBar.OnRatingBarChangeListener() {
