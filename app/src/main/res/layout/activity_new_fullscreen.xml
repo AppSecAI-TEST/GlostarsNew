@@ -49,7 +49,6 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/roundededittext1">
 
-
         <RelativeLayout
             android:id="@+id/informations"
             android:layout_width="match_parent"
@@ -81,7 +80,6 @@
                     android:textColor="@color/colorPrimary"
                     android:layout_marginStart="8dp"/>
 
-
                 <TextView
                     android:id="@+id/newFullscreenUploadTime"
                     android:layout_width="wrap_content"
@@ -93,8 +91,6 @@
                     android:textSize="12sp"
                     android:textColor="@color/black"
                     android:layout_marginStart="8dp"/>
-
-
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -109,7 +105,6 @@
                     android:layout_below="@+id/newFullscreenUsername"
                     />
 
-
                 <ImageView
                     android:id="@+id/newFullscreenPrivacy"
                     android:layout_width="15dp"
@@ -118,7 +113,6 @@
                     android:layout_toRightOf="@+id/newFullscreenUploadTime"
                     android:layout_marginStart="10dp"
                     android:src="@drawable/privacy_competition_photo"
-
                     />
 
                 <Button
@@ -132,9 +126,7 @@
                     android:text="Follow"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/white"/>
-
             </RelativeLayout>
-
 
             <LinearLayout
                 android:id="@+id/postInformation"
@@ -154,7 +146,6 @@
                     android:textSize="12sp"
                     android:text="A quick brown fox jumps over a lazy dog."/>
 
-
                 <LinearLayout
                     android:id="@+id/ratecomment"
                     android:layout_width="match_parent"
@@ -163,7 +154,6 @@
                     android:layout_height="wrap_content"
                     android:background="#00FFFFFF"
                     android:orientation="horizontal">
-
 
                     <com.iarcuschin.simpleratingbar.SimpleRatingBar
                         android:id="@+id/newFullscreenRating"
@@ -232,12 +222,10 @@
 
                 </LinearLayout>
 
-
             </LinearLayout>
 
-
-
         </RelativeLayout>
+
 
 
 
@@ -292,7 +280,6 @@
                 />
 
 
-
             <TextView
                 android:id="@+id/newFullscreenSendComment"
                 android:layout_width="wrap_content"
@@ -305,7 +292,6 @@
                 />
 
         </LinearLayout>
-
 
     </RelativeLayout>
 
