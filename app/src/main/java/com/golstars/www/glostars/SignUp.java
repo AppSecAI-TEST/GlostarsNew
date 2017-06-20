@@ -40,6 +40,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Calendar;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
@@ -170,6 +171,33 @@ public class SignUp extends Fragment{
             public void onClick(View view) {
 
                 String log_email = email.getText().toString();
+                String usrname = email.getText().toString();
+                String email = usrname;
+                String name = firstName.getText().toString();
+                String bdayY = YYYY.getText().toString() ;
+                String bdayM = MM.getText().toString();
+                String bdayD = DD.getText().toString();
+                String genderSelected = gender.getSelectedItem().toString();
+                String lastname = lastName.getText().toString();
+                String pwd = password.getText().toString();
+                pWd = pwd;
+
+                int year_obirth = 0;
+                int month_obirth = 0;
+                int day_obirth = 0;
+
+
+                if(bdayD.isEmpty() || bdayM.isEmpty() || bdayD.isEmpty()) {
+                    Toast.makeText(getContext(), "Enter a valid birth date", Toast.LENGTH_LONG).show();
+                } else{
+                    year_obirth = Integer.parseInt(bdayY);
+                    month_obirth = Integer.parseInt(bdayM);
+                    day_obirth = Integer.parseInt(bdayD);
+
+                }
+
+                int this_year = Calendar.getInstance().get(Calendar.YEAR);
+
                 if(log_email.indexOf('@') < 0){
                     Toast.makeText(getContext(), "Enter a valid email", Toast.LENGTH_LONG).show();
 
@@ -185,21 +213,41 @@ public class SignUp extends Fragment{
                     Toast.makeText(getContext(), "Enter a valid email", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    startActivity(new Intent(getActivity(),inputCode.class));
+
+                    /************ checking birthday date ******************/
+
+                    if((year_obirth < 1900) && (year_obirth >= this_year)){
+                        Toast.makeText(getContext(), "Enter a valid birth date", Toast.LENGTH_LONG).show();
+                    } else if((month_obirth < 1) && (month_obirth > 12)){
+                        Toast.makeText(getContext(), "Enter a valid birth date", Toast.LENGTH_LONG).show();
+                    } else if(day_obirth < 1){
+                        Toast.makeText(getContext(), "Enter a valid birth date", Toast.LENGTH_LONG).show();
+                    } else if((month_obirth == 2) && (day_obirth > 28)){
+                        Toast.makeText(getContext(), "Enter a valid birth date", Toast.LENGTH_LONG).show();
+                    } else if(((month_obirth == 4) || (month_obirth == 6) || (month_obirth == 7) || (month_obirth == 11)) && (day_obirth > 30)){
+                        Toast.makeText(getContext(), "Enter a valid birth date", Toast.LENGTH_LONG).show();
+                    } else if((day_obirth > 31)){
+                        Toast.makeText(getContext(), "Enter a valid birth date", Toast.LENGTH_LONG).show();
+                    } else {
+                        startActivity(new Intent(getActivity(),inputCode.class));
+                    }
+
+
+
+
+
+
+
+
+
                 }
 
 
 
-//                String usrname = email.getText().toString();
-//                String email = usrname;
-//                String name = firstName.getText().toString();
-//                String bdayY = YYYY.getText().toString() ;
-//                String bdayM = MM.getText().toString();
-//                String bdayD = DD.getText().toString();
-//                String genderSelected = gender.getSelectedItem().toString();
-//                String lastname = lastName.getText().toString();
-//                String pwd = password.getText().toString();
-//                pWd = pwd;
+
+
+
+
 //
 //                if(termscheck.isChecked()){
 //                    if(name.isEmpty()){
