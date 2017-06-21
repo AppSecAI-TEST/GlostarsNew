@@ -83,6 +83,8 @@ public class newFollowing extends Fragment {
     String token;
     private Handler handler=new Handler();
 
+    Context context;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -105,6 +107,12 @@ public class newFollowing extends Fragment {
 
         LoadServer();
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context=context;
     }
 
     public void LoadServer(){
@@ -201,7 +209,7 @@ public class newFollowing extends Fragment {
                                 if (followInfo.originatedById.equalsIgnoreCase(follower.getUserId())) {
                                     b=true;
                                     System.out.println("In 1");
-                                    Typeface type = Typeface.createFromAsset(getContext().getAssets(), "fonts/Ubuntu-Light.ttf");
+                                    Typeface type = Typeface.createFromAsset(context.getAssets(), "fonts/Ubuntu-Light.ttf");
                                     if (followInfo.isMutual) {
                                         follower.setRigStatus("mutual");
                                     } else if (followInfo.destinationFollowOriginate) {
@@ -218,7 +226,7 @@ public class newFollowing extends Fragment {
                                 } else if (followInfo.destinationById.equalsIgnoreCase(follower.getUserId())) {
                                     System.out.println("In 2");
                                     b=true;
-                                    Typeface type = Typeface.createFromAsset(getContext().getAssets(), "fonts/Ubuntu-Light.ttf");
+                                    Typeface type = Typeface.createFromAsset(context.getAssets(), "fonts/Ubuntu-Light.ttf");
                                     if (followInfo.isMutual) {
                                         follower.setRigStatus("mutual");
                                     } else if (followInfo.originateFollowDestination) {
@@ -470,28 +478,28 @@ public class newFollowing extends Fragment {
                     follow.setTextColor(ContextCompat.getColor(context,R.color.white));
                     follow.setBackground(ContextCompat.getDrawable(context,R.drawable.followbackbutton));
                     follow.setTransformationMethod(null);
-                    Typeface type = Typeface.createFromAsset(getContext().getAssets(),"fonts/Ubuntu-Light.ttf");
+                    Typeface type = Typeface.createFromAsset(context.getAssets(),"fonts/Ubuntu-Light.ttf");
                     follow.setTypeface(type);
                 } else if(fStatus.equals("following")){
                     follow.setText("Following");
                     follow.setTextColor(ContextCompat.getColor(context,R.color.white));
                     follow.setBackground(ContextCompat.getDrawable(context,R.drawable.followingbutton));
                     follow.setTransformationMethod(null);
-                    Typeface type = Typeface.createFromAsset(getContext().getAssets(),"fonts/Ubuntu-Light.ttf");
+                    Typeface type = Typeface.createFromAsset(context.getAssets(),"fonts/Ubuntu-Light.ttf");
                     follow.setTypeface(type);
                 } else if(fStatus.equals("mutual")){
                     follow.setText("Mutual Followers");
                     follow.setTextColor(ContextCompat.getColor(context,R.color.white));
                     follow.setBackground(ContextCompat.getDrawable(context,R.drawable.mutualfollowerbutton));
                     follow.setTransformationMethod(null);
-                    Typeface type = Typeface.createFromAsset(getContext().getAssets(),"fonts/Ubuntu-Light.ttf");
+                    Typeface type = Typeface.createFromAsset(context.getAssets(),"fonts/Ubuntu-Light.ttf");
                     follow.setTypeface(type);
                 }else if(fStatus.equals("follow")){
                     follow.setText("Follow");
                     follow.setTextColor(ContextCompat.getColor(context,R.color.white));
                     follow.setBackgroundResource(R.drawable.followbutton);
                     follow.setTransformationMethod(null);
-                    Typeface type = Typeface.createFromAsset(getContext().getAssets(),"fonts/Ubuntu-Light.ttf");
+                    Typeface type = Typeface.createFromAsset(context.getAssets(),"fonts/Ubuntu-Light.ttf");
                     follow.setTypeface(type);
                 }
 

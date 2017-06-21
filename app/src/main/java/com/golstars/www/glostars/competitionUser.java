@@ -548,20 +548,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         },String.class);
 
 
-        hub.on("FollowUpdate",new SubscriptionHandler1<String>() {
-            @Override
-            public void run(final String o) {
-                System.out.println("FollowUpdate "+o);
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Gson gson=new Gson();
 
-                    }
-                });
-
-            }
-        },String.class);
 
 
 
