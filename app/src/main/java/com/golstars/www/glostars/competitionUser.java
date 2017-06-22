@@ -164,7 +164,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         });
 
 
-        //==========================================================================================
+        //===========================================================================================
 
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
