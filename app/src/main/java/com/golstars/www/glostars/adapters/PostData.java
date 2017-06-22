@@ -237,6 +237,8 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                             try {
                                 data.get(position).setStarsCount(response.getJSONObject("resultPayload").getInt("totalRating"));
                                 data.get(position).setMyStarCount(0);
+                                holder.ratingBar.setRating(0);
+                                notifyDataSetChanged();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -265,41 +267,36 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                 });
             }
         });
-
+        //holder.ratingBar.
 
         /**************** Rating bar Change ***********************************/
 
-//        /*changed here */
-//        holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-//            @Override
-//            public void onRatingChanged(final RatingBar ratingBar, float v, boolean b) {
-//                System.out.println("Rating change");
-//            }
-//        });
-//
-//        holder.ratingBar.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (event.getAction() == MotionEvent.ACTION_UP) {
-//                    float touchPositionX = event.getX();
-//                    float width = holder.ratingBar.getWidth();
-//                    float starsf = (touchPositionX / width) * 5.0f;
-//                    int stars = (int)starsf + 1;
-//                    holder.ratingBar.setRating(stars);
-//                    System.out.println("Call rating touching...");
-//                    //needChange=true;
-//                    v.setPressed(false);
-//                    changeRating(holder.ratingBar,position);
-//                }
-//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                    v.setPressed(true);
-//                }
-//
-//                if (event.getAction() == MotionEvent.ACTION_CANCEL) {
-//                    v.setPressed(false);
-//                }
-//                return true;
-//            }});
+        /*changed here */
+
+
+        holder.ratingBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    float touchPositionX = event.getX();
+                    float width = holder.ratingBar.getWidth();
+                    float starsf = (touchPositionX / width) * 5.0f;
+                    int stars = (int)starsf + 1;
+                    holder.ratingBar.setRating(stars);
+                    System.out.println("Call rating touching...");
+                    //needChange=true;
+                    v.setPressed(false);
+                    changeRating(holder.ratingBar,position);
+                }
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.setPressed(true);
+                }
+
+                if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    v.setPressed(false);
+                }
+                return true;
+            }});
         /******************************************************************/
 
         /******************Action Listenner for all button************************/
@@ -645,7 +642,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         }
     }
 
-    public void changeRating(final RatingBar ratingBar, final int position){
+    public void changeRating(final SimpleRatingBar ratingBar, final int position){
         System.out.println("Change Call "+position);
 
         String url = ServerInfo.BASE_URL_API+"images/rating";

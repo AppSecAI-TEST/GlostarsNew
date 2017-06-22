@@ -3,6 +3,7 @@ package com.golstars.www.glostars;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,15 +25,33 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.ModelData.Comment;
+import com.golstars.www.glostars.ModelData.FollowInfo;
+import com.golstars.www.glostars.ModelData.Hashtag;
+import com.golstars.www.glostars.ModelData.Rating;
+import com.golstars.www.glostars.ModelData.UserDetails;
 import com.golstars.www.glostars.network.NotificationService;
+import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import cz.msebera.android.httpclient.Header;
+import microsoft.aspnet.signalr.client.Credentials;
+import microsoft.aspnet.signalr.client.Platform;
+import microsoft.aspnet.signalr.client.SignalRFuture;
+import microsoft.aspnet.signalr.client.http.Request;
+import microsoft.aspnet.signalr.client.http.android.AndroidPlatformComponent;
+import microsoft.aspnet.signalr.client.hubs.HubConnection;
+import microsoft.aspnet.signalr.client.hubs.HubProxy;
+import microsoft.aspnet.signalr.client.hubs.SubscriptionHandler1;
 
 public class newFollowersPage extends AppCompatActivity {
 
@@ -64,11 +83,12 @@ public class newFollowersPage extends AppCompatActivity {
 
     Intent homeIntent;
     MyUser mUser;
-    Integer unseenNotifs;
+    Integer unseenNotifs=0;
 
     String guestUserID;
     String mUserID;
     String token;
+    private Handler handler=new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +176,134 @@ public class newFollowersPage extends AppCompatActivity {
         if(mUser == null){
             new getUserData().execute("");
         }
+        LoadServer();
+
+    }
+
+    public void LoadServer(){
+        Platform.loadPlatformComponent(new AndroidPlatformComponent());
+        HubConnection connection = new HubConnection(ServerInfo.BASE_URL);
+        HubProxy hub = connection.createHubProxy("GlostarsHub");
+
+        final MyUser me=MyUser.getmUser();
+        System.out.println("server Token "+me.getToken());
+
+        Credentials credentials=new Credentials() {
+            @Override
+            public void prepareRequest(Request request) {
+                request.addHeader("Authorization", "Bearer " + me.getToken());
+
+            }
+        };
+        connection.setCredentials(credentials);
+        SignalRFuture<Void> awaitConnection = connection.start();
+        try {
+            awaitConnection.get();
+        } catch (InterruptedException e) {
+            // Handle ...
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+       /* try {
+            hub.invoke("hello");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+
+
+
+        hub.on("picNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("picNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        /*menuDown.setMenuButtonColorNormal(ContextCompat.getColor(newFollowersPage.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(newFollowersPage.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);*/
+
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(newFollowersPage.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(newFollowersPage.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
+
+
+
+
+
+
+
+
+        hub.on("followerNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("followerNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        /*menuDown.setMenuButtonColorNormal(ContextCompat.getColor(newFollowersPage.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(newFollowersPage.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);*/
+
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(newFollowersPage.this,R.color.colorAccent));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(newFollowersPage.this,R.color.colorAccent));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("SeenPictureNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("SeenPictureNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        /*menuDown.setMenuButtonColorNormal(ContextCompat.getColor(newFollowersPage.this,R.color.colorAccent));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(newFollowersPage.this,R.color.colorAccent));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);*/
+
+
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(newFollowersPage.this,R.color.colorAccent));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(newFollowersPage.this,R.color.colorAccent));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("SeenFollowerNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("SeenFollowerNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(newFollowersPage.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(newFollowersPage.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
+
 
     }
 

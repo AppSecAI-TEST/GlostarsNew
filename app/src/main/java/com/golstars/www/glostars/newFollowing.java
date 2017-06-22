@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -22,8 +23,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.golstars.www.glostars.ModelData.Comment;
+import com.golstars.www.glostars.ModelData.FollowInfo;
+import com.golstars.www.glostars.ModelData.Hashtag;
+import com.golstars.www.glostars.ModelData.Rating;
+import com.golstars.www.glostars.ModelData.UserDetails;
 import com.golstars.www.glostars.models.Follower;
 import com.golstars.www.glostars.network.FollowerService;
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.MySSLSocketFactory;
@@ -37,9 +45,19 @@ import org.json.JSONObject;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.Header;
+import microsoft.aspnet.signalr.client.Credentials;
+import microsoft.aspnet.signalr.client.Platform;
+import microsoft.aspnet.signalr.client.SignalRFuture;
+import microsoft.aspnet.signalr.client.http.Request;
+import microsoft.aspnet.signalr.client.http.android.AndroidPlatformComponent;
+import microsoft.aspnet.signalr.client.hubs.HubConnection;
+import microsoft.aspnet.signalr.client.hubs.HubProxy;
+import microsoft.aspnet.signalr.client.hubs.SubscriptionHandler1;
 
 public class newFollowing extends Fragment {
 
@@ -63,6 +81,9 @@ public class newFollowing extends Fragment {
     String guestUserID;
     String mUserID;
     String token;
+    private Handler handler=new Handler();
+
+    Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,8 +105,164 @@ public class newFollowing extends Fragment {
         newfollowing.setAdapter(followingAdaper);
         new getUserData().execute("");
 
-
+        LoadServer();
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context=context;
+    }
+
+    public void LoadServer(){
+        Platform.loadPlatformComponent(new AndroidPlatformComponent());
+        HubConnection connection = new HubConnection(ServerInfo.BASE_URL);
+        HubProxy hub = connection.createHubProxy("GlostarsHub");
+
+        final MyUser me=MyUser.getmUser();
+        System.out.println("server Token "+me.getToken());
+
+        Credentials credentials=new Credentials() {
+            @Override
+            public void prepareRequest(Request request) {
+                request.addHeader("Authorization", "Bearer " + me.getToken());
+
+            }
+        };
+        connection.setCredentials(credentials);
+        SignalRFuture<Void> awaitConnection = connection.start();
+        try {
+            awaitConnection.get();
+        } catch (InterruptedException e) {
+            // Handle ...
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+       /* try {
+            hub.invoke("hello");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+
+
+
+
+
+
+
+
+        hub.on("EditProfile",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("EditProfile "+o);
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        UserDetails userDetails=gson.fromJson(o,UserDetails.class);
+
+                        for (Follower follower:following
+                                ) {
+                            if(userDetails.id.equalsIgnoreCase(follower.getUserId())) {
+
+
+                                follower.setUserName(userDetails.name + " " + userDetails.lastName);
+                                follower.setProfilePicture(userDetails.profilePicURL);
+                                followingAdaper.notifyDataSetChanged();
+                                break;
+                            }
+                        }
+
+
+
+                    }
+                });
+
+            }
+        },String.class);
+
+
+
+
+
+        hub.on("FollowUpdate",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("FollowUpdate "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson=new Gson();
+                        FollowInfo followInfo=gson.fromJson(o,FollowInfo.class);
+
+                        //Here data recieved originate user based
+
+
+
+                        if(followInfo.originatedById.equalsIgnoreCase(me.getUserId()) || followInfo.destinationById.equalsIgnoreCase(me.getUserId())){
+
+                            boolean b=false;
+                            for (Follower follower:following
+                                    ) {
+                                if (followInfo.originatedById.equalsIgnoreCase(follower.getUserId())) {
+                                    b=true;
+                                    System.out.println("In 1");
+                                    Typeface type = Typeface.createFromAsset(context.getAssets(), "fonts/Ubuntu-Light.ttf");
+                                    if (followInfo.isMutual) {
+                                        follower.setRigStatus("mutual");
+                                    } else if (followInfo.destinationFollowOriginate) {
+                                        follower.setRigStatus("follower");
+                                    } else if (followInfo.originateFollowDestination) {
+                                        follower.setRigStatus("following");
+
+                                    } else {
+                                        follower.setRigStatus("follow");
+                                    }
+                                    followingAdaper.notifyDataSetChanged();
+                                    break;
+
+                                } else if (followInfo.destinationById.equalsIgnoreCase(follower.getUserId())) {
+                                    System.out.println("In 2");
+                                    b=true;
+                                    Typeface type = Typeface.createFromAsset(context.getAssets(), "fonts/Ubuntu-Light.ttf");
+                                    if (followInfo.isMutual) {
+                                        follower.setRigStatus("mutual");
+                                    } else if (followInfo.originateFollowDestination) {
+                                        follower.setRigStatus("follower");
+                                    } else if (followInfo.destinationFollowOriginate) {
+                                        follower.setRigStatus("following");
+
+                                    } else {
+                                        follower.setRigStatus("follow");
+                                    }
+                                    followingAdaper.notifyDataSetChanged();
+                                    break;
+                                }
+                            }
+                            if(!b){
+                               /* if(followInfo.originatedById.equalsIgnoreCase(me.getUserId())){
+                                    Follower follower=new Follower(followInfo.destinationProfilePhoto,followInfo.destinationById,followInfo.destinationUserName);
+                                    followers.add();
+                                }else{
+                                    followers.add(new Follower(followInfo.originateProfilePhoto,followInfo.originatedById,followInfo.originateUserName));
+                                }*/
+
+                            }
+
+                        }
+
+                    }
+
+
+                });
+
+            }
+        },String.class);
+
+
+
     }
 
     private class getUserData extends AsyncTask<String, Integer, JSONObject> {
@@ -301,28 +478,28 @@ public class newFollowing extends Fragment {
                     follow.setTextColor(ContextCompat.getColor(context,R.color.white));
                     follow.setBackground(ContextCompat.getDrawable(context,R.drawable.followbackbutton));
                     follow.setTransformationMethod(null);
-                    Typeface type = Typeface.createFromAsset(getContext().getAssets(),"fonts/Ubuntu-Light.ttf");
+                    Typeface type = Typeface.createFromAsset(context.getAssets(),"fonts/Ubuntu-Light.ttf");
                     follow.setTypeface(type);
                 } else if(fStatus.equals("following")){
                     follow.setText("Following");
                     follow.setTextColor(ContextCompat.getColor(context,R.color.white));
                     follow.setBackground(ContextCompat.getDrawable(context,R.drawable.followingbutton));
                     follow.setTransformationMethod(null);
-                    Typeface type = Typeface.createFromAsset(getContext().getAssets(),"fonts/Ubuntu-Light.ttf");
+                    Typeface type = Typeface.createFromAsset(context.getAssets(),"fonts/Ubuntu-Light.ttf");
                     follow.setTypeface(type);
                 } else if(fStatus.equals("mutual")){
                     follow.setText("Mutual Followers");
                     follow.setTextColor(ContextCompat.getColor(context,R.color.white));
                     follow.setBackground(ContextCompat.getDrawable(context,R.drawable.mutualfollowerbutton));
                     follow.setTransformationMethod(null);
-                    Typeface type = Typeface.createFromAsset(getContext().getAssets(),"fonts/Ubuntu-Light.ttf");
+                    Typeface type = Typeface.createFromAsset(context.getAssets(),"fonts/Ubuntu-Light.ttf");
                     follow.setTypeface(type);
                 }else if(fStatus.equals("follow")){
                     follow.setText("Follow");
                     follow.setTextColor(ContextCompat.getColor(context,R.color.white));
                     follow.setBackgroundResource(R.drawable.followbutton);
                     follow.setTransformationMethod(null);
-                    Typeface type = Typeface.createFromAsset(getContext().getAssets(),"fonts/Ubuntu-Light.ttf");
+                    Typeface type = Typeface.createFromAsset(context.getAssets(),"fonts/Ubuntu-Light.ttf");
                     follow.setTypeface(type);
                 }
 

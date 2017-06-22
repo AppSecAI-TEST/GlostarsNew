@@ -5,8 +5,6 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -17,11 +15,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,7 +25,6 @@ import android.widget.TextView;
 import com.github.clans.fab.FloatingActionMenu;
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.network.NotificationService;
-import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -163,7 +158,6 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
         if(mUser == null){
             new getUserData().execute("");
         }
-        LoadServer();
     }
 
     public void LoadServer(){
@@ -178,7 +172,7 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
             @Override
             public void prepareRequest(Request request) {
                 request.addHeader("Authorization", "Bearer " + me.getToken());
-                // request.addHeader("authorization","bearer rLQd1-q-5CdheRQ5l5envaEZfdTWpPX4RIzvTDelURIw6ITegpEbD1U6XZrVrYcODUGYA8pH16vc4MXA_XHONtvJDkCEQahDDksw-oxBENuZH4k0F7vm0rtgdoRm89xwqSlu119JA2BBuHTg1apVo9vv8YSN3ke7SAR8Hzz_QFJ3m4tu-PFlatsrANLdRQAWxxuMYlPUSMG_Crfd46JJVa-h9Yvgz0pPs2oYDFsOJqp54wUsFLPOhnSGD-kp2rOvm16kOx9Uz3qxBai_pYYPmbzvr_e5d-pvRxGqQFMVtXr2wl8Ar-2_eUjqwCMDNmh3AMEF5s7lUOxSn9q3c59Qaf7cSd6KWfop9pclbMqJFQITwK9bXe_5V676_r1cHwEdY-nf97gM8t0TuGCxmJlV2RvgRx1oYMHpeS1NNZcHVITu2bpyP1eoE-9lrx80-Sd8gRGYeAC0QwpNHG8BQRbSmv3D0B683f1Z_r1EkgTjwGs");
+
             }
         };
         connection.setCredentials(credentials);
@@ -196,29 +190,6 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
         } catch (Exception e) {
             e.printStackTrace();
         }*/
-        hub.on("updatePicture",new SubscriptionHandler1<String>() {
-            @Override
-            public void run(final String o) {
-                System.out.println(o);
-
-
-
-                handler.post(new Runnable() {
-                    public void run() {
-
-                        Gson gson=new Gson();
-                        Hashtag hashtag=gson.fromJson(o.toString(),Hashtag.class);
-                        cG.addPic(hashtag);
-                        System.out.println("hash tag "+hashtag.toString());
-
-
-                    }
-                });
-
-            }
-        },String.class);
-
-
         hub.on("picNotification",new SubscriptionHandler1<String>() {
             @Override
             public void run(final String o) {
@@ -240,7 +211,6 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
 
             }
         },String.class);
-
         hub.on("followerNotification",new SubscriptionHandler1<String>() {
             @Override
             public void run(final String o) {
@@ -262,7 +232,6 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
 
             }
         },String.class);
-
         hub.on("SeenPictureNotification",new SubscriptionHandler1<String>() {
             @Override
             public void run(final String o) {
@@ -302,7 +271,6 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
 
             }
         },String.class);
-
 
     }
 

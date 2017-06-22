@@ -404,7 +404,8 @@
                         android:layout_height="35dp"
                         android:text="See All"
                         android:textSize="14sp"
-                        android:paddingTop="4dp"/>
+                        android:paddingTop="4dp"
+                        tools:ignore="RtlSymmetry" />
 
                     <TextView
                         android:id="@+id/publicBanner"
@@ -412,7 +413,7 @@
                         android:layout_height="match_parent"
                         android:text="Public Photos"
                         android:layout_marginTop="8dp"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:textColor="@color/darkGrey"/>
 
                     <android.support.v7.widget.RecyclerView
@@ -462,7 +463,7 @@
                         android:layout_height="match_parent"
                         android:text="Mutual Follower Photos"
                         android:layout_marginTop="8dp"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:textColor="@color/darkGrey"/>
 
                     <android.support.v7.widget.RecyclerView

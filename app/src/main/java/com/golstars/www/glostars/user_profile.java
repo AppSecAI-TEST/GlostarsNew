@@ -3,12 +3,12 @@ package com.golstars.www.glostars;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -31,14 +31,17 @@ import android.widget.Toast;
 import com.baoyz.widget.PullRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.ModelData.Comment;
+import com.golstars.www.glostars.ModelData.FollowInfo;
 import com.golstars.www.glostars.ModelData.Hashtag;
+import com.golstars.www.glostars.ModelData.Rating;
+import com.golstars.www.glostars.ModelData.UserDetails;
 import com.golstars.www.glostars.adapters.RecyclerGridAdapterMul;
 import com.golstars.www.glostars.interfaces.OnSinglePicClick;
 import com.golstars.www.glostars.models.GuestUser;
 import com.golstars.www.glostars.network.FollowerService;
 import com.golstars.www.glostars.network.NotificationService;
 import com.golstars.www.glostars.network.PictureService;
-import com.golstars.www.glostars.network.SearchUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
@@ -52,8 +55,18 @@ import org.json.JSONObject;
 
 import java.security.KeyStore;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.Header;
+import microsoft.aspnet.signalr.client.Credentials;
+import microsoft.aspnet.signalr.client.Platform;
+import microsoft.aspnet.signalr.client.SignalRFuture;
+import microsoft.aspnet.signalr.client.http.Request;
+import microsoft.aspnet.signalr.client.http.android.AndroidPlatformComponent;
+import microsoft.aspnet.signalr.client.hubs.HubConnection;
+import microsoft.aspnet.signalr.client.hubs.HubProxy;
+import microsoft.aspnet.signalr.client.hubs.SubscriptionHandler1;
 
 public class user_profile extends AppCompatActivity implements OnSinglePicClick,AdapterInfomation {
 
@@ -163,7 +176,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
 
     PullRefreshLayout layout;
-
+    private Handler handler=new Handler();
+    String finalTarget;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -349,7 +363,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
 
         final String  target = this.getIntent().getStringExtra("USER_ID");
-        
+
 
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -543,7 +557,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
 
 
-        
+
 
         fService = new FollowerService();
 
@@ -579,7 +593,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             e.printStackTrace();
         }*/
 
-        final String finalTarget = target;
+        finalTarget = target;
         numFollowersProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -749,17 +763,675 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
 
         getUnseen();
-
+        LoadServer();
 
 
     }
-/*
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        finish();
-        startActivity(getIntent());
-    }*/
+
+    public void LoadServer(){
+        Platform.loadPlatformComponent(new AndroidPlatformComponent());
+        HubConnection connection = new HubConnection(ServerInfo.BASE_URL);
+        HubProxy hub = connection.createHubProxy("GlostarsHub");
+
+        final MyUser me=MyUser.getmUser();
+        System.out.println("server Token "+me.getToken());
+
+        Credentials credentials=new Credentials() {
+            @Override
+            public void prepareRequest(Request request) {
+                request.addHeader("Authorization", "Bearer " + me.getToken());
+
+            }
+        };
+        connection.setCredentials(credentials);
+        SignalRFuture<Void> awaitConnection = connection.start();
+        try {
+            awaitConnection.get();
+        } catch (InterruptedException e) {
+            // Handle ...
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+       /* try {
+            hub.invoke("hello");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+        hub.on("updatePicture",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("Update Picture "+o);
+
+
+
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        Hashtag hashtag=gson.fromJson(o.toString(),Hashtag.class);
+                        System.out.println("hash tag "+hashtag.toString());
+
+
+                        boolean isFound=false;
+                        //region Mutual photo search
+                        for (int i = 0; i < mutualImgsUrls.size(); i++) {
+                            System.out.println(mutualImgsUrls.get(i).getId()+"--"+hashtag.getId());
+                            if(mutualImgsUrls.get(i).getId()==hashtag.getId()){
+                                System.out.println("Found...");
+                                isFound=true;
+                                for (Rating rating:hashtag.getRatings()
+                                        ) {
+                                    if(rating.getRaterId().equalsIgnoreCase(mutualImgsUrls.get(i).getPoster().getUserId())){
+                                        hashtag.setMyStarCount(rating.getStarsCount());
+                                        break;
+                                    }
+                                }
+
+                                List<Comment> comments=mutualImgsUrls.get(i).getComments();
+                                comments.clear();
+                                for (com.golstars.www.glostars.ModelData.Comment comment:hashtag.getComments()
+                                        ) {
+                                    comments.add(comment);
+                                }
+                                hashtag.setComments(comments);
+
+                                mutualImgsUrls.set(i,hashtag);
+                                mutualAdapter.notifyDataSetChanged();
+
+                                if(adapter!=null){
+                                    adapter.notifyDataSetChanged();
+                                }
+                                break;
+                            }
+                        }
+                        //endregion
+
+                        if(isFound)
+                            return;
+                        else{
+                            for (int i = 0; i < compImgsUrls.size(); i++) {
+                                System.out.println(compImgsUrls.get(i).getId()+"--"+hashtag.getId());
+                                if(compImgsUrls.get(i).getId()==hashtag.getId()){
+                                    System.out.println("Found...");
+                                    isFound=true;
+                                    for (Rating rating:hashtag.getRatings()
+                                            ) {
+                                        if(rating.getRaterId().equalsIgnoreCase(compImgsUrls.get(i).getPoster().getUserId())){
+                                            hashtag.setMyStarCount(rating.getStarsCount());
+                                            break;
+                                        }
+                                    }
+
+                                    List<Comment> comments=compImgsUrls.get(i).getComments();
+                                    comments.clear();
+                                    for (com.golstars.www.glostars.ModelData.Comment comment:hashtag.getComments()
+                                            ) {
+                                        comments.add(comment);
+                                    }
+                                    hashtag.setComments(comments);
+
+                                    compImgsUrls.set(i,hashtag);
+                                    comAdapter.notifyDataSetChanged();
+
+                                    if(adapter!=null){
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+
+
+                        if(isFound)
+                            return;
+                        else{
+                            for (int i = 0; i < publicImgsUrls.size(); i++) {
+                                System.out.println(publicImgsUrls.get(i).getId()+"--"+hashtag.getId());
+                                if(publicImgsUrls.get(i).getId()==hashtag.getId()){
+                                    System.out.println("Found...");
+                                    isFound=true;
+                                    for (Rating rating:hashtag.getRatings()
+                                            ) {
+                                        if(rating.getRaterId().equalsIgnoreCase(publicImgsUrls.get(i).getPoster().getUserId())){
+                                            hashtag.setMyStarCount(rating.getStarsCount());
+                                            break;
+                                        }
+                                    }
+
+                                    List<Comment> comments=publicImgsUrls.get(i).getComments();
+                                    comments.clear();
+                                    for (com.golstars.www.glostars.ModelData.Comment comment:hashtag.getComments()
+                                            ) {
+                                        comments.add(comment);
+                                    }
+                                    hashtag.setComments(comments);
+
+                                    publicImgsUrls.set(i,hashtag);
+                                    publicAdapter.notifyDataSetChanged();
+                                    if(adapter!=null){
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("AddPicture",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("Add Picture "+o);
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        Hashtag hashtag=gson.fromJson(o.toString(),Hashtag.class);
+                        System.out.println("hash tag "+hashtag.toString());
+
+                        if(hashtag.getPoster().getUserId().equalsIgnoreCase(finalTarget)){
+                            if(hashtag.isIsCompeting()){
+                                compImgsUrls.add(0,hashtag);
+                                comAdapter.notifyDataSetChanged();
+                                if(adapter!=null){
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }else if(hashtag.getPrivacy().equalsIgnoreCase("friends")){
+                                mutualImgsUrls.add(0,hashtag);
+                                mutualAdapter.notifyDataSetChanged();
+                                if(adapter!=null){
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }else{
+                                publicImgsUrls.add(0,hashtag);
+                                publicAdapter.notifyDataSetChanged();
+                                if(adapter!=null){
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+                            UiRecycleControl();
+                        }
+
+
+
+
+                    }
+                });
+
+            }
+        },String.class);
+
+
+        hub.on("RemovePicture",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println(o);
+
+
+
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        int postId=Integer.parseInt(o);
+
+
+                        for (Hashtag hashtag:mutualImgsUrls){
+                            if(hashtag.getId()==postId){
+                                mutualImgsUrls.remove(hashtag);
+                                mutualAdapter.notifyDataSetChanged();
+                                UiRecycleControl();
+                                if(adapter!=null){
+                                    adapter.notifyDataSetChanged();
+                                }
+                                return;
+                            }
+                        }
+
+                        for (Hashtag hashtag:compImgsUrls){
+                            if(hashtag.getId()==postId){
+                                compImgsUrls.remove(hashtag);
+                                comAdapter.notifyDataSetChanged();
+                                UiRecycleControl();
+                                if(adapter!=null){
+                                    adapter.notifyDataSetChanged();
+                                }
+                                return;
+                            }
+                        }
+
+                        for (Hashtag hashtag:publicImgsUrls){
+                            if(hashtag.getId()==postId){
+                                publicImgsUrls.remove(hashtag);
+                                publicAdapter.notifyDataSetChanged();
+                                UiRecycleControl();
+                                if(adapter!=null){
+                                    adapter.notifyDataSetChanged();
+                                }
+                                return;
+                            }
+                        }
+
+                    }
+                });
+
+            }
+        },String.class);
+
+
+        hub.on("EditProfile",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("EditProfile "+o);
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        UserDetails userDetails=gson.fromJson(o,UserDetails.class);
+
+                        if(userDetails.id.equalsIgnoreCase(finalTarget)){
+
+                            Glide.with(getApplicationContext()).load(userDetails.profilePicURL).into(userPicProfile);
+                            usernameProfile.setText(userDetails.name+" "+userDetails.lastName);
+                            userLocationProfile.setText(userDetails.location);
+                            aboutMeTextProfile.setText(userDetails.aboutMe);
+                            interestTextProfile.setText(userDetails.interests);
+                            weeklyPrizeCountProfile.setText(userDetails.recogprofile.weekly);
+                            monthlyPrizeCountProfile.setText(userDetails.recogprofile.monthly);
+                            grandPrizeCountProfile.setText(userDetails.recogprofile.grand);
+                            exhibitionPrizeCountProfile.setText(userDetails.recogprofile.exhibition);
+                            numPhotosCountProfile.setText(userDetails.totalPhoto+"");
+                            numFollowingCountProfile.setText(userDetails.followingCount+"");
+                            numFollowersCountProfile.setText(userDetails.followerCount+"");
+
+
+                            /*if(hashtag.isIsCompeting()){
+                                compImgsUrls.add(0,hashtag);
+                                comAdapter.notifyDataSetChanged();
+                            }else if(hashtag.is_mutual()){
+                                mutualImgsUrls.add(0,hashtag);
+                                mutualAdapter.notifyDataSetChanged();
+                            }else{
+                                publicImgsUrls.add(0,hashtag);
+                                publicAdapter.notifyDataSetChanged();
+                            }*/
+                        }
+
+
+                        /*for (Hashtag hashtag:postList){
+                            if(hashtag.getPoster().getUserId().equalsIgnoreCase(userDetails.id)){
+                                hashtag.getPoster().setName(userDetails.name+" "+userDetails.lastName);
+                                hashtag.getPoster().setProfilePicURL(userDetails.profilePicURL);
+                                Picasso.with(user_profile.this).invalidate(userDetails.profilePicURL);
+                            }
+                        }
+                        mAdapter.notifyDataSetChanged();*/
+                    }
+                });
+
+            }
+        },String.class);
+
+
+        hub.on("picNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("picNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        /*menuDown.setMenuButtonColorNormal(ContextCompat.getColor(user_profile.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(user_profile.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);*/
+
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(user_profile.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(user_profile.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
+
+
+        hub.on("FollowUpdate",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("FollowUpdate "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson=new Gson();
+                        FollowInfo followInfo=gson.fromJson(o,FollowInfo.class);
+
+                        //Here data recieved originate user based
+                        if(followInfo.originatedById.equalsIgnoreCase(me.getUserId()) || followInfo.destinationById.equalsIgnoreCase(me.getUserId())){
+                            if(followInfo.originatedById.equalsIgnoreCase(finalTarget)){
+                                System.out.println("In 1");
+                                Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+                                if(followInfo.isMutual){
+                                    follow.setText("Mutual");
+                                    follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.mutualfollowerbutton));
+                                    follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                                    follow.setTransformationMethod(null);
+                                    follow.setTypeface(type);
+                                    followStatusUpdate("Mutual");
+                                }
+                                else if(followInfo.destinationFollowOriginate){
+                                    follow.setText("follower");
+                                    follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
+                                    follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                                    follow.setTransformationMethod(null);
+                                    follow.setTypeface(type);
+                                    followStatusUpdate("follower");
+                                }else if(followInfo.originateFollowDestination){
+                                    follow.setText("Following");
+                                    follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followingbutton));
+                                    follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                                    follow.setTransformationMethod(null);
+                                    follow.setTypeface(type);
+                                    followStatusUpdate("Following");
+
+                                }else{
+                                    follow.setText("follow");
+                                    follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
+                                    follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                                    follow.setTransformationMethod(null);
+                                    follow.setTypeface(type);
+                                    followStatusUpdate("follow");
+                                }
+                            }else if(followInfo.destinationById.equalsIgnoreCase(finalTarget)){
+                                System.out.println("In 2");
+                                Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+                                if(followInfo.isMutual){
+                                    follow.setText("Mutual");
+                                    follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.mutualfollowerbutton));
+                                    follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                                    follow.setTransformationMethod(null);
+                                    follow.setTypeface(type);
+                                    followStatusUpdate("Mutual");
+                                }
+                                else if(followInfo.originateFollowDestination){
+                                    follow.setText("follower");
+                                    follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
+                                    follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                                    follow.setTransformationMethod(null);
+                                    follow.setTypeface(type);
+                                    followStatusUpdate("follower");
+                                }else if(followInfo.destinationFollowOriginate){
+                                    follow.setText("Following");
+                                    follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followingbutton));
+                                    follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                                    follow.setTransformationMethod(null);
+                                    follow.setTypeface(type);
+                                    followStatusUpdate("Following");
+
+                                }else{
+                                    follow.setText("follow");
+                                    follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
+                                    follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                                    follow.setTransformationMethod(null);
+                                    follow.setTypeface(type);
+                                    followStatusUpdate("follow");
+                                }
+                            }
+                        }
+
+
+                    }
+
+                    public void followStatusUpdate(String followType){
+                        for (Hashtag hashtag:compImgsUrls
+                                ) {
+                            if(followType.equalsIgnoreCase("mutual")){
+                                hashtag.setMe_follow(true);
+                                hashtag.setHe_follow(true);
+                                hashtag.setIs_mutual(true);
+                            }else if(followType.equalsIgnoreCase("following")){
+                                hashtag.setMe_follow(true);
+                                hashtag.setHe_follow(false);
+                                hashtag.setIs_mutual(false);
+                            }else if(followType.equalsIgnoreCase("follower")){
+                                hashtag.setMe_follow(false);
+                                hashtag.setHe_follow(true);
+                                hashtag.setIs_mutual(false);
+                            }else{
+                                hashtag.setMe_follow(false);
+                                hashtag.setHe_follow(false);
+                                hashtag.setIs_mutual(false);
+                            }
+                        }
+                        comAdapter.notifyDataSetChanged();
+
+                        for (Hashtag hashtag:mutualImgsUrls
+                                ) {
+                            if(followType.equalsIgnoreCase("mutual")){
+                                hashtag.setMe_follow(true);
+                                hashtag.setHe_follow(true);
+                                hashtag.setIs_mutual(true);
+                            }else if(followType.equalsIgnoreCase("following")){
+                                hashtag.setMe_follow(true);
+                                hashtag.setHe_follow(false);
+                                hashtag.setIs_mutual(false);
+                            }else if(followType.equalsIgnoreCase("follower")){
+                                hashtag.setMe_follow(false);
+                                hashtag.setHe_follow(true);
+                                hashtag.setIs_mutual(false);
+                            }else{
+                                hashtag.setMe_follow(false);
+                                hashtag.setHe_follow(false);
+                                hashtag.setIs_mutual(false);
+                            }
+                        }
+                        mutualAdapter.notifyDataSetChanged();
+
+                        for (Hashtag hashtag:publicImgsUrls
+                                ) {
+                            if(followType.equalsIgnoreCase("mutual")){
+                                hashtag.setMe_follow(true);
+                                hashtag.setHe_follow(true);
+                                hashtag.setIs_mutual(true);
+                            }else if(followType.equalsIgnoreCase("following")){
+                                hashtag.setMe_follow(true);
+                                hashtag.setHe_follow(false);
+                                hashtag.setIs_mutual(false);
+                            }else if(followType.equalsIgnoreCase("follower")){
+                                hashtag.setMe_follow(false);
+                                hashtag.setHe_follow(true);
+                                hashtag.setIs_mutual(false);
+                            }else{
+                                hashtag.setMe_follow(false);
+                                hashtag.setHe_follow(false);
+                                hashtag.setIs_mutual(false);
+                            }
+                        }
+                        publicAdapter.notifyDataSetChanged();
+
+                        if(adapter!=null){
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+
+            }
+        },String.class);
+
+
+
+
+
+        hub.on("followerNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("followerNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        /*menuDown.setMenuButtonColorNormal(ContextCompat.getColor(user_profile.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(user_profile.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);*/
+
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(user_profile.this,R.color.colorAccent));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(user_profile.this,R.color.colorAccent));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("SeenPictureNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("SeenPictureNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        /*menuDown.setMenuButtonColorNormal(ContextCompat.getColor(user_profile.this,R.color.colorAccent));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(user_profile.this,R.color.colorAccent));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);*/
+
+
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(user_profile.this,R.color.colorAccent));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(user_profile.this,R.color.colorAccent));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("SeenFollowerNotification",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("SeenFollowerNotification "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(user_profile.this,R.color.colorPrimary));
+                        notificationFAB.setColorNormal(ContextCompat.getColor(user_profile.this,R.color.colorPrimary));
+                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
+                        notificationFAB.setImageResource(R.drawable.notinoti);
+                    }
+                });
+
+            }
+        },String.class);
+
+
+    }
+
+
+
+
+    public void UiRecycleControl(){
+        //region Recycle view control
+        int totalmutualFollowerPics=mutualImgsUrls.size();
+        int totalCompetitionPic=compImgsUrls.size();
+        int totalpublicPictures=publicImgsUrls.size();
+
+        if(totalmutualFollowerPics>0){
+            mutualnopost.setVisibility(View.GONE);
+            mutualgrid.setVisibility(View.VISIBLE);
+        }else {
+            mutualnopost.setVisibility(View.VISIBLE);
+            mutualgrid.setVisibility(View.GONE);
+        }
+
+        if(totalCompetitionPic>0){
+            compnopost.setVisibility(View.GONE);
+            competitiongrid.setVisibility(View.VISIBLE);
+        }else {
+            compnopost.setVisibility(View.VISIBLE);
+            competitiongrid.setVisibility(View.GONE);
+        }
+
+
+        if(totalpublicPictures>0){
+            publicnopost.setVisibility(View.GONE);
+            publicgrid.setVisibility(View.VISIBLE);
+        }else {
+            publicnopost.setVisibility(View.VISIBLE);
+            publicgrid.setVisibility(View.GONE);
+        }
+        /*if(totalmutualFollowerPics == 0){
+            mutualgrid.setVisibility(View.GONE);
+            seeAllMutualProfile.setVisibility(View.GONE);
+            mutualnopost.setVisibility(View.VISIBLE);
+        } else if (totalmutualFollowerPics >0 && totalmutualFollowerPics <=3) {
+            ViewGroup.LayoutParams mutual = mutualgrid.getLayoutParams();
+            mutual.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            mutualgrid.setLayoutParams(mutual);
+            seeAllMutualProfile.setVisibility(View.GONE);
+        }else if (totalmutualFollowerPics > 3 && totalmutualFollowerPics <=6) {
+            ViewGroup.LayoutParams mutual1 = mutualgrid.getLayoutParams();
+            mutual1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            mutualgrid.setLayoutParams(mutual1);
+            seeAllMutualProfile.setVisibility(View.GONE);
+        }else if (totalmutualFollowerPics > 6 && totalmutualFollowerPics <=9) {
+            seeAllMutualProfile.setVisibility(View.GONE);
+        }else{
+            mutualgrid.setVisibility(View.VISIBLE);
+            mutualnopost.setVisibility(View.GONE);
+        }
+
+        if(totalCompetitionPic == 0){
+            compnopost.setVisibility(View.VISIBLE);
+            competitiongrid.setVisibility(View.GONE);
+            seeAllCompetitionProfile.setVisibility(View.GONE);
+        }else if (totalCompetitionPic >0 && totalCompetitionPic <=3) {
+            ViewGroup.LayoutParams comp = competitiongrid.getLayoutParams();
+            comp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            competitiongrid.setLayoutParams(comp);
+            seeAllCompetitionProfile.setVisibility(View.GONE);
+        }else if (totalCompetitionPic > 3 && totalCompetitionPic <=6) {
+            ViewGroup.LayoutParams comp1 = mutualgrid.getLayoutParams();
+            comp1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            competitiongrid.setLayoutParams(comp1);
+            seeAllCompetitionProfile.setVisibility(View.GONE);
+        }else if (totalCompetitionPic > 6 && totalCompetitionPic <=9) {
+            seeAllCompetitionProfile.setVisibility(View.GONE);
+        } else{
+            compBanner.setVisibility(View.VISIBLE);
+            seeAllCompetitionProfile.setVisibility(View.VISIBLE);
+            compnopost.setVisibility(View.GONE);
+        }
+
+        if(totalpublicPictures == 0){
+            publicnopost.setVisibility(View.VISIBLE);
+            publicgrid.setVisibility(View.GONE);
+            seeAllPublicProfile.setVisibility(View.GONE);
+        }else if (totalpublicPictures >0 && totalpublicPictures <=3) {
+            ViewGroup.LayoutParams pub = publicgrid.getLayoutParams();
+            pub.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            publicgrid.setLayoutParams(pub);
+            seeAllPublicProfile.setVisibility(View.GONE);
+
+        }else if (totalCompetitionPic > 3 && totalCompetitionPic <=6) {
+            ViewGroup.LayoutParams pub1 = publicgrid.getLayoutParams();
+            pub1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            publicgrid.setLayoutParams(pub1);
+            seeAllPublicProfile.setVisibility(View.GONE);
+            seeAllCompetitionProfile.setVisibility(View.GONE);
+        }else if (totalCompetitionPic > 6 && totalCompetitionPic <=9) {
+            seeAllCompetitionProfile.setVisibility(View.GONE);
+
+        } else{
+            publicBanner.setVisibility(View.VISIBLE);
+            seeAllPublicProfile.setVisibility(View.VISIBLE);
+        }*/
+        //endregion
+    }
 
 
     public boolean isConnected(){
@@ -862,94 +1534,126 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                         if(!target.equals(mUser.getUserId())){
                             followinglin.setVisibility(View.GONE);
                             divider.setVisibility(View.GONE);
+                        }
+                        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+                        if(jsonObject.getBoolean("isMutual")){
+                            follow.setText("Mutual");
+                            follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.mutualfollowerbutton));
+                            follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                            follow.setTransformationMethod(null);
+                            follow.setTypeface(type);
+                        }
+                        else if(jsonObject.getBoolean("heFollow")){
+                            follow.setText("follower");
+                            follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
+                            follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                            follow.setTransformationMethod(null);
+                            follow.setTypeface(type);
+                        }else if(jsonObject.getBoolean("meFollow")){
+                            follow.setText("Following");
+                            follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followingbutton));
+                            follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                            follow.setTransformationMethod(null);
+                            follow.setTypeface(type);
 
-
-
-
-
+                        }else{
+                            follow.setText("follow");
+                            follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
+                            follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                            follow.setTransformationMethod(null);
+                            follow.setTypeface(type);
+                        }
+                        numPhotosCount.setText(jsonObject.getInt("totalPicCount")+"");
+                        if (mUser.getUserId().equals(target)) {
+                            follow.setVisibility(View.GONE);
+                            numFollowersCountProfile.setText(jsonObject.getInt("followersCount") + "");
+                            numFollowingCountProfile.setText(jsonObject.getInt("followingCount")+"");
+                        }else{
+                            follow.setVisibility(View.VISIBLE);
+                            numFollowersCountProfile.setText(jsonObject.getInt("followersCount") + "");
                         }
 
 
 
 
-                        FollowerService.LoadFollowers(getApplicationContext(), target, mUser.getToken(), new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                // If the response is JSONObject instead of expected JSONArray
-                                try {
-                                    System.out.println(response);
-                                    JSONArray followerList = null;
-                                    JSONArray followingList = null;
-                                    try {
-                                        JSONObject resultPayload = response.getJSONObject("resultPayload");
-                                        followerList = resultPayload.getJSONArray("followerList");
-                                        followingList = resultPayload.getJSONArray("followingList");
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    numFollowersCountProfile.setText(followerList.length() + "");
-                                    numFollowingCountProfile.setText(followingList.length()+"");
-
-                                    boolean isFollower = false;
-                                    boolean isFollowing = false;
-
-                                    for (int i = 0; i < followerList.length() - 1; i++) {
-                                        if (followerList.getJSONObject(i).getString("id").equals(mUser.getUserId())) {
-                                            isFollower = true;
-                                            break;
-                                        }
-
-
-                                    }
-
-                                    for (int i = 0; i < followingList.length() - 1; i++) {
-                                        if (followingList.getJSONObject(i).getString("id").equals(mUser.getUserId())) {
-                                            isFollowing = true;
-                                            break;
-                                        }
-
-                                    }
-                                    System.out.println(isFollowing + " for following and " + isFollower + " for follower");
-
-                                    if (mUser.getUserId().equals(target)) {
-                                        follow.setVisibility(View.GONE);
-                                    } else if (isFollower && !isFollowing) {
-                                        follow.setVisibility(View.VISIBLE);
-                                        follow.setText("Follower");
-                                        follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
-                                        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
-                                        follow.setTypeface(type);
-                                        follow.setTransformationMethod(null);
-                                    } else if (!isFollower && isFollowing) {
-                                        follow.setVisibility(View.VISIBLE);
-                                        follow.setText("Following");
-                                        follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followingbutton));
-                                        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
-                                        follow.setTypeface(type);
-                                        follow.setTransformationMethod(null);
-                                    } else if (isFollower && isFollowing) {
-                                        follow.setVisibility(View.VISIBLE);
-                                        follow.setText("Mutual");
-                                        follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.mutualfollowerbutton));
-                                        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
-                                        follow.setTypeface(type);
-                                        follow.setTransformationMethod(null);
-                                    } else {
-                                        follow.setVisibility(View.VISIBLE);
-                                        follow.setText("Follow");
-                                        follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
-                                        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
-                                        follow.setTypeface(type);
-                                        follow.setTransformationMethod(null);
-                                    }
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        });
+//                        FollowerService.LoadFollowers(getApplicationContext(), target, mUser.getToken(), new JsonHttpResponseHandler() {
+//                            @Override
+//                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                                // If the response is JSONObject instead of expected JSONArray
+//                                try {
+//                                    System.out.println(response);
+//                                    JSONArray followerList = null;
+//                                    JSONArray followingList = null;
+//                                    try {
+//                                        JSONObject resultPayload = response.getJSONObject("resultPayload");
+//                                        followerList = resultPayload.getJSONArray("followerList");
+//                                        followingList = resultPayload.getJSONArray("followingList");
+//
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                    numFollowersCountProfile.setText(followerList.length() + "");
+//                                    numFollowingCountProfile.setText(followingList.length()+"");
+//
+//                                    boolean isFollower = false;
+//                                    boolean isFollowing = false;
+//
+//                                    for (int i = 0; i < followerList.length() - 1; i++) {
+//                                        if (followerList.getJSONObject(i).getString("id").equals(mUser.getUserId())) {
+//                                            isFollower = true;
+//                                            break;
+//                                        }
+//
+//
+//                                    }
+//
+//                                    for (int i = 0; i < followingList.length() - 1; i++) {
+//                                        if (followingList.getJSONObject(i).getString("id").equals(mUser.getUserId())) {
+//                                            isFollowing = true;
+//                                            break;
+//                                        }
+//
+//                                    }
+//                                    System.out.println(isFollowing + " for following and " + isFollower + " for follower");
+//
+//                                    if (mUser.getUserId().equals(target)) {
+//                                        follow.setVisibility(View.GONE);
+//                                    } else if (isFollower && !isFollowing) {
+//                                        follow.setVisibility(View.VISIBLE);
+//                                        follow.setText("Follower");
+//                                        follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
+//                                        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+//                                        follow.setTypeface(type);
+//                                        follow.setTransformationMethod(null);
+//                                    } else if (!isFollower && isFollowing) {
+//                                        follow.setVisibility(View.VISIBLE);
+//                                        follow.setText("Following");
+//                                        follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followingbutton));
+//                                        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+//                                        follow.setTypeface(type);
+//                                        follow.setTransformationMethod(null);
+//                                    } else if (isFollower && isFollowing) {
+//                                        follow.setVisibility(View.VISIBLE);
+//                                        follow.setText("Mutual");
+//                                        follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.mutualfollowerbutton));
+//                                        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+//                                        follow.setTypeface(type);
+//                                        follow.setTransformationMethod(null);
+//                                    } else {
+//                                        follow.setVisibility(View.VISIBLE);
+//                                        follow.setText("Follow");
+//                                        follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
+//                                        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+//                                        follow.setTypeface(type);
+//                                        follow.setTransformationMethod(null);
+//                                    }
+//
+//                                } catch (Exception e) {
+//                                    e.printStackTrace();
+//                                }
+//
+//                            }
+//                        });
 
 
                         //calling populateGallery() method using data from user
@@ -1041,7 +1745,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
     public void setAdapter(RecyclerView.Adapter adapter){
         this.adapter=adapter;
     }
-    
+
     @Override
     public ArrayList<Hashtag> getAllData() {
         return hashtags;
@@ -1313,7 +2017,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             mutualgrid.setLayoutParams(mutual1);
             seeAllMutualProfile.setVisibility(View.GONE);
         }else if (totalmutualFollowerPics > 6 && totalmutualFollowerPics <=9) {
-           seeAllMutualProfile.setVisibility(View.GONE);
+            seeAllMutualProfile.setVisibility(View.GONE);
         }else{
             mutualgrid.setVisibility(View.VISIBLE);
             mutualnopost.setVisibility(View.GONE);
@@ -1334,7 +2038,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             competitiongrid.setLayoutParams(comp1);
             seeAllCompetitionProfile.setVisibility(View.GONE);
         }else if (totalCompetitionPic > 6 && totalCompetitionPic <=9) {
-           seeAllCompetitionProfile.setVisibility(View.GONE);
+            seeAllCompetitionProfile.setVisibility(View.GONE);
         } else{
             compBanner.setVisibility(View.VISIBLE);
             seeAllCompetitionProfile.setVisibility(View.VISIBLE);
@@ -1365,7 +2069,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             seeAllPublicProfile.setVisibility(View.VISIBLE);
         }
 
-        numPhotosCount.setText(totalPics.toString());
+        //numPhotosCount.setText(totalPics.toString());
 
 
 

@@ -11,7 +11,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,8 +37,9 @@ import android.widget.Toast;
 import com.baoyz.widget.PullRefreshLayout;
 import com.github.clans.fab.FloatingActionMenu;
 import com.golstars.www.glostars.ModelData.Hashtag;
+import com.golstars.www.glostars.ModelData.Rating;
+import com.golstars.www.glostars.ModelData.UserDetails;
 import com.golstars.www.glostars.adapters.CommentAdapter;
-import com.golstars.www.glostars.adapters.CommentData;
 import com.golstars.www.glostars.adapters.PostData;
 import com.golstars.www.glostars.models.Comment;
 import com.golstars.www.glostars.network.NotificationService;
@@ -49,6 +49,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.MySSLSocketFactory;
 import com.loopj.android.http.RequestParams;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,6 +64,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.Header;
@@ -361,7 +363,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
             @Override
             public void prepareRequest(Request request) {
                 request.addHeader("Authorization", "Bearer " + me.getToken());
-                // request.addHeader("authorization","bearer rLQd1-q-5CdheRQ5l5envaEZfdTWpPX4RIzvTDelURIw6ITegpEbD1U6XZrVrYcODUGYA8pH16vc4MXA_XHONtvJDkCEQahDDksw-oxBENuZH4k0F7vm0rtgdoRm89xwqSlu119JA2BBuHTg1apVo9vv8YSN3ke7SAR8Hzz_QFJ3m4tu-PFlatsrANLdRQAWxxuMYlPUSMG_Crfd46JJVa-h9Yvgz0pPs2oYDFsOJqp54wUsFLPOhnSGD-kp2rOvm16kOx9Uz3qxBai_pYYPmbzvr_e5d-pvRxGqQFMVtXr2wl8Ar-2_eUjqwCMDNmh3AMEF5s7lUOxSn9q3c59Qaf7cSd6KWfop9pclbMqJFQITwK9bXe_5V676_r1cHwEdY-nf97gM8t0TuGCxmJlV2RvgRx1oYMHpeS1NNZcHVITu2bpyP1eoE-9lrx80-Sd8gRGYeAC0QwpNHG8BQRbSmv3D0B683f1Z_r1EkgTjwGs");
+
             }
         };
         connection.setCredentials(credentials);
@@ -382,7 +384,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         hub.on("updatePicture",new SubscriptionHandler1<String>() {
             @Override
             public void run(final String o) {
-                System.out.println(o);
+                System.out.println("Update Picture "+o);
 
 
 
@@ -396,15 +398,105 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
                             System.out.println(postList.get(i).getId()+"--"+hashtag.getId());
                             if(postList.get(i).getId()==hashtag.getId()){
                                 System.out.println("Found...");
+
+                                for (Rating rating:hashtag.getRatings()
+                                        ) {
+                                    if(rating.getRaterId().equalsIgnoreCase(postList.get(i).getPoster().getUserId())){
+                                        hashtag.setMyStarCount(rating.getStarsCount());
+                                        break;
+                                    }
+                                }
+
+                                List<com.golstars.www.glostars.ModelData.Comment> comments=postList.get(i).getComments();
+                                comments.clear();
+                                for (com.golstars.www.glostars.ModelData.Comment comment:hashtag.getComments()
+                                        ) {
+                                    comments.add(comment);
+                                }
+                                hashtag.setComments(comments);
+                                if(mAdapter.commentData!=null){
+                                    mAdapter.commentData.notifyDataSetChanged();
+                                }
                                 postList.set(i,hashtag);
                                 mAdapter.notifyDataSetChanged();
-
-
-
                                 break;
                             }
                         }
 
+                    }
+                });
+
+            }
+        },String.class);
+
+        hub.on("AddPicture",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println(o);
+
+
+
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        Hashtag hashtag=gson.fromJson(o.toString(),Hashtag.class);
+                        System.out.println("hash tag "+hashtag.toString());
+                        postList.add(0,hashtag);
+                        mAdapter.notifyDataSetChanged();
+
+                    }
+                });
+
+            }
+        },String.class);
+
+
+        hub.on("RemovePicture",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println(o);
+
+
+
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        int postId=Integer.parseInt(o);
+
+                        for (Hashtag hashtag:postList){
+                            if(hashtag.getId()==postId){
+                                postList.remove(hashtag);
+                                break;
+                            }
+                        }
+                        mAdapter.notifyDataSetChanged();
+
+                    }
+                });
+
+            }
+        },String.class);
+
+
+        hub.on("EditProfile",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("EditProfile "+o);
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        UserDetails userDetails=gson.fromJson(o,UserDetails.class);
+
+                        for (Hashtag hashtag:postList){
+                            if(hashtag.getPoster().getUserId().equalsIgnoreCase(userDetails.id)){
+                                hashtag.getPoster().setName(userDetails.name+" "+userDetails.lastName);
+                                hashtag.getPoster().setProfilePicURL(userDetails.profilePicURL);
+                                Picasso.with(MainFeed.this).invalidate(userDetails.profilePicURL);
+                            }
+                        }
+                        mAdapter.notifyDataSetChanged();
                     }
                 });
 
@@ -433,6 +525,10 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 
             }
         },String.class);
+
+
+
+
 
         hub.on("followerNotification",new SubscriptionHandler1<String>() {
             @Override
