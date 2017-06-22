@@ -616,6 +616,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                     Intent intent = new Intent();
                     intent.putExtra("LOAD_TARGET", "COMPETITION");
                     intent.putExtra("user_id",finalTarget);
+                    Bundle b = new Bundle();
+                    b.putParcelable("user", mUser);
+                    intent.putExtras(b);
+
                     intent.setClass(getApplicationContext(), competitionUser.class);
                     startActivity(intent);
                 } else {

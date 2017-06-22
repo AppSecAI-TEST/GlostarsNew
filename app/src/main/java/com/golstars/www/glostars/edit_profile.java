@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.golstars.www.glostars.network.SearchUser;
@@ -86,6 +87,8 @@ public class edit_profile extends AppCompatActivity {
     Button save;
     Button cancel;
     Button uploadbutton;
+
+
 
     TextView changepass;
 
@@ -465,9 +468,12 @@ public class edit_profile extends AppCompatActivity {
 
                        // JSONObject data=response.getJSONObject("resultPayload").getJSONObject("edited");
 
+
+                        Toast.makeText(getApplicationContext(),  "Changes have been saved successfully", Toast.LENGTH_LONG).show();
                         Intent userProfileIntent=new Intent();
                         userProfileIntent.putExtra("USER_ID",mUser.getUserId());
                         userProfileIntent.setClass(getApplicationContext(),user_profile.class);
+
 
 
                     }
@@ -475,20 +481,31 @@ public class edit_profile extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 dialog.dismiss();
+
+
+
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                System.out.println("2. "+responseString);
+                System.out.println("something wrong 2. "+responseString);
+                Toast.makeText(getApplicationContext(),  "Couldn't reach servers", Toast.LENGTH_LONG).show();
                 dialog.dismiss();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                System.out.println("3. "+errorResponse);
+                System.out.println("something wrong 3. "+errorResponse);
+                Toast.makeText(getApplicationContext(),  "Couldn't reach servers", Toast.LENGTH_LONG).show();
                 dialog.dismiss();
             }
+
+
+
+
         });
+
+
 
     }
 

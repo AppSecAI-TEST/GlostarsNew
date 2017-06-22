@@ -2,6 +2,8 @@ package com.golstars.www.glostars;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.golstars.www.glostars.network.SearchUser;
 import com.loopj.android.http.AsyncHttpClient;
@@ -21,7 +23,7 @@ import cz.msebera.android.httpclient.Header;
  * singleton class representing current user
  */
 
-public class MyUser {
+public class MyUser implements Parcelable {
 
     private static MyUser mUser = new MyUser();
 
@@ -32,10 +34,31 @@ public class MyUser {
     private String sex;
     private String token;
 
-    private static final String MyPREFERENCES = "com.golstars.www.glostars.PREFERENCE_FILE_KEY";
+    private static final String MyPREFERENCES = "glostarspreferences";
 
 
     private MyUser(){}
+
+    protected MyUser(Parcel in) {
+        name = in.readString();
+        email = in.readString();
+        profilePicURL = in.readString();
+        userId = in.readString();
+        sex = in.readString();
+        token = in.readString();
+    }
+
+    public static final Creator<MyUser> CREATOR = new Creator<MyUser>() {
+        @Override
+        public MyUser createFromParcel(Parcel in) {
+            return new MyUser(in);
+        }
+
+        @Override
+        public MyUser[] newArray(int size) {
+            return new MyUser[size];
+        }
+    };
 
     public static MyUser getmUser(){
         return mUser;
@@ -150,5 +173,20 @@ public class MyUser {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(email);
+        dest.writeString(profilePicURL);
+        dest.writeString(userId);
+        dest.writeString(sex);
+        dest.writeString(token);
     }
 }

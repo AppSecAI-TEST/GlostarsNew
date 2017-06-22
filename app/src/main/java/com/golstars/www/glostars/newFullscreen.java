@@ -175,7 +175,7 @@ public class newFullscreen extends AppCompatActivity {
 
         //postData=((AdapterInfomation)getApplicationContext()).getAllData(;
         //postDataAdapter=((AdapterInfomation)getApplicationContext()).getAdapter();
-        new getUserData().execute("");
+        //new getUserData().execute("");
 
         if(postData == null)
         postData =  getIntent().getExtras().getParcelable("post");
@@ -354,8 +354,8 @@ public class newFullscreen extends AppCompatActivity {
                         client.setSSLSocketFactory(sf);
                     }
                     catch (Exception e) {}
-                    MyUser myUser=MyUser.getmUser();
-                    client.addHeader("Authorization", "Bearer " + myUser.getToken());
+                    //MyUser myUser=MyUser.getmUser();
+                    client.addHeader("Authorization", "Bearer " + token);
                     RequestParams requestParams=new RequestParams();
 
                     client.post(getApplicationContext(), url,requestParams,new JsonHttpResponseHandler(){
@@ -433,8 +433,8 @@ public class newFullscreen extends AppCompatActivity {
                                     client.setSSLSocketFactory(sf);
                                 }
                                 catch (Exception e) {}
-                                MyUser myUser=MyUser.getmUser();
-                                client.addHeader("Authorization", "Bearer " + myUser.getToken());
+                               // MyUser myUser=MyUser.getmUser();
+                                client.addHeader("Authorization", "Bearer " + token);
                                 RequestParams requestParams=new RequestParams();
 
                                 client.post(getApplicationContext(), url,requestParams,new JsonHttpResponseHandler(){
@@ -528,7 +528,7 @@ public class newFullscreen extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int p, long id) {
 
-                if(!myUser.getUserId().equalsIgnoreCase(poster.getUserId())){
+                if(!usrID.equalsIgnoreCase(poster.getUserId())){
                     return false;
                 }
 
@@ -561,7 +561,7 @@ public class newFullscreen extends AppCompatActivity {
                         }
                         catch (Exception e) {}
                         RequestParams msg=new RequestParams();
-                        client.addHeader("Authorization", "Bearer " + myUser.getToken());
+                        client.addHeader("Authorization", "Bearer " + token);
                         final Integer integer=new Integer(p);
 
 
@@ -677,7 +677,7 @@ public class newFullscreen extends AppCompatActivity {
                         }
                         catch (Exception e) {}
                         RequestParams msg=new RequestParams();
-                        client.addHeader("Authorization", "Bearer " + myUser.getToken());
+                        client.addHeader("Authorization", "Bearer " + token);
                         msg.add("CommentText", comment);
                         msg.add("PhotoId", postData.getId()+"");
 
@@ -858,7 +858,7 @@ public class newFullscreen extends AppCompatActivity {
 
                 namecomment.setTypeface(type);
                 comment.setTypeface(type);
-                hours.setTypeface(type);
+                //hours.setTypeface(type);
 
                 if(comm.getProfilePicUrl().equals("/Content/Profile/Thumbs/male.jpg") || comm.getProfilePicUrl().equals("/Content/Profile/Thumbs/Male.jpg")){
                     commentPic.setImageResource(R.drawable.nopicmalegrey);
@@ -873,10 +873,11 @@ public class newFullscreen extends AppCompatActivity {
 
 
                 //Picasso.with(getApplicationContext()).load(comm.getProfilePicUrl()).into(commentPic);//
+
                 comment.setText(comm.getCommentMessage());
                 //hours.setText("2");
                 namecomment.setText(comm.getFirstName() + " " + comm.getLastName());
-                hours.setText(comm.getCommentTime());
+                hours.setText("something");
 
                 commentPic.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -103,6 +103,9 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
         menuDown.setClosedOnTouchOutside(true);
 
+        String token;
+        String usrId;
+
         gl = (TextView) findViewById(R.id.glostarslogo);
         slogo = (ImageView)findViewById(R.id.searchlogo);
         search = (EditText)findViewById(R.id.searchedit);
@@ -209,6 +212,10 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 
         target = this.getIntent().getStringExtra("LOAD_TARGET");
         guestUserId = this.getIntent().getStringExtra("user_id");
+        //mUser = MyUser.getmUser(getApplicationContext());
+        //System.out.println("useris: " + mUser.getName());
+
+        //load(target);
         if(mUser == null){
             new getUserDataComp().execute("");
         } else{
@@ -254,7 +261,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
                             //pg++;
                             try {
                                 //callAsyncPopulate(pg);
-                                if(mUser.getUserId().equals(null)){
+                                if(mUser.getUserId() == null){
                                     new getUserDataComp().execute("");
                                 } else{
                                     load(target);
