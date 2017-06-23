@@ -22,7 +22,7 @@
         android:layout_height="30dp"
         app:tabBackground="@drawable/tab_selector"
         app:tabGravity="center"
-        android:layout_gravity="bottom"
+        android:layout_gravity="top"
         android:layout_marginBottom="50dp"
         app:tabIndicatorHeight="0dp"/>
 

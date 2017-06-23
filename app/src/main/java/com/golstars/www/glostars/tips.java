@@ -53,22 +53,24 @@ public class tips extends Fragment {
         p = (TextView)rootView.findViewById(R.id.p);
 
 
-        Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-Light.ttf");
-        a.setTypeface(type);
+        final Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-Light.ttf");
+        final Typeface bold = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-Bold.ttf");
+
+        a.setTypeface(bold);
         b.setTypeface(type);
-        c.setTypeface(type);
+        c.setTypeface(bold);
         d.setTypeface(type);
-        e.setTypeface(type);
+        e.setTypeface(bold);
         f.setTypeface(type);
-        g.setTypeface(type);
+        g.setTypeface(bold);
         h.setTypeface(type);
-        i.setTypeface(type);
+        i.setTypeface(bold);
         j.setTypeface(type);
-        k.setTypeface(type);
+        k.setTypeface(bold);
         ll.setTypeface(type);
-        m.setTypeface(type);
+        m.setTypeface(bold);
         n.setTypeface(type);
-        o.setTypeface(type);
+        o.setTypeface(bold);
         p.setTypeface(type);
 
 

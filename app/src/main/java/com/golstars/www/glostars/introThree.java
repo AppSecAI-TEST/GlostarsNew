@@ -25,7 +25,7 @@ public class introThree extends Fragment {
         gettingStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(),searchResults.class));
+                startActivity(new Intent(getActivity(),MainFeed.class));
             }
         });
 

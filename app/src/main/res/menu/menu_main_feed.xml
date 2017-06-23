@@ -7,7 +7,7 @@
         android:id = "@+id/searchmenu"
         android:icon="@drawable/search"
         app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="always"
-        android:iconifiedByDefault="false"
+        app:showAsAction="ifRoom"
+        android:iconifiedByDefault="true"
         />
 </menu>

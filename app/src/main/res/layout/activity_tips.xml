@@ -200,7 +200,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textCAPTION"
                     android:textColor="@color/darkGrey"
-                    android:layout_marginBottom="32dp"
+                    android:layout_marginBottom="100dp"
                     android:text="@string/phnfeatures"/>
 
             </LinearLayout>

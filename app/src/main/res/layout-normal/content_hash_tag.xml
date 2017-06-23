@@ -147,11 +147,12 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginStart="4dp"
+                android:layout_marginTop="2dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginBottom="0dp"
                 android:src="@drawable/deleteicon"
                 android:layout_marginEnd="8dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 />
 
 

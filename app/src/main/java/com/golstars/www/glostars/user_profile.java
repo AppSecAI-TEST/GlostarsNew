@@ -327,6 +327,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         compno.setTypeface(type);
         mutualno.setTypeface(type);
         numFollowersCountProfile.setTypeface(type);
+        seeAllMutualProfile.setTypeface(type);
 
 //        follow.setTypeface(type);
 

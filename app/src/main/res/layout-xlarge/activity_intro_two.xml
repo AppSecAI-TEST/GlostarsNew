@@ -14,16 +14,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="Photo Upload Categories"
         android:textColor="@color/white"
-        android:textSize="22sp"
+        android:textSize="32sp"
         />
 
     <ImageView
         android:id="@+id/introMutual"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
+        android:layout_width="225dp"
+        android:layout_height="225dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/introTwoBanner"
         android:layout_marginStart="8dp"
@@ -41,7 +41,7 @@
         android:layout_toEndOf="@+id/introMutual"
         android:text="Mutual Followers"
         android:textColor="@color/white"
-        android:textSize="20sp"/>
+        android:textSize="30sp"/>
 
     <TextView
         android:id="@+id/introMutualText1"
@@ -53,15 +53,15 @@
         android:layout_below="@+id/introMutualText"
         android:text="Only Your Friends Can See"
         android:textColor="@color/white"
-        android:textSize="16sp"/>
+        android:textSize="26sp"/>
 
     <ImageView
         android:id="@+id/introPublic"
-        android:layout_width="115dp"
-        android:layout_height="115dp"
+        android:layout_width="215dp"
+        android:layout_height="215dp"
         android:layout_marginEnd="8dp"
         android:layout_below="@+id/introMutual"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:layout_alignParentRight="true"
         app:srcCompat="@drawable/intro_public" />
 
@@ -75,7 +75,7 @@
         android:layout_marginRight="8dp"
         android:text="Public"
         android:textColor="@color/white"
-        android:textSize="20sp"/>
+        android:textSize="30sp"/>
 
     <TextView
         android:id="@+id/introPublicText1"
@@ -87,14 +87,14 @@
         android:layout_below="@+id/introPublicText"
         android:text="Shown To Everybody"
         android:textColor="@color/white"
-        android:textSize="16sp"/>
+        android:textSize="26sp"/>
 
     <ImageView
         android:id="@+id/introComp"
-        android:layout_width="105dp"
-        android:layout_height="105dp"
+        android:layout_width="205dp"
+        android:layout_height="205dp"
         android:layout_below="@+id/introPublic"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         app:srcCompat="@drawable/intro_comp" />
 
     <TextView
@@ -107,11 +107,11 @@
         android:layout_marginTop="20dp"
         android:text="Competition"
         android:textColor="@color/white"
-        android:textSize="20sp"/>
+        android:textSize="30sp"/>
 
     <TextView
         android:id="@+id/introCompText1"
-        android:layout_width="230dp"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
@@ -119,7 +119,7 @@
         android:layout_below="@+id/introCompText"
         android:text="Winning pictures are selected based on user rating"
         android:textColor="@color/white"
-        android:textSize="16sp"/>
+        android:textSize="26sp"/>
 
 
 </RelativeLayout>
