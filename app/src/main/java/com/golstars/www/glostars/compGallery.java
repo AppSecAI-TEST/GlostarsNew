@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,11 +54,11 @@ public class compGallery extends Fragment implements AdapterInfomation {
     private RecyclerView recyclerView;
     private PostAdapter mAdapter;
     //-------------------------------------------------
-    private boolean loading = true;
+    private boolean loading;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     GridLayoutManager layoutManager;
     MyUser mUser;
-    int pg = 1;
+    int pg ;
     private Intent homeIntent;
 
 
@@ -80,6 +81,8 @@ public class compGallery extends Fragment implements AdapterInfomation {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_comp_gallery, container, false);
 
+        pg = 1;
+        loading = true;
 
         gallery = (RecyclerView)rootView.findViewById(R.id.gallerygrid);
 
@@ -166,12 +169,38 @@ public class compGallery extends Fragment implements AdapterInfomation {
             load(false);
         }
 
+
+
+
 //        if(!isConnected()){
 //            startActivity(new Intent(this, noInternet.class));
 //        }
         LoadServer();
+
+
+
         return rootView;
+
+
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("pg", pg);
+        outState.putBoolean("loading", loading);
+        System.out.println("PAGE IS: " + pg);
+    }
+
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //pg = savedInstanceState.getInt("pg");
+        //loading = savedInstanceState.getBoolean("loading");
+    }
+
 
     public void LoadServer(){
         Platform.loadPlatformComponent(new AndroidPlatformComponent());

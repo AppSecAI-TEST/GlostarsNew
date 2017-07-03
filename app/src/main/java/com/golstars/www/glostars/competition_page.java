@@ -357,6 +357,7 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
             switch (position) {
                 case 0:
 
+                    //cG = new compGallery();
                     return cG;
                 case 1:
                     recognition rcg = new recognition();
