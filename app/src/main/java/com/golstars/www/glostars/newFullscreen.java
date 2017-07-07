@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -36,10 +37,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.golstars.www.glostars.ModelData.FollowInfo;
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.ModelData.Poster;
+import com.golstars.www.glostars.ModelData.Rating;
+import com.golstars.www.glostars.ModelData.UserDetails;
 import com.golstars.www.glostars.adapters.CommentData;
 import com.golstars.www.glostars.models.Comment;
+import com.google.gson.Gson;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -57,11 +62,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.Header;
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
 import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
+import microsoft.aspnet.signalr.client.Credentials;
+import microsoft.aspnet.signalr.client.Platform;
+import microsoft.aspnet.signalr.client.SignalRFuture;
+import microsoft.aspnet.signalr.client.http.Request;
+import microsoft.aspnet.signalr.client.http.android.AndroidPlatformComponent;
+import microsoft.aspnet.signalr.client.hubs.HubConnection;
+import microsoft.aspnet.signalr.client.hubs.HubProxy;
+import microsoft.aspnet.signalr.client.hubs.SubscriptionHandler1;
 
 import static android.content.ContentValues.TAG;
 
@@ -144,7 +158,9 @@ public class newFullscreen extends AppCompatActivity {
 
 
 
-        setData();
+        Hashtag h=getIntent().getExtras().getParcelable("post");
+        Poster p=getIntent().getExtras().getParcelable("poster");;
+        setData(h,p);
 
 
 
@@ -167,10 +183,175 @@ public class newFullscreen extends AppCompatActivity {
 
 
 
+        LoadServer();
+
+
+    }
+    Handler handler = new Handler();
+    public void LoadServer(){
+        Platform.loadPlatformComponent(new AndroidPlatformComponent());
+        HubConnection connection = new HubConnection(ServerInfo.BASE_URL);
+        HubProxy hub = connection.createHubProxy("GlostarsHub");
+
+        final MyUser me=MyUser.getmUser();
+        System.out.println("server Token "+me.getToken());
+
+        Credentials credentials=new Credentials() {
+            @Override
+            public void prepareRequest(Request request) {
+                request.addHeader("Authorization", "Bearer " + me.getToken());
+
+            }
+        };
+        connection.setCredentials(credentials);
+        SignalRFuture<Void> awaitConnection = connection.start();
+        try {
+            awaitConnection.get();
+        } catch (InterruptedException e) {
+            // Handle ...
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+       /* try {
+            hub.invoke("hello");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+        hub.on("updatePicture",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("Update Picture "+o);
+
+
+
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        Hashtag hashtag=gson.fromJson(o.toString(),Hashtag.class);
+                        System.out.println("hash tag "+hashtag.toString());
+                        System.out.println(postData.getId()+"--"+hashtag.getId());
+                        if(postData.getId()==hashtag.getId()){
+                            System.out.println("Found...");
+
+                            for (Rating rating:hashtag.getRatings()
+                                    ) {
+                                if(rating.getRaterId().equalsIgnoreCase(poster.getUserId())){
+                                    hashtag.setMyStarCount(rating.getStarsCount());
+                                    break;
+                                }
+                            }
+
+                            List<com.golstars.www.glostars.ModelData.Comment> comments=postData.getComments();
+                            comments.clear();
+                            for (com.golstars.www.glostars.ModelData.Comment comment:hashtag.getComments()
+                                    ) {
+                                comments.add(comment);
+                            }
+                            hashtag.setComments(comments);
+                            commentAdapter.notifyDataSetChanged();
+                            postData=hashtag;
+                            //postDataAdapter.notifyDataSetChanged();
+                            setData(postData,postData.getPoster());
+                        }
+
+                    }
+                });
+
+            }
+        },String.class);
+
+
+
+        //<editor-fold desc="Follow Update">
+        hub.on("FollowUpdate",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("FollowUpdate "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson=new Gson();
+                        FollowInfo followInfo=gson.fromJson(o,FollowInfo.class);
+
+                        if(followInfo.originatedById.equalsIgnoreCase(me.getUserId()) || followInfo.destinationById.equalsIgnoreCase(me.getUserId())){
+
+                            System.out.println("Check with user id "+poster.getUserId());
+                            if(poster.getUserId().equalsIgnoreCase(me.getUserId())){
+                                return;
+                            }else if(followInfo.isMutual){
+                                postData.setIs_mutual(true);
+                                postData.setHe_follow(true);
+                                postData.setMe_follow(true);
+                            }else if(poster.getUserId().equalsIgnoreCase(followInfo.originatedById)){
+                                if(followInfo.originateFollowDestination){
+                                    postData.setIs_mutual(false);
+                                    postData.setHe_follow(false);
+                                    postData.setMe_follow(true);
+                                }else if(followInfo.destinationFollowOriginate){
+                                    postData.setIs_mutual(false);
+                                    postData.setHe_follow(true);
+                                    postData.setMe_follow(false);
+                                }else{
+                                    postData.setIs_mutual(false);
+                                    postData.setHe_follow(false);
+                                    postData.setMe_follow(false);
+                                }
+                            }else if(poster.getUserId().equalsIgnoreCase(followInfo.destinationById)){
+
+                                if(followInfo.originateFollowDestination){
+                                    postData.setIs_mutual(false);
+                                    postData.setHe_follow(true);
+                                    postData.setMe_follow(false);
+                                }else if(followInfo.destinationFollowOriginate){
+                                    postData.setIs_mutual(false);
+                                    postData.setHe_follow(false);
+                                    postData.setMe_follow(true);
+                                }else{
+                                    postData.setIs_mutual(false);
+                                    postData.setHe_follow(false);
+                                    postData.setMe_follow(false);
+                                }
+                            }
+                            setData(postData,null);
+                        }
+
+                    }
+                });
+
+            }
+        },String.class);
+        //</editor-fold>
+
+
+
+        hub.on("EditProfile",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("EditProfile "+o);
+                handler.post(new Runnable() {
+                    public void run() {
+
+                        Gson gson=new Gson();
+                        UserDetails userDetails=gson.fromJson(o,UserDetails.class);
+
+                        if(poster.getUserId().equalsIgnoreCase(userDetails.id)){
+                            poster.setName(userDetails.name+" "+userDetails.lastName);
+                            poster.setProfilePicURL(userDetails.profilePicURL);
+                            Picasso.with(newFullscreen.this).invalidate(userDetails.profilePicURL);
+                        }
+                        setData(postData,null);
+                    }
+                });
+
+            }
+        },String.class);
+
 
     }
 
-    private void setData() {
+    private void setData(Hashtag post,Poster p) {
         //Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
 
 
@@ -178,9 +359,12 @@ public class newFullscreen extends AppCompatActivity {
         //postDataAdapter=((AdapterInfomation)getApplicationContext()).getAdapter();
         //new getUserData().execute("");
 
-        if(postData == null)
-        postData =  getIntent().getExtras().getParcelable("post");
-        poster = getIntent().getExtras().getParcelable("poster");
+        /*if(postData == null)
+            postData =  getIntent().getExtras().getParcelable("post");
+        poster = getIntent().getExtras().getParcelable("poster");*/
+        this.postData=post;
+        if(p!=null)
+            this.poster=p;
 
         picturepreview.setVisibility(View.GONE);
 
@@ -434,7 +618,7 @@ public class newFullscreen extends AppCompatActivity {
                                     client.setSSLSocketFactory(sf);
                                 }
                                 catch (Exception e) {}
-                               // MyUser myUser=MyUser.getmUser();
+                                // MyUser myUser=MyUser.getmUser();
                                 client.addHeader("Authorization", "Bearer " + token);
                                 RequestParams requestParams=new RequestParams();
 
@@ -504,7 +688,7 @@ public class newFullscreen extends AppCompatActivity {
                         }
                     };
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(newFullscreen.this);
                     builder.setMessage("Are you sure?").setPositiveButton("Unfollow", dialogClickListener)
                             .setNegativeButton("Cancel", dialogClickListener).show();
 
@@ -929,7 +1113,7 @@ public class newFullscreen extends AppCompatActivity {
         @Override
         protected void onPostExecute(JSONObject object) {
 
-            setData();
+            setData(postData,poster);
 
 
         }
