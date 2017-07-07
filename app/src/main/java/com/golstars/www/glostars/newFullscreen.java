@@ -55,6 +55,7 @@ import java.io.Serializable;
 import java.security.KeyStore;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -516,6 +517,7 @@ public class newFullscreen extends AppCompatActivity {
         /**************** comments settings ***********************************/
 
         final List<com.golstars.www.glostars.ModelData.Comment> listAllComment=postData.getComments();
+        Collections.reverse(listAllComment);
                 /*final CommentData */ commentData=new CommentData(getApplicationContext(),listAllComment);
         newFullscreenComments.setAdapter(commentData);
 
