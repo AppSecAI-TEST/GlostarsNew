@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -36,6 +37,7 @@ import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.ModelData.FollowInfo;
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.ModelData.Rating;
 import com.golstars.www.glostars.ModelData.UserDetails;
@@ -142,7 +144,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
     Intent userProfileIntent = new Intent();
     PullRefreshLayout layout;
 
-    Handler handler = new Handler();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -350,7 +352,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 
 
     }
-
+    Handler handler = new Handler();
     public void LoadServer(){
         Platform.loadPlatformComponent(new AndroidPlatformComponent());
         HubConnection connection = new HubConnection(ServerInfo.BASE_URL);
@@ -477,6 +479,74 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 
             }
         },String.class);
+
+
+
+
+        //<editor-fold desc="Follow Update">
+        hub.on("FollowUpdate",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("FollowUpdate "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson=new Gson();
+                        FollowInfo followInfo=gson.fromJson(o,FollowInfo.class);
+
+                        if(followInfo.originatedById.equalsIgnoreCase(me.getUserId()) || followInfo.destinationById.equalsIgnoreCase(me.getUserId())){
+
+                            for (Hashtag h:postList
+                                    ) {
+
+                                System.out.println("Check with user id "+h.getPoster().getUserId());
+                                if(h.getPoster().getUserId().equalsIgnoreCase(me.getUserId())){
+                                    continue;
+                                }else if(followInfo.isMutual){
+                                    h.setIs_mutual(true);
+                                    h.setHe_follow(true);
+                                    h.setMe_follow(true);
+                                }else if(h.getPoster().getUserId().equalsIgnoreCase(followInfo.originatedById)){
+                                    if(followInfo.originateFollowDestination){
+                                        h.setIs_mutual(false);
+                                        h.setHe_follow(false);
+                                        h.setMe_follow(true);
+                                    }else if(followInfo.destinationFollowOriginate){
+                                        h.setIs_mutual(false);
+                                        h.setHe_follow(true);
+                                        h.setMe_follow(false);
+                                    }else{
+                                        h.setIs_mutual(false);
+                                        h.setHe_follow(false);
+                                        h.setMe_follow(false);
+                                    }
+                                }else if(h.getPoster().getUserId().equalsIgnoreCase(followInfo.destinationById)){
+
+                                    if(followInfo.originateFollowDestination){
+                                        h.setIs_mutual(false);
+                                        h.setHe_follow(true);
+                                        h.setMe_follow(false);
+                                    }else if(followInfo.destinationFollowOriginate){
+                                        h.setIs_mutual(false);
+                                        h.setHe_follow(false);
+                                        h.setMe_follow(true);
+                                    }else{
+                                        h.setIs_mutual(false);
+                                        h.setHe_follow(false);
+                                        h.setMe_follow(false);
+                                    }
+                                }
+                            }
+                            mAdapter.notifyDataSetChanged();
+                        }
+
+                    }
+                });
+
+            }
+        },String.class);
+        //</editor-fold>
+
 
 
         hub.on("EditProfile",new SubscriptionHandler1<String>() {

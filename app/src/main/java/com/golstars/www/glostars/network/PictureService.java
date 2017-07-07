@@ -242,7 +242,8 @@ public class PictureService {
         catch (Exception e) {}
         AsyncClient.addHeader("Content-Type", "application/json");
         AsyncClient.addHeader("Authorization", "Bearer " + token);
-        AsyncClient.get("https://www.glostars.com/api/images/picture/" + picId, responseHandler);
+        AsyncClient.get("https://www.glostars.com/api/imag" +
+                "es/picture/" + picId, responseHandler);
     }
 
 

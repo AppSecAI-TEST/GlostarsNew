@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.golstars.www.glostars.ModelData.Comment;
+import com.golstars.www.glostars.ModelData.FollowInfo;
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.ModelData.Rating;
 import com.golstars.www.glostars.ModelData.UserDetails;
@@ -232,6 +233,71 @@ public class compGallery extends Fragment implements AdapterInfomation {
         } catch (Exception e) {
             e.printStackTrace();
         }*/
+
+        //<editor-fold desc="Follow Update">
+        hub.on("FollowUpdate",new SubscriptionHandler1<String>() {
+            @Override
+            public void run(final String o) {
+                System.out.println("FollowUpdate "+o);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson=new Gson();
+                        FollowInfo followInfo=gson.fromJson(o,FollowInfo.class);
+
+                        if(followInfo.originatedById.equalsIgnoreCase(me.getUserId()) || followInfo.destinationById.equalsIgnoreCase(me.getUserId())){
+
+                            for (Hashtag h:compPicsUrls
+                                    ) {
+
+                                System.out.println("Check with user id "+h.getPoster().getUserId());
+                                if(h.getPoster().getUserId().equalsIgnoreCase(me.getUserId())){
+                                    continue;
+                                }else if(followInfo.isMutual){
+                                    h.setIs_mutual(true);
+                                    h.setHe_follow(true);
+                                    h.setMe_follow(true);
+                                }else if(h.getPoster().getUserId().equalsIgnoreCase(followInfo.originatedById)){
+                                    if(followInfo.originateFollowDestination){
+                                        h.setIs_mutual(false);
+                                        h.setHe_follow(false);
+                                        h.setMe_follow(true);
+                                    }else if(followInfo.destinationFollowOriginate){
+                                        h.setIs_mutual(false);
+                                        h.setHe_follow(true);
+                                        h.setMe_follow(false);
+                                    }else{
+                                        h.setIs_mutual(false);
+                                        h.setHe_follow(false);
+                                        h.setMe_follow(false);
+                                    }
+                                }else if(h.getPoster().getUserId().equalsIgnoreCase(followInfo.destinationById)){
+
+                                    if(followInfo.originateFollowDestination){
+                                        h.setIs_mutual(false);
+                                        h.setHe_follow(true);
+                                        h.setMe_follow(false);
+                                    }else if(followInfo.destinationFollowOriginate){
+                                        h.setIs_mutual(false);
+                                        h.setHe_follow(false);
+                                        h.setMe_follow(true);
+                                    }else{
+                                        h.setIs_mutual(false);
+                                        h.setHe_follow(false);
+                                        h.setMe_follow(false);
+                                    }
+                                }
+                            }
+                            compAdapt.notifyDataSetChanged();
+                        }
+
+                    }
+                });
+
+            }
+        },String.class);
+        //</editor-fold>
+
         hub.on("updatePicture",new SubscriptionHandler1<String>() {
             @Override
             public void run(final String o) {

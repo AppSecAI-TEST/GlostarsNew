@@ -20,6 +20,10 @@ public class FollowInfo
                 ", isMutual=" + isMutual +
                 ", originateFollowDestination=" + originateFollowDestination +
                 ", destinationFollowOriginate=" + destinationFollowOriginate +
+                ", originateProfilePhoto='" + originateProfilePhoto + '\'' +
+                ", destinationProfilePhoto='" + destinationProfilePhoto + '\'' +
+                ", destinationUserName='" + destinationUserName + '\'' +
+                ", originateUserName='" + originateUserName + '\'' +
                 '}';
     }
 }
