@@ -802,6 +802,20 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         bundle.putString("token", mUser.getToken());
         bundle.putString("usrID", mUser.getUserId());
 
+/*
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("post", post);
+        bundle.putString("token", mUser.getToken());
+        bundle.putString("usrID", mUser.getUserId());
+        bundle.putParcelable("poster", post.getPoster());
+
+
+
+        Intent intent = new Intent(context, newFullscreen.class);
+        intent.putExtras(bundle);
+        //intent.putExtra("post", (Serializable) post);
+        context.startActivity(intent);*/
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         SingleItemDialogFragment newFragment = SingleItemDialogFragment.newInstance();
         newFragment.setArguments(bundle);

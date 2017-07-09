@@ -653,6 +653,24 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
                 profileFAB.setImageResource(R.drawable.nopicfemale);
             }
 
+            if(target == null) {
+                System.out.println("something else happened here");
+            }
+
+            else if(target.equals("COMPETITION")){
+                gl.setText("Competition posts of " + mUser.getName());
+
+
+            }else if(target.equals("PUBLIC")){
+                gl.setText("Public posts of " + mUser.getName());
+
+            }else if(target.equals("MUTUAL")){
+                gl.setText("Mutual posts of " + mUser.getName());
+
+            }else if(target == null) {
+                System.out.println("something else happened here");
+            }
+
             homeIntent = new Intent();
             homeIntent.putExtra("USER_ID",mUser.getUserId());
             homeIntent.setClass(getApplicationContext(),user_profile.class);
