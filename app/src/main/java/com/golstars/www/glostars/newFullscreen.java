@@ -163,7 +163,9 @@ public class newFullscreen extends AppCompatActivity {
         setData(h,p);
 
 
-
+        if(usrID.equals(p.getUserId())){
+            newFullscreenFollow.setVisibility(View.GONE);
+        }
 
 
         emojIcon = new EmojIconActions(newFullscreen.this,rootView,newCommentArea,emojiButton);
