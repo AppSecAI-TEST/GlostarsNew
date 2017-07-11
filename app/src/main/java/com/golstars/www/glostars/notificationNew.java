@@ -124,7 +124,9 @@ public class notificationNew extends AppCompatActivity {
         profileFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(homeIntent != null){
+                    startActivity(homeIntent);
+                }
             }
         });
 
