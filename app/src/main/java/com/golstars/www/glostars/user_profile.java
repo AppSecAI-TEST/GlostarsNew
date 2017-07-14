@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -98,7 +99,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
     TextView compno,publicno,mutualno;
 
-
+    RelativeLayout parentLayout;
     View divider;
     //===================================================================
 
@@ -218,6 +219,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
         menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
         menuDown.setClosedOnTouchOutside(true);
+
+        parentLayout = (RelativeLayout) findViewById(R.id.content_user_profile);
 
         //=============Notification Badges===============================================
 //        homebadge = (TextView)findViewById(R.id.homebadge);
@@ -550,14 +553,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         //mutualAdapter = new GridAdapter(this, mutualImgsUrls);
 
 
-
-
-
         mUser = MyUser.getmUser();
         // mUser.setContext(context);
-
-
-
 
 
         fService = new FollowerService();
@@ -753,13 +750,19 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
 
 
-//        if(!isConnected()){
-//            //Intent intent = new Intent(this, noInternet.class);
-//            //intent.putExtra("prev", "user_profile.class");
-//            startActivity(new Intent(this, noInternet.class));
-//        }
+        if(!isConnected()){
+            Snackbar noInternetSnackBar = Snackbar.make(parentLayout,"No Internet Connection",Snackbar.LENGTH_LONG)
+                    .setActionTextColor(getResources().getColor(R.color.lightViolate))
+                    .setAction("Retry", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(user_profile.this, "Implement reloading the page", Toast.LENGTH_SHORT).show();
+                }
+            });
+            noInternetSnackBar.show();
+        }
 
-        //onResume();
+        onResume();
 
 
 

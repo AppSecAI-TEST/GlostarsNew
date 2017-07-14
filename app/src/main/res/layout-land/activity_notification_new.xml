@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.golstars.www.glostars.newFollowersPage">
+    tools:context="com.golstars.www.glostars.notificationNew">
 
 
     <android.support.design.widget.AppBarLayout
@@ -17,13 +16,19 @@
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
+    <android.support.design.widget.CollapsingToolbarLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        app:contentScrim="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="enterAlways|scroll"
-            android:focusable="true"
+            app:layout_scrollFlags="exitUntilCollapsed|scroll"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
                 <LinearLayout
@@ -39,7 +44,7 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="2dp"
                         android:visibility="visible"
-                        android:text="Followers"
+                        android:text="Notifications"
                         android:textSize="25sp"
                         android:textColor="@color/lightViolate"/>
 
@@ -69,12 +74,17 @@
 
             </android.support.v7.widget.Toolbar>
 
-            <android.support.design.widget.TabLayout
-                style="@style/MyTabLayout"
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                app:tabMaxWidth="0dp"
-                android:layout_height="wrap_content" />
+        <android.support.design.widget.TabLayout
+            style="@style/MyTabLayout"
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_marginTop="70dp"
+            app:tabMaxWidth="0dp"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            android:layout_height="wrap_content" />
+
+    </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
@@ -84,5 +94,6 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
+    <include layout="@layout/fabs" />
 
 </android.support.design.widget.CoordinatorLayout>

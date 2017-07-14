@@ -301,7 +301,6 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainFeed.this,introductory.class));
                 menuDown.close(true);
             }
         });
@@ -821,8 +820,8 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         @Override
         protected void onPostExecute(JSONObject object) {
             //userProfileIntent = new Intent();
-            userProfileIntent.putExtra("USER_ID",mUser.getUserId());
-            userProfileIntent.setClass(getApplicationContext(),user_profile.class);
+                userProfileIntent.putExtra("USER_ID",mUser.getUserId());
+                userProfileIntent.setClass(getApplicationContext(),user_profile.class);
             //setting user default pic on FAB MENU
             if(mUser.getSex().equals("Male")){
                 profileFAB.setImageResource(R.drawable.nopicmale);

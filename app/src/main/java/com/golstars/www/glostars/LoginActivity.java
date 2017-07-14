@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.Message;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,6 +83,7 @@ public class LoginActivity extends Fragment {
 
 
 
+
         mHander = new android.os.Handler(Looper.getMainLooper());
 
         handler = new android.os.Handler(Looper.getMainLooper()){
@@ -130,26 +134,58 @@ public class LoginActivity extends Fragment {
             @Override
             public void onClick(View view) {
 
+                if (!isConnected()) {
+                    Snackbar noInternetSnackBar = Snackbar.make(rootView, "No Internet Connection", Snackbar.LENGTH_LONG)
+                            .setActionTextColor(getResources().getColor(R.color.lightViolate))
+                            .setAction("Retry", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String pwd = password.getText().toString();
+                                    String usrname = email.getText().toString();
 
-                String pwd = password.getText().toString();
-                String usrname = email.getText().toString();
+                                    if (pwd.isEmpty() && usrname.isEmpty()) {
+                                        email.setError("Email cannot be empty");
+                                        password.setError("Password cannot be empty");
+                                    } else if (pwd.isEmpty()) {
+                                        password.setError("Password cannot be empty");
+                                    } else if (usrname.isEmpty()) {
 
-                if (pwd.isEmpty() && usrname.isEmpty()) {
-                    email.setError("Email cannot be empty");
-                    password.setError("Password cannot be empty");
-                }else if (pwd.isEmpty()) {
-                    password.setError("Password cannot be empty");
-                } else if (usrname.isEmpty()) {
+                                        email.setError("Email cannot be empty");
 
-                    email.setError("Email cannot be empty");
+                                    } else {
+                                        try {
+                                            newlogin(pwd, usrname);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
 
-                }else{
-                    try {
-                        newlogin(pwd,usrname);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                    noInternetSnackBar.show();
+                } else {
+
+
+                    String pwd = password.getText().toString();
+                    String usrname = email.getText().toString();
+
+                    if (pwd.isEmpty() && usrname.isEmpty()) {
+                        email.setError("Email cannot be empty");
+                        password.setError("Password cannot be empty");
+                    } else if (pwd.isEmpty()) {
+                        password.setError("Password cannot be empty");
+                    } else if (usrname.isEmpty()) {
+
+                        email.setError("Email cannot be empty");
+
+                    } else {
+                        try {
+                            newlogin(pwd, usrname);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
-
                 }
             }
         });
@@ -164,6 +200,16 @@ public class LoginActivity extends Fragment {
         }
     }
 
+    public boolean isConnected(){
+        boolean hasConnection;
+        ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        hasConnection = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+        return hasConnection;
+
+    }
 
 
     public void newlogin(String password, String username){
@@ -217,6 +263,9 @@ public class LoginActivity extends Fragment {
             e.printStackTrace();
         }
     }
+
+
+
 
 
     //You can work with them now using the objects like :

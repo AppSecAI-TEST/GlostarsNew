@@ -42,7 +42,7 @@
     <TextView
         android:text="has starred your picture"
         android:textSize="@dimen/textCAPTION"
-        android:layout_width="220dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/nameNOTI"
         android:layout_alignStart="@+id/nameNOTI"
@@ -59,7 +59,6 @@
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true" />
 
-
     <TextView
         android:text="mins ago "
         android:textSize="12sp"
@@ -70,7 +69,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginLeft="4dp"
         android:id="@+id/minbannerNOTI" />
-
 
     <TextView
         android:text="hour ago "
@@ -94,7 +92,6 @@
         android:layout_below="@+id/notiBanner"
         android:layout_alignStart="@+id/notiBanner"
          />
-
 
     <View
         android:layout_width="match_parent"

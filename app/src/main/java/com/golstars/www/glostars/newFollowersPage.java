@@ -93,7 +93,7 @@ public class newFollowersPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_competition_page);
+        setContentView(R.layout.activity_new_followers_page);
 
 
         slogo =(ImageView)findViewById(R.id.searchlogo);
@@ -170,6 +170,9 @@ public class newFollowersPage extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
 
 

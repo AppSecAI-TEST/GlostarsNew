@@ -658,14 +658,14 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
             }
 
             else if(target.equals("COMPETITION")){
-                gl.setText("Competition posts of " + mUser.getName());
+                gl.setText(mUser.getName()+"'Competition posts");
 
 
             }else if(target.equals("PUBLIC")){
-                gl.setText("Public posts of " + mUser.getName());
+                gl.setText(mUser.getName()+"'Public posts");
 
             }else if(target.equals("MUTUAL")){
-                gl.setText("Mutual posts of " + mUser.getName());
+                gl.setText(mUser.getName()+"'Mutual posts");
 
             }else if(target == null) {
                 System.out.println("something else happened here");

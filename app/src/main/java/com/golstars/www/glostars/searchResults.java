@@ -129,7 +129,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.logoandtext); // MEMORY OVERFLOW HAPPENING RIGHT HERE
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(false);
 
 
 
@@ -728,7 +728,11 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main_feed,menu);
         MenuItem search = menu.findItem(R.id.searchmenu);
+
         final SearchView searchView = (SearchView)search.getActionView();
+
+
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -782,8 +786,12 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         });
 
 
+
         return true;
     }
+
+
+
     @Override
     public void callAsyncPopulate(Integer pg, String token) throws Exception{
         JSONObject data = new JSONObject();
