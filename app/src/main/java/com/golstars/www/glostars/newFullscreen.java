@@ -163,7 +163,10 @@ public class newFullscreen extends AppCompatActivity {
         setData(h,p);
 
 
-        if(usrID.equals(p.getUserId())){
+        //if((p.getUserId() == null) || usrID == null){
+        if(!MainFeed.isConnected(getApplicationContext())){
+            Toast.makeText(getApplicationContext(), "couldn't reach servers", Toast.LENGTH_LONG).show();
+        }else if(usrID.equals(p.getUserId())){
             newFullscreenFollow.setVisibility(View.GONE);
         }
 

@@ -29,6 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.golstars.www.glostars.MainFeed;
 import com.golstars.www.glostars.ModelData.Comment;
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.MyUser;
@@ -305,18 +306,22 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
             public void onClick(View view) {
 
 
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("post", post);
-                bundle.putString("token", mUser.getToken());
-                bundle.putString("usrID", mUser.getUserId());
-                bundle.putParcelable("poster", post.getPoster());
+                if(MainFeed.isConnected(context)){
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("post", post);
+                    bundle.putString("token", mUser.getToken());
+                    bundle.putString("usrID", mUser.getUserId());
+                    bundle.putParcelable("poster", post.getPoster());
 
 
 
-                Intent intent = new Intent(context, newFullscreen.class);
-                intent.putExtras(bundle);
-                //intent.putExtra("post", (Serializable) post);
-                context.startActivity(intent);
+                    Intent intent = new Intent(context, newFullscreen.class);
+                    intent.putExtras(bundle);
+                    //intent.putExtra("post", (Serializable) post);
+                    context.startActivity(intent);
+                }else{
+                    Toast.makeText(context, "couldn't reach servers", Toast.LENGTH_LONG).show();
+                }
 
                 /*
                 FragmentTransaction ft = fm.beginTransaction();
@@ -341,18 +346,23 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
             @Override
             public void onClick(View v) {
 
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("post", post);
-                bundle.putString("token", mUser.getToken());
-                bundle.putString("usrID", mUser.getUserId());
-                bundle.putParcelable("poster", post.getPoster());
+                if(MainFeed.isConnected(context)){
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("post", post);
+                    bundle.putString("token", mUser.getToken());
+                    bundle.putString("usrID", mUser.getUserId());
+                    bundle.putParcelable("poster", post.getPoster());
 
 
 
-                Intent intent = new Intent(context, newFullscreen.class);
-                intent.putExtras(bundle);
-                //intent.putExtra("post", (Serializable) post);
-                context.startActivity(intent);
+                    Intent intent = new Intent(context, newFullscreen.class);
+                    intent.putExtras(bundle);
+                    //intent.putExtra("post", (Serializable) post);
+                    context.startActivity(intent);
+                }else{
+                    Toast.makeText(context, "couldn't reach servers", Toast.LENGTH_LONG).show();
+                }
+
 
 
 

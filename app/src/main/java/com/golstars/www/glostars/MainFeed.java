@@ -57,11 +57,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.security.KeyStore;
 import java.util.ArrayList;
@@ -341,9 +344,27 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         });
 
         //CHECK IS THE PHONE CONNECTED TO THE INTERNET
-//        if(!isConnected()){
-//            startActivity(new Intent(this, noInternet.class));
-//        }
+        if(!isConnected(getApplicationContext())){
+            //startActivity(new Intent(this, noInternet.class));
+            try{
+
+                /** if there is no connection, load page saved in phone storage */
+                Gson gson = new Gson();
+                ArrayList<Hashtag> getAllPost = gson.fromJson(getFromCache(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
+                postList.addAll(getAllPost);
+                System.out.println("Total Post "+postList.size());
+                mAdapter.notifyDataSetChanged();
+                System.out.println("Loading offline complete");
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        } else{
+
+            /** we should make it so if the connection status changes
+             *  the mock page loaded be removed and open space for fresh data */
+
+
+        }
 
 
 
@@ -351,6 +372,71 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 
 
     }
+
+
+    public void saveInCache(JSONArray data, Context context){
+
+        /**save the latest loaded page in the phone internal memory
+           for automatic loading in case a user tries to access the
+           app without connection */
+
+        String filename = "GlostarsDat";
+        FileOutputStream outputStream;
+
+
+        try{
+            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.write(data.toString().getBytes());
+            outputStream.close();
+            System.out.println("files saved");
+        } catch (Exception e){
+            System.out.println("could not save files");
+        }
+
+    }
+
+    public String getFromCache(){
+
+        /**retrieve from the phone's internal memory the latest saved
+           page of the main feed for automatic loading */
+
+        String filename = "GlostarsDat";
+        InputStream inputStream;
+        String ret = "";
+
+        try{
+            inputStream = getApplicationContext().openFileInput(filename);
+            if(inputStream != null){
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receive = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receive = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receive);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+                System.out.println("files retrieved");
+                return ret;
+
+            }
+
+        } catch (FileNotFoundException e) {
+            System.out.println("file not found");
+        } catch (IOException e) {
+            System.out.println("cannot read file");
+        }
+
+        return ret;
+
+
+
+
+    }
+
+
     Handler handler = new Handler();
     public void LoadServer(){
         Platform.loadPlatformComponent(new AndroidPlatformComponent());
@@ -666,9 +752,9 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 
 
 
-    public boolean isConnected(){
+    static public boolean isConnected(Context context){
         boolean hasConnection;
-        ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         hasConnection = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
@@ -707,6 +793,10 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
                 try {
+
+                    saveInCache(response.getJSONObject("resultPayload").getJSONArray("data"), getApplicationContext());
+                    //response.getJSONObject("resultPayload").getJSONArray("data")
+
                     System.out.println("1. "+response.toString());
                     Gson gson=new Gson();
                     ArrayList<Hashtag> getAllPost=gson.fromJson(response.getJSONObject("resultPayload").getJSONArray("data").toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
@@ -722,6 +812,24 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
                 }
             }
 
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+                try{
+
+                    //getFromCache()
+
+                    Gson gson = new Gson();
+                    ArrayList<Hashtag> getAllPost = gson.fromJson(getFromCache(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
+                    postList.addAll(getAllPost);
+                    System.out.println("Total Post "+postList.size());
+                    mAdapter.notifyDataSetChanged();
+                    System.out.println("Loading offline complete");
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
         });
     }
     public void getUnseen(){
