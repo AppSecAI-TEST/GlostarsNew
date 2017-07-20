@@ -7,6 +7,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/rootViewFullscreen"
     android:fillViewport="true"
+    android:fitsSystemWindows="true"
     android:nestedScrollingEnabled="true"
     tools:context="com.golstars.www.glostars.newFullscreen"
     >
@@ -197,7 +198,7 @@
                         android:layout_marginBottom="0dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="4dp"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:src="@drawable/deleteicon" />
 
                     <View

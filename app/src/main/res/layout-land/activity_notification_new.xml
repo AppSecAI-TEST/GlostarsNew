@@ -16,75 +16,64 @@
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-    <android.support.design.widget.CollapsingToolbarLayout
-        android:id="@+id/toolbar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        app:contentScrim="?attr/colorPrimary"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="exitUntilCollapsed|scroll"
+            app:layout_scrollFlags="enterAlways|scroll"
+            android:focusable="true"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="bottom"
+                android:layout_marginTop="0dp">
+
+                <TextView
+                    android:id="@+id/glostarslogo"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="bottom"
-                    android:layout_marginTop="0dp">
+                    android:paddingLeft="2dp"
+                    android:visibility="visible"
+                    android:text="Notifications"
+                    android:textSize="25sp"
+                    android:textColor="@color/lightViolate"/>
 
-                    <TextView
-                        android:id="@+id/glostarslogo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="2dp"
-                        android:visibility="visible"
-                        android:text="Notifications"
-                        android:textSize="25sp"
-                        android:textColor="@color/lightViolate"/>
+                <EditText
+                    android:id="@+id/searchedit"
+                    android:layout_width="45dp"
+                    android:layout_height="match_parent"
+                    android:hint="Search"
+                    android:textColorHint="@color/darkGrey"
+                    android:paddingLeft="16dp"
+                    android:background="@drawable/roundededittext1"
+                    android:layout_weight="1"
+                    android:animateLayoutChanges="true"
+                    android:visibility="invisible"/>
 
-                    <EditText
-                        android:id="@+id/searchedit"
-                        android:layout_width="45dp"
-                        android:layout_height="match_parent"
-                        android:hint="Search"
-                        android:textColorHint="@color/darkGrey"
-                        android:paddingLeft="16dp"
-                        android:background="@drawable/roundededittext1"
-                        android:layout_weight="1"
-                        android:animateLayoutChanges="true"
-                        android:visibility="invisible"/>
-
-                    <ImageView
-                        android:id="@+id/searchlogo"
-                        android:layout_marginTop="0dp"
-                        android:layout_width="30dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_height="30dp"
-                        android:src="@drawable/search"
-                        android:padding="1dp"/>
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/searchlogo"
+                    android:layout_marginTop="0dp"
+                    android:layout_width="30dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="30dp"
+                    android:src="@drawable/search"
+                    android:padding="1dp"/>
+            </LinearLayout>
 
 
-            </android.support.v7.widget.Toolbar>
+        </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
             style="@style/MyTabLayout"
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_marginTop="70dp"
             app:tabMaxWidth="0dp"
-            app:tabGravity="fill"
-            app:tabMode="fixed"
             android:layout_height="wrap_content" />
 
-    </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager

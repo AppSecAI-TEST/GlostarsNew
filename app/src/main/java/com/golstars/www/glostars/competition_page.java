@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -72,6 +73,8 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
 
     FloatingActionMenu menuDown;
 
+    CoordinatorLayout parentLayout;
+
     Intent homeIntent;
     MyUser mUser;
     Integer unseenNotifs=new Integer(0);
@@ -86,9 +89,10 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
 
         slogo =(ImageView)findViewById(R.id.searchlogo);
         glogo = (TextView)findViewById(R.id.glostarslogo);
+        parentLayout = (CoordinatorLayout) findViewById(R.id.main_content);
 
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
-        glogo.setTypeface(type);
+       // glogo.setTypeface(type);
 
 
         cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
@@ -122,7 +126,7 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(competition_page.this,notification.class));
+                startActivity(new Intent(competition_page.this,notificationNew.class));
             }
         });
 
@@ -130,6 +134,13 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(competition_page.this,upload.class));
+            }
+        });
+
+        competitionFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuDown.close(true);
             }
         });
 
@@ -142,8 +153,7 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
         });
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());

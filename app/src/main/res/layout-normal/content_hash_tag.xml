@@ -38,8 +38,6 @@
     </RelativeLayout>
 
 
-
-
     <RelativeLayout
         android:id="@+id/postHashtag"
         android:layout_width="match_parent"
@@ -82,8 +80,8 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="380dp"
-            android:scaleType="centerCrop"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
             android:layout_marginTop="12dp"
             android:layout_centerHorizontal="true"
             android:id="@+id/userPOST"
@@ -101,7 +99,6 @@
             android:layout_alignEnd="@+id/userPOST"
             android:visibility="visible"/>
 
-
         <LinearLayout
             android:id="@+id/ratecomment"
             android:layout_width="match_parent"
@@ -111,12 +108,11 @@
             android:layout_marginBottom="8dp"
             android:layout_below="@+id/userPOST">
 
-
             <com.iarcuschin.simpleratingbar.SimpleRatingBar
                 android:id="@+id/ratingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srb_starSize="22dp"
+                app:srb_starSize="27dp"
                 app:srb_numberOfStars="5"
                 app:srb_stepSize="1"
                 app:srb_starsSeparation="1dp"
@@ -142,10 +138,11 @@
                 android:textColor="@color/colorPrimary"
                 android:layout_marginStart="4dp"
                 />
+
             <ImageView
                 android:id="@+id/clearRating"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="2dp"
                 android:layout_gravity="center_vertical"
@@ -164,7 +161,7 @@
 
             <ImageView
                 android:id="@+id/commenticon"
-                android:layout_width="30dp"
+                android:layout_width="50dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:src="@drawable/comment_icon"
@@ -179,7 +176,7 @@
                 android:textSize="16sp"
                 android:layout_marginEnd="8dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="-8dp"
                 android:textColor="@color/colorPrimary"
                 />
 

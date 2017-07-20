@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -89,6 +90,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
     FloatingActionMenu menuDown;
     com.github.clans.fab.FloatingActionButton homeFAB;
+
+
 
     TextView homebadge;
     TextView notificationbadge;
@@ -733,7 +736,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(user_profile.this, upload.class));
+//                startActivity(new Intent(user_profile.this, upload.class));
                 menuDown.close(true);
             }
         });

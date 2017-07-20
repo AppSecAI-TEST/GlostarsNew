@@ -121,7 +121,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
     FloatingActionMenu menuDown;
 
 
-    View rootView;
+    View parentLayout;
 
     EmojIconActions emojIcon;
 
@@ -156,7 +156,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         setContentView(R.layout.activity_main_feed);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        rootView = findViewById(R.id.myRoot);
+        parentLayout = findViewById(R.id.feed_main);
         layout = (PullRefreshLayout) findViewById(R.id.pullRefreshLayout);
         layout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override

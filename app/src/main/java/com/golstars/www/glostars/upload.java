@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -65,6 +66,7 @@ public class upload extends AppCompatActivity {
 
     FloatingActionMenu menuDown;
 
+    CoordinatorLayout parentLayout;
 
     TextView homebadge;
     TextView notificationbadge;
@@ -106,6 +108,7 @@ public class upload extends AppCompatActivity {
         menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
         menuDown.setClosedOnTouchOutside(true);
 
+        parentLayout = (CoordinatorLayout) findViewById(R.id.upload_page);
 
         image = (ImageView)findViewById(R.id.imageUpload);
         publicpost = (RadioButton)findViewById(R.id.radiopublic);
@@ -152,7 +155,13 @@ public class upload extends AppCompatActivity {
 
        description.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 
-
+        homeFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(upload.this,MainFeed.class));
+                menuDown.close(true);
+            }
+        });
 
 
         notificationFAB.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +182,7 @@ public class upload extends AppCompatActivity {
         cameraFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(upload.this, upload.class));
+                menuDown.close(true);
             }
         });
 
@@ -184,7 +193,6 @@ public class upload extends AppCompatActivity {
                 startActivity(new Intent(upload.this, competition_page.class));
             }
         });
-
 
 
         gl.setOnClickListener(new View.OnClickListener() {

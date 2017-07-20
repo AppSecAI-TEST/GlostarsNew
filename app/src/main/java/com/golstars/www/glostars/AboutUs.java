@@ -66,7 +66,7 @@ public class AboutUs extends AppCompatActivity {
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(AboutUs.this, notification.class));
+                startActivity(new Intent(AboutUs.this, notificationNew.class));
                 menuDown.close(true);
             }
         });
@@ -74,7 +74,7 @@ public class AboutUs extends AppCompatActivity {
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(AboutUs.this,competitionAll.class));
+                startActivity(new Intent(AboutUs.this,competition_page.class));
                 menuDown.close(true);
             }
         });

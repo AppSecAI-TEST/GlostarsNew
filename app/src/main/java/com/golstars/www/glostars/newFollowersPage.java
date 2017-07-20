@@ -134,7 +134,7 @@ public class newFollowersPage extends AppCompatActivity {
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(newFollowersPage.this,notification.class));
+                startActivity(new Intent(newFollowersPage.this,notificationNew.class));
             }
         });
 
@@ -145,6 +145,12 @@ public class newFollowersPage extends AppCompatActivity {
             }
         });
 
+        competitionFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(newFollowersPage.this,competition_page.class));
+            }
+        });
 
         slogo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,8 +164,6 @@ public class newFollowersPage extends AppCompatActivity {
         mUserID = this.getIntent().getStringExtra("myUserId");
         token =  this.getIntent().getStringExtra("token");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());

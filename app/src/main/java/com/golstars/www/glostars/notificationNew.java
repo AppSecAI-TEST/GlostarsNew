@@ -3,6 +3,7 @@ package com.golstars.www.glostars;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -74,6 +75,8 @@ public class notificationNew extends AppCompatActivity {
     com.github.clans.fab.FloatingActionButton profileFAB;
     com.github.clans.fab.FloatingActionButton notificationFAB;
 
+    CoordinatorLayout parentLayout;
+
     FloatingActionMenu menuDown;
 
     MyUser mUser;
@@ -81,7 +84,7 @@ public class notificationNew extends AppCompatActivity {
     ImageView slogo;
     Integer unseenNotifs = 0;
     Handler handler = new Handler();
-
+    Toolbar toolbar ;
 
     notificationFollowersNew nfN = new notificationFollowersNew();
     notificationNotificationNew nnN = new notificationNotificationNew();
@@ -91,8 +94,10 @@ public class notificationNew extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_new);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-
+        parentLayout = (CoordinatorLayout) findViewById(R.id.new_notification);
 
         cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
@@ -137,6 +142,12 @@ public class notificationNew extends AppCompatActivity {
             }
         });
 
+        notificationFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuDown.close(true);
+            }
+        });
 
         slogo.setOnClickListener(new View.OnClickListener() {
             @Override

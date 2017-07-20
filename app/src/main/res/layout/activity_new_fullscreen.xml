@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/rootViewFullscreen"
+    android:fitsSystemWindows="true"
     android:fillViewport="true"
     android:nestedScrollingEnabled="true"
     tools:context="com.golstars.www.glostars.newFullscreen"

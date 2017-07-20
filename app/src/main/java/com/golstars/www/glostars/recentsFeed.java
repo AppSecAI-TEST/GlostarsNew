@@ -184,7 +184,7 @@ public class recentsFeed extends AppCompatActivity implements OnRatingEventListe
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(recentsFeed.this, notification.class));
+                startActivity(new Intent(recentsFeed.this, notificationNew.class));
             }
         });
 
@@ -209,7 +209,7 @@ public class recentsFeed extends AppCompatActivity implements OnRatingEventListe
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(recentsFeed.this, competitionAll.class));
+                startActivity(new Intent(recentsFeed.this, competition_page.class));
             }
         });
 

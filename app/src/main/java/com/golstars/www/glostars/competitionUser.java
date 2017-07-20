@@ -179,7 +179,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(competitionUser.this, notification.class));
+                startActivity(new Intent(competitionUser.this, notificationNew.class));
             }
         });
 

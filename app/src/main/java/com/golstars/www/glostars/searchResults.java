@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -88,6 +89,8 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 
     ImageView slogo;
 
+    CoordinatorLayout parentLayout;
+
     TextView homebadge;
     TextView notificationbadge;
     TextView profilebadge;
@@ -131,7 +134,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         getSupportActionBar().setIcon(R.drawable.logoandtext); // MEMORY OVERFLOW HAPPENING RIGHT HERE
         getSupportActionBar().setDisplayUseLogoEnabled(false);
 
-
+        parentLayout = (CoordinatorLayout) findViewById(R.id.search_result);
 
         searchgrid = (RecyclerView) findViewById(R.id.searchGrid);
         searchlist = (ListView)findViewById(R.id.searchlist);

@@ -173,21 +173,17 @@
             android:name=".notificationNew"
             android:label="@string/title_activity_notification_new"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".notificationFollowersNew" />
-        <activity android:name=".notificationNotificationNew" />
+
         <activity
             android:name=".newFollowersPage"
             android:label="@string/title_activity_new_followers_page"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".newFollowers" />
-        <activity android:name=".newFollowing" />
+
         <activity
             android:name=".introductory"
             android:label="@string/title_activity_introductory"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".introOne" />
-        <activity android:name=".introTwo" />
-        <activity android:name=".introThree" />
+
         <activity android:name=".newFullscreen"
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar"/>

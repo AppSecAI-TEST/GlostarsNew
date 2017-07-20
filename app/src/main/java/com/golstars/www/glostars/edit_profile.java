@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -88,6 +89,7 @@ public class edit_profile extends AppCompatActivity {
     Button cancel;
     Button uploadbutton;
 
+    CoordinatorLayout parentLayout;
 
 
     TextView changepass;
@@ -150,6 +152,7 @@ public class edit_profile extends AppCompatActivity {
         mUser = MyUser.getmUser();
         editpicframe = (FrameLayout) findViewById(R.id.editpicframe);
 
+        parentLayout = (CoordinatorLayout) findViewById(R.id.edit_main);
 
         editpicframe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,7 +292,7 @@ public class edit_profile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(edit_profile.this, notification.class));
+                startActivity(new Intent(edit_profile.this, notificationNew.class));
             }
         });
 
@@ -315,7 +318,7 @@ public class edit_profile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(edit_profile.this, competitionAll.class));
+                startActivity(new Intent(edit_profile.this, competition_page.class));
             }
         });
 

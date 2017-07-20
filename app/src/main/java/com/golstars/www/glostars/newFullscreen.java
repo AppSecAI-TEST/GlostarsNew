@@ -98,7 +98,7 @@ public class newFullscreen extends AppCompatActivity {
     TextView newSendComment;
     ImageView emojiButton;
     EmojIconActions emojIcon;
-    View rootView;
+    ScrollView parentLayout;
 
     Integer position;
     String token;
@@ -137,7 +137,7 @@ public class newFullscreen extends AppCompatActivity {
         newCommentArea = (EmojiconEditText) findViewById(R.id.newFullscreenCommentArea);   //
         newSendComment = (TextView)findViewById(R.id.newFullscreenSendComment);
         emojiButton = (ImageView) findViewById(R.id.emojiButton);
-        rootView = (View) findViewById(R.id.rootViewFullscreen);
+        parentLayout = (ScrollView) findViewById(R.id.rootViewFullscreen);
 
 
 
@@ -171,7 +171,7 @@ public class newFullscreen extends AppCompatActivity {
         }
 
 
-        emojIcon = new EmojIconActions(newFullscreen.this,rootView,newCommentArea,emojiButton);
+        emojIcon = new EmojIconActions(newFullscreen.this,parentLayout,newCommentArea,emojiButton);
         emojIcon.ShowEmojIcon();
 
         emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
