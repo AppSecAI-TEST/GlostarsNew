@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -81,6 +82,7 @@ import static android.content.ContentValues.TAG;
 
 public class newFullscreen extends AppCompatActivity {
 
+
     ImageView newFullscreenPost;
     RecyclerView picturepreview;
     TextView fullscreenUsername;
@@ -98,7 +100,7 @@ public class newFullscreen extends AppCompatActivity {
     TextView newSendComment;
     ImageView emojiButton;
     EmojIconActions emojIcon;
-    ScrollView parentLayout;
+    CoordinatorLayout parentLayout;
 
     Integer position;
     String token;
@@ -137,7 +139,7 @@ public class newFullscreen extends AppCompatActivity {
         newCommentArea = (EmojiconEditText) findViewById(R.id.newFullscreenCommentArea);   //
         newSendComment = (TextView)findViewById(R.id.newFullscreenSendComment);
         emojiButton = (ImageView) findViewById(R.id.emojiButton);
-        parentLayout = (ScrollView) findViewById(R.id.rootViewFullscreen);
+        parentLayout = (CoordinatorLayout) findViewById(R.id.rootViewFullscreen);
 
 
 
