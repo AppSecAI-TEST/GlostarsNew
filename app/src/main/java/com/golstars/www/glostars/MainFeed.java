@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -208,49 +210,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
-        if(mUser == null){
-            new getUserData().execute("");
-        }else{
-            loadFeed();
-        }
 
-
-        //populateFeed(mUser.getUserId(), pg, mUser.getToken());
-
-        /* checks whether the user has reached the end of the view
-           and calls another page
-        * */
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                //super.onScrolled(recyclerView, dx, dy);
-                System.out.println("Scrolling "+dx+" "+dy);
-                if(dy > 0){ //check for scroll down
-                    visibleItemCount = layoutManager.getChildCount();
-                    totalItemCount = layoutManager.getItemCount();
-                    pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
-                    System.out.println("Total Item "+totalItemCount+" Loading "+loading);
-                    if(!loading){
-                        if((visibleItemCount + pastVisiblesItems) >= totalItemCount-2){
-                            loading = true;
-                            //pg++;
-                            try {
-                                //callAsyncPopulate(pg);
-                                if(mUser == null){
-                                    new getUserData().execute("");
-                                }else{
-                                    loadFeed();
-                                }
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            //populateFeed(mUser.getUserId(), pg, mUser.getToken());
-                        }
-                    }
-                }
-            }
-        });
 
 
 
@@ -343,9 +303,67 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
             }
         });
 
+
+        if(mUser == null){
+            new getUserData().execute("");
+        }else{
+            if(isConnected(getApplicationContext())){
+                loadFeed();
+            }else{
+                noConnetionMsg(postRelative, getResources().getColor(R.color.lightViolate));
+
+            }
+        }
+
+
+        //populateFeed(mUser.getUserId(), pg, mUser.getToken());
+
+        /* checks whether the user has reached the end of the view
+           and calls another page
+        * */
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                //super.onScrolled(recyclerView, dx, dy);
+                System.out.println("Scrolling "+dx+" "+dy);
+                if(dy > 0){ //check for scroll down
+                    visibleItemCount = layoutManager.getChildCount();
+                    totalItemCount = layoutManager.getItemCount();
+                    pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+                    System.out.println("Total Item "+totalItemCount+" Loading "+loading);
+                    if(!loading){
+                        if((visibleItemCount + pastVisiblesItems) >= totalItemCount-2){
+                            loading = true;
+                            //pg++;
+                            try {
+                                //callAsyncPopulate(pg);
+                                if(mUser == null){
+                                    new getUserData().execute("");
+                                }else{
+                                    if(isConnected(getApplicationContext())){
+                                        loadFeed();
+                                    }else{
+                                        noConnetionMsg(postRelative, getResources().getColor(R.color.lightViolate));
+
+                                    }
+
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            //populateFeed(mUser.getUserId(), pg, mUser.getToken());
+                        }
+                    }
+                }
+            }
+        });
+
         //CHECK IS THE PHONE CONNECTED TO THE INTERNET
         if(!isConnected(getApplicationContext())){
             //startActivity(new Intent(this, noInternet.class));
+
+            noConnetionMsg(postRelative, getResources().getColor(R.color.lightViolate));
             try{
 
                 /** if there is no connection, load page saved in phone storage */
@@ -354,12 +372,13 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
                 postList.addAll(getAllPost);
                 System.out.println("Total Post "+postList.size());
                 mAdapter.notifyDataSetChanged();
+                loading=false;
                 System.out.println("Loading offline complete");
             } catch (Exception e){
                 e.printStackTrace();
             }
         } else{
-
+            loadFeed();
             /** we should make it so if the connection status changes
              *  the mock page loaded be removed and open space for fresh data */
 
@@ -367,10 +386,22 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         }
 
 
+        // loadFeed();
 
-        LoadServer();
 
+    }
 
+    public void noConnetionMsg(RelativeLayout parentLayout, int color){
+
+        Snackbar noInternetSnackBar = Snackbar.make(postRelative,"No Internet Connection",Snackbar.LENGTH_LONG)
+                .setActionTextColor(getResources().getColor(R.color.lightViolate))
+                .setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "Implement reloading the page", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        noInternetSnackBar.show();
     }
 
 
@@ -794,7 +825,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 
                 try {
 
-                    saveInCache(response.getJSONObject("resultPayload").getJSONArray("data"), getApplicationContext());
+
                     //response.getJSONObject("resultPayload").getJSONArray("data")
 
                     System.out.println("1. "+response.toString());
@@ -807,6 +838,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
                     pg++;
                     layout.setRefreshing(false);
                     System.out.println("Loading complete");
+                    saveInCache(response.getJSONObject("resultPayload").getJSONArray("data"), getApplicationContext());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

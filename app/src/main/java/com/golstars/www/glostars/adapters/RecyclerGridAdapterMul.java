@@ -49,7 +49,7 @@ public class RecyclerGridAdapterMul extends RecyclerView.Adapter<RecyclerGridAda
 
     @Override
     public void onBindViewHolder(RecyclerGridAdapterMul.MyViewHolder holder, final int position) {
-        Picasso.with(mContext).load(ImgUrls.get(position).getPicUrl()).into(holder.img);
+        Picasso.with(mContext).load(ImgUrls.get(position).getPicUrlSmall()).into(holder.img);
 
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override

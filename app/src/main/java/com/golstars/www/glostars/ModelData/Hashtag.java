@@ -14,6 +14,9 @@ public class Hashtag implements Parcelable{
     private int id;
     private String description;
     private String picUrl;
+    private String picUrlSmall;
+    private String picUrlMini;
+    private String picUrlMedium;
     private String privacy;
     private boolean isCompeting;
     private boolean isfeatured;
@@ -32,6 +35,9 @@ public class Hashtag implements Parcelable{
         id = in.readInt();
         description = in.readString();
         picUrl = in.readString();
+        picUrlSmall  = in.readString();
+        picUrlMini  = in.readString();
+        picUrlMedium  = in.readString();
         privacy = in.readString();
         isCompeting = in.readByte() != 0;
         isfeatured = in.readByte() != 0;
@@ -190,6 +196,9 @@ public class Hashtag implements Parcelable{
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", picUrl='" + picUrl + '\'' +
+                ", picUrlMedium='" + picUrlMedium + '\'' +
+                ", picUrlMini='" + picUrlMini + '\'' +
+                ", picUrlSmall='" + picUrlSmall + '\'' +
                 ", privacy='" + privacy + '\'' +
                 ", isCompeting=" + isCompeting +
                 ", isfeatured=" + isfeatured +
@@ -208,6 +217,9 @@ public class Hashtag implements Parcelable{
         dest.writeInt(id);
         dest.writeString(description);
         dest.writeString(picUrl);
+        dest.writeString(picUrlMedium);
+        dest.writeString(picUrlMini);
+        dest.writeString(picUrlSmall);
         dest.writeString(privacy);
         dest.writeByte((byte) (isCompeting ? 1 : 0));
         dest.writeByte((byte) (isfeatured ? 1 : 0));
@@ -219,5 +231,29 @@ public class Hashtag implements Parcelable{
         dest.writeByte((byte) (he_follow ? 1 : 0));
         dest.writeTypedList(ratings);
         dest.writeTypedList(comments);
+    }
+
+    public String getPicUrlSmall() {
+        return picUrlSmall;
+    }
+
+    public void setPicUrlSmall(String picUrlSmall) {
+        this.picUrlSmall = picUrlSmall;
+    }
+
+    public String getPicUrlMini() {
+        return picUrlMini;
+    }
+
+    public void setPicUrlMini(String picUrlMini) {
+        this.picUrlMini = picUrlMini;
+    }
+
+    public String getPicUrlMedium() {
+        return picUrlMedium;
+    }
+
+    public void setPicUrlMedium(String picUrlMedium) {
+        this.picUrlMedium = picUrlMedium;
     }
 }
