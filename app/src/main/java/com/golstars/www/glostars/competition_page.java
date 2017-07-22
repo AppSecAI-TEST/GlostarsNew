@@ -17,10 +17,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
@@ -72,6 +74,7 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
     com.github.clans.fab.FloatingActionButton homeFAB;
 
     FloatingActionMenu menuDown;
+    Toolbar toolbar;
 
     CoordinatorLayout parentLayout;
 
@@ -85,7 +88,9 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_competition_page);
+        setSupportActionBar(toolbar);
 
+        toolbar = (Toolbar) findViewById(R.id.comptoolbar);
 
         slogo =(ImageView)findViewById(R.id.searchlogo);
         glogo = (TextView)findViewById(R.id.glostarslogo);
@@ -145,12 +150,12 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
         });
 
 
-        slogo.setOnClickListener(new View.OnClickListener() {
+       /* slogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(competition_page.this,searchResults.class));
             }
-        });
+        });*/
 
 
 
@@ -160,6 +165,7 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -287,20 +293,21 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_competition_page, menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_competition_page,menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.search_comp) {
+
+            startActivity(new Intent(competition_page.this,searchResults.class));
+
             return true;
         }
 

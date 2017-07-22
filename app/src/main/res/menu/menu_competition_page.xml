@@ -3,4 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.golstars.www.glostars.competition_page">
 
+
+    <item android:id="@+id/search_comp"
+        android:title="Search"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="ifRoom"
+        />
+
 </menu>
