@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -88,7 +89,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 
     private ArrayList<Hashtag> compPicsUrls=new ArrayList<Hashtag>();
 
-
+    CoordinatorLayout parentLayout;
     RecyclerView competitionusergrid;
 
     private ArrayList<String> targetList;
@@ -116,6 +117,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         setSupportActionBar(toolbar);
 
         competitionusergrid = (RecyclerView) findViewById(R.id.competitionusergrid);
+        parentLayout = (CoordinatorLayout) findViewById(R.id.seeallroot);
 
         menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
         menuDown.setClosedOnTouchOutside(true);
