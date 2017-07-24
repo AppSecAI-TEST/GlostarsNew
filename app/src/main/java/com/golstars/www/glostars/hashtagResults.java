@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.github.clans.fab.FloatingActionMenu;
@@ -39,7 +40,7 @@ import cz.msebera.android.httpclient.entity.StringEntity;
 public class hashtagResults extends AppCompatActivity implements AdapterInfomation {
 
     RecyclerView hashtags;
-
+    RelativeLayout parentLayout;
 
     com.github.clans.fab.FloatingActionButton homeFAB;
     com.github.clans.fab.FloatingActionButton cameraFAB;
@@ -70,6 +71,7 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
         setTitle("Hashtags"); //Changing the activity label here.
         setContentView(R.layout.activity_hashtag_results);
 
+        parentLayout = (RelativeLayout) findViewById(R.id.hashtagroot);
 
         layout = (PullRefreshLayout) findViewById(R.id.pullRefreshLayout);
         layout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
