@@ -96,21 +96,8 @@
                     android:layout_toRightOf="@+id/newFullscreenProfilePic"
                     android:layout_marginTop="4dp"
                     android:textSize="12sp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/hashtag"
                     android:layout_marginStart="8dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:text="."
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="-3dp"
-                    android:layout_toRightOf="@+id/newFullscreenUploadTime"
-                    android:layout_below="@+id/newFullscreenUsername"
-                    />
 
                 <ImageView
                     android:id="@+id/newFullscreenPrivacy"
@@ -122,24 +109,26 @@
                     android:src="@drawable/privacy_competition_photo"
                     />
 
-                <Button
-                    android:id="@+id/newFullscreenFollowButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:textSize="12sp"
-                    android:background="@drawable/mutualfollowerbutton"
-                    android:layout_alignStart="@+id/newFullscreenUploadTime"
-                    android:layout_below="@+id/newFullscreenUploadTime"
-                    android:text="Follow"
-                    android:layout_marginTop="8dp"
-                    android:textColor="@color/white"/>
             </RelativeLayout>
+
+            <Button
+                android:id="@+id/newFullscreenFollowButton"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:textSize="12sp"
+                android:background="@drawable/mutualfollowerbutton"
+                android:layout_alignTop="@+id/UserInformation"
+                android:layout_alignParentRight="true"
+                android:text="Follow"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/white"/>
 
             <LinearLayout
                 android:id="@+id/postInformation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/UserInformation"
+                android:layout_below="@+id/UserInformation"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="8dp"
                 android:orientation="vertical">
@@ -151,6 +140,7 @@
                     android:layout_marginEnd="4dp"
                     android:textColor="@color/darkGrey"
                     android:textSize="12sp"
+                    android:lineSpacingExtra="1dp"
                     android:text="A quick brown fox jumps over a lazy dog."/>
 
                 <LinearLayout
@@ -237,7 +227,7 @@
         <RelativeLayout
             android:id="@+id/commentsHolder"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="0dp"
             android:layout_below="@+id/informations"
             android:background="@drawable/roundededittext"
             android:layout_marginStart="4dp"
@@ -250,7 +240,6 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="true"
                 android:padding="4dp">
-
             </ListView>
 
         </RelativeLayout>

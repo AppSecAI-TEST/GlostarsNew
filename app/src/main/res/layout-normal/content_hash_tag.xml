@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/rootLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -10,7 +12,7 @@
         android:layout_height="50dp"
         android:background="#CFD8DC"
         android:visibility="visible"
-        android:elevation="8dp"
+        android:elevation="4dp"
         android:id="@+id/compflag">
 
         <RelativeLayout
@@ -42,7 +44,8 @@
     <RelativeLayout
         android:id="@+id/postHashtag"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
@@ -106,7 +109,7 @@
             android:layout_height="30dp"
             android:orientation="horizontal"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="12dp"
             android:layout_below="@+id/userPOST">
 
             <com.iarcuschin.simpleratingbar.SimpleRatingBar
@@ -117,7 +120,7 @@
                 app:srb_numberOfStars="5"
                 app:srb_stepSize="1"
                 app:srb_starsSeparation="1dp"
-                app:srb_borderColor="@color/colorPrimary"
+                app:srb_borderColor="@color/hashtag"
                 app:srb_fillColor="@color/colorPrimary"
                 app:srb_starCornerRadius="5"
                 android:layout_marginTop="2dp"
@@ -132,18 +135,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:textStyle="normal"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:layout_gravity="center_vertical"
-                android:text=""
+                android:text="8"
+                android:gravity="center"
                 android:layout_marginTop="2dp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/hashtag"
                 android:layout_marginStart="4dp"
                 />
 
             <ImageView
                 android:id="@+id/clearRating"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="2dp"
                 android:layout_gravity="center_vertical"
@@ -163,7 +167,7 @@
                 android:layout_width="50dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:src="@drawable/comment_icon"
+                android:src="@drawable/commentgrey"
                 android:layout_marginTop="2dp"
                 />
 
@@ -172,11 +176,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:layout_marginEnd="8dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="-8dp"
-                android:textColor="@color/colorPrimary"
+                android:layout_marginStart="-4dp"
+                android:textColor="@color/hashtag"
                 />
 
         </LinearLayout>

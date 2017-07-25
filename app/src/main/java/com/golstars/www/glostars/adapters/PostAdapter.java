@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -68,6 +69,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         public ImageView commentsBtn;
         public RelativeLayout featuredFlag,seeAllcomp;
         public ImageView deleteIcon, privacyIcon;
+        public LinearLayout parentLayout;
 
         public MyViewHolder(View view, final OnRatingEventListener ratingListener, final OnItemClickListener listener, final OnItemClickListener postImgListener,
                             final OnItemClickListener commentsListener){
@@ -90,6 +92,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             seeAllcomp = (RelativeLayout)view.findViewById(R.id.seeAllcomppost);
             privacyIcon = (ImageView)view.findViewById(R.id.privacy);
             seeall = (TextView)view.findViewById(R.id.seeall);
+            parentLayout = (LinearLayout) view.findViewById(R.id.rootLayout);
 
             username.setTypeface(type);
             caption.setTypeface(type);
@@ -232,6 +235,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         if(post.isFeatured()){
             holder.featuredFlag.setVisibility(View.VISIBLE);
             holder.seeAllcomp.setVisibility(View.VISIBLE);
+
         } else{
             holder.featuredFlag.setVisibility(View.GONE);
             holder.seeAllcomp.setVisibility(View.GONE);
