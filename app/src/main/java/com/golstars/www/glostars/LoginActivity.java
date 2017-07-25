@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +59,7 @@ public class LoginActivity extends Fragment {
     private TextView signup;
     private TextView forgotpass;
 
+    RelativeLayout parentLayout;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
