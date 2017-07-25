@@ -7,9 +7,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:background="#CFD8DC"
         android:visibility="visible"
+        android:elevation="8dp"
         android:id="@+id/compflag">
 
         <RelativeLayout
@@ -19,8 +20,8 @@
             >
             <ImageView
                 android:id="@+id/compicon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/competition"
                 android:layout_marginRight="4dp"
                 />
@@ -29,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Featured Post"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textColor="@color/colorPrimary"
                 android:layout_toRightOf="@+id/compicon"/>
 
@@ -118,7 +119,7 @@
                 app:srb_starsSeparation="1dp"
                 app:srb_borderColor="@color/colorPrimary"
                 app:srb_fillColor="@color/colorPrimary"
-                app:srb_starCornerRadius="7"
+                app:srb_starCornerRadius="5"
                 android:layout_marginTop="2dp"
                 app:srb_starBorderWidth="3"
                 android:layout_gravity="center_vertical"
@@ -146,12 +147,10 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="2dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginBottom="0dp"
                 android:src="@drawable/deleteicon"
                 android:layout_marginEnd="8dp"
                 android:visibility="visible"
                 />
-
 
             <View
                 android:layout_width="40dp"
@@ -230,6 +229,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ratecomment"
+            android:elevation="8dp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -237,10 +237,10 @@
                 android:background="#CFD8DC"
                 android:layout_width="match_parent"
                 android:visibility="visible"
-                android:layout_height="32dp">
+                android:layout_height="50dp">
 
                 <TextView
-                    android:id="@+id/seall2"
+                    android:id="@+id/seeallhash"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="See All Competition Pictures >"

@@ -36,7 +36,7 @@ import com.golstars.www.glostars.MyUser;
 import com.golstars.www.glostars.R;
 import com.golstars.www.glostars.ServerInfo;
 import com.golstars.www.glostars.SingleItemDialogFragment;
-import com.golstars.www.glostars.competitionAll;
+import com.golstars.www.glostars.competition_page;
 import com.golstars.www.glostars.hashtagResults;
 import com.golstars.www.glostars.newFullscreen;
 import com.golstars.www.glostars.user_profile;
@@ -182,9 +182,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         holder.seeAllcomp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, competitionAll.class);
-                // intent.putExtra("USER_ID",post.getPoster().getUserId());
-
+                Intent intent=new Intent(context, competition_page.class);
                 context.startActivity(intent);
             }
         });
@@ -621,6 +619,7 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
         public MyViewHolder(View view) {
             super(view);
             Typeface type = Typeface.createFromAsset(itemView.getContext().getAssets(),"fonts/Ubuntu-Light.ttf");
+            Typeface bold = Typeface.createFromAsset(itemView.getContext().getAssets(),"fonts/Ubuntu-Bold.ttf");
 
             username=(TextView)view.findViewById(R.id.userNAME);
             caption=(TextView)view.findViewById(R.id.userCAPTION);
@@ -637,18 +636,18 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
             deleteIcon = (ImageView)view.findViewById(R.id.clearRating);
             seeAllcomp = (RelativeLayout)view.findViewById(R.id.seeAllcomppost);
             privacyIcon = (ImageView)view.findViewById(R.id.privacyCOMP);
-            seeall = (TextView)view.findViewById(R.id.seeall);
+            seeall = (TextView)view.findViewById(R.id.seeallhash);
             postRelative = (RelativeLayout)view.findViewById(R.id.postHashtag);
 
 
 
-            username.setTypeface(type);
+            username.setTypeface(bold);
             caption.setTypeface(type);
             postTime.setTypeface(type);
             totalStars.setTypeface(type);
             totalComments.setTypeface(type);
-            comptext.setTypeface(type);
-            // seeall.setTypeface(type);
+            comptext.setTypeface(bold);
+            seeall.setTypeface(bold);
         }
     }
 

@@ -67,6 +67,7 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
     ImageView slogo;
     TextView glogo;
 
+
     com.github.clans.fab.FloatingActionButton cameraFAB;
     com.github.clans.fab.FloatingActionButton competitionFAB;
     com.github.clans.fab.FloatingActionButton profileFAB;
@@ -150,12 +151,12 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
         });
 
 
-       /* slogo.setOnClickListener(new View.OnClickListener() {
+        slogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(competition_page.this,searchResults.class));
             }
-        });*/
+        });
 
 
 
@@ -291,28 +292,7 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_competition_page,menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.search_comp) {
-
-            startActivity(new Intent(competition_page.this,searchResults.class));
-
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public ArrayList<Hashtag> getAllData() {
