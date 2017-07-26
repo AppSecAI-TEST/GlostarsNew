@@ -22,7 +22,7 @@
             <ImageView
                 android:id="@+id/newfullscreenimage"
                 android:layout_width="match_parent"
-                android:layout_height="630dp"
+                android:layout_height="1030dp"
                 android:layout_gravity="top"
                 android:background="@color/black"
                 android:focusableInTouchMode="true"

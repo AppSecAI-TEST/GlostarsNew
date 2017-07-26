@@ -140,7 +140,7 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
         notificationFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(hashtagResults.this, notification.class));
+                startActivity(new Intent(hashtagResults.this, notificationNew.class));
                 menuDown.close(true);
             }
         });
@@ -148,7 +148,7 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
         competitionFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(hashtagResults.this, competitionAll.class));
+                startActivity(new Intent(hashtagResults.this, competition_page.class));
                 menuDown.close(true);
 
             }

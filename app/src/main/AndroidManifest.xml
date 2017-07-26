@@ -125,7 +125,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AboutUs"
-            android:label="About Us"
+            android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -160,28 +160,36 @@
         <activity
             android:name=".newFeed"
             android:label="@string/title_activity_new_feed"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".hashtagResults" />
+        <activity android:name=".hashtagResults"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".signupForward"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".noInternet" />
         <activity
             android:name=".inputCode"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".notificationNew"
             android:label="@string/title_activity_notification_new"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".newFollowersPage"
             android:label="@string/title_activity_new_followers_page"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".introductory"
             android:label="@string/title_activity_introductory"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".newFullscreen"

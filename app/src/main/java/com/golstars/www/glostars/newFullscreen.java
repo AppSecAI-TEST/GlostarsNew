@@ -99,8 +99,10 @@ public class newFullscreen extends AppCompatActivity {
     EmojiconEditText newCommentArea;
     TextView newSendComment;
     ImageView emojiButton;
+    ImageView deletePicture;
     EmojIconActions emojIcon;
     CoordinatorLayout parentLayout;
+    View space;
 
     Integer position;
     String token;
@@ -140,7 +142,8 @@ public class newFullscreen extends AppCompatActivity {
         newSendComment = (TextView)findViewById(R.id.newFullscreenSendComment);
         emojiButton = (ImageView) findViewById(R.id.emojiButton);
         parentLayout = (CoordinatorLayout) findViewById(R.id.rootViewFullscreen);
-
+        deletePicture = (ImageView) findViewById(R.id.deletePictureFullscreen);  // this icon will be only visible if the picture is of my own
+        space = findViewById(R.id.spaceViewFullscreen); // this view will be only visible if the picture is of my own
 
 
         type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
@@ -171,6 +174,14 @@ public class newFullscreen extends AppCompatActivity {
         }else if(usrID.equals(p.getUserId())){
             newFullscreenFollow.setVisibility(View.GONE);
         }
+
+
+        deletePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // delete your own picture
+            }
+        });
 
 
         emojIcon = new EmojIconActions(newFullscreen.this,parentLayout,newCommentArea,emojiButton);

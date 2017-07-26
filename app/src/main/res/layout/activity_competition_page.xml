@@ -24,6 +24,11 @@
             android:background="@color/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/glostarslogo"
                     android:layout_width="wrap_content"
@@ -35,6 +40,31 @@
                     android:textColor="@color/lightViolate"/>
 
 
+                <EditText
+                    android:id="@+id/searchedit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:hint="Search"
+                    android:textColorHint="@color/darkGrey"
+                    android:paddingLeft="16dp"
+                    android:background="@drawable/roundededittext1"
+                    android:layout_weight="1"
+                    android:animateLayoutChanges="true"
+                    android:visibility="invisible"/>
+
+                <ImageView
+                    android:id="@+id/searchlogo"
+                    android:layout_width="30dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="30dp"
+                    android:src="@drawable/search"
+                    android:padding="1dp"/>
+            </LinearLayout>
+
+
+
+
             </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
@@ -42,12 +72,10 @@
             style="@style/MyTabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabMode="scrollable"
-            app:tabGravity="center"
-            app:tabPaddingEnd="20dp"
-            app:tabPaddingStart="20dp"
-            app:tabIndicatorColor="@color/verylightviolet"
-            app:tabIndicatorHeight="3dp"/>
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/lightViolate"
+            app:tabIndicatorHeight="2dp"/>
 
     </android.support.design.widget.AppBarLayout>
 

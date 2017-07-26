@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/rootLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:background="#CFD8DC"
         android:visibility="visible"
+        android:elevation="4dp"
         android:id="@+id/compflag">
 
         <RelativeLayout
@@ -19,8 +22,8 @@
             >
             <ImageView
                 android:id="@+id/compicon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/competition"
                 android:layout_marginRight="4dp"
                 />
@@ -29,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Featured Post"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textColor="@color/colorPrimary"
                 android:layout_toRightOf="@+id/compicon"/>
 
@@ -41,7 +44,8 @@
     <RelativeLayout
         android:id="@+id/postHashtag"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
@@ -105,7 +109,7 @@
             android:layout_height="30dp"
             android:orientation="horizontal"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="12dp"
             android:layout_below="@+id/userPOST">
 
             <com.iarcuschin.simpleratingbar.SimpleRatingBar
@@ -116,9 +120,9 @@
                 app:srb_numberOfStars="5"
                 app:srb_stepSize="1"
                 app:srb_starsSeparation="1dp"
-                app:srb_borderColor="@color/colorPrimary"
+                app:srb_borderColor="@color/hashtag"
                 app:srb_fillColor="@color/colorPrimary"
-                app:srb_starCornerRadius="7"
+                app:srb_starCornerRadius="5"
                 android:layout_marginTop="2dp"
                 app:srb_starBorderWidth="3"
                 android:layout_gravity="center_vertical"
@@ -131,27 +135,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:textStyle="normal"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:layout_gravity="center_vertical"
-                android:text=""
+                android:text="8"
+                android:gravity="center"
                 android:layout_marginTop="2dp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/hashtag"
                 android:layout_marginStart="4dp"
                 />
 
             <ImageView
                 android:id="@+id/clearRating"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="2dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginBottom="0dp"
                 android:src="@drawable/deleteicon"
                 android:layout_marginEnd="8dp"
                 android:visibility="visible"
                 />
-
 
             <View
                 android:layout_width="40dp"
@@ -164,7 +167,7 @@
                 android:layout_width="50dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:src="@drawable/comment_icon"
+                android:src="@drawable/commentgrey"
                 android:layout_marginTop="2dp"
                 />
 
@@ -173,11 +176,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:layout_marginEnd="8dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="-8dp"
-                android:textColor="@color/colorPrimary"
+                android:layout_marginStart="-4dp"
+                android:textColor="@color/hashtag"
                 />
 
         </LinearLayout>
@@ -230,6 +233,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ratecomment"
+            android:elevation="8dp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -237,10 +241,10 @@
                 android:background="#CFD8DC"
                 android:layout_width="match_parent"
                 android:visibility="visible"
-                android:layout_height="32dp">
+                android:layout_height="50dp">
 
                 <TextView
-                    android:id="@+id/seall2"
+                    android:id="@+id/seeallhash"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="See All Competition Pictures >"
