@@ -153,6 +153,33 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mUser = MyUser.getmUser(getApplicationContext());
+        if(mUser == null){
+            new getUserData().execute("");
+            //mUser = MyUser.getmUser(getApplicationContext());
+        }else{
+            userProfileIntent = new Intent();
+            userProfileIntent.putExtra("USER_ID",mUser.getUserId());
+            userProfileIntent.setClass(getApplicationContext(),user_profile.class);
+            //setting user default pic on FAB MENU
+            if(mUser.getSex().equals("Male")){
+                profileFAB.setImageResource(R.drawable.nopicmale);
+            } else if(mUser.getSex().equals("Female")){
+                profileFAB.setImageResource(R.drawable.nopicfemale);
+            }
+            if(isConnected(getApplicationContext())){
+                loadFeed();
+                getUnseen();
+                //setting up alarm to service
+                scheduleAlarm();
+            }else{
+                noConnetionMsg(postRelative, getResources().getColor(R.color.lightViolate));
+
+            }
+        }
+
+
+
         Emojiconize.activity(this).go();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_feed);
@@ -171,6 +198,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
                     loading=false;
                     if(mUser == null){
                         new getUserData().execute("");
+
                     }else{
                         loadFeed();
                     }
@@ -304,8 +332,10 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         });
 
 
+        /*
         if(mUser == null){
             new getUserData().execute("");
+            //mUser = MyUser.getmUser(getApplicationContext());
         }else{
             if(isConnected(getApplicationContext())){
                 loadFeed();
@@ -313,7 +343,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
                 noConnetionMsg(postRelative, getResources().getColor(R.color.lightViolate));
 
             }
-        }
+        }*/
 
 
         //populateFeed(mUser.getUserId(), pg, mUser.getToken());
@@ -391,17 +421,32 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 
     }
 
-    public void noConnetionMsg(RelativeLayout parentLayout, int color){
+    public void noConnetionMsg(RelativeLayout p, int color){
 
-        Snackbar noInternetSnackBar = Snackbar.make(postRelative,"No Internet Connection",Snackbar.LENGTH_LONG)
+        Snackbar noInternetSnackBar = Snackbar.make(parentLayout,"No Internet Connection",Snackbar.LENGTH_LONG)
                 .setActionTextColor(getResources().getColor(R.color.lightViolate))
                 .setAction("Retry", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), "Implement reloading the page", Toast.LENGTH_SHORT).show();
+                        postList.clear();
+                        pg=1;
+                        try {
+                            //callAsyncPopulate(pg);
+                            pg = 1;
+                            loading=false;
+                            if(mUser == null){
+                                new getUserData().execute("");
+                            }else{
+                                loadFeed();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
         noInternetSnackBar.show();
+        loading = false;
     }
 
 

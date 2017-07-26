@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -217,6 +218,45 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 
 //        Picasso.with(this).load(mUser.getProfilePicURL()).into(profileFAB);
 
+        mUser = MyUser.getmUser(getApplicationContext());
+        if(mUser == null){
+            new getUserDataComp().execute("");
+        } else{
+            System.out.println("MY USER IS " + mUser.getUserId() );
+
+            //setting user default pic on FAB MENU
+            if(mUser.getSex().equals("Male")){
+                profileFAB.setImageResource(R.drawable.nopicmale);
+            } else if(mUser.getSex().equals("Female")){
+                profileFAB.setImageResource(R.drawable.nopicfemale);
+            }
+
+            if(target == null) {
+                System.out.println("something else happened here");
+            }
+
+            else if(target.equals("COMPETITION")){
+                gl.setText(mUser.getName()+"'Competition posts");
+
+
+            }else if(target.equals("PUBLIC")){
+                gl.setText(mUser.getName()+"'Public posts");
+
+            }else if(target.equals("MUTUAL")){
+                gl.setText(mUser.getName()+"'Mutual posts");
+
+            }else if(target == null) {
+                System.out.println("something else happened here");
+            }
+
+            homeIntent = new Intent();
+            homeIntent.putExtra("USER_ID",mUser.getUserId());
+            homeIntent.setClass(getApplicationContext(),user_profile.class);
+            load(target);
+        }
+
+        System.out.println(target);
+
         targetList = new ArrayList<>();
 
         //targetAdapter = new GridAdapter(getApplicationContext(), targetList);
@@ -235,13 +275,6 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         //System.out.println("useris: " + mUser.getName());
 
         //load(target);
-        if(mUser == null){
-            new getUserDataComp().execute("");
-        } else{
-            load(target);
-        }
-
-        System.out.println(target);
 
 
 
@@ -280,11 +313,16 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
                             //pg++;
                             try {
                                 //callAsyncPopulate(pg);
-                                if(mUser.getUserId() == null){
-                                    new getUserDataComp().execute("");
-                                } else{
-                                    load(target);
+                                if(searchResults.isConnected(getApplicationContext())){
+                                    if(mUser.getUserId() == null){
+                                        new getUserDataComp().execute("");
+                                    } else{
+                                        load(target);
+                                    }
+                                }else{
+                                    noConnectionMsg();
                                 }
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -302,6 +340,29 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 //        }
 
         LoadServer();
+    }
+
+    private void noConnectionMsg() {
+        Snackbar noInternetSnackBar = Snackbar.make(parentLayout,"No Internet Connection",Snackbar.LENGTH_LONG)
+                .setActionTextColor(getResources().getColor(R.color.lightViolate))
+                .setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent();
+                        intent.putExtra("LOAD_TARGET", "COMPETITION");
+                        intent.putExtra("user_id",target);
+                        Bundle b = new Bundle();
+                        b.putParcelable("user", mUser);
+                        intent.putExtras(b);
+
+                        intent.setClass(getApplicationContext(), competitionUser.class);
+                        startActivity(intent);
+
+
+                    }
+                });
+        noInternetSnackBar.show();
     }
 
     public void LoadServer(){

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -162,11 +163,28 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
 
 
         searchTag=getIntent().getStringExtra("data");
+        mUser = MyUser.getmUser(getApplicationContext());
         if(mUser == null){
             new getUserData().execute("");
         } else {
-            getPostData(searchTag);
-            getUnseen();
+            if(searchResults.isConnected(getApplicationContext())){
+                //userProfileIntent = new Intent();
+                homeIntent = new Intent();
+                homeIntent.putExtra("USER_ID",mUser.getUserId());
+                homeIntent.setClass(getApplicationContext(),user_profile.class);
+                //setting user default pic on FAB MENU
+
+                if(mUser.getSex().equals("Male")){
+                    profileFAB.setImageResource(R.drawable.nopicmale);
+                } else if(mUser.getSex().equals("Female")){
+                    profileFAB.setImageResource(R.drawable.nopicfemale);
+                }
+                getPostData(searchTag);
+                getUnseen();
+            } else{
+                noConnectionMsg();
+            }
+
         }
 
         horizontalLayoutManagaer= new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -193,11 +211,18 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
                             //pg++;
                             try {
                                 //callAsyncPopulate(pg);
-                                if(mUser == null){
-                                    new getUserData().execute("");
-                                } else {
-                                    getPostData(searchTag);
+                                if(!searchResults.isConnected(getApplicationContext())){
+                                    if(mUser == null){
+                                        new getUserData().execute("");
+                                    } else {
+
+                                        getPostData(searchTag);
+                                    }
+                                }else{
+                                    noConnectionMsg();
+
                                 }
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -212,6 +237,30 @@ public class hashtagResults extends AppCompatActivity implements AdapterInfomati
 
 
 
+    }
+
+    private void noConnectionMsg() {
+        Snackbar noInternetSnackBar = Snackbar.make(parentLayout,"No Internet Connection",Snackbar.LENGTH_LONG)
+                .setActionTextColor(getResources().getColor(R.color.lightViolate))
+                .setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        /*posts.clear();
+                        pg=1;
+                        try {
+                            //callAsyncPopulate(pg);
+                            pg = 1;
+                            loading=false;
+                            getPostData(searchTag);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        */
+                    }
+                });
+        noInternetSnackBar.show();
+        loading = false;
     }
 
     public void getUnseen(){

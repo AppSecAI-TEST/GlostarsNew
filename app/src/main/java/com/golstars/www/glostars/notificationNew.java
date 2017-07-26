@@ -96,7 +96,6 @@ public class notificationNew extends AppCompatActivity {
         setContentView(R.layout.activity_notification_new);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         parentLayout = (CoordinatorLayout) findViewById(R.id.new_notification);
 
         cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
@@ -170,12 +169,63 @@ public class notificationNew extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        mUser = MyUser.getmUser(getApplicationContext());
         if(mUser == null){
-            new getUserData(    ).execute("");
+            new getUserData().execute("");
+        }else{
+            if(searchResults.isConnected(getApplicationContext())){
+                //setting user default pic on FAB MENU
+                if(mUser.getSex().equals("Male")){
+                    System.out.println("MY USER'S GENDER IS : " + mUser.getSex());
+                    profileFAB.setImageResource(R.drawable.nopicmale);
+                } else if(mUser.getSex().equals("Female")){
+                    System.out.println("MY USER'S GENDER IS : " + mUser.getSex());
+                    profileFAB.setImageResource(R.drawable.nopicfemale);
+                }
+
+                homeIntent = new Intent();
+                homeIntent.putExtra("USER_ID",mUser.getUserId());
+                homeIntent.setClass(getApplicationContext(),user_profile.class);
+                getUnseen();
+
+            }else{
+                noConnectionMsg();
+            }
         }
         LoadServer();
 
     }
+
+    private void noConnectionMsg() {
+        Snackbar noInternetSnackBar = Snackbar.make(parentLayout,"No Internet Connection",Snackbar.LENGTH_LONG)
+                .setActionTextColor(getResources().getColor(R.color.lightViolate))
+                .setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        try {
+                            //callAsyncPopulate(pg);
+                            if(mUser == null){
+                                new getUserData().execute("");
+                            }else{
+                                if(searchResults.isConnected(getApplicationContext())){
+                                    getUnseen();
+                                }else{
+                                    noConnectionMsg();
+                                }
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+        noInternetSnackBar.show();
+    }
+
+
+
     public void LoadServer(){
         Platform.loadPlatformComponent(new AndroidPlatformComponent());
         HubConnection connection = new HubConnection(ServerInfo.BASE_URL);
@@ -194,7 +244,7 @@ public class notificationNew extends AppCompatActivity {
         connection.setCredentials(credentials);
         SignalRFuture<Void> awaitConnection = connection.start();
         try {
-            awaitConnection.get();
+           awaitConnection.get();
         } catch (InterruptedException e) {
             // Handle ...
             e.printStackTrace();

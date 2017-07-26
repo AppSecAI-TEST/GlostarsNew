@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -222,7 +224,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
             }
         });
 
-        mUser = MyUser.getmUser();
+        mUser = MyUser.getmUser(getApplicationContext());
         searchUser = new SearchUser();
         gridImages = new ArrayList<>();
 
@@ -275,7 +277,12 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
                             loading = false;
                             pg++;
                             try {
-                                callAsyncPopulate(pg, mUser.getToken());
+                                if(isConnected(getApplicationContext())){
+                                    callAsyncPopulate(pg, mUser.getToken());
+                                }else{
+                                    noConnetionMsg();
+                                }
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -288,7 +295,20 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 
         });
 
-      getUnseen();
+        if(isConnected(getApplicationContext())){
+            //callAsyncPopulate(pg, mUser.getToken());
+            loading = false;
+            pg++;
+            try {
+                callAsyncPopulate(pg, mUser.getToken());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            getUnseen();
+        }else{
+            noConnetionMsg();
+        }
+
 
 //        if(!isConnected()){
 //            startActivity(new Intent(this, noInternet.class));
@@ -301,7 +321,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         HubConnection connection = new HubConnection(ServerInfo.BASE_URL);
         HubProxy hub = connection.createHubProxy("GlostarsHub");
 
-        final MyUser me=MyUser.getmUser();
+        final MyUser me=MyUser.getmUser(getApplicationContext());
         System.out.println("server Token "+me.getToken());
 
         Credentials credentials=new Credentials() {
@@ -615,9 +635,9 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 
 
     }
-    public boolean isConnected(){
+    public static boolean isConnected(Context context){
         boolean hasConnection;
-        ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         hasConnection = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
@@ -625,6 +645,41 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         return hasConnection;
 
     }
+
+    public void noConnetionMsg(){
+
+        Snackbar noInternetSnackBar = Snackbar.make(parentLayout,"No Internet Connection",Snackbar.LENGTH_LONG)
+                .setActionTextColor(getResources().getColor(R.color.lightViolate))
+                .setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        gridImages.clear();
+
+                        pg=1;
+                        try {
+                            //callAsyncPopulate(pg);
+                            pg = 1;
+                            loading=false;
+                            if(mUser == null){
+                                new getUserData().execute("");
+                            }else{
+                                if(isConnected(getApplicationContext())){
+                                    callAsyncPopulate(pg, mUser.getToken());
+                                }else{
+                                    noConnetionMsg();
+                                }
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+        noInternetSnackBar.show();
+        loading = !false;
+    }
+
     /*
     @Override
     protected void onRestart() {

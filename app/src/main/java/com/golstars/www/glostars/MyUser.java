@@ -14,6 +14,13 @@ import com.loopj.android.http.SyncHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.KeyStore;
 
 import cz.msebera.android.httpclient.Header;
@@ -65,14 +72,60 @@ public class MyUser implements Parcelable {
     }
 
     public static MyUser getmUser(Context context){
+        String data;
+
+        // getFromCache(context); uncommnent when working
+
+
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES,Context.MODE_PRIVATE);
+        data = sharedPreferences.getString("user", null);
+
+        /*
         mUser.setName(sharedPreferences.getString("EMAIL", null));
         mUser.setEmail(sharedPreferences.getString("NAME", null));
         mUser.setProfilePicURL(sharedPreferences.getString("USER_ID", null));
         mUser.setUserId(sharedPreferences.getString("PROFILE_PIC", null));
         mUser.setToken(sharedPreferences.getString("TOKEN", null));
         mUser.setSex(sharedPreferences.getString("SEX", null));
-        return mUser;
+        */
+
+
+
+
+
+        if(data != null){
+
+            try {
+                JSONObject dat = new JSONObject(data);
+                JSONObject usrData = dat.getJSONObject("resultPayload");
+                mUser.setEmail(usrData.getString("email"));
+                mUser.setName(usrData.getString("name"));
+                mUser.setUserId(usrData.getString("userId"));
+                mUser.setProfilePicURL(usrData.getString("profilePicURL"));
+                mUser.setSex(usrData.getString("gender"));
+                System.out.println("user data is - name: " + mUser.getName() +
+                        " email: " + mUser.getEmail()+
+                        " profilePic: " + mUser.getProfilePicURL() +
+                        " userId: " + mUser.getUserId() +
+                        " sex: " + mUser.getSex());
+
+                System.out.println("USER GOT FROM FILE");
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return  mUser;
+
+        } else {
+            return  null;
+        }
+
+
+        //return mUser;
+
     }
 
 
@@ -109,7 +162,11 @@ public class MyUser implements Parcelable {
     }
 
 
-    public void setContext(Context context) {
+    public MyUser setContext(Context context) {
+
+        String filename = "glostarsus";
+        FileOutputStream outputStream;
+
         final Auth auth = new Auth(context);
         String data = null;
         SearchUser searchUser = new SearchUser();
@@ -138,22 +195,96 @@ public class MyUser implements Parcelable {
                                             " userId: " + mUser.getUserId() +
                                             " sex: " + mUser.getSex());
 
+
+            /*
+            outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.write(data.getBytes());
+            outputStream.close();
+            System.out.println("user saved");*/
+
+
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        } catch (Exception e){
+        System.out.println("could not save files");
+    }
+
+
+
+
+
 
 
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("EMAIL", mUser.getEmail());
+        editor.putString("user",data);
         editor.putString("NAME", mUser.getName());
         editor.putString("USER_ID", mUser.getUserId());
         editor.putString("PROFILE_PIC", mUser.getProfilePicURL());
         editor.putString("TOKEN", mUser.getToken());
         editor.putString("SEX", mUser.getSex());
 
+        return mUser;
 
 
+    }
+
+
+    private static MyUser getFromCache(Context context){
+
+        String filename = "glostarsus";
+        InputStream inputStream;
+        String data = "";
+
+        try{
+            inputStream = context.openFileInput(filename);
+            if(inputStream != null){
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receive = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receive = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receive);
+                }
+
+                inputStream.close();
+                data = stringBuilder.toString();
+                System.out.println("files retrieved");
+
+                JSONObject dat = new JSONObject(data);
+                JSONObject usrData = dat.getJSONObject("resultPayload");
+                mUser.setEmail(usrData.getString("email"));
+                mUser.setName(usrData.getString("name"));
+                mUser.setUserId(usrData.getString("userId"));
+                mUser.setProfilePicURL(usrData.getString("profilePicURL"));
+                mUser.setSex(usrData.getString("gender"));
+                System.out.println("user data is - name: " + mUser.getName() +
+                        " email: " + mUser.getEmail()+
+                        " profilePic: " + mUser.getProfilePicURL() +
+                        " userId: " + mUser.getUserId() +
+                        " sex: " + mUser.getSex());
+
+                System.out.println("USER GOT FROM FILE");
+                return mUser;
+
+            } else{
+                return  null;
+            }
+
+        } catch (FileNotFoundException e) {
+            System.out.println("file not found");
+        } catch (IOException e) {
+            System.out.println("cannot read file");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+        return null;
 
     }
 

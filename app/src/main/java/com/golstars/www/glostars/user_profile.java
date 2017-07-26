@@ -556,7 +556,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         //mutualAdapter = new GridAdapter(this, mutualImgsUrls);
 
 
-        mUser = MyUser.getmUser();
+        mUser = MyUser.getmUser(getApplicationContext());
         // mUser.setContext(context);
 
 
@@ -565,9 +565,14 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         if(target != null){
             try {
 
-                new getUserAndSetData().execute(target);
+                if(searchResults.isConnected(getApplicationContext())){
+                    new getUserAndSetData().execute(target);
 
-                loadUserInformation(target);
+                    loadUserInformation(target);
+                }else{
+                    noConnectionMsg();
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -759,7 +764,13 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                     .setAction("Retry", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(user_profile.this, "Implement reloading the page", Toast.LENGTH_SHORT).show();
+                    try {
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             noInternetSnackBar.show();
@@ -772,6 +783,28 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         getUnseen();
         LoadServer();
 
+
+    }
+
+    private void noConnectionMsg() {
+        if(!isConnected()){
+            Snackbar noInternetSnackBar = Snackbar.make(parentLayout,"No Internet Connection",Snackbar.LENGTH_LONG)
+                    .setActionTextColor(getResources().getColor(R.color.lightViolate))
+                    .setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                Intent intent = getIntent();
+                                finish();
+                                startActivity(intent);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+            noInternetSnackBar.show();
+        }
 
     }
 
