@@ -98,6 +98,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
     TextView mainbadge;
     TextView competitionbadge;
     TextView recentlyposted;
+    TextView searchTitle;
 
     SearchUser searchUser;
     ArrayAdapter<String> usrsAdapter;
@@ -130,15 +131,17 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.logoandtext); // MEMORY OVERFLOW HAPPENING RIGHT HERE
-        getSupportActionBar().setDisplayUseLogoEnabled(false);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setTitle("Search");
+//        toolbar.setTitleTextColor(getResources().getColor(R.color.lightViolate));
+//        getSupportActionBar().setDisplayUseLogoEnabled(false);
 
         parentLayout = (CoordinatorLayout) findViewById(R.id.search_result);
 
         searchgrid = (RecyclerView) findViewById(R.id.searchGrid);
         searchlist = (ListView)findViewById(R.id.searchlist);
 
+        searchTitle = (TextView) findViewById(R.id.searchTitle);
 
         recentlyposted = (TextView)findViewById(R.id.recentlyposted);
 
@@ -177,6 +180,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 //        competitionbadge.setTypeface(type);
 //        camerabadge.setTypeface(type);
        recentlyposted.setTypeface(type);
+        searchTitle.setTypeface(type);
 
 
 
@@ -731,6 +735,9 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main_feed,menu);
         MenuItem search = menu.findItem(R.id.searchmenu);
+
+        menu.findItem(R.id.searchmenu).setIcon(R.drawable.search);
+
 
         final SearchView searchView = (SearchView)search.getActionView();
 
