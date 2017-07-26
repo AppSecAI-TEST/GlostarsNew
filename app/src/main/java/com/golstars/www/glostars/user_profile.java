@@ -736,7 +736,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             @Override
             public void onClick(View view) {
 
-//                startActivity(new Intent(user_profile.this, upload.class));
+                startActivity(new Intent(user_profile.this, upload.class));
                 menuDown.close(true);
             }
         });

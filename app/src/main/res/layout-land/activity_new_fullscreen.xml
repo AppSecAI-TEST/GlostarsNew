@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.design.widget.CoordinatorLayout
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    android:id="@+id/rootViewFullscreen"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootViewFullscreen"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -14,47 +12,45 @@
         android:fillViewport="true"
         android:fitsSystemWindows="true"
         android:nestedScrollingEnabled="true"
-        tools:context="com.golstars.www.glostars.newFullscreen"
-        >
+        tools:context="com.golstars.www.glostars.newFullscreen">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="@color/black"
-            >
+            android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/newfullscreenimage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/black"
-                android:focusable="true"
-                android:src="@drawable/post1"
-                android:scaleType="fitCenter"
-                android:gravity="center"
                 android:layout_gravity="center"
-                android:id="@+id/newfullscreenimage"/>
+                android:background="@color/black"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:scaleType="fitCenter"
+                android:src="@drawable/post1" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/previewPictures"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                android:visibility="visible"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/black_overlay"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
             </android.support.v7.widget.RecyclerView>
 
             <RelativeLayout
-                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/roundededittext1">
 
                 <RelativeLayout
@@ -69,46 +65,45 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/newFullscreenProfilePic"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginTop="16dp"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
+                            android:layout_alignParentStart="true"
                             android:layout_marginStart="8dp"
-                            android:src="@drawable/nopicmale"/>
+                            android:layout_marginTop="16dp"
+                            android:src="@drawable/nopicmale" />
 
                         <TextView
                             android:id="@+id/newFullscreenUsername"
                             android:layout_width="120dp"
                             android:layout_height="wrap_content"
-                            android:text=""
                             android:layout_alignTop="@+id/newFullscreenProfilePic"
-                            android:layout_toRightOf="@+id/newFullscreenProfilePic"
+                            android:layout_marginStart="8dp"
                             android:layout_marginTop="4dp"
-                            android:textSize="14sp"
+                            android:layout_toRightOf="@+id/newFullscreenProfilePic"
+                            android:text=""
                             android:textColor="@color/colorPrimary"
-                            android:layout_marginStart="8dp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/newFullscreenUploadTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="14 mins ago"
                             android:layout_below="@+id/newFullscreenUsername"
-                            android:layout_toRightOf="@+id/newFullscreenProfilePic"
+                            android:layout_marginStart="8dp"
                             android:layout_marginTop="4dp"
-                            android:textSize="12sp"
+                            android:layout_toRightOf="@+id/newFullscreenProfilePic"
+                            android:text="14 mins ago"
                             android:textColor="@color/hashtag"
-                            android:layout_marginStart="8dp"/>
+                            android:textSize="12sp" />
 
                         <ImageView
                             android:id="@+id/newFullscreenPrivacy"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_alignTop="@+id/newFullscreenUploadTime"
-                            android:layout_toRightOf="@+id/newFullscreenUploadTime"
                             android:layout_marginStart="10dp"
-                            android:src="@drawable/privacy_competition_photo"
-                            />
+                            android:layout_toRightOf="@+id/newFullscreenUploadTime"
+                            android:src="@drawable/privacy_competition_photo" />
 
                     </RelativeLayout>
 
@@ -116,22 +111,22 @@
                         android:id="@+id/newFullscreenFollowButton"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
-                        android:textSize="12sp"
-                        android:background="@drawable/mutualfollowerbutton"
-                        android:layout_alignTop="@+id/UserInformation"
                         android:layout_alignParentRight="true"
-                        android:text="Follow"
+                        android:layout_alignTop="@+id/UserInformation"
                         android:layout_marginRight="8dp"
                         android:layout_marginTop="16dp"
-                        android:textColor="@color/white"/>
+                        android:background="@drawable/mutualfollowerbutton"
+                        android:text="Follow"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
 
                     <LinearLayout
                         android:id="@+id/postInformation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/UserInformation"
-                        android:layout_marginTop="14dp"
                         android:layout_marginStart="8dp"
+                        android:layout_marginTop="14dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -139,18 +134,18 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="4dp"
-                            android:textColor="@color/darkGrey"
-                            android:textSize="12sp"
                             android:lineSpacingExtra="4dp"
-                            android:text="A quick brown fox jumps over a lazy dog."/>
+                            android:text="A quick brown fox jumps over a lazy dog."
+                            android:textColor="@color/darkGrey"
+                            android:textSize="12sp" />
 
                         <LinearLayout
                             android:id="@+id/ratecomment"
                             android:layout_width="match_parent"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
                             android:background="#00FFFFFF"
                             android:orientation="horizontal">
 
@@ -159,13 +154,13 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                app:srb_numberOfStars="5"
-                                app:srb_stepSize="1"
-                                app:srb_starsSeparation="1dp"
                                 app:srb_borderColor="@color/hashtag"
                                 app:srb_fillColor="@color/colorPrimary"
+                                app:srb_numberOfStars="5"
+                                app:srb_starBorderWidth="2"
                                 app:srb_starSize="27dp"
-                                app:srb_starBorderWidth="2"/>
+                                app:srb_starsSeparation="1dp"
+                                app:srb_stepSize="1" />
 
                             <TextView
                                 android:id="@+id/newFullscreenRatingCount"
@@ -185,19 +180,19 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginEnd="8dp"
                                 android:layout_marginStart="4dp"
-                                android:visibility="visible"
-                                android:src="@drawable/deleteicon" />
+                                android:src="@drawable/deleteicon"
+                                android:visibility="visible" />
 
                             <View
+                                android:layout_width="1dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:layout_width="1dp" />
+                                android:layout_weight="1" />
 
                             <LinearLayout
                                 android:id="@+id/commentContainer"
                                 android:layout_width="wrap_content"
-                                android:layout_gravity="center_vertical"
                                 android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
                                 android:layout_marginEnd="8dp">
 
                                 <ImageView
@@ -221,10 +216,10 @@
 
                             <View
                                 android:id="@+id/spaceViewFullscreen"
+                                android:layout_width="1dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:layout_width="1dp"
-                                android:visibility="gone"/>
+                                android:visibility="gone" />
 
                             <ImageView
                                 android:id="@+id/deletePictureFullscreen"
@@ -232,7 +227,7 @@
                                 android:layout_height="27dp"
                                 android:layout_gravity="center_vertical"
                                 android:src="@drawable/deletepic"
-                                android:visibility="gone"/>
+                                android:visibility="gone" />
 
                         </LinearLayout>
 
@@ -246,58 +241,55 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_below="@+id/informations"
-                    android:background="@drawable/roundededittext"
+                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="4dp">
+                    android:background="@drawable/roundededittext">
 
                     <ListView
                         android:id="@+id/newFullscreenComments"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="true"
-                        android:padding="4dp">
-                    </ListView>
+                        android:padding="4dp"></ListView>
 
                 </RelativeLayout>
 
                 <LinearLayout
-                    android:layout_below="@+id/commentsHolder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/commentsHolder"
                     android:layout_margin="4dp"
-                    android:orientation="horizontal"
-                    android:background="@drawable/roundededittext">
+                    android:background="@drawable/roundededittext"
+                    android:orientation="horizontal">
 
                     <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
                         android:id="@+id/newFullscreenCommentArea"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:backgroundTint="@color/white"
                         android:hint="Write a comment "
-                        android:textSize="14sp"
                         android:paddingStart="8dp"
-                        android:backgroundTint="@color/white"/>
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:id="@+id/emojiButton"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/smiley"
                         android:layout_marginEnd="8dp"
-                        />
+                        android:src="@drawable/smiley" />
 
                     <TextView
                         android:id="@+id/newFullscreenSendComment"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Send"
-                        android:gravity="center"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="4dp"
-                        android:textColor="@color/colorPrimary"
-                        />
+                        android:gravity="center"
+                        android:text="Send"
+                        android:textColor="@color/colorPrimary" />
 
                 </LinearLayout>
 
@@ -307,4 +299,4 @@
 
 
     </ScrollView>
-    </android.support.design.widget.CoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout>

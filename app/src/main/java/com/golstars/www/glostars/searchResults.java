@@ -738,10 +738,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 
         menu.findItem(R.id.searchmenu).setIcon(R.drawable.search);
 
-
         final SearchView searchView = (SearchView)search.getActionView();
-
-
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

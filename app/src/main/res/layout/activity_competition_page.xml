@@ -54,7 +54,6 @@
 
                 <ImageView
                     android:id="@+id/searchlogo"
-                    android:layout_marginTop="-4dp"
                     android:layout_width="30dp"
                     android:layout_marginRight="8dp"
                     android:layout_gravity="center_vertical"
@@ -74,9 +73,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabMode="fixed"
-            app:tabGravity="center"
-            app:tabIndicatorColor="@color/verylightviolet"
-            app:tabIndicatorHeight="3dp"/>
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/lightViolate"
+            app:tabIndicatorHeight="2dp"/>
 
     </android.support.design.widget.AppBarLayout>
 
