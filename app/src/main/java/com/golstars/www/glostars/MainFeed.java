@@ -167,7 +167,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
             } else if(mUser.getSex().equals("Female")){
                 profileFAB.setImageResource(R.drawable.nopicfemale);
             }
-            if(isConnected(getApplicationContext())){
+            if(isConnected(this)){
                 loadFeed();
                 getUnseen();
                 //setting up alarm to service

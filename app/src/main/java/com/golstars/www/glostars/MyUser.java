@@ -72,13 +72,11 @@ public class MyUser implements Parcelable {
     }
 
     public static MyUser getmUser(Context context){
-        String data;
-
-        // getFromCache(context); uncommnent when working
 
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES,Context.MODE_PRIVATE);
-        data = sharedPreferences.getString("user", null);
+        return getFromCache(context);
+
+
 
         /*
         mUser.setName(sharedPreferences.getString("EMAIL", null));
@@ -89,8 +87,10 @@ public class MyUser implements Parcelable {
         mUser.setSex(sharedPreferences.getString("SEX", null));
         */
 
-
-
+        /*
+        String data;
+        SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES,Context.MODE_PRIVATE);
+        data = sharedPreferences.getString("user", null);
 
 
         if(data != null){
@@ -121,7 +121,7 @@ public class MyUser implements Parcelable {
 
         } else {
             return  null;
-        }
+        } */
 
 
         //return mUser;
@@ -196,11 +196,11 @@ public class MyUser implements Parcelable {
                                             " sex: " + mUser.getSex());
 
 
-            /*
+
             outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
             outputStream.write(data.getBytes());
             outputStream.close();
-            System.out.println("user saved");*/
+            System.out.println("user saved");
 
 
         } catch (JSONException e) {
@@ -231,6 +231,9 @@ public class MyUser implements Parcelable {
 
 
     private static MyUser getFromCache(Context context){
+
+        final Auth auth = new Auth(context);
+        mUser.setToken(auth.getAcessToken());
 
         String filename = "glostarsus";
         InputStream inputStream;
@@ -263,7 +266,9 @@ public class MyUser implements Parcelable {
                         " email: " + mUser.getEmail()+
                         " profilePic: " + mUser.getProfilePicURL() +
                         " userId: " + mUser.getUserId() +
-                        " sex: " + mUser.getSex());
+                        " sex: " + mUser.getSex() +
+                        " token: "  + mUser.getToken());
+
 
                 System.out.println("USER GOT FROM FILE");
                 return mUser;
