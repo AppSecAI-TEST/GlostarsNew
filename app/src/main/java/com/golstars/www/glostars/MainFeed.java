@@ -153,6 +153,17 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
+
+        Emojiconize.activity(this).go();
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main_feed);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        parentLayout = findViewById(R.id.feed_main);
+        layout = (PullRefreshLayout) findViewById(R.id.pullRefreshLayout);
         mUser = MyUser.getmUser(getApplicationContext());
         if(mUser == null){
             new getUserData().execute("");
@@ -179,14 +190,6 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         }
 
 
-
-        Emojiconize.activity(this).go();
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_feed);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        parentLayout = findViewById(R.id.feed_main);
-        layout = (PullRefreshLayout) findViewById(R.id.pullRefreshLayout);
         layout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

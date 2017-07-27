@@ -1,6 +1,7 @@
 package com.golstars.www.glostars;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -34,6 +35,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -113,6 +115,7 @@ public class edit_profile extends AppCompatActivity {
     Intent homeIntent;
     File selectedImage;
     private ImageView final_view;
+    private boolean editSuccess = false;
 
 
 
@@ -331,6 +334,9 @@ public class edit_profile extends AppCompatActivity {
 
         //Picasso.with(getApplicationContext()).load(myUser.getProfilePicURL()).into(editPic);
 
+        final String filename = "glostarsUsrDetails";
+        final FileOutputStream[] outputStream = new FileOutputStream[1];
+
         String url = ServerInfo.BASE_URL_API+"account/GetUserDetails?userId="+mUser.getUserId();
 
         AsyncHttpClient client=new AsyncHttpClient();
@@ -351,6 +357,13 @@ public class edit_profile extends AppCompatActivity {
                 try {
                     System.out.println("1. " + response.toString());
 
+
+                    /**saving user details to file*/
+                    outputStream[0] = openFileOutput(filename, Context.MODE_PRIVATE);
+                    outputStream[0].write(response.toString().getBytes());
+                    outputStream[0].close();
+                    System.out.println("user saved");
+
                     JSONObject jsonObject = response.getJSONObject("resultPayload");
                     Id=jsonObject.getString("id");
                     AboutMe=jsonObject.getString("aboutMe");
@@ -368,6 +381,16 @@ public class edit_profile extends AppCompatActivity {
                     lastname.setText(LastName);
                     aboutme.setText(AboutMe);
                     interests.setText(Interests);
+
+                    if(editSuccess){
+                        Toast.makeText(getApplicationContext(),  "Changes have been saved successfully", Toast.LENGTH_LONG).show();
+
+                        Intent userProfileIntent=new Intent();
+                        userProfileIntent.putExtra("USER_ID",mUser.getUserId());
+                        userProfileIntent.setClass(getApplicationContext(),user_profile.class);
+                        startActivity(userProfileIntent);
+                    }
+
                     /*try {
 
                         *//*currentcity.setText(data.getString("location"));
@@ -414,7 +437,7 @@ public class edit_profile extends AppCompatActivity {
         final ProgressDialog dialog = ProgressDialog.show(edit_profile.this, "","Profile updating. Please wait...", true);
         dialog.show();
 
-        String url = ServerInfo.BASE_URL+"Home/Edit";
+        String url = ServerInfo.BASE_URL+"Home/UserEdit";
         AsyncHttpClient client = new AsyncHttpClient();
 
 
@@ -467,15 +490,15 @@ public class edit_profile extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 System.out.println(response.toString());
                 try {
-                    if(response.getInt("responseCode")==1){
+                    if(response.getString("res").equals("true")){
 
                        // JSONObject data=response.getJSONObject("resultPayload").getJSONObject("edited");
 
 
-                        Toast.makeText(getApplicationContext(),  "Changes have been saved successfully", Toast.LENGTH_LONG).show();
-                        Intent userProfileIntent=new Intent();
-                        userProfileIntent.putExtra("USER_ID",mUser.getUserId());
-                        userProfileIntent.setClass(getApplicationContext(),user_profile.class);
+                        editSuccess = true;
+
+                        loadUserInformation();
+
 
 
 
@@ -511,6 +534,7 @@ public class edit_profile extends AppCompatActivity {
 
 
     }
+
 
     /*
 
@@ -590,10 +614,10 @@ public class edit_profile extends AppCompatActivity {
                 if(!data.getString("interests").equals("null")){
                     interests.setText(data.getString("interests"));
                 }
-                if(!data.getString("location").equals("null")){
+                if(!data.getString("location").equals("null") || !data.getString("location").equals("Select")){
                     currentcity.setText(data.getString("location"));
                 }
-                if(!data.getString("original_Location").equals("null")) {
+                if(!data.getString("original_Location").equals("null") || !data.getString("original_Location").equals("Select")) {
                     homecity.setText(data.getString("original_Location"));
                 }
 
