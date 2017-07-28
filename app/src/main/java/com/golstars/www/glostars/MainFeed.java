@@ -334,7 +334,6 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
             }
         });
 
-
         /*
         if(mUser == null){
             new getUserData().execute("");
