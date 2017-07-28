@@ -41,7 +41,6 @@
                 android:background="@color/black_overlay"
                 android:orientation="horizontal"
                 android:visibility="visible">
-
             </android.support.v7.widget.RecyclerView>
 
             <RelativeLayout

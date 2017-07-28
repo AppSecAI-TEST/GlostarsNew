@@ -432,13 +432,13 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                                         follow.setTransformationMethod(null);
                                         follow.setTypeface(type);
                                     }else if(response.getJSONObject("resultPayload").getBoolean("he_follow")){
-                                        follow.setText("follower");
+                                        follow.setText("Follower");
                                         follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
                                         follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                                         follow.setTransformationMethod(null);
                                         follow.setTypeface(type);
                                     }else{
-                                        follow.setText("follow");
+                                        follow.setText("Follow");
                                         follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
                                         follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                                         follow.setTransformationMethod(null);
@@ -493,13 +493,13 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                                                     follow.setTransformationMethod(null);
                                                     follow.setTypeface(type);
                                                 }else if(response.getJSONObject("resultPayload").getBoolean("he_follow")){
-                                                    follow.setText("follower");
+                                                    follow.setText("Follower");
                                                     follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
                                                     follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                                                     follow.setTransformationMethod(null);
                                                     follow.setTypeface(type);
                                                 }else{
-                                                    follow.setText("follow");
+                                                    follow.setText("Follow");
                                                     follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
                                                     follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                                                     follow.setTransformationMethod(null);
@@ -1190,7 +1190,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                                     followStatusUpdate("Mutual");
                                 }
                                 else if(followInfo.destinationFollowOriginate){
-                                    follow.setText("follower");
+                                    follow.setText("Follower");
                                     follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
                                     follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                                     follow.setTransformationMethod(null);
@@ -1205,7 +1205,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                                     followStatusUpdate("Following");
 
                                 }else{
-                                    follow.setText("follow");
+                                    follow.setText("Follow");
                                     follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
                                     follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                                     follow.setTransformationMethod(null);
@@ -1224,7 +1224,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                                     followStatusUpdate("Mutual");
                                 }
                                 else if(followInfo.originateFollowDestination){
-                                    follow.setText("follower");
+                                    follow.setText("Follower");
                                     follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
                                     follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                                     follow.setTransformationMethod(null);
@@ -1239,7 +1239,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                                     followStatusUpdate("Following");
 
                                 }else{
-                                    follow.setText("follow");
+                                    follow.setText("Follow");
                                     follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
                                     follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                                     follow.setTransformationMethod(null);

@@ -515,25 +515,25 @@ public class newFullscreen extends AppCompatActivity {
 
         if(postData.is_mutual()){
             newFullscreenFollow.setText("Mutual");
-            newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.roundedbuttongrey));
+            newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.mutualfollowerbutton));
             newFullscreenFollow.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
             newFullscreenFollow.setTransformationMethod(null);
             newFullscreenFollow.setTypeface(type);
         }else if(postData.isMe_follow()){
             newFullscreenFollow.setText("Following");
-            newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.roundedbuttongrey));
+            newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.followingbutton));
             newFullscreenFollow.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
             newFullscreenFollow.setTransformationMethod(null);
             newFullscreenFollow.setTypeface(type);
         }else if(postData.isHe_follow()){
             newFullscreenFollow.setText("Follower");
-            newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.roundedbuttongrey));
+            newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.followbackbutton));
             newFullscreenFollow.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
             newFullscreenFollow.setTransformationMethod(null);
             newFullscreenFollow.setTypeface(type);
         }else{
             newFullscreenFollow.setText("Follow");
-            newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.roundedbuttongrey));
+            newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.followbutton));
             newFullscreenFollow.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
             newFullscreenFollow.setTransformationMethod(null);
             newFullscreenFollow.setTypeface(type);
@@ -571,7 +571,7 @@ public class newFullscreen extends AppCompatActivity {
                                 if(response.getJSONObject("resultPayload").getBoolean("result")){
                                     if(response.getJSONObject("resultPayload").getBoolean("is_mutual")){
                                         newFullscreenFollow.setText("Mutual");
-                                        newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.roundedbuttongrey));
+                                        newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.mutualfollowerbutton));
                                         newFullscreenFollow.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
                                         newFullscreenFollow.setTransformationMethod(null);
                                         newFullscreenFollow.setTypeface(type);
@@ -583,7 +583,7 @@ public class newFullscreen extends AppCompatActivity {
                                     }
                                     else if(response.getJSONObject("resultPayload").getBoolean("me_follow")){
                                         newFullscreenFollow.setText("Following");
-                                        newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.roundedbuttongrey));
+                                        newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.followingbutton));
                                         newFullscreenFollow.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
                                         newFullscreenFollow.setTransformationMethod(null);
                                         newFullscreenFollow.setTypeface(type);
@@ -594,7 +594,7 @@ public class newFullscreen extends AppCompatActivity {
 
                                     }else if(response.getJSONObject("resultPayload").getBoolean("he_follow")){
                                         newFullscreenFollow.setText("Follower");
-                                        newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.roundedbuttongrey));
+                                        newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.followbackbutton));
                                         newFullscreenFollow.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
                                         newFullscreenFollow.setTransformationMethod(null);
                                         newFullscreenFollow.setTypeface(type);
@@ -604,7 +604,7 @@ public class newFullscreen extends AppCompatActivity {
                                         postData.setMe_follow(false);
                                     }else{
                                         newFullscreenFollow.setText("Follow");
-                                        newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.roundedbuttongrey));
+                                        newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.followbutton));
                                         newFullscreenFollow.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
                                         newFullscreenFollow.setTransformationMethod(null);
                                         newFullscreenFollow.setTypeface(type);
@@ -650,7 +650,7 @@ public class newFullscreen extends AppCompatActivity {
                                             if(response.getJSONObject("resultPayload").getBoolean("result")) {
                                                 if (response.getJSONObject("resultPayload").getBoolean("is_mutual")) {
                                                     newFullscreenFollow.setText("Mutual");
-                                                    newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.roundedbuttongrey));
+                                                    newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.mutualfollowerbutton));
                                                     newFullscreenFollow.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
                                                     newFullscreenFollow.setTransformationMethod(null);
                                                     newFullscreenFollow.setTypeface(type);
@@ -661,7 +661,7 @@ public class newFullscreen extends AppCompatActivity {
 
                                                 } else if (response.getJSONObject("resultPayload").getBoolean("me_follow")) {
                                                     newFullscreenFollow.setText("Following");
-                                                    newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.roundedbuttongrey));
+                                                    newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.followingbutton));
                                                     newFullscreenFollow.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
                                                     newFullscreenFollow.setTransformationMethod(null);
                                                     newFullscreenFollow.setTypeface(type);
@@ -672,7 +672,7 @@ public class newFullscreen extends AppCompatActivity {
 
                                                 } else if (response.getJSONObject("resultPayload").getBoolean("he_follow")) {
                                                     newFullscreenFollow.setText("Follower");
-                                                    newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.roundedbuttongrey));
+                                                    newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.followbackbutton));
                                                     newFullscreenFollow.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
                                                     newFullscreenFollow.setTransformationMethod(null);
                                                     newFullscreenFollow.setTypeface(type);
@@ -682,7 +682,7 @@ public class newFullscreen extends AppCompatActivity {
                                                     postData.setMe_follow(false);
                                                 } else {
                                                     newFullscreenFollow.setText("Follow");
-                                                    newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.roundedbuttongrey));
+                                                    newFullscreenFollow.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.followbutton));
                                                     newFullscreenFollow.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
                                                     newFullscreenFollow.setTransformationMethod(null);
                                                     newFullscreenFollow.setTypeface(type);
