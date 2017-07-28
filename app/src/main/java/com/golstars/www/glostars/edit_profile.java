@@ -338,6 +338,12 @@ public class edit_profile extends AppCompatActivity {
         final FileOutputStream[] outputStream = new FileOutputStream[1];
 
         String url = ServerInfo.BASE_URL_API+"account/GetUserDetails?userId="+mUser.getUserId();
+        final ProgressDialog dialog = ProgressDialog.show(edit_profile.this, "","Saving changes, Please wait...", true);
+
+        //dialog box to check changes saving
+        if(editSuccess){
+            dialog.show();
+        }
 
         AsyncHttpClient client=new AsyncHttpClient();
         client.addHeader("Authorization", "Bearer " + mUser.getToken());
@@ -383,6 +389,7 @@ public class edit_profile extends AppCompatActivity {
                     interests.setText(Interests);
 
                     if(editSuccess){
+                        dialog.dismiss();
                         Toast.makeText(getApplicationContext(),  "Changes have been saved successfully", Toast.LENGTH_LONG).show();
 
                         Intent userProfileIntent=new Intent();
