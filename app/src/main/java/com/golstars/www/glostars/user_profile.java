@@ -350,6 +350,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         mutualno.setTypeface(type);
         numFollowersCountProfile.setTypeface(type);
         seeAllMutualProfile.setTypeface(type);
+        totalCompetition.setTypeface(type);
+        totalPublic.setTypeface(type);
+        totalMutual.setTypeface(type);
+
 
 //        follow.setTypeface(type);
 
@@ -2084,22 +2088,22 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             mutual.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             mutualgrid.setLayoutParams(mutual);
             seeAllMutualProfile.setVisibility(View.GONE);
-            totalMutual.setText(String.valueOf(totalmutualFollowerPics)+" pictures");
+            totalMutual.setText("Total "+String.valueOf(totalmutualFollowerPics));
         }else if (totalmutualFollowerPics > 3 && totalmutualFollowerPics <=6) {
             ViewGroup.LayoutParams mutual1 = mutualgrid.getLayoutParams();
             mutual1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             mutualgrid.setLayoutParams(mutual1);
             seeAllMutualProfile.setVisibility(View.GONE);
-            totalMutual.setText(String.valueOf(totalmutualFollowerPics)+" pictures");
+            totalMutual.setText("Total "+String.valueOf(totalmutualFollowerPics));
 
         }else if (totalmutualFollowerPics > 6 && totalmutualFollowerPics <=9) {
             seeAllMutualProfile.setVisibility(View.GONE);
-            totalMutual.setText(String.valueOf(totalmutualFollowerPics)+" pictures");
+            totalMutual.setText("Total "+String.valueOf(totalmutualFollowerPics));
 
         }else{
             mutualgrid.setVisibility(View.VISIBLE);
             mutualnopost.setVisibility(View.GONE);
-            totalMutual.setText(String.valueOf(totalmutualFollowerPics)+" pictures");
+            totalMutual.setText("Total "+String.valueOf(totalmutualFollowerPics));
 
         }
 
@@ -2107,54 +2111,54 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             compnopost.setVisibility(View.VISIBLE);
             competitiongrid.setVisibility(View.GONE);
             seeAllCompetitionProfile.setVisibility(View.GONE);
-            totalCompetition.setText(String.valueOf(totalCompetitionPic)+" pictures");
+            totalCompetition.setText("Total "+String.valueOf(totalCompetitionPic));
         }else if (totalCompetitionPic >0 && totalCompetitionPic <=3) {
             ViewGroup.LayoutParams comp = competitiongrid.getLayoutParams();
             comp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             competitiongrid.setLayoutParams(comp);
             seeAllCompetitionProfile.setVisibility(View.GONE);
-            totalCompetition.setText(String.valueOf(totalCompetitionPic)+" pictures");
+            totalCompetition.setText("Total "+String.valueOf(totalCompetitionPic));
         }else if (totalCompetitionPic > 3 && totalCompetitionPic <=6) {
             ViewGroup.LayoutParams comp1 = competitiongrid.getLayoutParams();
             comp1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             competitiongrid.setLayoutParams(comp1);
             seeAllCompetitionProfile.setVisibility(View.GONE);
-            totalCompetition.setText(String.valueOf(totalCompetitionPic)+" pictures");
+            totalCompetition.setText("Total "+String.valueOf(totalCompetitionPic));
         }else if (totalCompetitionPic > 6 && totalCompetitionPic <=9) {
             seeAllCompetitionProfile.setVisibility(View.GONE);
-            totalCompetition.setText(String.valueOf(totalCompetitionPic)+" pictures");
+            totalCompetition.setText("Total "+String.valueOf(totalCompetitionPic));
         } else{
             compBanner.setVisibility(View.VISIBLE);
             seeAllCompetitionProfile.setVisibility(View.VISIBLE);
             compnopost.setVisibility(View.GONE);
-            totalCompetition.setText(String.valueOf(totalCompetitionPic)+" pictures");
+            totalCompetition.setText("Total "+String.valueOf(totalCompetitionPic));
         }
 
         if(totalpublicPictures == 0){
             publicnopost.setVisibility(View.VISIBLE);
             publicgrid.setVisibility(View.GONE);
             seeAllPublicProfile.setVisibility(View.GONE);
-            totalPublic.setText(String.valueOf(totalpublicPictures)+" pictures");
+            totalPublic.setText("Total "+String.valueOf(totalpublicPictures));
         }else if (totalpublicPictures >0 && totalpublicPictures <=3) {
             ViewGroup.LayoutParams pub = publicgrid.getLayoutParams();
             pub.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             publicgrid.setLayoutParams(pub);
             seeAllPublicProfile.setVisibility(View.GONE);
-            totalPublic.setText(String.valueOf(totalpublicPictures)+" pictures");
+            totalPublic.setText("Total "+String.valueOf(totalpublicPictures));
         }else if (totalpublicPictures > 3 && totalpublicPictures <=6) {
             ViewGroup.LayoutParams pub1 = publicgrid.getLayoutParams();
             pub1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             publicgrid.setLayoutParams(pub1);
             seeAllPublicProfile.setVisibility(View.GONE);
-            totalPublic.setText(String.valueOf(totalpublicPictures)+" pictures");
+            totalPublic.setText("Total "+String.valueOf(totalpublicPictures));
         }else if (totalpublicPictures > 6 && totalpublicPictures <=9) {
             seeAllPublicProfile.setVisibility(View.GONE);
-            totalPublic.setText(String.valueOf(totalpublicPictures)+" pictures");
+            totalPublic.setText("Total "+String.valueOf(totalpublicPictures));
         } else{
             publicBanner.setVisibility(View.VISIBLE);
             seeAllPublicProfile.setVisibility(View.VISIBLE);
             publicnopost.setVisibility(View.GONE);
-            totalPublic.setText(String.valueOf(totalpublicPictures)+" pictures");
+            totalPublic.setText("Total "+String.valueOf(totalpublicPictures));
         }
         //numPhotosCount.setText(totalPics.toString());
 

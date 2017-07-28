@@ -440,7 +440,6 @@
                         android:layout_below="@+id/competitionPosts"
                         android:textSize="14sp"
                         android:gravity="center"
-                        android:layout_marginBottom="16dp"
                         tools:ignore="RtlSymmetry" />
 
                     <TextView
@@ -448,9 +447,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Public Photos"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:textSize="14sp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="12dp"
                         android:layout_below="@+id/seeAllCompetition"
                         android:textColor="@color/darkGrey"/>
 
@@ -492,7 +491,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:text="See All"
-                        android:layout_marginBottom="16dp"
                         android:layout_below="@+id/publicPosts"
                         android:gravity="center"
                         android:textSize="14sp"
@@ -504,9 +502,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Mutual Follower Photos"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="32dp"
                         android:textSize="14sp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="12dp"
                         android:layout_below="@+id/seeAllPublic"
                         android:textColor="@color/darkGrey"/>
 
@@ -521,7 +519,7 @@
                         android:stretchMode="columnWidth"
                         android:layout_gravity="center"
                         android:visibility="visible"
-                        android:layout_marginBottom="4dp"
+                        android:layout_marginBottom="8dp"
                         />
 
                     <RelativeLayout
@@ -549,7 +547,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:text="See All"
-                        android:layout_marginBottom="16dp"
                         android:gravity="center"
                         android:layout_below="@+id/mutualPosts"
                         android:textSize="14sp"
