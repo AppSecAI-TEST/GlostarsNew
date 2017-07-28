@@ -57,7 +57,7 @@
                 android:layout_marginStart="32dp" />
 
             <TextView
-                android:text="Sign Up"
+                android:text="Sign up"
                 android:textSize="20sp"
                 android:textColor="#E1BEE7"
                 android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
 
 
             <Button
-                android:text="Log In"
+                android:text="Log in"
                 android:layout_width="300dp"
                 android:textStyle="bold"
                 android:layout_height="50dp"

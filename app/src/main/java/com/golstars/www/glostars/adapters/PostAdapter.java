@@ -187,7 +187,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
         /*Use for hash tag*/
         HashTagHelper mTextHashTagHelper;
-        mTextHashTagHelper = HashTagHelper.Creator.create(context.getResources().getColor(R.color.hashtag), new HashTagHelper.OnHashTagClickListener() {
+        mTextHashTagHelper = HashTagHelper.Creator.create(context.getResources().getColor(R.color.darkerGrey), new HashTagHelper.OnHashTagClickListener() {
             @Override
             public void onHashTagClicked(String hashTag) {
                 context.startActivity(new Intent(context,hashtagResults.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("data",hashTag));
@@ -226,7 +226,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
         Picasso.with(context)
                 .load(post.getPicURL())
-                .placeholder(R.drawable.loading)
+                .placeholder(R.drawable.loading_new)
                 .resize(screenWidth,1000)
                 .centerInside()
                 .into(holder.postImg);

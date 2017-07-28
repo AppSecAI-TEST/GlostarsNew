@@ -1,210 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_tips"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:padding="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentStart="true"
     tools:context="com.golstars.www.glostars.tips">
 
-    <ScrollView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/tipslin"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bannerLin"
-        android:layout_alignParentStart="true">
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tipslin"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/a"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Use the Right Light"
-                    android:textColor="@color/darkGrey"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/textHEADER"/>
+        <TextView
+            android:id="@+id/a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use the Right Light"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textHEADER"
+            android:textStyle="bold" />
 
 
-                <TextView
-                    android:id="@+id/b"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/textCAPTION"
-                    android:textColor="@color/darkGrey"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/light"/>
+        <TextView
+            android:id="@+id/b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/light"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textCAPTION" />
 
-                <ImageView
-                    android:layout_width="300dp"
-                    android:layout_height="200dp"
-                    android:src="@drawable/rlight"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="16dp"/>
-
-
-                <TextView
-                    android:id="@+id/c"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Don't Use Zoom"
-                    android:textColor="@color/darkGrey"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/textHEADER"/>
-
-                <TextView
-                    android:id="@+id/d"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/textCAPTION"
-                    android:textColor="@color/darkGrey"
-                    android:layout_marginBottom="32dp"
-                    android:text="@string/zoom"/>
-
-                <ImageView
-                    android:layout_width="300dp"
-                    android:layout_height="200dp"
-                    android:src="@drawable/zoom"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="16dp"/>
-
-                <TextView
-                    android:id="@+id/e"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Watch Your Background"
-                    android:textStyle="bold"
-                    android:textColor="@color/darkGrey"
-                    android:textSize="@dimen/textHEADER"/>
-
-                <TextView
-                    android:id="@+id/f"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/darkGrey"
-                    android:textSize="@dimen/textCAPTION"
-                    android:layout_marginBottom="32dp"
-                    android:text="@string/backgroundtips"/>
-
-                <TextView
-                    android:id="@+id/g"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Use Frame For Your Shots"
-                    android:textColor="@color/darkGrey"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/textHEADER"/>
-
-                <TextView
-                    android:id="@+id/h"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/textCAPTION"
-                    android:layout_marginBottom="32dp"
-                    android:textColor="@color/darkGrey"
-                    android:text="@string/frame"/>
-
-                <ImageView
-                    android:layout_width="300dp"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/frame"
-                    android:layout_marginBottom="16dp"/>
-
-                <TextView
-                    android:id="@+id/i"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Change Perspective"
-                    android:textStyle="bold"
-                    android:textColor="@color/darkGrey"
-                    android:textSize="@dimen/textHEADER"/>
-
-                <TextView
-                    android:id="@+id/j"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/textCAPTION"
-                    android:textColor="@color/darkGrey"
-                    android:layout_marginBottom="32dp"
-                    android:text="@string/perspective"/>
-
-                <ImageView
-                    android:layout_width="300dp"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/perspective"
-                    android:layout_marginBottom="16dp"/>
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/rlight" />
 
 
-                <TextView
-                    android:id="@+id/k"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Crop Your Pictures"
-                    android:textStyle="bold"
-                    android:textColor="@color/darkGrey"
-                    android:textSize="@dimen/textHEADER"/>
+        <TextView
+            android:id="@+id/c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't Use Zoom"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textHEADER"
+            android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/ll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/textCAPTION"
-                    android:textColor="@color/darkGrey"
-                    android:layout_marginBottom="32dp"
-                    android:text="@string/crop"/>
+        <TextView
+            android:id="@+id/d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="@string/zoom"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textCAPTION" />
 
-                <ImageView
-                    android:layout_width="300dp"
-                    android:layout_height="200dp"
-                    android:src="@drawable/crop"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="16dp"/>
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/zoom" />
+
+        <TextView
+            android:id="@+id/e"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Watch Your Background"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textHEADER"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/f"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="@string/backgroundtips"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textCAPTION" />
+
+        <TextView
+            android:id="@+id/g"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use Frame For Your Shots"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textHEADER"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="@string/frame"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textCAPTION" />
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/frame" />
+
+        <TextView
+            android:id="@+id/i"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Perspective"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textHEADER"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/j"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="@string/perspective"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textCAPTION" />
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/perspective" />
 
 
-                <TextView
-                    android:id="@+id/m"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Choose The Right Apps"
-                    android:textColor="@color/darkGrey"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/textHEADER"/>
+        <TextView
+            android:id="@+id/k"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crop Your Pictures"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textHEADER"
+            android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/n"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/textCAPTION"
-                    android:textColor="@color/darkGrey"
-                    android:layout_marginBottom="32dp"
-                    android:text="@string/apps"/>
+        <TextView
+            android:id="@+id/ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="@string/crop"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textCAPTION" />
 
-                <TextView
-                    android:id="@+id/o"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Phone Features"
-                    android:textColor="@color/darkGrey"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/textHEADER"/>
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/crop" />
 
-                <TextView
-                    android:id="@+id/p"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/textCAPTION"
-                    android:textColor="@color/darkGrey"
-                    android:layout_marginBottom="100dp"
-                    android:text="@string/phnfeatures"/>
 
-            </LinearLayout>
+        <TextView
+            android:id="@+id/m"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose The Right Apps"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textHEADER"
+            android:textStyle="bold" />
 
-           </ScrollView>
+        <TextView
+            android:id="@+id/n"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="@string/apps"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textCAPTION" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/o"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone Features"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textHEADER"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/p"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="100dp"
+            android:text="@string/phnfeatures"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/textCAPTION" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
+

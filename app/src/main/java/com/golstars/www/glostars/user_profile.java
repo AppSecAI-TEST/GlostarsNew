@@ -105,6 +105,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
     TextView camerabadge;
     TextView mainbadge;
     TextView competitionbadge;
+    TextView totalCompetition,totalPublic,totalMutual;
 
     TextView compno,publicno,mutualno;
 
@@ -278,6 +279,12 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         seeAllMutualProfile = (TextView)findViewById(R.id.seeAllMutual);
         numPhotosCount = (TextView)findViewById(R.id.numberofpostsCount);
         grandPrizeCountProfile = (TextView)findViewById(R.id.grandprizecount);
+        totalCompetition = (TextView) findViewById(R.id.totalComp);
+        totalPublic = (TextView) findViewById(R.id.totalpub);
+        totalMutual = (TextView) findViewById(R.id.totalmutual);
+
+
+
 
 
         compno = (TextView)findViewById(R.id.compno);
@@ -343,6 +350,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         mutualno.setTypeface(type);
         numFollowersCountProfile.setTypeface(type);
         seeAllMutualProfile.setTypeface(type);
+        totalCompetition.setTypeface(type);
+        totalPublic.setTypeface(type);
+        totalMutual.setTypeface(type);
+
 
 //        follow.setTypeface(type);
 
@@ -421,13 +432,13 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                                         follow.setTransformationMethod(null);
                                         follow.setTypeface(type);
                                     }else if(response.getJSONObject("resultPayload").getBoolean("he_follow")){
-                                        follow.setText("follower");
+                                        follow.setText("Follower");
                                         follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
                                         follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                                         follow.setTransformationMethod(null);
                                         follow.setTypeface(type);
                                     }else{
-                                        follow.setText("follow");
+                                        follow.setText("Follow");
                                         follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
                                         follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                                         follow.setTransformationMethod(null);
@@ -482,13 +493,13 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                                                     follow.setTransformationMethod(null);
                                                     follow.setTypeface(type);
                                                 }else if(response.getJSONObject("resultPayload").getBoolean("he_follow")){
-                                                    follow.setText("follower");
+                                                    follow.setText("Follower");
                                                     follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
                                                     follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                                                     follow.setTransformationMethod(null);
                                                     follow.setTypeface(type);
                                                 }else{
-                                                    follow.setText("follow");
+                                                    follow.setText("Follow");
                                                     follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
                                                     follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                                                     follow.setTransformationMethod(null);
@@ -1179,7 +1190,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                                     followStatusUpdate("Mutual");
                                 }
                                 else if(followInfo.destinationFollowOriginate){
-                                    follow.setText("follower");
+                                    follow.setText("Follower");
                                     follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
                                     follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                                     follow.setTransformationMethod(null);
@@ -1194,7 +1205,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                                     followStatusUpdate("Following");
 
                                 }else{
-                                    follow.setText("follow");
+                                    follow.setText("Follow");
                                     follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
                                     follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                                     follow.setTransformationMethod(null);
@@ -1213,7 +1224,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                                     followStatusUpdate("Mutual");
                                 }
                                 else if(followInfo.originateFollowDestination){
-                                    follow.setText("follower");
+                                    follow.setText("Follower");
                                     follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
                                     follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                                     follow.setTransformationMethod(null);
@@ -1228,7 +1239,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                                     followStatusUpdate("Following");
 
                                 }else{
-                                    follow.setText("follow");
+                                    follow.setText("Follow");
                                     follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
                                     follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                                     follow.setTransformationMethod(null);
@@ -2071,69 +2082,84 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             mutualgrid.setVisibility(View.GONE);
             seeAllMutualProfile.setVisibility(View.GONE);
             mutualnopost.setVisibility(View.VISIBLE);
+            totalMutual.setText(String.valueOf(totalmutualFollowerPics)+" pictures");
         } else if (totalmutualFollowerPics >0 && totalmutualFollowerPics <=3) {
             ViewGroup.LayoutParams mutual = mutualgrid.getLayoutParams();
             mutual.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             mutualgrid.setLayoutParams(mutual);
             seeAllMutualProfile.setVisibility(View.GONE);
+            totalMutual.setText("Total "+String.valueOf(totalmutualFollowerPics));
         }else if (totalmutualFollowerPics > 3 && totalmutualFollowerPics <=6) {
             ViewGroup.LayoutParams mutual1 = mutualgrid.getLayoutParams();
             mutual1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             mutualgrid.setLayoutParams(mutual1);
             seeAllMutualProfile.setVisibility(View.GONE);
+            totalMutual.setText("Total "+String.valueOf(totalmutualFollowerPics));
+
         }else if (totalmutualFollowerPics > 6 && totalmutualFollowerPics <=9) {
             seeAllMutualProfile.setVisibility(View.GONE);
+            totalMutual.setText("Total "+String.valueOf(totalmutualFollowerPics));
+
         }else{
             mutualgrid.setVisibility(View.VISIBLE);
             mutualnopost.setVisibility(View.GONE);
+            totalMutual.setText("Total "+String.valueOf(totalmutualFollowerPics));
+
         }
 
         if(totalCompetitionPic == 0){
             compnopost.setVisibility(View.VISIBLE);
             competitiongrid.setVisibility(View.GONE);
             seeAllCompetitionProfile.setVisibility(View.GONE);
+            totalCompetition.setText("Total "+String.valueOf(totalCompetitionPic));
         }else if (totalCompetitionPic >0 && totalCompetitionPic <=3) {
             ViewGroup.LayoutParams comp = competitiongrid.getLayoutParams();
             comp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             competitiongrid.setLayoutParams(comp);
             seeAllCompetitionProfile.setVisibility(View.GONE);
+            totalCompetition.setText("Total "+String.valueOf(totalCompetitionPic));
         }else if (totalCompetitionPic > 3 && totalCompetitionPic <=6) {
-            ViewGroup.LayoutParams comp1 = mutualgrid.getLayoutParams();
+            ViewGroup.LayoutParams comp1 = competitiongrid.getLayoutParams();
             comp1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             competitiongrid.setLayoutParams(comp1);
             seeAllCompetitionProfile.setVisibility(View.GONE);
+            totalCompetition.setText("Total "+String.valueOf(totalCompetitionPic));
         }else if (totalCompetitionPic > 6 && totalCompetitionPic <=9) {
             seeAllCompetitionProfile.setVisibility(View.GONE);
+            totalCompetition.setText("Total "+String.valueOf(totalCompetitionPic));
         } else{
             compBanner.setVisibility(View.VISIBLE);
             seeAllCompetitionProfile.setVisibility(View.VISIBLE);
             compnopost.setVisibility(View.GONE);
+            totalCompetition.setText("Total "+String.valueOf(totalCompetitionPic));
         }
 
         if(totalpublicPictures == 0){
             publicnopost.setVisibility(View.VISIBLE);
             publicgrid.setVisibility(View.GONE);
             seeAllPublicProfile.setVisibility(View.GONE);
+            totalPublic.setText("Total "+String.valueOf(totalpublicPictures));
         }else if (totalpublicPictures >0 && totalpublicPictures <=3) {
             ViewGroup.LayoutParams pub = publicgrid.getLayoutParams();
             pub.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             publicgrid.setLayoutParams(pub);
             seeAllPublicProfile.setVisibility(View.GONE);
-
-        }else if (totalCompetitionPic > 3 && totalCompetitionPic <=6) {
+            totalPublic.setText("Total "+String.valueOf(totalpublicPictures));
+        }else if (totalpublicPictures > 3 && totalpublicPictures <=6) {
             ViewGroup.LayoutParams pub1 = publicgrid.getLayoutParams();
             pub1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             publicgrid.setLayoutParams(pub1);
             seeAllPublicProfile.setVisibility(View.GONE);
-            seeAllCompetitionProfile.setVisibility(View.GONE);
-        }else if (totalCompetitionPic > 6 && totalCompetitionPic <=9) {
-            seeAllCompetitionProfile.setVisibility(View.GONE);
-
+            totalPublic.setText("Total "+String.valueOf(totalpublicPictures));
+        }else if (totalpublicPictures > 6 && totalpublicPictures <=9) {
+            seeAllPublicProfile.setVisibility(View.GONE);
+            totalPublic.setText("Total "+String.valueOf(totalpublicPictures));
         } else{
             publicBanner.setVisibility(View.VISIBLE);
             seeAllPublicProfile.setVisibility(View.VISIBLE);
+            publicnopost.setVisibility(View.GONE);
+            totalPublic.setText("Total "+String.valueOf(totalpublicPictures));
         }
-
         //numPhotosCount.setText(totalPics.toString());
 
 

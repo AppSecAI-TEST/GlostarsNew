@@ -351,8 +351,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:elevation="2dp"
+                <RelativeLayout
                     android:id="@+id/postsCompetition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -362,18 +361,53 @@
 
                     <TextView
                         android:id="@+id/competitionBanner"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginTop="8dp"
                         android:text="Competition Photos"
                         android:textColor="@color/darkGrey"
+                        android:layout_marginBottom="16dp"
                         android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/totalComp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="@color/darkGrey"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/competitionBanner"
+                        android:layout_marginEnd="8dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/totalpub"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="@color/darkGrey"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/publicBanner"
+                        android:layout_marginEnd="8dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/totalmutual"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="@color/darkGrey"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/mutualBanner"
+                        android:layout_marginEnd="8dp"
+                        />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/competitionPosts"
                         android:layout_width="match_parent"
                         android:layout_height="339dp"
                         android:layout_gravity="center"
+                        android:layout_below="@+id/competitionBanner"
                         android:numColumns="3"
                         android:layout_marginBottom="4dp"
                         android:stretchMode="columnWidth" />
@@ -382,6 +416,7 @@
                         android:id="@+id/compnopost"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
+                        android:layout_below="@+id/competitionBanner"
                         android:visibility="gone"
                         >
 
@@ -399,12 +434,12 @@
                     <TextView
                         android:id="@+id/seeAllCompetition"
                         android:layout_gravity="center_horizontal"
-                        android:layout_width="300dp"
-                        android:paddingLeft="120dp"
+                        android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:text="See All"
+                        android:layout_below="@+id/competitionPosts"
                         android:textSize="14sp"
-                        android:paddingTop="4dp"
+                        android:gravity="center"
                         tools:ignore="RtlSymmetry" />
 
                     <TextView
@@ -412,8 +447,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Public Photos"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:textSize="14sp"
+                        android:layout_marginBottom="12dp"
+                        android:layout_below="@+id/seeAllCompetition"
                         android:textColor="@color/darkGrey"/>
 
                     <android.support.v7.widget.RecyclerView
@@ -424,6 +461,7 @@
                         android:numColumns="auto_fit"
                         android:verticalSpacing="4dp"
                         android:layout_marginBottom="4dp"
+                        android:layout_below="@+id/publicBanner"
                         android:stretchMode="columnWidth"
                         android:layout_gravity="center"
                         />
@@ -432,6 +470,7 @@
                         android:id="@+id/publicnopost"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
+                        android:layout_below="@+id/publicBanner"
                         android:visibility="gone"
                         >
 
@@ -449,12 +488,13 @@
                     <TextView
                         android:id="@+id/seeAllPublic"
                         android:layout_gravity="center_horizontal"
-                        android:layout_width="300dp"
-                        android:paddingLeft="120dp"
+                        android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:text="See All"
+                        android:layout_below="@+id/publicPosts"
+                        android:gravity="center"
                         android:textSize="14sp"
-                        android:paddingTop="4dp"/>
+                        />
 
 
                     <TextView
@@ -462,8 +502,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Mutual Follower Photos"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="32dp"
                         android:textSize="14sp"
+                        android:layout_marginBottom="12dp"
+                        android:layout_below="@+id/seeAllPublic"
                         android:textColor="@color/darkGrey"/>
 
                     <android.support.v7.widget.RecyclerView
@@ -473,14 +515,16 @@
                         android:columnWidth="150dp"
                         android:numColumns="auto_fit"
                         android:verticalSpacing="4dp"
+                        android:layout_below="@+id/mutualBanner"
                         android:stretchMode="columnWidth"
                         android:layout_gravity="center"
                         android:visibility="visible"
-                        android:layout_marginBottom="4dp"
+                        android:layout_marginBottom="8dp"
                         />
 
                     <RelativeLayout
                         android:id="@+id/mutualnopost"
+                        android:layout_below="@+id/mutualBanner"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:visibility="gone"
@@ -500,14 +544,15 @@
                     <TextView
                         android:id="@+id/seeAllMutual"
                         android:layout_gravity="center_horizontal"
-                        android:layout_width="300dp"
-                        android:paddingLeft="120dp"
+                        android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:text="See All"
+                        android:gravity="center"
+                        android:layout_below="@+id/mutualPosts"
                         android:textSize="14sp"
-                        android:paddingTop="4dp"/>
+                       />
 
-                </LinearLayout>
+                </RelativeLayout>
 
 
             </LinearLayout>

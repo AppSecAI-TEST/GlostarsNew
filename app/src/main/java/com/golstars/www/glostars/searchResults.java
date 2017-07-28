@@ -852,6 +852,13 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         return true;
     }
 
+    private void setItemsVisibility(Menu menu, MenuItem exception, boolean visible) {
+        for (int i=0; i<menu.size(); ++i) {
+            MenuItem item = menu.getItem(i);
+            if (item != exception) item.setVisible(visible);
+        }
+    }
+
 
 
     @Override

@@ -4,8 +4,8 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_main_feed">MainFeed</string>
     <string-array name="genders">
-        <item name="Male">Male</item>
         <item name="Female">Female</item>
+        <item name="Male">Male</item>
     </string-array>
 
     <string-array name="iam">
