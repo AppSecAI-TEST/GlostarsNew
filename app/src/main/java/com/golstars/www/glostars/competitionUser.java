@@ -107,7 +107,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
 
     int pg = 1;
     private GridLayoutManager layoutManager;
-
+//
     private Handler handler=new Handler();
 
     @Override
