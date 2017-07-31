@@ -181,7 +181,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 //        profilebadge.setTypeface(type);
 //        competitionbadge.setTypeface(type);
 //        camerabadge.setTypeface(type);
-       recentlyposted.setTypeface(type);
+        recentlyposted.setTypeface(type);
         searchTitle.setTypeface(type);
 
 
@@ -839,7 +839,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
                     searchgrid.setVisibility(View.VISIBLE);
                     recentlyposted.setVisibility(View.VISIBLE);
                 }
-               // usrsAdapter.getFilter().filter(newText);
+                // usrsAdapter.getFilter().filter(newText);
 
 
 
