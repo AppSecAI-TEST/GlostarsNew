@@ -417,7 +417,14 @@ public class newFullscreen extends AppCompatActivity {
 
         fullscreenUploadTime.setText(postData.getUploaded());   // timestamp
 
-        Picasso.with(getApplicationContext()).load(poster.getProfilePicURL()).into(fullscreenProflePic);  // profile pic
+       // Picasso.with(getApplicationContext()).load(poster.getProfilePicURL()).into(fullscreenProflePic);  // profile pic
+        Glide
+                .with(getApplicationContext())
+                .load(poster.getProfilePicURL())
+                .placeholder(R.drawable.loading_new)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(fullscreenProflePic);
+
         fullscreenProflePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

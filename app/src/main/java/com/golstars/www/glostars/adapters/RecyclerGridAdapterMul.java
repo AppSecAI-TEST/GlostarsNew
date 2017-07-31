@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.MyUser;
 import com.golstars.www.glostars.R;
@@ -49,7 +51,13 @@ public class RecyclerGridAdapterMul extends RecyclerView.Adapter<RecyclerGridAda
 
     @Override
     public void onBindViewHolder(RecyclerGridAdapterMul.MyViewHolder holder, final int position) {
-        Picasso.with(mContext).load(ImgUrls.get(position).getPicUrlMini()).into(holder.img);
+        //Picasso.with(mContext).load(ImgUrls.get(position).getPicUrlMini()).into(holder.img);
+        Glide
+                .with(mContext)
+                .load(ImgUrls.get(position).getPicUrlMedium())
+                .placeholder(R.drawable.loading_new)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.img);
 
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override

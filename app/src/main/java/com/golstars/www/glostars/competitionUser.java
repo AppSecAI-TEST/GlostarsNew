@@ -793,7 +793,6 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
                         txt="publicPictures";
                     }else if(type.equals("MUTUAL")){
                         txt="mutualFollowerPictures";
-
                     }
                     ArrayList<Hashtag> getAllPost=gson.fromJson(response.getJSONObject("resultPayload").getJSONObject("model").getJSONArray(txt).toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
                     compPicsUrls.addAll(getAllPost);
