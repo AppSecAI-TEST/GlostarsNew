@@ -110,7 +110,7 @@ public class newFullscreen extends AppCompatActivity {
     //private ArrayList<Hashtag> postData;
     private Hashtag postData;
     private Poster poster;
-
+    private Integer numberOfComments = 0;
     public CommentData commentData;
     RecyclerView.Adapter postDataAdapter;
     MyUser myUser;
@@ -166,6 +166,8 @@ public class newFullscreen extends AppCompatActivity {
         Hashtag h=getIntent().getExtras().getParcelable("post");
         Poster p=getIntent().getExtras().getParcelable("poster");;
         setData(h,p);
+
+        numberOfComments = h.getComments().size();
 
 
         //if((p.getUserId() == null) || usrID == null){
@@ -332,7 +334,7 @@ public class newFullscreen extends AppCompatActivity {
                                     postData.setMe_follow(false);
                                 }
                             }
-                            setData(postData,null);
+                            setData(postData,poster);
                         }
 
                     }
@@ -359,7 +361,7 @@ public class newFullscreen extends AppCompatActivity {
                             poster.setProfilePicURL(userDetails.profilePicURL);
                             Picasso.with(newFullscreen.this).invalidate(userDetails.profilePicURL);
                         }
-                        setData(postData,null);
+                        setData(postData,poster);
                     }
                 });
 
@@ -385,7 +387,7 @@ public class newFullscreen extends AppCompatActivity {
             this.poster=p;
 
         picturepreview.setVisibility(View.GONE);
-
+        Picasso.with(getApplicationContext()).load(poster.getProfilePicURL()).into(fullscreenProflePic);  // profile pic
         commentsList = postData.getComments();
         commentAdapter = new ListAdapter(this, R.layout.content_comment_model, commentsList, new BtnClickListener(){
             @Override
@@ -485,13 +487,14 @@ public class newFullscreen extends AppCompatActivity {
                     float width = newRating.getWidth();
                     float starsf = (touchPositionX / width) * 5.0f;
                     int stars = (int)starsf + 1;
-                    postData.setMyStarCount(stars);
+                    //postData.setMyStarCount(stars);
                     newRating.setRating((float)stars);
                     //postData.setMyStarCount(stars);
                     System.out.println("Call rating touching... - ");
                     //needChange=true;
                     v.setPressed(false);
                     changeRating(newRating);
+
                 }
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     v.setPressed(true);
@@ -1147,7 +1150,6 @@ public class newFullscreen extends AppCompatActivity {
     //modified function
     public void changeRating(final SimpleRatingBar ratingBar){
 
-        //System.out.println("Change Call "+position);
 
         String url = ServerInfo.BASE_URL_API+"images/rating";
 

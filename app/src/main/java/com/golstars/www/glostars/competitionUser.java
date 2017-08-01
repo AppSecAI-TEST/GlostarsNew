@@ -222,6 +222,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         if(mUser == null){
             new getUserDataComp().execute("");
         } else{
+            String[] firstName = mUser.getName().split(" ", 2);
             System.out.println("MY USER IS " + mUser.getUserId() );
 
             //setting user default pic on FAB MENU
@@ -236,14 +237,14 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
             }
 
             else if(target.equals("COMPETITION")){
-                gl.setText(mUser.getName()+"'Competition posts");
+                gl.setText(firstName[0] +"'Competition posts");
 
 
             }else if(target.equals("PUBLIC")){
-                gl.setText(mUser.getName()+"'Public posts");
+                gl.setText(firstName[0] +"'Public posts");
 
             }else if(target.equals("MUTUAL")){
-                gl.setText(mUser.getName()+"'Mutual posts");
+                gl.setText(firstName[0] +"'Mutual posts");
 
             }else if(target == null) {
                 System.out.println("something else happened here");

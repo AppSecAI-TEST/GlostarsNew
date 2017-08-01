@@ -115,7 +115,7 @@ public class edit_profile extends AppCompatActivity {
     Intent homeIntent;
     File selectedImage;
     private ImageView final_view;
-    private boolean editSuccess = false;
+    boolean editSuccess;
 
 
 
@@ -142,6 +142,7 @@ public class edit_profile extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        editSuccess = false;
 
 
 
@@ -338,11 +339,12 @@ public class edit_profile extends AppCompatActivity {
         final FileOutputStream[] outputStream = new FileOutputStream[1];
 
         String url = ServerInfo.BASE_URL_API+"account/GetUserDetails?userId="+mUser.getUserId();
-        final ProgressDialog dialog = ProgressDialog.show(edit_profile.this, "","Saving changes, Please wait...", true);
-
+        ProgressDialog dialog1 = null;
         //dialog box to check changes saving
-        if(editSuccess){
-            dialog.show();
+        System.out.println("EDITSUCCESS");
+        System.out.println(editSuccess);
+        if(editSuccess == true){
+           dialog1 = ProgressDialog.show(edit_profile.this, "","Saving changes, Please wait...", true);
         }
 
         AsyncHttpClient client=new AsyncHttpClient();
@@ -355,6 +357,7 @@ public class edit_profile extends AppCompatActivity {
             client.setSSLSocketFactory(sf);
         }
         catch (Exception e) {}
+        final ProgressDialog finalDialog = dialog1;
         client.get(this, url,new JsonHttpResponseHandler() {
 
 
@@ -387,14 +390,19 @@ public class edit_profile extends AppCompatActivity {
                     lastname.setText(LastName);
                     aboutme.setText(AboutMe);
                     interests.setText(Interests);
+                    currentcity.setText(Location);
+                    homecity.setText(Original_Location);
 
-                    if(editSuccess){
-                        dialog.dismiss();
-                        Toast.makeText(getApplicationContext(),  "Changes have been saved successfully", Toast.LENGTH_LONG).show();
 
+
+                    if(editSuccess == true){
                         Intent userProfileIntent=new Intent();
                         userProfileIntent.putExtra("USER_ID",mUser.getUserId());
                         userProfileIntent.setClass(getApplicationContext(),user_profile.class);
+                        finalDialog.dismiss();
+                        Toast.makeText(getApplicationContext(),  "Changes have been saved successfully", Toast.LENGTH_LONG).show();
+
+
                         startActivity(userProfileIntent);
                     }
 
