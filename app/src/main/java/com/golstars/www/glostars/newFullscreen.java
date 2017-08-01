@@ -170,11 +170,23 @@ public class newFullscreen extends AppCompatActivity {
         numberOfComments = h.getComments().size();
 
 
+
+
         //if((p.getUserId() == null) || usrID == null){
         if(!MainFeed.isConnected(getApplicationContext())){
             Toast.makeText(getApplicationContext(), "couldn't reach servers", Toast.LENGTH_LONG).show();
-        }else if(usrID.equals(p.getUserId())){
-            newFullscreenFollow.setVisibility(View.GONE);
+        }else {
+
+            if(p.getUserId().equals(usrID)){
+                deletePicture.setVisibility(View.VISIBLE);
+                space.setVisibility(View.VISIBLE);
+                newFullscreenFollow.setVisibility(View.GONE);
+            }else{
+                deletePicture.setVisibility(View.GONE);
+                space.setVisibility(View.GONE);
+                newFullscreenFollow.setVisibility(View.VISIBLE);
+            }
+
         }
 
 
