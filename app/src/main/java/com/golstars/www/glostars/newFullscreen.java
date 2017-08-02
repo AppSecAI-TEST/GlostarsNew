@@ -399,7 +399,19 @@ public class newFullscreen extends AppCompatActivity {
             this.poster=p;
 
         picturepreview.setVisibility(View.GONE);
-        Picasso.with(getApplicationContext()).load(poster.getProfilePicURL()).into(fullscreenProflePic);  // profile pic
+        String pic = poster.getProfilePicURL();
+        System.out.println(pic);
+        //Picasso.with(getApplicationContext()).load(poster.getProfilePicURL()).into(fullscreenProflePic);  // profile pic
+        if (pic.equals("/Content/Profile/Thumbs/male.jpg") || pic.equals("/Content/Profile/Thumbs/Male.jpg")) {
+            fullscreenProflePic.setImageResource(R.drawable.nopicmalegrey);
+
+        } else if (pic.equals("/Content/Profile/Thumbs/female.jpg") || pic.equals("/Content/Profile/Thumbs/Female.jpg")) {
+            fullscreenProflePic.setImageResource(R.drawable.nopicfemalegrey);
+        } else {
+            Picasso.with(getApplicationContext()).load(pic).into(fullscreenProflePic);
+            //
+        }
+
         commentsList = postData.getComments();
         commentAdapter = new ListAdapter(this, R.layout.content_comment_model, commentsList, new BtnClickListener(){
             @Override
@@ -431,7 +443,7 @@ public class newFullscreen extends AppCompatActivity {
 
         fullscreenUploadTime.setText(postData.getUploaded());   // timestamp
 
-        Picasso.with(getApplicationContext()).load(poster.getProfilePicURL()).into(fullscreenProflePic);  // profile pic
+        //Picasso.with(getApplicationContext()).load(poster.getProfilePicURL()).into(fullscreenProflePic);  // profile pic
 //        Glide
 //                .with(getApplicationContext())
 //                .load(poster.getProfilePicURL())
