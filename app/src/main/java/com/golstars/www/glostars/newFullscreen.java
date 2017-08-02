@@ -104,6 +104,8 @@ public class newFullscreen extends AppCompatActivity {
     CoordinatorLayout parentLayout;
     View space;
 
+    RelativeLayout commentHolderRL;
+
     Integer position;
     String token;
     String usrID;
@@ -144,7 +146,7 @@ public class newFullscreen extends AppCompatActivity {
         parentLayout = (CoordinatorLayout) findViewById(R.id.rootViewFullscreen);
         deletePicture = (ImageView) findViewById(R.id.deletePictureFullscreen);  // this icon will be only visible if the picture is of my own
         space = findViewById(R.id.spaceViewFullscreen); // this view will be only visible if the picture is of my own
-
+        commentHolderRL = (RelativeLayout) findViewById(R.id.commentsHolder);
 
         type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
         fullscreenUsername.setTypeface(type);
@@ -170,6 +172,14 @@ public class newFullscreen extends AppCompatActivity {
         numberOfComments = h.getComments().size();
 
 
+
+        if(numberOfComments==0){
+            commentHolderRL.setVisibility(View.GONE);
+        }else if( numberOfComments>0 && numberOfComments<=3){
+            ViewGroup.LayoutParams commentHolder = newFullscreenComments.getLayoutParams();
+            commentHolder.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            newFullscreenComments.setLayoutParams(commentHolder);
+        }
 
 
         //if((p.getUserId() == null) || usrID == null){

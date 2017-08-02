@@ -44,7 +44,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:id="@+id/editprofile"
-                        android:src="@drawable/settingsicon"
+                        android:src="@drawable/editprofileicon"
                         android:layout_toRightOf="@+id/profileuserNAME"
                         android:layout_alignTop="@+id/profileuserNAME"
                         android:layout_marginLeft="8dp"/>

@@ -98,6 +98,8 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
     public int getItemCount() {
         return ImgUrls.size();
     }
+
+
     public class MyViewHolder extends RecyclerView.ViewHolder{
         public ImageView img;
 
