@@ -192,6 +192,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
     PullRefreshLayout layout;
     private Handler handler=new Handler();
     String finalTarget;
+    String usernameG = " ";
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -649,6 +650,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                 intent.putExtra("myUserId", mUser.getUserId());
                 intent.putExtra("myUserPic", mUser.getProfilePicURL());
                 intent.putExtra("token", mUser.getToken());
+
                 intent.setClass(user_profile.this,newFollowersPage.class);
                 startActivity(intent);
                 System.out.println("Calling");
@@ -661,9 +663,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                 if(!compImgsUrls.isEmpty()){
                     Intent intent = new Intent();
                     intent.putExtra("LOAD_TARGET", "COMPETITION");
-                    intent.putExtra("user_id",finalTarget);
+                    intent.putExtra("user_id",target);
                     Bundle b = new Bundle();
                     b.putParcelable("user", mUser);
+                    intent.putExtra("guestUser", usernameProfile.getText());
                     intent.putExtras(b);
 
                     intent.setClass(getApplicationContext(), competitionUser.class);
@@ -684,7 +687,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                 if(!publicImgsUrls.isEmpty()){
                     Intent intent = new Intent();
                     intent.putExtra("LOAD_TARGET", "PUBLIC");
-                    intent.putExtra("user_id",finalTarget);
+                    intent.putExtra("user_id",target);
+                    intent.putExtra("guestUser", usernameProfile.getText());
                     intent.setClass(getApplicationContext(), competitionUser.class);
                     startActivity(intent);
                 } else {
@@ -702,7 +706,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                 if(!mutualImgsUrls.isEmpty()){
                     Intent intent = new Intent();
                     intent.putExtra("LOAD_TARGET", "MUTUAL");
-                    intent.putExtra("user_id",finalTarget);
+                    intent.putExtra("user_id",target);
+                    intent.putExtra("guestUser", usernameProfile.getText());
                     intent.setClass(getApplicationContext(), competitionUser.class);
                     startActivity(intent);
 

@@ -217,13 +217,17 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         //new getUserDataComp().execute("");
 
 //        Picasso.with(this).load(mUser.getProfilePicURL()).into(profileFAB);
+        target = this.getIntent().getStringExtra("LOAD_TARGET");
+        guestUserId = this.getIntent().getStringExtra("user_id");
+        String guestUserName = this.getIntent().getStringExtra("guestUser");
 
         mUser = MyUser.getmUser(getApplicationContext());
         if(mUser == null){
             new getUserDataComp().execute("");
         } else{
-            String[] firstName = mUser.getName().split(" ", 2);
-            System.out.println("MY USER IS " + mUser.getUserId() );
+            String[] firstName = guestUserName.split(" ", 2);
+            System.out.println("MY USER IS " + target );
+            System.out.println("THIS USER IS "  + guestUserId);
 
             //setting user default pic on FAB MENU
             if(mUser.getSex().equals("Male")){
@@ -270,8 +274,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         competitionusergrid.setAdapter(targetAdapter);
 
 
-        target = this.getIntent().getStringExtra("LOAD_TARGET");
-        guestUserId = this.getIntent().getStringExtra("user_id");
+
         //mUser = MyUser.getmUser(getApplicationContext());
         //System.out.println("useris: " + mUser.getName());
 
@@ -709,6 +712,7 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
         @Override
         protected void onPostExecute(JSONObject object) {
             System.out.println("MY USER IS " + mUser.getUserId() );
+            System.out.println("THIS USER IS "  + guestUserId);
 
             //setting user default pic on FAB MENU
             if(mUser.getSex().equals("Male")){
@@ -812,6 +816,11 @@ public class competitionUser extends AppCompatActivity implements OnSinglePicCli
                 }
             }
 
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+
+            }
         });
     }
 
