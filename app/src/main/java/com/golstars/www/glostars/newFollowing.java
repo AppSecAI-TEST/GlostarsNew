@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,7 @@ import microsoft.aspnet.signalr.client.hubs.SubscriptionHandler1;
 
 public class newFollowing extends Fragment {
 
-    ListView newfollowing;
+    RecyclerView newfollowing;
 
     //ArrayList<Follower> followers;
     ArrayList<Follower> following;
@@ -90,7 +91,7 @@ public class newFollowing extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_new_following, container, false);
 
-        newfollowing = (ListView)rootView.findViewById(R.id.newfollowingList);
+        newfollowing = (RecyclerView) rootView.findViewById(R.id.newfollowingList);
         //followers = new ArrayList<>();
         following = new ArrayList<>();
 

@@ -35,9 +35,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginTop="24dp">
+                    android:gravity="bottom"
+                    >
 
                     <TextView
                         android:id="@+id/glostarslogo"
@@ -45,10 +44,10 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="0dp"
                         android:textSize="20sp"
+                        android:layout_marginTop="25dp"
                         android:layout_gravity="center_horizontal"
-                        android:animateLayoutChanges="true"
                         android:visibility="visible"
-                        android:text="Sajib's Competition Pictures"/>
+                        />
 
                     <View
                         android:layout_width="wrap_content"
@@ -58,7 +57,6 @@
 
                     <ImageView
                         android:id="@+id/searchlogo"
-                        android:layout_marginTop="0dp"
                         android:layout_width="30dp"
                         android:layout_marginRight="8dp"
                         android:layout_gravity="center_vertical"

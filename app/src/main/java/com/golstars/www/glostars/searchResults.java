@@ -12,6 +12,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -100,7 +101,6 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
     TextView mainbadge;
     TextView competitionbadge;
     TextView recentlyposted;
-    TextView searchTitle;
 
     SearchUser searchUser;
     ArrayAdapter<String> usrsAdapter;
@@ -143,8 +143,6 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         searchgrid = (RecyclerView) findViewById(R.id.searchGrid);
         searchlist = (ListView)findViewById(R.id.searchlist);
 
-        searchTitle = (TextView) findViewById(R.id.searchTitle);
-
         recentlyposted = (TextView)findViewById(R.id.recentlyposted);
 
         menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
@@ -182,7 +180,6 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 //        competitionbadge.setTypeface(type);
 //        camerabadge.setTypeface(type);
         recentlyposted.setTypeface(type);
-        searchTitle.setTypeface(type);
 
 
 
@@ -791,15 +788,24 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         inflater.inflate(R.menu.menu_main_feed,menu);
         MenuItem search = menu.findItem(R.id.searchmenu);
 
-        menu.findItem(R.id.searchmenu).setIcon(R.drawable.search);
-
         final SearchView searchView = (SearchView)search.getActionView();
+
+            searchView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    menuDown.close(true);
+                }
+            });
+
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
+
+
 
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -851,6 +857,8 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 
         return true;
     }
+
+
 
     private void setItemsVisibility(Menu menu, MenuItem exception, boolean visible) {
         for (int i=0; i<menu.size(); ++i) {
