@@ -189,10 +189,11 @@ public class notificationNew extends AppCompatActivity {
                 getUnseen();
 
             }else{
+                LoadServer();
                 noConnectionMsg();
             }
         }
-        LoadServer();
+
 
     }
 

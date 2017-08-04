@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -39,6 +40,7 @@ import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.Database.OfflineInfo;
 import com.golstars.www.glostars.ModelData.FollowInfo;
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.ModelData.Rating;
@@ -390,10 +392,12 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
                 }
             }
         });
+        takePermission();
 
         //CHECK IS THE PHONE CONNECTED TO THE INTERNET
         if(!isConnected(getApplicationContext())){
             //startActivity(new Intent(this, noInternet.class));
+            Toast.makeText(this, "No internet avaiable", Toast.LENGTH_SHORT).show();
 
             noConnetionMsg(postRelative, getResources().getColor(R.color.lightViolate));
             try{
@@ -410,7 +414,10 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
                 e.printStackTrace();
             }
         } else{
+            //Toast.makeText(this, "Internet avaiable", Toast.LENGTH_SHORT).show();
             loadFeed();
+            LoadServer();
+
             /** we should make it so if the connection status changes
              *  the mock page loaded be removed and open space for fresh data */
 
@@ -422,6 +429,22 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 
 
     }
+
+
+
+
+    public void takePermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{
+                    android.Manifest.permission.INTERNET,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    android.Manifest.permission.ACCESS_WIFI_STATE,
+                    android.Manifest.permission.ACCESS_NETWORK_STATE
+            },1);
+        }
+    }
+
 
     public void noConnetionMsg(RelativeLayout p, int color){
 
@@ -523,6 +546,11 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 
         final MyUser me=MyUser.getmUser();
         System.out.println("server Token "+me.getToken());
+        OfflineInfo offlineInfo=new OfflineInfo(getApplicationContext());
+
+
+        offlineInfo.saveToken(me.getToken());
+        offlineInfo.saveUserId(me.getUserId());
 
         Credentials credentials=new Credentials() {
             @Override

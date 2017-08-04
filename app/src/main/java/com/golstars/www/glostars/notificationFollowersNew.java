@@ -14,7 +14,10 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.golstars.www.glostars.DatabaseModel.FollowerNotificationRealm;
+import com.golstars.www.glostars.DatabaseModel.NotificationRealm;
 import com.golstars.www.glostars.ModelData.Hashtag;
 import com.golstars.www.glostars.adapters.NotificationAdapter;
 import com.golstars.www.glostars.adapters.PostData;
@@ -36,6 +39,8 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class notificationFollowersNew extends Fragment implements OnItemClickListener,AdapterInfomation {
 
@@ -45,7 +50,7 @@ public class notificationFollowersNew extends Fragment implements OnItemClickLis
     NotificationAdapter follAdapter;
     MyUser mUser;
     String tempToken;
-
+    Realm realm=Realm.getDefaultInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
@@ -76,13 +81,43 @@ public class notificationFollowersNew extends Fragment implements OnItemClickLis
         followerNew.setItemAnimator(new DefaultItemAnimator());
         followerNew.setAdapter(follAdapter);
 
-        if(mUser == null){
-            new getUserData().execute("");
-//
+        RealmResults<NotificationRealm> list= realm.where(NotificationRealm.class).findAll();
+        if(!searchResults.isConnected(getContext())){
+            loadFromOffline();
+        }else{
+            if(mUser == null){
+                new getUserData().execute("");
+            }
         }
 
 
         return rootView;
+    }
+    public void loadFromOffline(){
+        RealmResults<FollowerNotificationRealm> list= realm.where(FollowerNotificationRealm.class).findAll();
+        for (int i = 0; i < list.size(); i++) {
+            try {
+                FollowerNotificationRealm notificationRealm=list.get(i);
+
+                JSONObject singleNotif = new JSONObject(notificationRealm.FollowerNotificationRealmData);
+
+                String description = "started following you";
+                String profilePicURL = singleNotif.getString("profilePicURL");
+                String name = singleNotif.getString("name");
+                String usrId = singleNotif.getString("userId");
+                String originatedById = singleNotif.getString("originatedById");
+                Boolean seen = Boolean.valueOf(singleNotif.getString("seen"));
+                Boolean checked = Boolean.valueOf(singleNotif.getString("checked"));
+                String Seen = singleNotif.getString("seen");
+                String date = singleNotif.getString("date");
+                String interval = Timestamp.getInterval(Timestamp.getOwnZoneDateTime(date));
+
+                setActivityNotifsAdapter(description, profilePicURL, name, "", usrId, originatedById, null, seen, interval,null, checked);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     public void addNotification(NotificationObj notification){
@@ -110,6 +145,12 @@ public class notificationFollowersNew extends Fragment implements OnItemClickLis
 
                     for(int i = 0; i < followerNotifications.length(); ++i){
                         JSONObject singleNotif = followerNotifications.getJSONObject(i);
+
+                        realm.beginTransaction();
+                        FollowerNotificationRealm followerNotificationRealm=new FollowerNotificationRealm(singleNotif.getInt("followerNotificationId"),singleNotif.toString());
+                        realm.insertOrUpdate(followerNotificationRealm);
+                        realm.commitTransaction();
+
                         String description = "started following you";
                         String profilePicURL = singleNotif.getString("profilePicURL");
                         String name = singleNotif.getString("name");
@@ -118,48 +159,11 @@ public class notificationFollowersNew extends Fragment implements OnItemClickLis
                         Boolean seen = Boolean.valueOf(singleNotif.getString("seen"));
                         Boolean checked = Boolean.valueOf(singleNotif.getString("checked"));
                         String Seen = singleNotif.getString("seen");
-//                        String picURL = singleNotif.getString("picUrl");
                         String date = singleNotif.getString("date");
-                            /*String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                            LocalDateTime localDateTime = LocalDateTime.parse(date, DateTimeFormat.forPattern(pattern));*/
                         String interval = Timestamp.getInterval(Timestamp.getOwnZoneDateTime(date));
-
-//                        if (Seen.equals("false")){
-//                            unseenNotifs ++;
-//                        }
-
-                        //setActivityNotifSeen();
 
                         setActivityNotifsAdapter(description, profilePicURL, name, "", usrId, originatedById, null, seen, interval,null, checked);
                     }
-//                    for (int i = 0; i < followerNotifications.length(); ++i) {
-//                        JSONObject singleNotif = followerNotifications.getJSONObject(i);
-//                        String description = "started following you";
-//                        String profilePicURL = singleNotif.getString("profilePicURL");
-//                        String name = singleNotif.getString("name");
-//                        String usrId = singleNotif.getString("userId");
-//                        String originatedById = singleNotif.getString("originatedById");
-//                        Boolean seen = Boolean.valueOf(singleNotif.getString("seen"));
-//                        Boolean checked = Boolean.valueOf(singleNotif.getString("checked"));
-//                        String Seen = singleNotif.getString("seen");
-//
-//                        String date = singleNotif.getString("date");
-//                            /*String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-//                            LocalDateTime localDateTime = LocalDateTime.parse(date, DateTimeFormat.forPattern(pattern));*/
-//                        String interval = Timestamp.getInterval(Timestamp.getOwnZoneDateTime(date));
-//
-//
-//                        //setActivityNotifSeen();
-//
-//                        setFollowerNotifsAdapter(description, profilePicURL, name, "", usrId, originatedById, null, seen, interval, checked);
-//                    }
-                    /*
-                    if(unseenNotifs > 0){
-                        menuDown.setMenuButtonColorNormal(ContextCompat.getColor(notification.this,R.color.colorPrimary));
-                        notificationFAB.setColorNormal(ContextCompat.getColor(notification.this,R.color.colorPrimary));
-                        menuDown.getMenuIconView().setImageResource(R.drawable.notimenu);
-                        notificationFAB.setImageResource(R.drawable.notinoti);
-                    }*/
 
                 } catch (JSONException e) {
                     e.printStackTrace();
