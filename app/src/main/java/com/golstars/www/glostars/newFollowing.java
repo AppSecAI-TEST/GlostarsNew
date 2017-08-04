@@ -103,7 +103,8 @@ public class newFollowing extends Fragment {
         followingAdaper = new FollowersAdapter(getContext(), R.layout.activity_followers_model, following);
 
         //followersList.setAdapter(followersAdapter);
-        newfollowing.setAdapter(followingAdaper);
+
+        //newfollowing.setAdapter(followingAdaper); wtf is happening here
         new getUserData().execute("");
 
         LoadServer();

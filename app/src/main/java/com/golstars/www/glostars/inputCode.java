@@ -8,7 +8,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.MySSLSocketFactory;
+
+import org.json.JSONObject;
 import org.w3c.dom.Text;
+
+import java.security.KeyStore;
+
+import cz.msebera.android.httpclient.Header;
 
 public class inputCode extends AppCompatActivity {
 
@@ -38,5 +47,37 @@ public class inputCode extends AppCompatActivity {
         resend.setTypeface(type);
         codeinput.setTypeface(type);
         submit.setTypeface(type);
+
+
+
+    }
+
+    private void send(String userid, String data){
+        String url = ServerInfo.BASE_URL_API+"Account/Confirmcode?userid=" + userid + "&confirmCode=" + data;
+
+        AsyncHttpClient client=new AsyncHttpClient();
+
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
+
+        client.get(url, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                System.out.println(response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                System.out.println(responseString);
+            }
+        });
+
+
     }
 }

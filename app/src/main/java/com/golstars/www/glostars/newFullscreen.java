@@ -58,6 +58,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.security.KeyStore;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,6 +67,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
 import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
@@ -165,7 +167,7 @@ public class newFullscreen extends AppCompatActivity {
 
 
 
-        Hashtag h=getIntent().getExtras().getParcelable("post");
+        final Hashtag h=getIntent().getExtras().getParcelable("post");
         Poster p=getIntent().getExtras().getParcelable("poster");;
         setData(h,p);
 
@@ -203,7 +205,18 @@ public class newFullscreen extends AppCompatActivity {
         deletePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // delete your own picture
+
+                /** build here a window to ask user if he wants to delete pic */
+                Integer picId = h.getId();
+                deletePic(picId.toString());
+
+
+
+
+
+
+
+
             }
         });
 
@@ -229,6 +242,47 @@ public class newFullscreen extends AppCompatActivity {
 
 
     }
+
+
+    private void deletePic(String picId){
+        String url = ServerInfo.BASE_URL + "api/images/delete/" + picId ;
+
+        AsyncHttpClient client=new AsyncHttpClient();
+
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client.setSSLSocketFactory(sf);
+        }
+        catch (Exception e) {}
+
+        client.addHeader("Authorization", "Bearer " + token);
+        StringEntity stringEntity=null;
+        try {
+            stringEntity=new StringEntity("");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        client.post(getApplicationContext(), url, stringEntity, "application/json", new JsonHttpResponseHandler(){
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                System.out.println("response");
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                System.out.println(responseString);
+            }
+        });
+
+    }
+
+
+
     Handler handler = new Handler();
     public void LoadServer(){
         Platform.loadPlatformComponent(new AndroidPlatformComponent());

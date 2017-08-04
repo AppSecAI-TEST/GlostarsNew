@@ -12,6 +12,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.app.FragmentManager;
@@ -319,7 +320,45 @@ public class SignUp extends Fragment{
                     } else if((day_obirth > 31)){
                         Toast.makeText(getContext(), "Enter a valid birth date", Toast.LENGTH_LONG).show();
                     } else {
-                        startActivity(new Intent(getActivity(),inputCode.class));
+
+                        if(termscheck.isChecked()){
+                            if(name.isEmpty()){
+
+                                Toast.makeText(getContext(), "'First Name' field is obligatory", Toast.LENGTH_LONG).show();
+                            }else if(email.isEmpty()){
+
+                                Toast.makeText(getContext(), "'Email' field is obligatory", Toast.LENGTH_LONG).show();
+                            }else if(pwd.isEmpty()){
+
+                                Toast.makeText(getContext(), "'Password' field is obligatory", Toast.LENGTH_LONG).show();
+                            }else{
+
+                                try {
+                                    createAccount(usrname, email, name, bdayY, bdayM, bdayD, genderSelected, lastname, pwd);
+                                    JSONObject c = null;
+                                    while (c == null){
+                                        c = getData();
+                                    }
+                                    if(c.getInt("responseCode") == 1){
+                                        Toast.makeText(getContext(), c.getString("message"), Toast.LENGTH_LONG).show();
+                                        //login("password", password.getText().toString(), c.getJSONObject("resultPayload").getString("email"));
+                                    }
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+
+
+                        } else {
+                            Toast.makeText(getActivity(), "You have to accept the terms and conditions to create an account", Toast.LENGTH_LONG).show();
+                        }
+
+
+
+                        //
                     }
 
 
@@ -339,40 +378,7 @@ public class SignUp extends Fragment{
 
 
 //
-//                if(termscheck.isChecked()){
-//                    if(name.isEmpty()){
-//
-//                        Toast.makeText(getContext(), "'First Name' field is obligatory", Toast.LENGTH_LONG).show();
-//                    }else if(email.isEmpty()){
-//
-//                        Toast.makeText(getContext(), "'Email' field is obligatory", Toast.LENGTH_LONG).show();
-//                    }else if(pwd.isEmpty()){
-//
-//                        Toast.makeText(getContext(), "'Password' field is obligatory", Toast.LENGTH_LONG).show();
-//                    }else{
-//
-//                        try {
-//                            createAccount(usrname, email, name, bdayY, bdayM, bdayD, genderSelected, lastname, pwd);
-//                            JSONObject c = null;
-//                            while (c == null){
-//                                c = getData();
-//                            }
-//                            if(c.getInt("responseCode") == 1){
-//                                Toast.makeText(getContext(), c.getString("message"), Toast.LENGTH_LONG).show();
-//                                //login("password", password.getText().toString(), c.getJSONObject("resultPayload").getString("email"));
-//                            }
-//
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                    }
-//
-//
-//
-//                } else {
-//                    Toast.makeText(getActivity(), "You have to accept the terms and conditions to create an account", Toast.LENGTH_LONG).show();
-//                }
+
 
 
             }
@@ -399,16 +405,15 @@ public class SignUp extends Fragment{
     }
 
     public void createAccount(final String username, String email, String name, String bdayY, String bdayM, String bdayD, String gender, String lastname, final String password) throws Exception {
-        URL url = new URL("https://www.glostars.com/api/account/register");
+        URL url = new URL("https://www.glostars.com/Account/Signup");
         JSONObject msg = new JSONObject();
-        msg.put("UserName", username);
-        msg.put("Email", email);
         msg.put("Name", name);
+        msg.put("LastName", lastname);
+        msg.put("Gender", gender);
+        msg.put("Email", email);
         msg.put("BirthdayYear", bdayY);
         msg.put("BirthdayMonth", bdayM);
         msg.put("BirthdayDay", bdayD);
-        msg.put("Gender", gender);
-        msg.put("LastName", lastname);
         msg.put("Password", password);
 
         System.out.println(msg);
@@ -477,23 +482,39 @@ public class SignUp extends Fragment{
                     throw new IOException("Unexpected code " + response);
                 }
 
-                Message msge = hander.obtainMessage(1,"user created");
-                msge.sendToTarget();
+
+
+                //Message msge = hander.obtainMessage(1,"user created");
+                //msge.sendToTarget();
 
                 String msg = response.body().string();
                 System.out.println(msg);
+                JSONObject newUser = null;
 
                 try {
-                    JSONObject newUser = new JSONObject(msg);
+                    newUser = new JSONObject(msg);
+
                     //Toast.makeText(getContext(), newUser.getString("message"), Toast.LENGTH_LONG).show();
                     setData(newUser);
-                    login("password", pWd , newUser.getJSONObject("resultPayload").getString("email"));
+                    if(newUser.getString("result").equals("false")){
+                        Message msge = hander.obtainMessage(1,"this email already exists");
+                        msge.sendToTarget();
+                    }else{
+                        Intent i = new Intent(getActivity(), inputCode.class);
+                        i.putExtra("userdata", data.toString());
+                        startActivity(i);
+                    }
+
+                    //login("password", pWd , newUser.getJSONObject("resultPayload").getString("email"));
 
 
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                System.out.println("RESPONSE IS ");
+                System.out.println(newUser);
 
 
             }
@@ -561,6 +582,7 @@ public class SignUp extends Fragment{
 
 //                    login.setBackgroundResource(R.drawable.roundedbutton1);
 //                    login.setTextColor(getResources().getColor(R.color.colorPrimary));
+
 
                     startActivity(new Intent(getActivity(), MainFeed.class));
                     getActivity().finish();
