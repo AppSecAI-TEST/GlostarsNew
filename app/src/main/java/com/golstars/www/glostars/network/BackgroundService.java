@@ -15,6 +15,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.golstars.www.glostars.MainFeed;
 import com.golstars.www.glostars.R;
 import com.golstars.www.glostars.notification;
+import com.golstars.www.glostars.notificationNew;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,7 +89,7 @@ public class BackgroundService extends IntentService{
                         .setAutoCancel(true)
                         .setContentText(msg);
 
-        Intent in = new Intent(this, notification.class);
+        Intent in = new Intent(this, notificationNew.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(MainFeed.class);
         stackBuilder.addNextIntent(in);

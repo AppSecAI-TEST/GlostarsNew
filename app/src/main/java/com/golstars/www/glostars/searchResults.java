@@ -18,6 +18,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -48,6 +49,7 @@ import com.golstars.www.glostars.network.SearchUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -788,14 +790,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         inflater.inflate(R.menu.menu_main_feed,menu);
         MenuItem search = menu.findItem(R.id.searchmenu);
 
-        final SearchView searchView = (SearchView)search.getActionView();
-
-            searchView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    menuDown.close(true);
-                }
-            });
+        final SearchView searchView = (SearchView) search.getActionView();
 
 
 

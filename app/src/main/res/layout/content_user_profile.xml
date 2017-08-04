@@ -56,7 +56,7 @@
                         android:layout_alignTop="@+id/profileuserPIC"
                         android:layout_toRightOf="@+id/profileuserPIC"
                         android:layout_marginLeft="16dp"
-                        android:text="USERNAME"
+                        android:text=""
                         android:textColor="@color/colorPrimary"
                         android:textSize="20sp"/>
 
@@ -68,7 +68,7 @@
                         android:layout_toRightOf="@+id/profileuserPIC"
                         android:layout_below="@+id/profileuserNAME"
                         android:layout_marginLeft="16dp"
-                        android:text="LOCATION"
+                        android:text=""
                         android:textColor="@color/darkGrey"
                         android:layout_marginTop="2dp"
                         android:textSize="12sp"/>

@@ -206,13 +206,33 @@ public class newFullscreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(newFullscreen.this);
+
+                builder.setTitle("Delete ");
+                builder.setMessage("Are you sure?");
+
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        Integer picId = h.getId();
+                        deletePic(picId.toString());
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
                 /** build here a window to ask user if he wants to delete pic */
-                Integer picId = h.getId();
-                deletePic(picId.toString());
-
-
-
-
 
 
 
