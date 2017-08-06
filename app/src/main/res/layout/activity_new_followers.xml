@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     tools:context="com.golstars.www.glostars.newFollowers">
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/newfollowerList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible">
 
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -57,7 +57,7 @@ import microsoft.aspnet.signalr.client.hubs.SubscriptionHandler1;
 
 public class newFollowers extends Fragment {
 
-    ListView newfollowers;
+    RecyclerView newfollowers;
 
     ArrayList<Follower> followers;
     //ArrayList<Follower> following;
@@ -85,7 +85,7 @@ public class newFollowers extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_new_followers, container, false);
 
-        newfollowers = (ListView) rootView.findViewById(R.id.newfollowerList);
+        newfollowers = (RecyclerView) rootView.findViewById(R.id.newfollowerList);
 
         //followersList = (ListView) (R.id.followerList);
         //followingList = (ListView)findViewById(R.id.followingList);
