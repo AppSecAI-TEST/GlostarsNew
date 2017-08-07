@@ -143,6 +143,7 @@ public class notificationNotificationNew extends Fragment implements OnItemClick
             }
 
         }
+        mAdapter.notifyDataSetChanged();
 
 
     }
@@ -279,6 +280,7 @@ public class notificationNotificationNew extends Fragment implements OnItemClick
 
                         setNotifsAdapter(description, profilePicURL, name, picURL, usrId, originatedById, pictureId, seen, interval, checked);
                     }
+                    mAdapter.notifyDataSetChanged();
                     /*1
                     if(unseenNotifs > 0){
                         menuDown.setMenuButtonColorNormal(ContextCompat.getColor(notification.this,R.color.colorPrimary));
@@ -331,7 +333,7 @@ public class notificationNotificationNew extends Fragment implements OnItemClick
         NotificationObj notif = new NotificationObj(originatedById, pictureId, description, name, profilePicURL, picURL, seen, checked);
         notif.setDate(date);
         notifs.add(notif);
-        mAdapter.notifyDataSetChanged();
+
     }
 
     @Override

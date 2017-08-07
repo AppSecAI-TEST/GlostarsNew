@@ -81,13 +81,13 @@
             android:id="@+id/userCAPTION" />
 
         <ImageView
+            android:id="@+id/userPOST"
             android:layout_width="700dp"
             android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            android:layout_marginTop="12dp"
+            android:layout_below="@+id/userCAPTION"
             android:layout_centerHorizontal="true"
-            android:id="@+id/userPOST"
-            android:layout_below="@+id/userCAPTION"/>
+            android:layout_marginTop="12dp"
+            android:scaleType="centerInside" />
 
         <TextView
             android:id="@+id/uploadTIME"

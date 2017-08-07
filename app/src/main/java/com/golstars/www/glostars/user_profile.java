@@ -194,6 +194,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
     String finalTarget;
     String usernameG = " ";
 
+    boolean isMutualUser=false;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -793,17 +795,17 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             Snackbar noInternetSnackBar = Snackbar.make(parentLayout,"No Internet Connection",Snackbar.LENGTH_LONG)
                     .setActionTextColor(getResources().getColor(R.color.lightViolate))
                     .setAction("Retry", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        Intent intent = getIntent();
-                        finish();
-                        startActivity(intent);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                Intent intent = getIntent();
+                                finish();
+                                startActivity(intent);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
             noInternetSnackBar.show();
         }
 
@@ -1703,6 +1705,9 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                             follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                             follow.setTransformationMethod(null);
                             follow.setTypeface(type);
+
+                            isMutualUser=true;
+
                         }
                         else if(jsonObject.getBoolean("heFollow")){
                             follow.setText("follower");
@@ -1710,6 +1715,11 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                             follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                             follow.setTransformationMethod(null);
                             follow.setTypeface(type);
+
+                            mutualnopost.setVisibility(View.GONE);
+                            mutualgrid.setVisibility(View.GONE);
+                            seeAllMutualProfile.setVisibility(View.GONE);
+
                         }else if(jsonObject.getBoolean("meFollow")){
                             follow.setText("Following");
                             follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followingbutton));
@@ -1717,12 +1727,20 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                             follow.setTransformationMethod(null);
                             follow.setTypeface(type);
 
+                            mutualnopost.setVisibility(View.GONE);
+                            mutualgrid.setVisibility(View.GONE);
+                            seeAllMutualProfile.setVisibility(View.GONE);
+
                         }else{
                             follow.setText("follow");
                             follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
                             follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
                             follow.setTransformationMethod(null);
                             follow.setTypeface(type);
+
+                            mutualnopost.setVisibility(View.GONE);
+                            mutualgrid.setVisibility(View.GONE);
+                            seeAllMutualProfile.setVisibility(View.GONE);
                         }
                         numPhotosCount.setText(jsonObject.getInt("totalPicCount")+"");
                         if (mUser.getUserId().equals(target)) {
@@ -1749,6 +1767,14 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         });
 
 
+    }
+
+    public void hideMutual(){
+        mutualnopost.setVisibility(View.GONE);
+        mutualgrid.setVisibility(View.GONE);
+        seeAllMutualProfile.setVisibility(View.GONE);
+        totalMutual.setVisibility(View.GONE);
+        mutualBanner.setVisibility(View.GONE);
     }
 
 
@@ -2205,6 +2231,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                 setMutualAdapter(pic.getString("picUrl"));
             }
         }*/
+
+        if(!isMutualUser){
+            hideMutual();
+        }
 
     }
 

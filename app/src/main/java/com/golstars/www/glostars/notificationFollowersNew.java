@@ -118,6 +118,7 @@ public class notificationFollowersNew extends Fragment implements OnItemClickLis
             }
 
         }
+        follAdapter.notifyDataSetChanged();
     }
 
     public void addNotification(NotificationObj notification){
@@ -164,6 +165,7 @@ public class notificationFollowersNew extends Fragment implements OnItemClickLis
 
                         setActivityNotifsAdapter(description, profilePicURL, name, "", usrId, originatedById, null, seen, interval,null, checked);
                     }
+                    follAdapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -187,7 +189,7 @@ public class notificationFollowersNew extends Fragment implements OnItemClickLis
             NotificationObj notif = new NotificationObj(originatedById, pictureId, description, name, profilePicURL, picURL, seen, checked);
             notif.setDate(date);
             follNotifs.add(notif);
-            follAdapter.notifyDataSetChanged();
+
         }
 
 

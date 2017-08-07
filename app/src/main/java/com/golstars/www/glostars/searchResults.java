@@ -34,6 +34,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.DatabaseModel.RecentPicRealm;
 import com.golstars.www.glostars.ModelData.Comment;
 import com.golstars.www.glostars.ModelData.FollowInfo;
 import com.golstars.www.glostars.ModelData.Hashtag;
@@ -61,6 +62,9 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.Header;
+import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.Sort;
 import microsoft.aspnet.signalr.client.Credentials;
 import microsoft.aspnet.signalr.client.Platform;
 import microsoft.aspnet.signalr.client.SignalRFuture;
@@ -128,13 +132,14 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
     private ArrayList<Post> gridImages;
     Integer unseenNotifs = 0;
     private Handler handler=new Handler();
+    Realm realm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        realm=Realm.getDefaultInstance();
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
 //        getSupportActionBar().setTitle("Search");
 //        toolbar.setTitleTextColor(getResources().getColor(R.color.lightViolate));
@@ -318,7 +323,21 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 //        }
         LoadServer();
 
+        LoadOffline();
+
     }
+
+    private void LoadOffline() {
+        Gson gson=new Gson();
+        RealmResults<RecentPicRealm> all=realm.where(RecentPicRealm.class).findAllSorted("id", Sort.DESCENDING);
+        for (RecentPicRealm recentPicRealm:all
+             ) {
+            recentsPics.add(gson.fromJson(recentPicRealm.data,Hashtag.class));
+        }
+        recentsAdapter.notifyDataSetChanged();
+    }
+
+    //<editor-fold desc="Load server">
     public void LoadServer(){
         Platform.loadPlatformComponent(new AndroidPlatformComponent());
         HubConnection connection = new HubConnection(ServerInfo.BASE_URL);
@@ -638,6 +657,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 
 
     }
+    //</editor-fold>
     public static boolean isConnected(Context context){
         boolean hasConnection;
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -957,75 +977,21 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 
     @Override
     public void bindDatatoUI(JSONObject object) throws Exception{
+        System.out.println("BindTODataUi "+object.toString());
         JSONArray data = object.getJSONArray("picsToReturn");
         Gson gson=new Gson();
         ArrayList<Hashtag> getAllPost=gson.fromJson(data.toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
-
-
-
-
         recentsPics.addAll(getAllPost);
+        for (Hashtag hashtag:getAllPost
+             ) {
+            RecentPicRealm recentPicRealm=new RecentPicRealm(hashtag.getId(),gson.toJson(hashtag).toString());
+            realm.beginTransaction();
+            realm.copyToRealm(recentPicRealm);
+            realm.commitTransaction();
+
+        }
         System.out.println("Total Post "+getAllPost.size());
         recentsAdapter.notifyDataSetChanged();
-
-
-
-        /*for(int i = 0; i < data.length(); i++){
-
-            *//*
-            JSONObject poster = data.getJSONObject(i).getJSONObject("poster");
-
-            GridImages gridImage = new GridImages();
-            gridImage.setAuthor(poster.getString("name"));
-            gridImage.setPicUrl(data.getJSONObject(i).getString("picUrl"));
-
-            String inPattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-            String outPattern = "MMM d yyyy, HH:mm";
-
-            SimpleDateFormat inputFormat = new SimpleDateFormat(inPattern);
-            SimpleDateFormat outputFormat = new SimpleDateFormat(outPattern);
-
-            Date date = null;
-            String str = null;
-            *//*
-
-            *//*
-            * here we fetch the data and store in post object from gridImages array
-            * therefore we add the picUrls into recentsPics string array to be viewed
-            * as grid images in setAdapter method
-            *
-            * PS: this is a hack due to changes in structure
-            *
-            * *//*
-
-
-            JSONObject poster = data.getJSONObject(i).getJSONObject("poster");
-            JSONObject pic = data.getJSONObject(i);
-            String name = poster.getString("name");
-            String usrId = poster.getString("userId");
-            String profilePicUrl = poster.getString("profilePicURL");
-            String id = pic.getString("id");
-            String description = pic.getString("description");
-            String picURL = pic.getString("picUrl");
-
-            Boolean isFeatured = Boolean.valueOf(pic.getString("isfeatured"));
-            Boolean isCompeting = Boolean.valueOf(pic.getString("isCompeting"));
-            Integer starsCount = Integer.parseInt(pic.getString("starsCount"));
-            System.out.println("POSTER: " + name + " " + usrId + " " + id + " " + description + " " + picURL + " " + isFeatured + " " + isCompeting + " " + starsCount);
-
-            JSONArray ratings = pic.getJSONArray("ratings");
-            JSONArray comments = pic.getJSONArray("comments");
-
-            String uploaded = pic.getString("uploaded");
-           *//* String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-            LocalDateTime localDateTime = LocalDateTime.parse(uploaded, DateTimeFormat.forPattern(pattern));*//*
-           // String interval = Timestamp.getInterval(localDateTime);
-            String interval = Timestamp.getInterval(Timestamp.getOwnZoneDateTime(uploaded));
-
-            setmAdapter(name, usrId, id, description, picURL, profilePicUrl , isFeatured, isCompeting, starsCount, comments.length(), ratings, comments, interval);
-
-        }*/
-
     }
 
     /*private void setmAdapter(String author, String usr, String photoID, String description, String picURL, String profilePicURL, Boolean isFeatured, Boolean isCompeting, Integer starsCount,

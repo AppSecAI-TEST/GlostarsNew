@@ -29,6 +29,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.golstars.www.glostars.MainFeed;
 import com.golstars.www.glostars.ModelData.Comment;
 import com.golstars.www.glostars.ModelData.Hashtag;
@@ -149,7 +151,25 @@ public class PostData extends RecyclerView.Adapter<PostData.MyViewHolder> {
                     .resize(screenWidth, screenWidth)
                     .centerInside()
                     .into(holder.postImg);
+
+
+            /*Glide
+                    .with(context)
+                    .load(post.getPicUrl())
+                    .placeholder(R.drawable.loading_new)
+                    .override(screenWidth,screenWidth)
+                    .dontTransform()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.postImg);*/
+
             Picasso.with(context).load(post.getPoster().getProfilePicURL()).into(holder.propic);
+            /*Glide
+                    .with(context)
+                    .load(post.getPoster().getProfilePicURL())
+                    //.placeholder(R.drawable.loading_new)
+                    //.override(screenWidth,screenWidth)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.propic);*/
 
         }
 

@@ -518,10 +518,10 @@ public class newFullscreen extends AppCompatActivity {
         fullscreenUsername.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(), user_profile.class);
+                Intent intent=new Intent(newFullscreen.this, user_profile.class);
                 intent.putExtra("USER_ID",poster.getUserId());
 
-                getApplicationContext().startActivity(intent);
+                startActivity(intent);
             }
         });
 
