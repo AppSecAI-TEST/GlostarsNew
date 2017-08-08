@@ -164,6 +164,30 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         setContentView(R.layout.activity_main_feed);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ImageView imageViewLogo= (ImageView) toolbar.findViewById(R.id.glostarslogo);
+        imageViewLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postList.clear();
+                pg=1;
+                try {
+                    //callAsyncPopulate(pg);
+                    pg = 1;
+                    loading=false;
+                    if(mUser == null){
+                        new getUserData().execute("");
+
+                    }else{
+                        loadFeed();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
         parentLayout = findViewById(R.id.feed_main);
         layout = (PullRefreshLayout) findViewById(R.id.pullRefreshLayout);
         mUser = MyUser.getmUser(getApplicationContext());
@@ -297,6 +321,22 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         homeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                postList.clear();
+                pg=1;
+                try {
+                    //callAsyncPopulate(pg);
+                    pg = 1;
+                    loading=false;
+                    if(mUser == null){
+                        new getUserData().execute("");
+
+                    }else{
+                        loadFeed();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 menuDown.close(true);
             }
         });
