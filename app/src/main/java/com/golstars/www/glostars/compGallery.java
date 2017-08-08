@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.golstars.www.glostars.DatabaseModel.CompetionRealm;
+import com.golstars.www.glostars.DatabaseModel.RecentPicRealm;
 import com.golstars.www.glostars.ModelData.Comment;
 import com.golstars.www.glostars.ModelData.FollowInfo;
 import com.golstars.www.glostars.ModelData.Hashtag;
@@ -38,6 +40,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.Header;
+import io.realm.Realm;
+import io.realm.RealmObject;
+import io.realm.RealmResults;
+import io.realm.Sort;
 import microsoft.aspnet.signalr.client.Credentials;
 import microsoft.aspnet.signalr.client.Platform;
 import microsoft.aspnet.signalr.client.SignalRFuture;
@@ -164,24 +170,48 @@ public class compGallery extends Fragment implements AdapterInfomation {
 
 
         });
-        if(mUser == null){
-            new getUserData().execute("");
-        } else{
-            load(false);
+
+        if(isConnected(getContext())){
+            LoadServer();
+            if(mUser == null){
+                new getUserData().execute("");
+            } else{
+                load(false);
+            }
+        }else{
+            LoadOffline();
         }
 
 
 
 
-//        if(!isConnected()){
-//            startActivity(new Intent(this, noInternet.class));
-//        }
-        LoadServer();
 
 
 
         return rootView;
 
+
+    }
+
+    private void LoadOffline() {
+        Realm realm=Realm.getDefaultInstance();
+        Gson gson=new Gson();
+        RealmResults<CompetionRealm> all=realm.where(CompetionRealm.class).findAllSorted("id", Sort.DESCENDING);
+        for (CompetionRealm competionRealm:all
+                ) {
+            compPicsUrls.add(gson.fromJson(competionRealm.data,Hashtag.class));
+        }
+        compAdapt.notifyDataSetChanged();
+    }
+
+    public static boolean isConnected(Context context){
+        boolean hasConnection;
+        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        hasConnection = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+        return hasConnection;
 
     }
 
@@ -486,8 +516,19 @@ public class compGallery extends Fragment implements AdapterInfomation {
                     ArrayList<Hashtag> getAllPost=gson.fromJson(response.getJSONArray("resultPayload").toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
 
 
+                    Realm r= Realm.getDefaultInstance();
+                    for (Hashtag hashtag:getAllPost
+                            ) {
+                        CompetionRealm competionRealm=new CompetionRealm(hashtag.getId(),gson.toJson(hashtag).toString());
+                        r.beginTransaction();
+                        r.insertOrUpdate(competionRealm);
+                        r.commitTransaction();
 
-
+                    }
+                    if(pg==1){
+                        compPicsUrls.clear();
+                        compAdapt.notifyDataSetChanged();
+                    }
                     compPicsUrls.addAll(getAllPost);
                     System.out.println("Total Post "+compPicsUrls.size());
                     compAdapt.notifyDataSetChanged();

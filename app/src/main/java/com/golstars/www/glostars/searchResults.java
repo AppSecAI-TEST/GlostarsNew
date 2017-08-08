@@ -313,6 +313,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
                 e.printStackTrace();
             }
             getUnseen();
+            LoadServer();
         }else{
             noConnetionMsg();
         }
@@ -321,7 +322,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
 //        if(!isConnected()){
 //            startActivity(new Intent(this, noInternet.class));
 //        }
-        LoadServer();
+
 
         LoadOffline();
 
@@ -962,6 +963,8 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
             }
 
             if(pg == 1){
+                recentsPics.clear();
+                recentsAdapter.notifyDataSetChanged();
                 pg++;
                 try {
                     callAsyncPopulate(pg, mUser.getToken());
@@ -982,12 +985,13 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
         Gson gson=new Gson();
         ArrayList<Hashtag> getAllPost=gson.fromJson(data.toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
         recentsPics.addAll(getAllPost);
+        Realm r= Realm.getDefaultInstance();
         for (Hashtag hashtag:getAllPost
              ) {
             RecentPicRealm recentPicRealm=new RecentPicRealm(hashtag.getId(),gson.toJson(hashtag).toString());
-            realm.beginTransaction();
-            realm.copyToRealm(recentPicRealm);
-            realm.commitTransaction();
+            r.beginTransaction();
+            r.insertOrUpdate(recentPicRealm);
+            r.commitTransaction();
 
         }
         System.out.println("Total Post "+getAllPost.size());

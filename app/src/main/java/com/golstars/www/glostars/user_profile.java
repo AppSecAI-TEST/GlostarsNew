@@ -1620,6 +1620,8 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                 try {
                     System.out.println("1. " + response.toString());
                     if (mUser.getUserId().equals(target)) {
+                        isMutualUser=true;// use for mutual section visible or hide
+
                         settingsuser.setVisibility(View.VISIBLE);
                         editprofile.setVisibility(View.VISIBLE);
 
@@ -1776,6 +1778,13 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         totalMutual.setVisibility(View.GONE);
         mutualBanner.setVisibility(View.GONE);
     }
+    /*public void showMutual(){
+        mutualnopost.setVisibility(View.VISIBLE);
+        mutualgrid.setVisibility(View.VISIBLE);
+        seeAllMutualProfile.setVisibility(View.VISIBLE);
+        totalMutual.setVisibility(View.VISIBLE);
+        mutualBanner.setVisibility(View.VISIBLE);
+    }*/
 
 
     public void getUnseen(){

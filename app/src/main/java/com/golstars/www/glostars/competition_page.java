@@ -177,6 +177,7 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
         }
     }
 
+    //<editor-fold desc="Real time">
     public void LoadServer(){
         Platform.loadPlatformComponent(new AndroidPlatformComponent());
         HubConnection connection = new HubConnection(ServerInfo.BASE_URL);
@@ -290,6 +291,7 @@ public class competition_page extends AppCompatActivity implements AdapterInfoma
         },String.class);
 
     }
+    //</editor-fold>
 
 
 
