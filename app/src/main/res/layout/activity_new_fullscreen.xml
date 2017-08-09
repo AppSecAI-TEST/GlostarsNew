@@ -137,7 +137,7 @@
                             android:layout_marginEnd="4dp"
                             android:lineSpacingExtra="4dp"
                             android:text="A quick brown fox jumps over a lazy dog."
-                            android:textColor="@color/darkGrey"
+                            android:textColor="@color/hashtag"
                             android:textSize="12sp" />
 
                         <LinearLayout
@@ -170,7 +170,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="4dp"
                                 android:text=""
-                                android:textColor="@color/hashtag"
+                                android:textColor="@color/darkerGrey"
                                 android:textSize="20sp"
                                 android:textStyle="normal" />
 

@@ -119,7 +119,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
     com.github.clans.fab.FloatingActionButton homeFAB;
     com.github.clans.fab.FloatingActionButton cameraFAB;
     com.github.clans.fab.FloatingActionButton competitionFAB;
-    com.github.clans.fab.FloatingActionButton profileFAB;
+    com.github.clans.fab.FloatingActionButton profileFab;
     com.github.clans.fab.FloatingActionButton notificationFAB;
 
     FloatingActionMenu menuDown;
@@ -200,9 +200,9 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
             userProfileIntent.setClass(getApplicationContext(),user_profile.class);
             //setting user default pic on FAB MENU
             if(mUser.getSex().equals("Male")){
-                profileFAB.setImageResource(R.drawable.nopicmale);
+                profileFab.setImageResource(R.drawable.nopicmale);
             } else if(mUser.getSex().equals("Female")){
-                profileFAB.setImageResource(R.drawable.nopicfemale);
+                profileFab.setImageResource(R.drawable.nopicfemale);
             }
             if(isConnected(this)){
                 loadFeed();
@@ -277,7 +277,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
 
         cameraFAB =(com.github.clans.fab.FloatingActionButton)findViewById(R.id.cameraFAB);
         competitionFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.competitionFAB);
-        profileFAB = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
+        profileFab = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.profileFAB);
         notificationFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.notificationFAB);
         homeFAB = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.homeFAB);
 
@@ -351,7 +351,7 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
         });
 
 
-        profileFAB.setOnClickListener(new View.OnClickListener() {
+        profileFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(userProfileIntent);
@@ -1079,9 +1079,9 @@ public class MainFeed extends AppCompatActivity  implements AdapterInfomation  {
                 userProfileIntent.setClass(getApplicationContext(),user_profile.class);
             //setting user default pic on FAB MENU
             if(mUser.getSex().equals("Male")){
-                profileFAB.setImageResource(R.drawable.nopicmale);
+                profileFab.setImageResource(R.drawable.nopicmale);
             } else if(mUser.getSex().equals("Female")){
-                profileFAB.setImageResource(R.drawable.nopicfemale);
+                profileFab.setImageResource(R.drawable.nopicfemale);
             }
             getUnseen();
             //setting up alarm to service

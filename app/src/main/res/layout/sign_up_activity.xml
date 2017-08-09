@@ -26,7 +26,7 @@
                 android:textStyle="normal"
                 android:textSize="40sp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="50dp"/>
+                android:layout_marginTop="20dp"/>
 
 
             <EditText
@@ -37,7 +37,7 @@
                 android:layout_marginEnd="8dp"
                 android:ems="10"
                 android:paddingLeft="16dp"
-                android:hint="First Name"
+                android:hint="First name"
                 android:textColorHint="@color/colorPrimaryDark"
                 android:background="@drawable/roundededittext1"
                 android:id="@+id/firstnameSignUp"
@@ -51,19 +51,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:inputType="textCapSentences"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:ems="10"
                 android:paddingLeft="16dp"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:hint="Last Name"
+                android:hint="Last name"
                 android:textColorHint="@color/colorPrimaryDark"
                 android:background="@drawable/roundededittext1"
                 android:id="@+id/lastnameSignUp"
-                android:layout_marginTop="8dp"
-                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
                 android:layout_below="@+id/firstnameSignUp"
-                />
+                android:layout_alignStart="@+id/firstnameSignUp" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -142,6 +139,7 @@
                     android:background="@drawable/roundededittext1"
                     android:hint="YYYY"
                     android:paddingLeft="16dp"
+                    android:inputType="number"
                     android:layout_weight="1"
                     android:textCursorDrawable="@drawable/cursor_color"
                     android:textColorHint="@color/colorPrimary"
@@ -154,6 +152,7 @@
                     android:hint="MM"
                     android:layout_marginLeft="8dp"
                     android:paddingLeft="16dp"
+                    android:inputType="number"
                     android:layout_weight="1"
                     android:textCursorDrawable="@drawable/cursor_color"
                     android:textColorHint="@color/colorPrimary"
@@ -168,6 +167,7 @@
                     android:layout_marginLeft="8dp"
                     android:textCursorDrawable="@drawable/cursor_color"
                     android:layout_weight="1"
+                    android:inputType="number"
                     android:textColorHint="@color/colorPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
@@ -188,7 +188,7 @@
                 >
 
                 <CheckBox
-                    android:text="I Agree with the "
+                    android:text="I agree with the "
                     android:textSize="15sp"
                     android:textColor="#E1C8FF"
                     android:buttonTint="@color/lightViolate"
@@ -202,7 +202,7 @@
                     android:id="@+id/terms"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Terms Of Use"
+                    android:text="Terms of use"
                     android:textColor="#E1C8FF"
                     android:textStyle="bold"
                     android:layout_toRightOf="@+id/checkBox"
@@ -234,6 +234,21 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
                 android:id="@+id/imageView3" />
+
+            <TextView
+                android:id="@+id/backToLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/createAccountButton"
+                android:layout_centerHorizontal="true"
+                android:text="Log in"
+                android:textSize="20sp"
+                android:layout_marginTop="25dp"
+                android:textColor="@color/lightViolate"
+                android:layout_marginBottom="40dp"
+                />
+
+
         </RelativeLayout>
     </ScrollView>
 

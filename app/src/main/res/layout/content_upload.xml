@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_upload"
     android:layout_width="match_parent"
-    android:layout_height="1500dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <RelativeLayout
@@ -23,7 +24,7 @@
             <LinearLayout
                 android:id="@+id/privacyHolder"
                 android:layout_marginTop="6dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/imageUpload"
                 android:layout_gravity="center_horizontal">
@@ -40,6 +41,7 @@
                         android:layout_marginEnd="8dp"
                         android:buttonTint="@color/colorPrimary"
                         android:text="Public"
+                        android:layout_weight="1"
                         android:textColor="@color/colorPrimary"/>
 
                     <RadioButton
@@ -48,6 +50,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
                         android:buttonTint="@color/colorPrimary"
                         android:textColor="@color/colorPrimary"
                         android:text="Mutual Followers"/>
@@ -58,6 +61,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
                         android:buttonTint="@color/colorPrimary"
                         android:textColor="@color/colorPrimary"
                         android:text="Competition"/>

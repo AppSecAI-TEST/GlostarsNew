@@ -10,11 +10,11 @@
     <color name="buttonclick">#EA80FC</color>
     <color name="follow">#00C800</color>
     <color name="followback">#007FFF</color>
-    <color name="following">#E1C8FF</color>
+    <color name="following">#c18dff</color>
     <color name="verylightviolet">#F6EDFE</color>
     <color name="white">#FFFFFF</color>
     <color name="mutualfollower">#640064</color>
     <color name="black_overlay">#66000000</color>
-    <color name="hashtag">#9E9E9E</color>
+    <color name="hashtag">#757575</color>
     <color name="darkerGrey">#424242</color>
 </resources>

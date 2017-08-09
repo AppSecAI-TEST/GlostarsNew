@@ -204,6 +204,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
             public void onClick(View view) {
 
                 startActivity(new Intent(searchResults.this, notificationNew.class));
+                menuDown.close(true);
             }
         });
 
@@ -212,6 +213,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
             public void onClick(View view) {
 
                 startActivity(homeIntent);
+                menuDown.close(true);
             }
         });
 
@@ -220,6 +222,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(searchResults.this, upload.class));
+                menuDown.close(true);
             }
         });
 
@@ -229,6 +232,7 @@ public class searchResults extends AppCompatActivity implements PopulatePage, On
             public void onClick(View view) {
 
                 startActivity(new Intent(searchResults.this, competition_page.class));
+                menuDown.close(true);
             }
         });
 

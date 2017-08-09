@@ -86,7 +86,6 @@ public class LoginActivity extends Fragment {
 
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-
         mHander = new android.os.Handler(Looper.getMainLooper());
 
         handler = new android.os.Handler(Looper.getMainLooper()){
@@ -102,7 +101,6 @@ public class LoginActivity extends Fragment {
         login = (Button) rootView.findViewById(R.id.logInButton);
         signup = (TextView) rootView.findViewById(R.id.signUp);
         forgotpass = (TextView) rootView.findViewById(R.id.forgotPass);
-        //upwrong = (TextView) rootView.findViewById(R.id.upwrong);
 
         Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-Light.ttf");
         email.setTypeface(type);
@@ -130,6 +128,8 @@ public class LoginActivity extends Fragment {
                 ((MainActivity)getActivity()).setCurrentItem (1, true);
             }
         });
+
+
 
 
         tryFastLogin();

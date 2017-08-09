@@ -76,6 +76,8 @@ public class SignUp extends Fragment{
 
 
     TextView birth;
+    private TextView backToLog;
+
     CheckBox termscheck;
 
     TextView terms;
@@ -121,6 +123,9 @@ public class SignUp extends Fragment{
 
         signupbanner =(TextView)rootView.findViewById(R.id.signupbanner);
 
+
+        backToLog = (TextView) rootView.findViewById(R.id.backToLogin);
+
         termscheck = (CheckBox) rootView.findViewById(R.id.termscheckBox);
 
         terms = (TextView) rootView.findViewById(R.id.terms);
@@ -133,9 +138,7 @@ public class SignUp extends Fragment{
 
         birth = (TextView)rootView.findViewById(R.id.birthbanner);
 
-
         gender =(Spinner) rootView.findViewById(R.id.gender_spinner);
-
 
         Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-Light.ttf");
         firstName.setTypeface(type);
@@ -149,6 +152,8 @@ public class SignUp extends Fragment{
         DD.setTypeface(type);
         birth.setTypeface(type);
         signupbanner.setTypeface(type);
+        backToLog.setTypeface(type);
+
 
 
         hander = new android.os.Handler(Looper.getMainLooper()){
@@ -169,6 +174,14 @@ public class SignUp extends Fragment{
 
 
         terms.setPaintFlags(terms.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+
+        backToLog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).setCurrentItem (0, true);
+            }
+        });
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,8 +241,9 @@ public class SignUp extends Fragment{
                                         /************ checking birthday date *******************/
 
                                         if((year_obirth < 1900) && (year_obirth >= this_year)){
-                                            Toast.makeText(getContext(), "Enter a valid birth date", Toast.LENGTH_LONG).show();
-                                        } else if((month_obirth < 1) && (month_obirth > 12)){
+                                            Toast.makeText(getContext(),"Enter a valid birth date" , Toast.LENGTH_LONG).show();
+                                        }
+                                        else if((month_obirth < 1) && (month_obirth > 12)){
                                             Toast.makeText(getContext(), "Enter a valid birth date", Toast.LENGTH_LONG).show();
                                         } else if(day_obirth < 1){
                                             Toast.makeText(getContext(), "Enter a valid birth date", Toast.LENGTH_LONG).show();
@@ -497,7 +511,7 @@ public class SignUp extends Fragment{
                     //Toast.makeText(getContext(), newUser.getString("message"), Toast.LENGTH_LONG).show();
                     setData(newUser);
                     if(newUser.getString("result").equals("false")){
-                        Message msge = hander.obtainMessage(1,"this email already exists");
+                        Message msge = hander.obtainMessage(1,"This email already exists");
                         msge.sendToTarget();
                     }else{
                         Intent i = new Intent(getActivity(), inputCode.class);
@@ -515,7 +529,6 @@ public class SignUp extends Fragment{
 
                 System.out.println("RESPONSE IS ");
                 System.out.println(newUser);
-
 
             }
         });
@@ -590,7 +603,6 @@ public class SignUp extends Fragment{
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
 
             }
         });

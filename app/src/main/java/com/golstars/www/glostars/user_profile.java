@@ -398,7 +398,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(follow.getText().toString().equalsIgnoreCase("follower") || follow.getText().toString().equalsIgnoreCase("follow")){
+                if(follow.getText().toString().equalsIgnoreCase("Follower") || follow.getText().toString().equalsIgnoreCase("Follow")){
                     String url = ServerInfo.BASE_URL_FOLLOWER_API+"Following/"+target;
                     AsyncHttpClient client=new AsyncHttpClient();
                     try {
@@ -1262,15 +1262,15 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                     public void followStatusUpdate(String followType){
                         for (Hashtag hashtag:compImgsUrls
                                 ) {
-                            if(followType.equalsIgnoreCase("mutual")){
+                            if(followType.equalsIgnoreCase("Mutual")){
                                 hashtag.setMe_follow(true);
                                 hashtag.setHe_follow(true);
                                 hashtag.setIs_mutual(true);
-                            }else if(followType.equalsIgnoreCase("following")){
+                            }else if(followType.equalsIgnoreCase("Following")){
                                 hashtag.setMe_follow(true);
                                 hashtag.setHe_follow(false);
                                 hashtag.setIs_mutual(false);
-                            }else if(followType.equalsIgnoreCase("follower")){
+                            }else if(followType.equalsIgnoreCase("Follower")){
                                 hashtag.setMe_follow(false);
                                 hashtag.setHe_follow(true);
                                 hashtag.setIs_mutual(false);
@@ -1284,15 +1284,15 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
                         for (Hashtag hashtag:mutualImgsUrls
                                 ) {
-                            if(followType.equalsIgnoreCase("mutual")){
+                            if(followType.equalsIgnoreCase("Mutual")){
                                 hashtag.setMe_follow(true);
                                 hashtag.setHe_follow(true);
                                 hashtag.setIs_mutual(true);
-                            }else if(followType.equalsIgnoreCase("following")){
+                            }else if(followType.equalsIgnoreCase("Following")){
                                 hashtag.setMe_follow(true);
                                 hashtag.setHe_follow(false);
                                 hashtag.setIs_mutual(false);
-                            }else if(followType.equalsIgnoreCase("follower")){
+                            }else if(followType.equalsIgnoreCase("Follower")){
                                 hashtag.setMe_follow(false);
                                 hashtag.setHe_follow(true);
                                 hashtag.setIs_mutual(false);
@@ -1306,15 +1306,15 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
                         for (Hashtag hashtag:publicImgsUrls
                                 ) {
-                            if(followType.equalsIgnoreCase("mutual")){
+                            if(followType.equalsIgnoreCase("Mutual")){
                                 hashtag.setMe_follow(true);
                                 hashtag.setHe_follow(true);
                                 hashtag.setIs_mutual(true);
-                            }else if(followType.equalsIgnoreCase("following")){
+                            }else if(followType.equalsIgnoreCase("Following")){
                                 hashtag.setMe_follow(true);
                                 hashtag.setHe_follow(false);
                                 hashtag.setIs_mutual(false);
-                            }else if(followType.equalsIgnoreCase("follower")){
+                            }else if(followType.equalsIgnoreCase("Follower")){
                                 hashtag.setMe_follow(false);
                                 hashtag.setHe_follow(true);
                                 hashtag.setIs_mutual(false);
@@ -1545,7 +1545,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                         follow.setTransformationMethod(null);
                         follow.setTypeface(type);
                     } else if (jsonObject.getBoolean("heFollow")) {
-                        follow.setText("follower");
+                        follow.setText("Follower");
                         follow.setBackground(ContextCompat.getDrawable(user_profile.this, R.drawable.followbackbutton));
                         follow.setTextColor(ContextCompat.getColor(user_profile.this, R.color.white));
                         follow.setTransformationMethod(null);
@@ -1558,7 +1558,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                         follow.setTypeface(type);
 
                     } else {
-                        follow.setText("follow");
+                        follow.setText("Follow");
                         follow.setBackground(ContextCompat.getDrawable(user_profile.this, R.drawable.followbutton));
                         follow.setTextColor(ContextCompat.getColor(user_profile.this, R.color.white));
                         follow.setTransformationMethod(null);

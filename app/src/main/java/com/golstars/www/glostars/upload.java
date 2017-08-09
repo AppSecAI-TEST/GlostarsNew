@@ -292,7 +292,7 @@ public class upload extends AppCompatActivity {
     public void uploadPhoto(String descrip, String privacy, Boolean isCompeting, File file) {
 
         final ProgressDialog dialog = ProgressDialog.show(upload.this, "",
-                "Image uploading. Please wait...", true);
+                "Uploading image. Please wait...", true);
         dialog.show();
         String url = "https://www.glostars.com/home/upload";
         AsyncHttpClient client = new AsyncHttpClient();
