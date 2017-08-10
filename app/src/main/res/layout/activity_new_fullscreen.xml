@@ -170,7 +170,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="4dp"
                                 android:text=""
-                                android:textColor="@color/darkerGrey"
+                                android:textColor="@color/hashtag"
                                 android:textSize="20sp"
                                 android:textStyle="normal" />
 
