@@ -33,6 +33,9 @@ import android.widget.Toast;
 import com.baoyz.widget.PullRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionMenu;
+import com.golstars.www.glostars.Database.OfflineInfo;
+import com.golstars.www.glostars.DatabaseModel.UserProfileGalleryRealm;
+import com.golstars.www.glostars.DatabaseModel.UserProfileRealm;
 import com.golstars.www.glostars.ModelData.Comment;
 import com.golstars.www.glostars.ModelData.FollowInfo;
 import com.golstars.www.glostars.ModelData.Hashtag;
@@ -62,11 +65,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.KeyStore;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.Header;
+import io.realm.Realm;
+import io.realm.RealmResults;
 import microsoft.aspnet.signalr.client.Credentials;
 import microsoft.aspnet.signalr.client.Platform;
 import microsoft.aspnet.signalr.client.SignalRFuture;
@@ -591,11 +597,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
                 if(searchResults.isConnected(getApplicationContext())){
 
-                    if(mUser.getUserId().equals(target)){
-                        getCachedUser(target);
-                    }else{
-                        loadUserInformation(target);
-                    }
+                    loadUserInformation(target);
 
                     new getUserAndSetData().execute(target);
                 }else{
@@ -807,6 +809,9 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
                         }
                     });
             noInternetSnackBar.show();
+            LoadOffline();
+        }else{
+            LoadServer();
         }
 
         onResume();
@@ -814,9 +819,32 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
 
         getUnseen();
-        LoadServer();
 
 
+
+    }
+
+    public void LoadOffline(){
+        Realm realm=Realm.getDefaultInstance();
+        UserProfileGalleryRealm results=realm.where(UserProfileGalleryRealm.class).equalTo("id",finalTarget).findFirst();
+        if(results!=null)
+        {
+            try {
+                bindDatatoUI(new JSONObject(results.data));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        UserProfileRealm profileRealm=realm.where(UserProfileRealm.class).equalTo("id",finalTarget).findFirst();
+        if(profileRealm!=null){
+            try {
+                BindUserDetails(new JSONObject(profileRealm.data),finalTarget);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void noConnectionMsg() {
@@ -1617,158 +1645,163 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    System.out.println("1. " + response.toString());
-                    if (mUser.getUserId().equals(target)) {
-                        isMutualUser=true;// use for mutual section visible or hide
-
-                        settingsuser.setVisibility(View.VISIBLE);
-                        editprofile.setVisibility(View.VISIBLE);
-
-                        /**saving user details to file*/
-                        outputStream[0] = openFileOutput(filename, Context.MODE_PRIVATE);
-                        outputStream[0].write(response.toString().getBytes());
-                        outputStream[0].close();
-                        System.out.println("user saved");
-
-                    } else {
-                        settingsuser.setVisibility(View.GONE);
-                        editprofile.setVisibility(View.GONE);
-
-                    }
-                    //setting UI rss with user data
-                    try {
-
-                        homeIntent = new Intent();
-                        homeIntent.putExtra("USER_ID", mUser.getUserId());
-                        homeIntent.setClass(getApplicationContext(), user_profile.class);
-
-
-
-                        JSONObject jsonObject = response.getJSONObject("resultPayload");
-
-                        weeklyPrizeCountProfile.setText(jsonObject.getJSONObject("recogprofile").getString("weekly"));
-                        monthlyPrizeCountProfile.setText(jsonObject.getJSONObject("recogprofile").getString("monthly"));
-                        grandPrizeCountProfile.setText(jsonObject.getJSONObject("recogprofile").getString("grand"));
-                        exhibitionPrizeCountProfile.setText(jsonObject.getJSONObject("recogprofile").getString("exhibition"));
-
-                        usernameProfile.setText(jsonObject.getString("name") + " " + jsonObject.getString("lastName"));
-
-                        String location = jsonObject.getString("location");
-                        System.out.println("LOCATION: " + location);
-                        System.out.println("LOCATION: " + location);
-                        System.out.println("LOCATION: " + location);
-                        System.out.println("LOCATION: " + location);
-                        if (location.equals("null")) {
-                            userLocationProfile.setText("");
-                        } else if(location == null){
-                            userLocationProfile.setText("");
-                        } else {
-                            userLocationProfile.setText(jsonObject.getString("location"));
-                        }
-//
-                        String aboutMe = jsonObject.getString("aboutMe");
-                        if (aboutMe != "null") aboutMeTextProfile.setText(aboutMe);
-                        else aboutMeTextProfile.setText("");
-
-                        String interests = jsonObject.getString("interests");
-                        if (interests != "null") interestTextProfile.setText(interests);
-                        else interestTextProfile.setText("");
-
-
-
-                        String pic = jsonObject.getString("profilePicURL");
-                        if(pic.equals("/Content/Profile/Thumbs/male.jpg") || pic.equals("/Content/Profile/Thumbs/Male.jpg")){
-                            userPicProfile.setImageResource(R.drawable.nopicmalegrey);
-
-                        } else if(pic.equals("/Content/Profile/Thumbs/female.jpg") || pic.equals("/Content/Profile/Thumbs/Female.jpg")){
-                            userPicProfile.setImageResource(R.drawable.nopicfemalegrey);
-                        }else{
-                            Glide.with(getApplicationContext()).load(pic).into(userPicProfile);
-                            //
-                        }
-
-                        //setting user default pic on FAB MENU
-                        if(mUser.getSex().equals("Male")){
-                            profileFAB.setImageResource(R.drawable.nopicmale);
-                        } else if(mUser.getSex().equals("Female")){
-                            profileFAB.setImageResource(R.drawable.nopicfemale);
-                        }
-
-
-                        if(!target.equals(mUser.getUserId())){
-                            followinglin.setVisibility(View.GONE);
-                            divider.setVisibility(View.GONE);
-                        }
-                        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
-                        if(jsonObject.getBoolean("isMutual")){
-                            follow.setText("Mutual");
-                            follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.mutualfollowerbutton));
-                            follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
-                            follow.setTransformationMethod(null);
-                            follow.setTypeface(type);
-
-                            isMutualUser=true;
-
-                        }
-                        else if(jsonObject.getBoolean("heFollow")){
-                            follow.setText("follower");
-                            follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
-                            follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
-                            follow.setTransformationMethod(null);
-                            follow.setTypeface(type);
-
-                            mutualnopost.setVisibility(View.GONE);
-                            mutualgrid.setVisibility(View.GONE);
-                            seeAllMutualProfile.setVisibility(View.GONE);
-
-                        }else if(jsonObject.getBoolean("meFollow")){
-                            follow.setText("Following");
-                            follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followingbutton));
-                            follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
-                            follow.setTransformationMethod(null);
-                            follow.setTypeface(type);
-
-                            mutualnopost.setVisibility(View.GONE);
-                            mutualgrid.setVisibility(View.GONE);
-                            seeAllMutualProfile.setVisibility(View.GONE);
-
-                        }else{
-                            follow.setText("follow");
-                            follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
-                            follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
-                            follow.setTransformationMethod(null);
-                            follow.setTypeface(type);
-
-                            mutualnopost.setVisibility(View.GONE);
-                            mutualgrid.setVisibility(View.GONE);
-                            seeAllMutualProfile.setVisibility(View.GONE);
-                        }
-                        numPhotosCount.setText(jsonObject.getInt("totalPicCount")+"");
-                        if (mUser.getUserId().equals(target)) {
-                            follow.setVisibility(View.GONE);
-                            numFollowersCountProfile.setText(jsonObject.getInt("followersCount") + "");
-                            numFollowingCountProfile.setText(jsonObject.getInt("followingCount")+"");
-                        }else{
-                            follow.setVisibility(View.VISIBLE);
-                            numFollowersCountProfile.setText(jsonObject.getInt("followersCount") + "");
-                        }
-
-
-
-
-                        //calling populateGallery() method using data from user
-                        populateGallery(jsonObject.getString("id"), 1, mUser.getToken());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Realm realm=Realm.getDefaultInstance();
+                UserProfileRealm profileRealm=new UserProfileRealm(target,response.toString());
+                realm.beginTransaction();
+                realm.insertOrUpdate(profileRealm);
+                realm.commitTransaction();
+                BindUserDetails(response,target);
             }
         });
 
 
+    }
+
+    public void BindUserDetails(JSONObject response,String target){
+        try {
+            System.out.println("1. " + response.toString());
+            if (mUser.getUserId().equals(target)) {
+                isMutualUser=true;// use for mutual section visible or hide
+
+                settingsuser.setVisibility(View.VISIBLE);
+                editprofile.setVisibility(View.VISIBLE);
+
+
+
+            } else {
+                settingsuser.setVisibility(View.GONE);
+                editprofile.setVisibility(View.GONE);
+
+            }
+            //setting UI rss with user data
+            try {
+
+                homeIntent = new Intent();
+                homeIntent.putExtra("USER_ID", mUser.getUserId());
+                homeIntent.setClass(getApplicationContext(), user_profile.class);
+
+
+
+                JSONObject jsonObject = response.getJSONObject("resultPayload");
+
+                weeklyPrizeCountProfile.setText(jsonObject.getJSONObject("recogprofile").getString("weekly"));
+                monthlyPrizeCountProfile.setText(jsonObject.getJSONObject("recogprofile").getString("monthly"));
+                grandPrizeCountProfile.setText(jsonObject.getJSONObject("recogprofile").getString("grand"));
+                exhibitionPrizeCountProfile.setText(jsonObject.getJSONObject("recogprofile").getString("exhibition"));
+
+                usernameProfile.setText(jsonObject.getString("name") + " " + jsonObject.getString("lastName"));
+
+                String location = jsonObject.getString("location");
+                System.out.println("LOCATION: " + location);
+                System.out.println("LOCATION: " + location);
+                System.out.println("LOCATION: " + location);
+                System.out.println("LOCATION: " + location);
+                if (location.equals("null")) {
+                    userLocationProfile.setText("");
+                } else if(location == null){
+                    userLocationProfile.setText("");
+                } else {
+                    userLocationProfile.setText(jsonObject.getString("location"));
+                }
+//
+                String aboutMe = jsonObject.getString("aboutMe");
+                if (aboutMe != "null") aboutMeTextProfile.setText(aboutMe);
+                else aboutMeTextProfile.setText("");
+
+                String interests = jsonObject.getString("interests");
+                if (interests != "null") interestTextProfile.setText(interests);
+                else interestTextProfile.setText("");
+
+
+
+                String pic = jsonObject.getString("profilePicURL");
+                if(pic.equals("/Content/Profile/Thumbs/male.jpg") || pic.equals("/Content/Profile/Thumbs/Male.jpg")){
+                    userPicProfile.setImageResource(R.drawable.nopicmalegrey);
+
+                } else if(pic.equals("/Content/Profile/Thumbs/female.jpg") || pic.equals("/Content/Profile/Thumbs/Female.jpg")){
+                    userPicProfile.setImageResource(R.drawable.nopicfemalegrey);
+                }else{
+                    Glide.with(getApplicationContext()).load(pic).into(userPicProfile);
+                    //
+                }
+
+                //setting user default pic on FAB MENU
+                if(mUser.getSex().equals("Male")){
+                    profileFAB.setImageResource(R.drawable.nopicmale);
+                } else if(mUser.getSex().equals("Female")){
+                    profileFAB.setImageResource(R.drawable.nopicfemale);
+                }
+
+
+                if(!target.equals(mUser.getUserId())){
+                    followinglin.setVisibility(View.GONE);
+                    divider.setVisibility(View.GONE);
+                }
+                Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-Light.ttf");
+                if(jsonObject.getBoolean("isMutual")){
+                    follow.setText("Mutual");
+                    follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.mutualfollowerbutton));
+                    follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                    follow.setTransformationMethod(null);
+                    follow.setTypeface(type);
+
+                    isMutualUser=true;
+
+                }
+                else if(jsonObject.getBoolean("heFollow")){
+                    follow.setText("follower");
+                    follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbackbutton));
+                    follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                    follow.setTransformationMethod(null);
+                    follow.setTypeface(type);
+
+                    /*mutualnopost.setVisibility(View.GONE);
+                    mutualgrid.setVisibility(View.GONE);
+                    seeAllMutualProfile.setVisibility(View.GONE);*/
+
+                }else if(jsonObject.getBoolean("meFollow")){
+                    follow.setText("Following");
+                    follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followingbutton));
+                    follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                    follow.setTransformationMethod(null);
+                    follow.setTypeface(type);
+
+                    /*mutualnopost.setVisibility(View.GONE);
+                    mutualgrid.setVisibility(View.GONE);
+                    seeAllMutualProfile.setVisibility(View.GONE);*/
+
+                }else{
+                    follow.setText("follow");
+                    follow.setBackground(ContextCompat.getDrawable(user_profile.this,R.drawable.followbutton));
+                    follow.setTextColor(ContextCompat.getColor(user_profile.this,R.color.white));
+                    follow.setTransformationMethod(null);
+                    follow.setTypeface(type);
+
+                    /*mutualnopost.setVisibility(View.GONE);
+                    mutualgrid.setVisibility(View.GONE);
+                    seeAllMutualProfile.setVisibility(View.GONE);*/
+                }
+                numPhotosCount.setText(jsonObject.getInt("totalPicCount")+"");
+                if (mUser.getUserId().equals(target)) {
+                    follow.setVisibility(View.GONE);
+                    numFollowersCountProfile.setText(jsonObject.getInt("followersCount") + "");
+                    numFollowingCountProfile.setText(jsonObject.getInt("followingCount")+"");
+                }else{
+                    follow.setVisibility(View.VISIBLE);
+                    numFollowersCountProfile.setText(jsonObject.getInt("followersCount") + "");
+                }
+
+
+
+
+                //calling populateGallery() method using data from user
+                populateGallery(jsonObject.getString("id"), 1, mUser.getToken());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void hideMutual(){
@@ -1778,13 +1811,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         totalMutual.setVisibility(View.GONE);
         mutualBanner.setVisibility(View.GONE);
     }
-    /*public void showMutual(){
-        mutualnopost.setVisibility(View.VISIBLE);
-        mutualgrid.setVisibility(View.VISIBLE);
-        seeAllMutualProfile.setVisibility(View.VISIBLE);
-        totalMutual.setVisibility(View.VISIBLE);
-        mutualBanner.setVisibility(View.VISIBLE);
-    }*/
+
 
 
     public void getUnseen(){
@@ -1892,6 +1919,16 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
+            Realm realm=Realm.getDefaultInstance();
+            try {
+                UserProfileGalleryRealm userProfileGalleryRealm=new UserProfileGalleryRealm(jsonObject.getJSONObject("model").getString("userId"),jsonObject.toString());
+                realm.beginTransaction();
+                realm.insertOrUpdate(userProfileGalleryRealm);
+                realm.commitTransaction();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             //super.onPostExecute(jsonObject);
             Log.i("downloadData", "data from onPostExecute is " + jsonObject);
             try {
@@ -1970,134 +2007,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             } else if(mUser.getSex().equals("female")){
                 profileFAB.setImageResource(R.drawable.nopicfemale);
             }
-            /*
-            try {
 
-                if(mUser.getUserId().equals(guestUser.getUserId())){
-                    settingsuser.setVisibility(View.VISIBLE);
-                    editprofile.setVisibility(View.VISIBLE);
-                } else {
-                    settingsuser.setVisibility(View.GONE);
-                    editprofile.setVisibility(View.GONE);
-
-                }
-                //setting UI rss with user data
-                usernameProfile.setText(jsonObject.getString("guestName"));
-                //fService.LoadFollowers(jsonObject.getString("guestUsrId"), jsonObject.getString("token"));
-
-                String location = jsonObject.getString("location");
-                if(location != "null"){
-                    userLocationProfile.setText(jsonObject.getString("location"));
-                } else userLocationProfile.setText("");
-
-                String aboutMe = jsonObject.getString("aboutMe");
-                if(aboutMe != "null") aboutMeTextProfile.setText(aboutMe);
-                else aboutMeTextProfile.setText("");
-
-                String interests = jsonObject.getString("interests");
-                if(interests != "null")interestTextProfile.setText(interests);
-                else interestTextProfile.setText("");
-
-
-                //setting an intent to user profile with user data
-                homeIntent = new Intent();
-                homeIntent.putExtra("USER_ID", jsonObject.getString("myUsrId"));
-                homeIntent.setClass(getApplicationContext(), user_profile.class);
-
-
-//                Glide.with(getApplicationContext()).load(jsonObject.getString("myUsrPic")).into(profileFAB);
-
-                Glide.with(getApplicationContext()).load(jsonObject.getString("guestPic")).into(userPicProfile);
-
-                //calling populateGallery() method using data from user
-                populateGallery(jsonObject.getString("guestUsrId"), 1, jsonObject.getString("token"));
-
-                FollowerService.LoadFollowers(getApplicationContext(), target, mUser.getToken(), new JsonHttpResponseHandler(){
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        // If the response is JSONObject instead of expected JSONArray
-                        try {
-                            System.out.println(response);
-                            JSONArray followerList = null;
-                            JSONArray followingList = null;
-                            try {
-                                JSONObject resultPayload = response.getJSONObject("resultPayload");
-                                followerList = resultPayload.getJSONArray("followerList");
-                                followingList = resultPayload.getJSONArray("followingList");
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            numFollowersCountProfile.setText(followerList.length()+"");
-                            // numFollowingCountProfile.setText(followingList.length()+"");
-
-                            boolean isFollower = false;
-                            boolean isFollowing = false;
-
-                            for(int i = 0; i < followerList.length() - 1; i++){
-                                if (followerList.getJSONObject(i).getString("id").equals(mUser.getUserId())){
-                                    isFollower = true;
-                                    break;
-                                }
-
-
-                            }
-
-                            for(int i = 0; i < followingList.length() - 1; i++){
-                                if (followingList.getJSONObject(i).getString("id").equals(mUser.getUserId())){
-                                    isFollowing = true;
-                                    break;
-                                }
-
-                            }
-                            System.out.println(isFollowing + " for following and " + isFollower + " for follower");
-
-                            if(mUser.getUserId().equals(guestUser.getUserId())){
-                                follow.setVisibility(View.GONE);
-                            } else if(isFollower && !isFollowing){
-                                follow.setVisibility(View.VISIBLE);
-                                follow.setBackgroundColor(Color.parseColor("#007FFF"));
-                                follow.setText("Follower");
-                            } else if(!isFollower && isFollowing){
-                                follow.setVisibility(View.VISIBLE);
-                                follow.setBackgroundColor(Color.parseColor("#E1C8FF"));
-                                follow.setText("Following");
-                            } else if(isFollower && isFollowing){
-                                follow.setVisibility(View.VISIBLE);
-                                follow.setBackgroundColor(Color.parseColor("#640064"));
-                                follow.setText("Mutual");
-                            } else {
-                                follow.setVisibility(View.VISIBLE);
-                                follow.setText("Follow");
-                            }
-
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-
-                    }
-
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                        // Pull out the first event on the public timeline
-                        //JSONObject firstEvent = timeline.get(0);
-                        //String tweetText = firstEvent.getString("text");
-
-                        // Do something with the response
-                        System.out.println(response);
-                        //System.out.println(tweetText);
-                    }
-                });
-
-
-
-
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            */
 
         }
     }
@@ -2106,6 +2016,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
     private void bindDatatoUI(JSONObject jsonObject) throws Exception {
         //this method treats the data brought by downloadData()
         //Log.i("bindDatatoUI", "data from async task is " + jsonObject);
+
         JSONObject data = jsonObject;
 
         int totalCompetitionPic = data.getInt("totalCompetitonPic");
@@ -2117,7 +2028,7 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         JSONArray publicPictures = model.getJSONArray("publicPictures");
 
         Integer totalPics =  data.getInt("allPictureCount");
-
+        System.out.println("aos all mutual follower count--1 "+totalmutualFollowerPics);
         if(totalmutualFollowerPics == 0){
             mutualgrid.setVisibility(View.GONE);
             seeAllMutualProfile.setVisibility(View.GONE);
@@ -2144,7 +2055,6 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
             mutualgrid.setVisibility(View.VISIBLE);
             mutualnopost.setVisibility(View.GONE);
             totalMutual.setText("Total "+String.valueOf(totalmutualFollowerPics));
-
         }
 
         if(totalCompetitionPic == 0){
@@ -2204,6 +2114,10 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
 
 
 
+        compImgsUrls.clear();
+        mutualImgsUrls.clear();
+        publicImgsUrls.clear();
+
 
         Gson gson=new Gson();
         ArrayList<Hashtag> getAllCom=gson.fromJson(jsonObject.getJSONObject("model").getJSONArray("competitionPictures").toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
@@ -2214,34 +2128,14 @@ public class user_profile extends AppCompatActivity implements OnSinglePicClick,
         mutualImgsUrls.addAll(getAllMutual);
         mutualAdapter.notifyDataSetChanged();
 
+        System.out.println("aos all mutual follower count "+mutualImgsUrls.size());
+
         ArrayList<Hashtag> getAllPub=gson.fromJson(jsonObject.getJSONObject("model").getJSONArray("publicPictures").toString(), new TypeToken<ArrayList<Hashtag>>(){}.getType());
         publicImgsUrls.addAll(getAllPub);
         publicAdapter.notifyDataSetChanged();
 
-        /*if(competitionPictures != null){
-            for(int i = 0; i < competitionPictures.length(); i++){
-                JSONObject pic = competitionPictures.getJSONObject(i);
-                setCompAdapter(pic.getString("picUrl"));
-            }
-        }
-
-        if(publicPictures != null){
-            for(int i = 0; i < publicPictures.length(); i++){
-                JSONObject pic = publicPictures.getJSONObject(i);
-                setPublicAdapter(pic.getString("picUrl"));
-            }
-        }
-
-        if(mutualFollowerPictures != null){
-            for(int i = 0; i < mutualFollowerPictures.length(); i++){
-                JSONObject pic = mutualFollowerPictures.getJSONObject(i);
-
-
-                setMutualAdapter(pic.getString("picUrl"));
-            }
-        }*/
-
-        if(!isMutualUser){
+        OfflineInfo offlineInfo=new OfflineInfo(getApplicationContext());
+        if(!isMutualUser &&  !offlineInfo.getUserId().equals(finalTarget)){
             hideMutual();
         }
 
